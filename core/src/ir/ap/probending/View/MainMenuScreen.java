@@ -60,4 +60,15 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         this.stage.dispose();
     }
+
+    //getters and setters
+
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 }
