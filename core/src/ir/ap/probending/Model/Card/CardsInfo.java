@@ -32,9 +32,52 @@ public enum CardsInfo {
     WaterSoldiers(new Muster() , "Water Soldiers" , 2 , false , "Cards/Water Tribes/Water Soldiers.png" , 2 , "Onga Bonga"),
     Yagoda(new Medic() , "Yagoda" , 5 , false , "Cards/Water Tribes/Yagoda.png" , 1 , "Are you here for the healing lesson?"),
     Yakone(new Scorch() , "Yakone" , 7 , false , "Cards/Water Tribes/Yakone.png" , 2 , "Republic City is mine, Avatar. I'll be back one day to claim it."),
-    Yue(new Morale() , "Yue" , 9 , false , "Cards/Water Tribes/Yue.png" , 0 , "It gave me life. Maybe i can give it back.");
+    Yue(new Morale() , "Yue" , 9 , false , "Cards/Water Tribes/Yue.png" , 0 , "It gave me life. Maybe i can give it back."),
 
     //Fire benders
+    Azula(null, "Azula", 9, false, "Cards/Fire Nation/Azula.png", 2, "Well what choice do I have? Trust is for fools! Fear is the only reliable way. Even you fear me."),
+    Azulon(null, "Azulon", 4, false, "Cards/Fire Nation/Azulon.png", 2, "your punishment has scarcely begun!"),
+    Buijing(new Morale(), "Buijing", 2, false, "Cards/Fire Nation/Buijing.png", 1, "What better to use as bait than fresh meat?"),
+    BullyGuard(new TightBonds(), "Bully Guard", 2, false, "Cards/Fire Nation/Bully Guard.png", 1, "He wants to know what he did. Isn't that cute?"),
+    ChitSang(new Spy(), "Chit Sang", 6, false, "Cards/Fire Nation/Chit Sang.png", 1, "You're lucky I didn't rat you out, but my generosity comes with a price"),
+    CircusTrainer(new Spy(), "Circus Trainer", 1, false, "Cards/Fire Nation/Circus Trainer.png", 2, "But don't worry, you won't anymore ... Because I am going to break you."),
+    CombustionMan(new Scorch(), "Combustion Man", 6, false, "Cards/Fire Nation/Combustion Man.png", 0, "Sparky Sparky Boom Man"),
+    Councilwoman(new Medic(), "Councilwoman", 3, false, "Cards/Fire Nation/Councilwoman.png", 0, "Don't wait up for me; this council session will probably go late into the night."),
+    Druk(new Berseker(), "Druk", 2, false, "Cards/Fire Nation/Druk.png", 0, "Grrrrrr."),
+    EvilDruk(null, "Evil Druk", 6, false, "Cards/Fire Nation/Evil Druk", 0, "very Grrrrrr."),
+    FireSages(new Muster(), "Fire Sages", 2, false, "Cards/Fire Nation/Fire Sages.png", 1, "We are the Fire Sages, gaurdians of the temple of the Avatar."),
+    Hide(new Agile(), "Hide", 2, false, "Cards/Fire Nation/Hide.png", 1, "on Ji. Is. My. Girlfriend. Don't forget it"),
+    Iroh(new Medic(), "Iroh", 8, false, "Cards/Fire Nation/Iroh.png", 1, "After I reconquer Ba Sing Se, I'm going to reconquer my tea shop, and I'm going to play Pai Sho every day!"),
+    Jee(new Agile(), "Jee", 3, false, "Cards/Fire Nation/jee.png", 1, "Then again, what should I expect from a spoiled prince?"),
+    JeongJeong(new Spy(), "Jeong Jeong", 7, false, "Cards/Fire Nation/Jeong Jeong.png", 2, "Fire brings only destruction and pain. It forces those of us burdened with its care to walk a razor's edge between humanity and savagery. Eventually, we are torn apart."),
+    Mako(new Morale(), "Mako", 5, false, "Cards/Fire Nation/Mako.png", 2, "I did what I had to do to survive and protect my little brother."),
+    OldZuko(null, "Old Zuko", 10, true, "Cards/Fire Nation/OldZuko.png", 0, "No one knew better than aang that in times of turmoil the world needs it's avatar the most"),
+    Ozai(null, "Ozai", 9, false, "Cards/Fire Nation/Ozai.png", 2, "You are the Fire Lord. What you choose, by definition, is right."),
+    Pli(new Scorch(), "P'Li", 5, false, "Cards/Fire Nation/Pli.png", 1, "Years apart only made my love for you stronger."),
+    RoyalSoldiers(new TightBonds(), "Royal Soldiers", 3, false, "Cards/Fire Nation/Royal Soldiers.png", 1, ""),
+    Sozin(null, "Sozin", 8, false, "Cards/Fire Nation/Sozin.png", 2, "I know he's hiding out there somewhere. The Fire Nation's greatest threat ... the last airbender."),
+    SunWarriors(new TightBonds(), "Sun Warriors", 2, false, "Cards/Fire Nation/Sun Warriors.png", 1, "Fire is life, not just destruction"),
+    TaxCollector(new Medic(), "Tax Collector", 2, false, "Cards/Fire Nation/Tax Collector.png", 0, "Fire is sometimes so hard to control."),
+    TwoToedPing(new Spy(), "Two Toed Ping", 2, false, "Cards/Fire Nation/Two Toed Ping.png", 2, "I mean, I am a gangster, after all, and ..."),
+    Ursa(new Medic(), "Ursa", 4, false, "Cards/Fire Nation/Ursa.png", 0, "Everything I've done, I've dont to protect you. Remember this, Zuko. No matter how things may seem to change, never forget who you are."),
+    Warden(null, "Warden", 4, false, "Cards/Fire Nation/Warden.png", 1, "Take him below! One week in solitary will improve his manners."),
+    Zhao(new Morale(), "Zhao", 4, false, "Cards/Fire Nation/Zhao.png", 1, "I am a legend now! The Fire Nation will for generations tell stories about the great Zhao who darkened the moon!"),
+    Zuko(null, "Zuko", 8, true, "Cards/Fire Nation/Zuko.png", 2, " the mark of the banished prince, cursed to chase the Avatar forever.");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private Ability ability;
