@@ -94,4 +94,5 @@ public class Card {
     public void setPlayingRow(int playingRow) {
         this.playingRow = playingRow;
     }
+
 }
