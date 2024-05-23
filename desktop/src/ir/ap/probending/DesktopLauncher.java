@@ -13,4 +13,5 @@ public class DesktopLauncher {
 		config.setTitle("Pro Bending");
 		new Lwjgl3Application(new ProBending(), config);
 	}
+
 }
