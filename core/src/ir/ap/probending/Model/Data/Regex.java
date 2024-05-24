@@ -8,7 +8,8 @@ public enum Regex {
     EMAIL("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"),
     NUMBER("[0-9]+"),
     ALPHABET("[a-zA-Z]+"),
-    SPECIAL_CHARACTERS("[#@$%&!]+");
+    SPECIAL_CHARACTERS("[#@$%&!]+"),
+    VALIDANSWER("[a-zA-Z0-9-#@$%&! ]+");
 
 
 

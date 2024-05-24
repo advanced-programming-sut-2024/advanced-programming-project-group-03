@@ -160,17 +160,17 @@ public class SignInController {
     private boolean checkForUsedUsername(){
         //TODO
         //TODO add some random characters to username to make it unique
-        return false;
+        return true;
     }
 
     private boolean checkForUsedEmail(){
         //TODO
-        return false;
+        return true;
     }
 
     private boolean checkForUsedPassword(){
         //TODO
-        return false;
+        return true;
     }
 
     private boolean checkForWeakPassword(){
@@ -205,11 +205,15 @@ public class SignInController {
             public void clicked(InputEvent event, float x, float y) {
                 if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail() && checkForUsedUsername() && checkForUsedEmail() && checkForUsedPassword()){
                     errorLabel.setText("");
-                    //TODO
-                    //TODO add user to database
-                    //TODO add user to user list
-                    //TODO add user to user file
-                    //TODO add user to user file
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(PickQuestionMenuController.getPickQuestionMenuController().getTable());
+
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedUsername(usernameField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedPassword(passwordField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedEmail(emailField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedNickname(nicknameField.getText());
                 }
             }
         });

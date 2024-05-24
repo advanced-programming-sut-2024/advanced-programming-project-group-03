@@ -18,11 +18,18 @@ public class User {
     private int score;
     private int rank;
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.nickname = nickname;
         questionAnswer = new HashMap<>();
+        gameHistories = new ArrayList<>();
+        gamePlayedCount = 0;
+        gameWonCount = 0;
+        gameLostCount = 0;
+        score = 0;
+        rank = 0;
     }
 
     public String getUsername() {
