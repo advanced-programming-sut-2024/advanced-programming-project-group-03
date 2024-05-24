@@ -9,7 +9,8 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private HashMap<Integer, String> questionAnswer;
+    private int questionIndex;
+    private String questionAnswer;
     private ArrayList<GameHistory> gameHistories;
     private int gamePlayedCount;
     private int gameWonCount;
@@ -23,7 +24,8 @@ public class User {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        questionAnswer = new HashMap<>();
+        this.questionIndex = 0;
+        this.questionAnswer = "";
         gameHistories = new ArrayList<>();
         gamePlayedCount = 0;
         gameWonCount = 0;
@@ -52,9 +54,6 @@ public class User {
         return email;
     }
 
-    public HashMap<Integer, String> getQuestionAnswer() {
-        return questionAnswer;
-    }
 
     public ArrayList<GameHistory> getGameHistories() {
         return gameHistories;
@@ -69,11 +68,8 @@ public class User {
     }
 
     public void addQuestionAnswer(int question, String answer) {
-        questionAnswer.put(question, answer);
-    }
-
-    public void removeQuestionAnswer(int question) {
-        questionAnswer.remove(question);
+        questionAnswer = answer;
+        questionIndex = question;
     }
 
     public void removeGameHistory(GameHistory gameHistory) {
@@ -90,10 +86,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setQuestionAnswer(HashMap<Integer, String> questionAnswer) {
-        this.questionAnswer = questionAnswer;
     }
 
     public int getGamePlayedCount() {
@@ -142,5 +134,13 @@ public class User {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public int getQuestionIndex() {
+        return questionIndex;
+    }
+
+    public String getQuestionAnswer() {
+        return questionAnswer;
     }
 }

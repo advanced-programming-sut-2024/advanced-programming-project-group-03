@@ -41,9 +41,11 @@ public class LoginController {
 
         table.row().pad(10, 0, 10, 0);
         table.add(usernameLabel).fillX();
+        table.row();
         table.add(usernameField).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(passwordLabel).fillX();
+        table.row();
         table.add(passwordField).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(loginButton).fillX();
@@ -51,6 +53,7 @@ public class LoginController {
         table.add(forgetPasswordButton).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(errorLabel).fillX();
+        table.row();
         table.add(signUpButton).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(backToMainMenuButton).fillX();
@@ -135,6 +138,7 @@ public class LoginController {
         setForgetPasswordButton(game);
         setBackToMainMenuButton(game);
         setSignUpButton(game);
+        setLoginButton(game);
     }
 
     //getters and setters

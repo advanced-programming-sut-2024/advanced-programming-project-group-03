@@ -162,37 +162,50 @@ public class SignInController {
     }
 
     private boolean checkForUsedUsername(){
-        List<User> users = SaveUser.loadUsers();
-        for (User user : users){
-            if (user.getUsername().equals(usernameField.getText())){
-                errorLabel.setText("Username is already used");
-                usernameField.setText(usernameField.getText() + 1);
-                return false;
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getUsername().equals(usernameField.getText())){
+                    errorLabel.setText("Username is already used");
+                    return false;
+                }
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         return true;
     }
 
     private boolean checkForUsedEmail(){
-        List<User> users = SaveUser.loadUsers();
-        for (User user : users){
-            if (user.getEmail().equals(emailField.getText())){
-                errorLabel.setText("Email is already used");
-                return false;
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getEmail().equals(emailField.getText())){
+                    errorLabel.setText("Email is already used");
+                    return false;
+                }
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
 
         return true;
     }
 
     private boolean checkForUsedPassword(){
-        List<User> users = SaveUser.loadUsers();
-
-        for (User user : users){
-            if (user.getPassword().equals(passwordField.getText())){
-                errorLabel.setText("Password is already used by :" + user.getUsername() + " with email: " + user.getEmail());
-                return false;
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getPassword().equals(passwordField.getText())){
+                    errorLabel.setText("Password is already used by :" + user.getUsername());
+                    return false;
+                }
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
 
         return true;

@@ -10,24 +10,29 @@ import java.util.List;
 
 public class SaveUser {
     public static void saveUser(User newUser){
-        Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-
-        FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
-
-        String loadedUser = file.readString();
-        List<User> users = json.fromJson(ArrayList.class, User.class , loadedUser);
-
         try {
-            users.add(newUser);
-        }
-        catch (NullPointerException e){
-            users = new ArrayList<>();
-            users.add(newUser);
-        }
+            Json json = new Json();
+            json.setOutputType(JsonWriter.OutputType.json);
 
-        String usersJson = json.prettyPrint(users);
-        file.writeString(usersJson, false);
+            FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
+
+            String loadedUser = file.readString();
+            List<User> users = json.fromJson(ArrayList.class, User.class , loadedUser);
+
+            try {
+                users.add(newUser);
+            }
+            catch (NullPointerException e){
+                users = new ArrayList<>();
+                users.add(newUser);
+            }
+
+            String usersJson = json.prettyPrint(users);
+            file.writeString(usersJson, false);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<User> loadUsers(){
@@ -37,8 +42,15 @@ public class SaveUser {
         FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
 
         String loadedUser = file.readString();
-        ArrayList users = json.fromJson(ArrayList.class, User.class , loadedUser);
-
-        return users;
+        try {
+            List<User> users = json.fromJson(ArrayList.class, User.class, loadedUser);
+            return users;
+        }
+        catch (Exception e){
+            List<User> users = new ArrayList<>();
+            String usersJson = json.prettyPrint(users);
+            file.writeString(usersJson, false);
+        }
+        return new ArrayList<>();
     }
 }
