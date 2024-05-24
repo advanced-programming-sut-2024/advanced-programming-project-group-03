@@ -1,4 +1,4 @@
-package ir.ap.probending.Model;
+package ir.ap.probending.Model.Data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +9,7 @@ public class GameAssetManager {
     private static GameAssetManager gameAssetManager = new GameAssetManager();
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
     private final Image backgroundImage = new Image(new Texture(Gdx.files.internal("bg.jpg")));
+    private final String saveDataUserLocation = "users.json";
     private GameAssetManager() {
     }
     public static GameAssetManager getGameAssetManager(){
@@ -19,5 +20,8 @@ public class GameAssetManager {
     }
     public Image getBackground() {
         return backgroundImage;
+    }
+    public String getSaveDataUserLocation() {
+        return saveDataUserLocation;
     }
 }

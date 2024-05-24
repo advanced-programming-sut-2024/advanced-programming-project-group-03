@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ir.ap.probending.Control.MainMenuController;
+import ir.ap.probending.Control.*;
+import ir.ap.probending.Model.Data.SecurityQuestions;
 import ir.ap.probending.ProBending;
 
 public class MainMenuScreen implements Screen {
@@ -23,6 +24,12 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         stage.addActor(MainMenuController.getMainMenuController().getTable());
+        MainMenuController.getMainMenuController().handleMainMenuButtons(game);
+        LoginController.getLoginController().handleLoginButtons(game);
+        ForgetPasswordController.getForgetPasswordController().handleMainMenuButtons(game);
+        SignInController.getSignInController().handleSignInMenuButtons(game);
+        PickQuestionMenuController.getPickQuestionMenuController().handlePickQuestionMenuButtons(game);
+        ProfileController.getProfileController().handleProfileButtons(game);
     }
 
     @Override
@@ -32,8 +39,6 @@ public class MainMenuScreen implements Screen {
         batch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
-        MainMenuController.getMainMenuController().handleMainMenuButtons(game);
     }
 
     @Override
