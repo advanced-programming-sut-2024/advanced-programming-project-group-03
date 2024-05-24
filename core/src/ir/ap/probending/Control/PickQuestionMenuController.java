@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ir.ap.probending.Model.Data.Regex;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Data.SecurityQuestions;
-import ir.ap.probending.Model.GameAssetManager;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.ScreenMasterSetting;

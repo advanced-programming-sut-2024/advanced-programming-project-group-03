@@ -11,9 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ir.ap.probending.Model.ScreenMasterSetting;
-import ir.ap.probending.Model.GameAssetManager;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
-import jdk.jpackage.internal.Log;
 
 public class ForgetPasswordController {
     private static ForgetPasswordController forgetPasswordController = new ForgetPasswordController();

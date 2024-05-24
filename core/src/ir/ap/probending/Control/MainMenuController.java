@@ -4,16 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ir.ap.probending.Model.Data.SecurityQuestions;
 import ir.ap.probending.Model.ScreenMasterSetting;
-import ir.ap.probending.Model.GameAssetManager;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
-import jdk.jpackage.internal.Log;
 
 public class MainMenuController {
     private static MainMenuController mainMenuController = new MainMenuController();

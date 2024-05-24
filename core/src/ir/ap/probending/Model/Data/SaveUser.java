@@ -13,7 +13,7 @@ public class SaveUser {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
 
-        FileHandle file = new FileHandle(GameAssetManager.getInstance().getSaveDataUserLocation());
+        FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
 
         String loadedUser = file.readString();
         List<User> users = json.fromJson(ArrayList.class, User.class , loadedUser);
@@ -34,7 +34,7 @@ public class SaveUser {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
 
-        FileHandle file = new FileHandle(GameAssetManager.getInstance().getSaveDataUserLocation());
+        FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
 
         String loadedUser = file.readString();
         ArrayList users = json.fromJson(ArrayList.class, User.class , loadedUser);

@@ -1,16 +1,27 @@
 package ir.ap.probending.Model.Data;
 
-public class GameAssetManager {
-    private static final GameAssetManager instance = new GameAssetManager();
-    private final String saveDataUserLocation = "users.json";
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-    public String getSaveDataUserLocation() {
-        return saveDataUserLocation;
-    }
+public class GameAssetManager {
+    private static GameAssetManager gameAssetManager = new GameAssetManager();
+    private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+    private final Image backgroundImage = new Image(new Texture(Gdx.files.internal("bg.jpg")));
+    private final String saveDataUserLocation = "users.json";
     private GameAssetManager() {
     }
-
-    public static GameAssetManager getInstance() {
-        return instance;
+    public static GameAssetManager getGameAssetManager(){
+        return gameAssetManager;
+    }
+    public Skin getSkin() {
+        return skin;
+    }
+    public Image getBackground() {
+        return backgroundImage;
+    }
+    public String getSaveDataUserLocation() {
+        return saveDataUserLocation;
     }
 }
