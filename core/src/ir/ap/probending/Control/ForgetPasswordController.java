@@ -95,7 +95,7 @@ public class ForgetPasswordController {
             public void clicked(InputEvent event, float x, float y) {
                 if (answerField.getText().equals(selectedUser.getQuestionAnswer())) {
                     selectedUser.setPassword(newPasswordField.getText());
-                    SaveUser.saveUser(selectedUser);
+                    SaveUser.updateUser(selectedUser);
                     errorLabel.setText("Password changed successfully!");
                     errorLabel.setColor(0, 1, 0, 1);
                 }

@@ -58,5 +58,15 @@
 	"questionAnswer": "2",
 	"gameHistories": [],
 	"nickname": "fewfwefwef"
+},
+{
+	"class": "ir.ap.probending.Model.User",
+	"username": "amin",
+	"password": "12345678",
+	"email": "amin@amin.com",
+	"questionIndex": 1,
+	"questionAnswer": "0",
+	"gameHistories": [],
+	"nickname": "kooni"
 }
 ]
