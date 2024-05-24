@@ -7,12 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ir.ap.probending.Model.Data.RandomPasswordGenerator;
 import ir.ap.probending.Model.Data.Regex;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.GameAssetManager;
+import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.Gdx;
+
+import java.util.List;
 
 public class SignInController {
     private static SignInController signInController = new SignInController();
@@ -158,18 +162,38 @@ public class SignInController {
     }
 
     private boolean checkForUsedUsername(){
-        //TODO
-        //TODO add some random characters to username to make it unique
+        List<User> users = SaveUser.loadUsers();
+        for (User user : users){
+            if (user.getUsername().equals(usernameField.getText())){
+                errorLabel.setText("Username is already used");
+                return false;
+            }
+        }
         return true;
     }
 
     private boolean checkForUsedEmail(){
-        //TODO
+        List<User> users = SaveUser.loadUsers();
+        for (User user : users){
+            if (user.getEmail().equals(emailField.getText())){
+                errorLabel.setText("Email is already used");
+                return false;
+            }
+        }
+
         return true;
     }
 
     private boolean checkForUsedPassword(){
-        //TODO
+        List<User> users = SaveUser.loadUsers();
+
+        for (User user : users){
+            if (user.getPassword().equals(passwordField.getText())){
+                errorLabel.setText("Password is already used by :" + user.getUsername() + " with email: " + user.getEmail());
+                return false;
+            }
+        }
+
         return true;
     }
 

@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import ir.ap.probending.Model.Data.RandomPasswordGenerator;
 import ir.ap.probending.Model.Data.Regex;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Data.SecurityQuestions;
 import ir.ap.probending.Model.GameAssetManager;
 import ir.ap.probending.Model.User;
@@ -42,6 +42,7 @@ public class PickQuestionMenuController {
         table.add(answerField).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(errorLabel).fillX();
+        table.row().pad(10, 0, 10, 0);
         table.add(submitAnswer).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(backToSignUpMenu).fillX();
@@ -59,12 +60,12 @@ public class PickQuestionMenuController {
                     User user = new User(selectedUsername, selectedPassword, selectedEmail, selectedNickname);
                     user.addQuestionAnswer(questionSelector.getSelectedIndex() , answerField.getText());
 
-                    //TODO save user
+                    SaveUser.saveUser(user);
 
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(SignInController.getSignInController().getTable());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
 
                     selectedEmail = "";
                     selectedNickname = "";
