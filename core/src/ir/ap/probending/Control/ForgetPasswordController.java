@@ -24,6 +24,7 @@ public class ForgetPasswordController {
     private final TextField answerField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextField newPasswordField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton changePassword = new TextButton("Change Password", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton backToLoginMenu = new TextButton("Back", GameAssetManager.getGameAssetManager().getSkin());
     private ForgetPasswordController() {
         table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setFillParent(true);
@@ -42,6 +43,8 @@ public class ForgetPasswordController {
         table.add(newPasswordField).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(changePassword).fillX();
+        table.row().pad(10, 0, 10, 0);
+        table.add(backToLoginMenu).fillX();
 
 
         questionSelector.setDisabled(true);
@@ -50,8 +53,20 @@ public class ForgetPasswordController {
         changePassword.setDisabled(true);
     }
 
-    public void handleMainMenuButtons(ProBending game) {
+    private void setBackToLoginMenuButton(ProBending game){
+        backToLoginMenu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginController.getLoginController().getTable());
+            }
+        });
+    }
 
+    public void handleMainMenuButtons(ProBending game) {
+        setBackToLoginMenuButton(game);
     }
 
     //getters and setters

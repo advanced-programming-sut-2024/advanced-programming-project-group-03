@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Control.ForgetPasswordController;
 import ir.ap.probending.Control.LoginController;
 import ir.ap.probending.Control.MainMenuController;
+import ir.ap.probending.Control.SignInController;
 import ir.ap.probending.ProBending;
 
 public class MainMenuScreen implements Screen {
@@ -26,6 +28,8 @@ public class MainMenuScreen implements Screen {
         stage.addActor(MainMenuController.getMainMenuController().getTable());
         MainMenuController.getMainMenuController().handleMainMenuButtons(game);
         LoginController.getLoginController().handleLoginButtons(game);
+        ForgetPasswordController.getForgetPasswordController().handleMainMenuButtons(game);
+        SignInController.getSignInController().handleSignInMenuButtons(game);
     }
 
     @Override

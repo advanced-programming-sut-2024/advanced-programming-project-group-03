@@ -23,6 +23,7 @@ public class LoginController {
     private final TextButton loginButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton forgetPasswordButton = new TextButton("Forgot Password", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signUpButton = new TextButton("Don't have an account", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton backToMainMenuButton = new TextButton("Back", GameAssetManager.getGameAssetManager().getSkin());
 
     private LoginController() {
         table.addActor(GameAssetManager.getGameAssetManager().getBackground());
@@ -40,6 +41,8 @@ public class LoginController {
         table.add(forgetPasswordButton).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(signUpButton).fillX();
+        table.row().pad(10, 0, 10, 0);
+        table.add(backToMainMenuButton).fillX();
         
     }
 
@@ -55,8 +58,34 @@ public class LoginController {
         });
     }
 
+    private void setBackToMainMenuButton(ProBending game){
+        backToMainMenuButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+            }
+        });
+    }
+
+    private void setSignUpButton(ProBending game){
+        signUpButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(SignInController.getSignInController().getTable());
+            }
+        });
+    }
+
     public void handleLoginButtons(ProBending game) {
         setForgetPasswordButton(game);
+        setBackToMainMenuButton(game);
+        setSignUpButton(game);
     }
 
     //getters and setters
