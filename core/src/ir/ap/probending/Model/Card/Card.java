@@ -8,20 +8,24 @@ public class Card {
     private Ability ability;
     String name;
     String description;
-    int Power;
+    int power;
+    int originalPower;
     boolean isHero;
-    Texture texture;
-    Sprite sprite;
+    Texture cardTexture;
+    Sprite cardSprite;
+    Texture cardPowerTexture;
+    Sprite cardPowerSprite;
     int playingRow;
 
-    public Card(Ability ability, String name, String description, int power, boolean isHero, Texture texture, Sprite sprite, int playingRow) {
+    public Card(Ability ability, String name, String description, int power, boolean isHero, Texture cardTexture, Sprite cardSprite, int playingRow) {
         this.ability = ability;
         this.name = name;
         this.description = description;
-        Power = power;
+        this.power = power;
+        this.originalPower = power;
         this.isHero = isHero;
-        this.texture = texture;
-        this.sprite = sprite;
+        this.cardTexture = cardTexture;
+        this.cardSprite = cardSprite;
         this.playingRow = playingRow;
     }
 
@@ -52,11 +56,11 @@ public class Card {
     }
 
     public int getPower() {
-        return Power;
+        return power;
     }
 
     public void setPower(int power) {
-        Power = power;
+        this.power = power;
     }
 
     public boolean isHero() {
@@ -68,19 +72,19 @@ public class Card {
     }
 
     public Texture getTexture() {
-        return texture;
+        return cardTexture;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+    public void setTexture(Texture cardTexture) {
+        this.cardTexture = cardTexture;
     }
 
     public Sprite getSprite() {
-        return sprite;
+        return cardSprite;
     }
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
+    public void setSprite(Sprite cardSprite) {
+        this.cardSprite = cardSprite;
     }
 
     public int getPlayingRow() {
@@ -90,4 +94,5 @@ public class Card {
     public void setPlayingRow(int playingRow) {
         this.playingRow = playingRow;
     }
+
 }
