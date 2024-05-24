@@ -29,7 +29,7 @@ public class MainMenuScreen implements Screen {
         ForgetPasswordController.getForgetPasswordController().handleMainMenuButtons(game);
         SignInController.getSignInController().handleSignInMenuButtons(game);
         PickQuestionMenuController.getPickQuestionMenuController().handlePickQuestionMenuButtons(game);
-
+        ProfileController.getProfileController().handleProfileButtons(game);
     }
 
     @Override

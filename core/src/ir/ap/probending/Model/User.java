@@ -143,4 +143,12 @@ public class User {
     public String getQuestionAnswer() {
         return questionAnswer;
     }
+
+    public void setQuestionIndex(int questionIndex) {
+        this.questionIndex = questionIndex;
+    }
+
+    public void setQuestionAnswer(String questionAnswer) {
+        this.questionAnswer = questionAnswer;
+    }
 }

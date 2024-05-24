@@ -57,9 +57,24 @@ public class MainMenuController {
         });
     }
 
+    private void profileButton(ProBending game){
+        profileButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(ProfileController.getProfileController().getTable());
+
+                ProfileController.getProfileController().updateLabels();
+            }
+        });
+    }
+
     public void handleMainMenuButtons(ProBending game) {
         playButton(game);
         signInButton(game);
+        profileButton(game);
     }
 
     //getters and setters

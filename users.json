@@ -62,7 +62,17 @@
 {
 	"class": "ir.ap.probending.Model.User",
 	"username": "amin",
-	"password": "12345678",
+	"password": "kos",
+	"email": "kkk@gmail.com",
+	"questionIndex": 1,
+	"questionAnswer": "0",
+	"gameHistories": [],
+	"nickname": "kooni"
+},
+{
+	"class": "ir.ap.probending.Model.User",
+	"username": "amin",
+	"password": "kos",
 	"email": "amin@amin.com",
 	"questionIndex": 1,
 	"questionAnswer": "0",
