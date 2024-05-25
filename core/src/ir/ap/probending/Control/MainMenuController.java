@@ -40,7 +40,8 @@ public class MainMenuController {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("You ");
+                game.getScreen().dispose();
+                game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
             }
         });
     }

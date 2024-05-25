@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.View.MainMenuScreen;
+import ir.ap.probending.View.PreGameScreen;
 
 public class ProBending extends Game {
 
@@ -14,6 +15,7 @@ public class ProBending extends Game {
 		batch = new SpriteBatch();
 		ScreenMasterSetting.getInstance().setGame(this);
 		ScreenMasterSetting.getInstance().setMainMenuScreen(new MainMenuScreen(ScreenMasterSetting.getInstance().getGame()));
+		ScreenMasterSetting.getInstance().setPreGameScreen(new PreGameScreen(ScreenMasterSetting.getInstance().getGame()));
 		this.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
 	}
 

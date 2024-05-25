@@ -2,11 +2,13 @@ package ir.ap.probending.Model;
 
 import ir.ap.probending.ProBending;
 import ir.ap.probending.View.MainMenuScreen;
+import ir.ap.probending.View.PreGameScreen;
 
 public class ScreenMasterSetting {
     private static ScreenMasterSetting instance = new ScreenMasterSetting();
     private ProBending game;
     private MainMenuScreen mainMenuScreen;
+    private PreGameScreen preGameScreen;
 
 
     //getters and setters
@@ -34,4 +36,13 @@ public class ScreenMasterSetting {
     public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
         this.mainMenuScreen = mainMenuScreen;
     }
+
+    public PreGameScreen getPreGameScreen() {
+        return preGameScreen;
+    }
+
+    public void setPreGameScreen(PreGameScreen preGameScreen) {
+        this.preGameScreen = preGameScreen;
+    }
+
 }
