@@ -32,7 +32,6 @@ public class PreGameScreen implements Screen {
     public void render(float v) {
         ScreenUtils.clear(1, 1, 1, 1);
         batch.begin();
-        PreGameController.getPreGameController().drawCards(batch);
         batch.end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

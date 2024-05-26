@@ -27,7 +27,7 @@ public class Card extends Actor {
     float originalX = 100;
     float originalY = 100;
 
-    public Card(Ability ability, String name, String description, int power, boolean isHero, Texture cardTexture, Sprite cardSprite, int playingRow) {
+    public Card(Ability ability, String name, String description, int power, boolean isHero, Texture cardTexture, int playingRow) {
         this.ability = ability;
         this.name = name;
         this.description = description;
@@ -35,49 +35,32 @@ public class Card extends Actor {
         this.originalPower = power;
         this.isHero = isHero;
         this.cardTexture = cardTexture;
-        this.cardSprite = cardSprite;
+        this.cardSprite = new Sprite(cardTexture);
         this.playingRow = playingRow;
-
-        setSize(cardTexture.getWidth(), cardTexture.getHeight());
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                originalX = getX();
-                originalY = getY();
-                addAction(Actions.scaleTo(1.2f, 1.2f, 0.1f));
-                Card.this.setScale(1.2f);
-                PreGameController.getPreGameController().getStoreTable().removeActor(Card.this);
-                PreGameController.getPreGameController().getDeckTable().add(Card.this);
-                return true;
-            }
-
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                moveBy(x - getWidth() / 2, y - getHeight() / 2);
-            }
-
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                addAction(Actions.scaleTo(1f, 1f, 0.1f)); // Reset scale on touch up
-                Card.this.setScale(1.0f);
-                if (isOutOfBounds()) {
-                    addAction(Actions.moveTo(originalX, originalY, 0.5f)); // Move back if out of bounds
+                if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
+                    PreGameController.getPreGameController().getDeckTable().removeActor(Card.this);
+                    PreGameController.getPreGameController().getStorageTable().add(Card.this);
                 }
-
-                //TODO implement moving card from deck to storage and reverse
-                if (PreGameController.getPreGameController().getStoreTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().getStoreTable().removeActor(Card.this);
+                else if (PreGameController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
+                    PreGameController.getPreGameController().getStorageTable().removeActor(Card.this);
                     PreGameController.getPreGameController().getDeckTable().add(Card.this);
                 }
-                else if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().getDeckTable().removeActor(Card.this);
-                    PreGameController.getPreGameController().getStoreTable().add(Card.this);
-                }
+                System.out.println("Card clicked");
+                return true;
             }
         });
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(cardTexture, getX(), getY(), getWidth(), getHeight());
+        cardSprite.setPosition(getX(), getY());
+        cardSprite.draw(batch);
     }
 
     private boolean isOutOfBounds() {

@@ -1,13 +1,18 @@
 package ir.ap.probending.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardsInfo;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -18,46 +23,57 @@ import ir.ap.probending.ProBending;
 public class PreGameController {
     private static PreGameController preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
     private Table table = new Table();
-    Card card = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation())) , new Sprite(new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))) , CardsInfo.Amon.getPlayingRow());
-    private Table storeTable = new Table();
+    Card card = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    private Table storageTable = new Table();
     private Table deckTable = new Table();
-    ScrollPane storeScrollPane = new ScrollPane(storeTable);
+    ScrollPane storageScrollPane = new ScrollPane(storageTable);
     ScrollPane deckScrollPane = new ScrollPane(deckTable);
+    Stage stage ;
+    Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    Pixmap pixmap2 = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 
     private PreGameController(Stage stage) {
+        this.stage = stage;
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
-        storeTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
-        storeTable.setFillParent(true);
-        storeTable.center();
+
+        storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        storageTable.setFillParent(true);
+        storageTable.center();
+
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         deckTable.setFillParent(true);
         deckTable.center();
 
         stage.addActor(table);
-        stage.addActor(storeScrollPane);
+        stage.addActor(storageScrollPane);
         stage.addActor(deckScrollPane);
-        storeTable.add(card);
 
+        storageScrollPane.setPosition(0,0);
+        deckScrollPane.setPosition((float) Gdx.graphics.getWidth() / 2,0);
+        storageScrollPane.setSize(900, 700);
+        deckScrollPane.setSize(900, 700);
 
-        // Set the size and position of the ScrollPane objects
-        storeScrollPane.setSize(stage.getWidth() / 3, stage.getHeight() / 2);
-        storeScrollPane.setPosition(0, stage.getHeight() / 2);
-        deckScrollPane.setSize(stage.getWidth() / 3, stage.getHeight() / 2);
-        deckScrollPane.setPosition(stage.getWidth() / 2, 0);
+        pixmap.setColor(Color.RED); // Replace with your color
+        pixmap.fill();
+        pixmap2.setColor(Color.BLUE); // Replace with your color
+        pixmap2.fill();
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        TextureRegionDrawable drawable2 = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap2)));
+        storageTable.setBackground(drawable);
+        deckTable.setBackground(drawable2);
 
-        // Make the scroll bars always visible
-        storeScrollPane.setFadeScrollBars(false);
-        deckScrollPane.setFadeScrollBars(false);
-
+        deckTable.add(card);
+        storageScrollPane.invalidate();
     }
 
 
     public void handlePreGameController(ProBending game) {
+
     }
 
-    public void drawCards(SpriteBatch batch){
+    public void drawCards(SpriteBatch batch) {
 
     }
 
@@ -67,15 +83,19 @@ public class PreGameController {
         return preGameController;
     }
 
-    public Actor getTable() {
+    public Table getTable() {
         return table;
     }
 
-    public Table getStoreTable() {
-        return storeTable;
+    public Table getStorageTable() {
+        return storageTable;
     }
 
     public Table getDeckTable() {
         return deckTable;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
