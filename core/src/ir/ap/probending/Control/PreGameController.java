@@ -48,11 +48,13 @@ public class PreGameController {
         storageTable.setFillParent(true);
         storageTable.center();
         storageTable.top().left();
+        storageScrollPane.setScrollingDisabled(true, false);
 
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         deckTable.setFillParent(true);
         deckTable.center();
         deckTable.top().left();
+        deckScrollPane.setScrollingDisabled(true, false);
 
         stage.addActor(table);
         stage.addActor(storageScrollPane);
@@ -88,12 +90,12 @@ public class PreGameController {
 
     public void addCardToDeck(Card card) {
         deckCards.add(card);
-        deckTable.add(card);
+        deckTable.add(card).pad(10 , 10 , 10 , 10);
     }
 
     public void addCardToStorage(Card card) {
         storageCards.add(card);
-        storageTable.add(card);
+        storageTable.add(card).pad(10 , 10 , 10 , 10);
     }
 
     public void removeCardFromDeck(Card card) {
