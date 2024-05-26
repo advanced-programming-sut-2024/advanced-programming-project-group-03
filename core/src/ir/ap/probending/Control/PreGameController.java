@@ -19,16 +19,22 @@ import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
+import java.util.ArrayList;
+
 
 public class PreGameController {
     private static PreGameController preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
-    private Table table = new Table();
+    private final Table table = new Table();
     Card card = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
-    private Table storageTable = new Table();
-    private Table deckTable = new Table();
-    ScrollPane storageScrollPane = new ScrollPane(storageTable);
-    ScrollPane deckScrollPane = new ScrollPane(deckTable);
-    Stage stage ;
+    Card card2 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card3 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    private final Table storageTable = new Table();
+    private final Table deckTable = new Table();
+    private ScrollPane storageScrollPane = new ScrollPane(storageTable);
+    private ScrollPane deckScrollPane = new ScrollPane(deckTable);
+    private final Stage stage ;
+    private ArrayList<Card> deckCards = new ArrayList<>();
+    private ArrayList<Card> storageCards = new ArrayList<>();
     Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
     Pixmap pixmap2 = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 
@@ -41,10 +47,12 @@ public class PreGameController {
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.setFillParent(true);
         storageTable.center();
+        storageTable.top().left();
 
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         deckTable.setFillParent(true);
         deckTable.center();
+        deckTable.top().left();
 
         stage.addActor(table);
         stage.addActor(storageScrollPane);
@@ -64,8 +72,9 @@ public class PreGameController {
         storageTable.setBackground(drawable);
         deckTable.setBackground(drawable2);
 
-        deckTable.add(card);
-        storageScrollPane.invalidate();
+        addCardToStorage(card);
+        addCardToStorage(card2);
+        addCardToDeck(card3);
     }
 
 
@@ -75,6 +84,26 @@ public class PreGameController {
 
     public void drawCards(SpriteBatch batch) {
 
+    }
+
+    public void addCardToDeck(Card card) {
+        deckCards.add(card);
+        deckTable.add(card);
+    }
+
+    public void addCardToStorage(Card card) {
+        storageCards.add(card);
+        storageTable.add(card);
+    }
+
+    public void removeCardFromDeck(Card card) {
+        deckCards.remove(card);
+        deckTable.removeActor(card);
+    }
+
+    public void removeCardFromStorage(Card card) {
+        storageCards.remove(card);
+        storageTable.removeActor(card);
     }
 
     //getters and setters

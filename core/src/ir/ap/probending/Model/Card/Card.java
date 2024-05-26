@@ -44,14 +44,13 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().getDeckTable().removeActor(Card.this);
-                    PreGameController.getPreGameController().getStorageTable().add(Card.this);
+                    PreGameController.getPreGameController().removeCardFromDeck(Card.this);
+                    PreGameController.getPreGameController().addCardToStorage(Card.this);
                 }
                 else if (PreGameController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().getStorageTable().removeActor(Card.this);
-                    PreGameController.getPreGameController().getDeckTable().add(Card.this);
+                    PreGameController.getPreGameController().removeCardFromStorage(Card.this);
+                    PreGameController.getPreGameController().addCardToDeck(Card.this);
                 }
-                System.out.println("Card clicked");
                 return true;
             }
         });
