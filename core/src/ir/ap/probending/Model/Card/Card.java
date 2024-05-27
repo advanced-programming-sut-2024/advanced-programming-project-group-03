@@ -1,7 +1,9 @@
 package ir.ap.probending.Model.Card;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import com.badlogic.gdx.Gdx;
+
 
 public class Card extends Actor {
     private Ability ability;
@@ -42,6 +45,35 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
+                    PreGameController.getPreGameController().addCardToStorage(Card.this);
+                    PreGameController.getPreGameController().removeCardFromDeck(Card.this);
+                }
+                else if (PreGameController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
+                    PreGameController.getPreGameController().addCardToDeck(Card.this);
+                    PreGameController.getPreGameController().removeCardFromStorage(Card.this);
+                }
+                return true;
+            }
+        });
+    }
+
+    private Card(Card card) {
+        this.ability = card.ability.clone();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
                     PreGameController.getPreGameController().removeCardFromDeck(Card.this);
                     PreGameController.getPreGameController().addCardToStorage(Card.this);
                 }
@@ -54,10 +86,19 @@ public class Card extends Actor {
         });
     }
 
+
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         cardSprite.setPosition(getX(), getY());
         cardSprite.draw(batch);
+
+        int count = PreGameController.getPreGameController().getCardNumber(this);
+        if (count > 1) {
+            BitmapFont font = new BitmapFont();
+            font.setColor(Color.BLACK);
+            font.draw(batch, String.valueOf(count), getX() + getWidth() - 20, getY() + 20);
+        }
     }
 
     private boolean isOutOfBounds() {
@@ -128,6 +169,10 @@ public class Card extends Actor {
 
     public void setPlayingRow(int playingRow) {
         this.playingRow = playingRow;
+    }
+
+    public Card clone() {
+        return new Card(this);
     }
 
 }
