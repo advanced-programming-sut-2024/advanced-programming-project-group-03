@@ -115,52 +115,70 @@ public class PreGameController {
     public void addCardToDeck(Card card) {
         deckCards.add(card);
         refreshDeckTable();
+        refreshStorageTable();
     }
 
     public void addCardToStorage(Card card) {
         storageCards.add(card);
         refreshStorageTable();
+        refreshDeckTable();
     }
 
     public void removeCardFromDeck(Card card) {
         deckCards.remove(card);
         refreshDeckTable();
+        refreshStorageTable();
     }
 
     public void removeCardFromStorage(Card card) {
         storageCards.remove(card);
         refreshStorageTable();
+        refreshDeckTable();
     }
 
     private void refreshDeckTable() {
-        ArrayList<String> cardNames = new ArrayList<>();
-        deckTable.clear();
-        for (int i = 0; i < deckCards.size(); i++) {
-            if (cardNames.contains(deckCards.get(i).getName())) {
-                continue;
+        try{
+            ArrayList<String> cardNames = new ArrayList<>();
+            deckTable.clear();
+            int count = deckCards.size();
+            for (int i = 0; i < count; i++) {
+                if (cardNames.contains(deckCards.get(i).getName())) {
+                    count--;
+                    continue;
+                }
+                cardNames.add(deckCards.get(i).getName());
+                if (cardNames.size() % 4 == 0) {
+                    deckTable.row();
+                }
+                deckTable.add(deckCards.get(i)).pad(10);
             }
-            cardNames.add(deckCards.get(i).getName());
-            if (cardNames.size() % 4 == 0) {
-                deckTable.row();
-            }
-            deckTable.add(deckCards.get(i)).pad(10);
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     private void refreshStorageTable() {
+    try {
         ArrayList<String> cardNames = new ArrayList<>();
         storageTable.clear();
-        for (int i = 0; i < storageCards.size(); i++) {
-            if (cardNames.contains(deckCards.get(i).getName())) {
+        int count = storageCards.size();
+        for (int i = 0; i < count; i++) {
+            if (cardNames.contains(storageCards.get(i).getName())) { // Use storageCards instead of deckCards
+                count--;
                 continue;
             }
-            cardNames.add(deckCards.get(i).getName());
+            cardNames.add(storageCards.get(i).getName());
             if (cardNames.size() % 4 == 0) {
                 storageTable.row();
             }
             storageTable.add(storageCards.get(i)).pad(10);
         }
     }
+    catch (Exception e){
+        e.printStackTrace();
+    }
+}
 
     //getters and setters
 
