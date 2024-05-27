@@ -2,9 +2,9 @@ package ir.ap.probending.Model;
 
 public class GameBoard {
     private static Board player1Board;
-    private static User player1;
+    private static Player player1;
     private static Board player2Board;
-    private static User player2;
+    private static Player player2;
 
     public static Board getPlayer1Board() {
         if (player1Board == null)
@@ -23,24 +23,24 @@ public class GameBoard {
         player1Board = player2Board;
         player2Board = temp;
 
-        User tempUser = player1;
+        Player tempUser = player1;
         player1 = player2;
         player2 = tempUser;
     }
 
-    public static User getPlayer1() {
+    public static Player getPlayer1() {
         return player1;
     }
 
-    public static void setPlayer1(User player1) {
+    public static void setPlayer1(Player player1) {
         GameBoard.player1 = player1;
     }
 
-    public static User getPlayer2() {
+    public static Player getPlayer2() {
         return player2;
     }
 
-    public static void setPlayer2(User player2) {
+    public static void setPlayer2(Player player2) {
         GameBoard.player2 = player2;
     }
 }
