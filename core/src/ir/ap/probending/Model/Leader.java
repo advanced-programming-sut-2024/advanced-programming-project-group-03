@@ -1,9 +1,12 @@
 package ir.ap.probending.Model;
 
+import ir.ap.probending.Model.Factions.Faction;
+import ir.ap.probending.Model.LeaderAbilities.LeaderAbility;
+
 public class Leader {
-//    private Faction faction;
+    private Faction faction;
     private String name;
-    // private LeaderAbility leaderAbility;
+     private LeaderAbility leaderAbility;
 
     public Leader(String name) {
         this.name = name;
@@ -13,9 +16,11 @@ public class Leader {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Faction getFaction() {
+        return faction;
     }
 
-
+    public void executeLeaderAbility(){
+        leaderAbility.execute(this);
+    }
 }
