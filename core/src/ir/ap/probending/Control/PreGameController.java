@@ -28,6 +28,13 @@ public class PreGameController {
     Card card = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     Card card2 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     Card card3 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card4 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card5 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card6 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card7 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card8 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card9 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card10 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
     private ScrollPane storageScrollPane = new ScrollPane(storageTable);
@@ -49,19 +56,21 @@ public class PreGameController {
         storageTable.center();
         storageTable.top().left();
         storageScrollPane.setScrollingDisabled(true, false);
+        storageScrollPane.setScrollbarsVisible(true);
 
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         deckTable.setFillParent(true);
         deckTable.center();
         deckTable.top().left();
         deckScrollPane.setScrollingDisabled(true, false);
+        deckScrollPane.setScrollbarsVisible(true);
 
         stage.addActor(table);
         stage.addActor(storageScrollPane);
         stage.addActor(deckScrollPane);
 
-        storageScrollPane.setPosition(0,0);
-        deckScrollPane.setPosition((float) Gdx.graphics.getWidth() / 2,0);
+        storageScrollPane.setPosition(60,190);
+        deckScrollPane.setPosition((float) Gdx.graphics.getWidth() - 960,190);
         storageScrollPane.setSize(900, 700);
         deckScrollPane.setSize(900, 700);
 
@@ -77,6 +86,13 @@ public class PreGameController {
         addCardToStorage(card);
         addCardToStorage(card2);
         addCardToDeck(card3);
+        addCardToDeck(card4);
+        addCardToDeck(card5);
+        addCardToDeck(card6);
+        addCardToDeck(card7);
+        addCardToDeck(card8);
+        addCardToDeck(card9);
+        addCardToDeck(card10);
     }
 
 
@@ -89,13 +105,19 @@ public class PreGameController {
     }
 
     public void addCardToDeck(Card card) {
+        if (deckTable.getChildren().size % 5 == 0) {
+            deckTable.row();
+        }
         deckCards.add(card);
-        deckTable.add(card).pad(10 , 10 , 10 , 10);
+        deckTable.add(card);
     }
 
     public void addCardToStorage(Card card) {
+        if (storageTable.getChildren().size % 5 == 0) {
+            storageTable.row();
+        }
         storageCards.add(card);
-        storageTable.add(card).pad(10 , 10 , 10 , 10);
+        storageTable.add(card);
     }
 
     public void removeCardFromDeck(Card card) {
