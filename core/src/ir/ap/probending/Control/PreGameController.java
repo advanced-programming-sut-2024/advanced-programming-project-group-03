@@ -4,11 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -95,7 +92,6 @@ public class PreGameController {
         addCardToDeck(card10);
     }
 
-
     public void handlePreGameController(ProBending game) {
 
     }
@@ -105,29 +101,43 @@ public class PreGameController {
     }
 
     public void addCardToDeck(Card card) {
-        if (deckTable.getChildren().size % 5 == 0) {
-            deckTable.row();
-        }
         deckCards.add(card);
-        deckTable.add(card);
+        refreshDeckTable();
     }
 
     public void addCardToStorage(Card card) {
-        if (storageTable.getChildren().size % 5 == 0) {
-            storageTable.row();
-        }
         storageCards.add(card);
-        storageTable.add(card);
+        refreshStorageTable();
     }
 
     public void removeCardFromDeck(Card card) {
         deckCards.remove(card);
-        deckTable.removeActor(card);
+        refreshDeckTable();
     }
 
     public void removeCardFromStorage(Card card) {
         storageCards.remove(card);
-        storageTable.removeActor(card);
+        refreshStorageTable();
+    }
+
+    private void refreshDeckTable() {
+        deckTable.clear();
+        for (int i = 0; i < deckCards.size(); i++) {
+            if (i % 5 == 0) {
+                deckTable.row();
+            }
+            deckTable.add(deckCards.get(i));
+        }
+    }
+
+    private void refreshStorageTable() {
+        storageTable.clear();
+        for (int i = 0; i < storageCards.size(); i++) {
+            if (i % 5 == 0) {
+                storageTable.row();
+            }
+            storageTable.add(storageCards.get(i));
+        }
     }
 
     //getters and setters
