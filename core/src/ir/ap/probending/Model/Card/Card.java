@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import com.badlogic.gdx.Gdx;
-import ir.ap.probending.Model.ScreenMasterSetting;
 
 public class Card extends Actor {
     private Ability ability;

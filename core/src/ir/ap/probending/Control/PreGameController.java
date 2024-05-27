@@ -45,6 +45,9 @@ public class PreGameController {
     private final Table deckTable = new Table();
     private ScrollPane storageScrollPane = new ScrollPane(storageTable);
     private ScrollPane deckScrollPane = new ScrollPane(deckTable);
+    private ScrollPane.ScrollPaneStyle scrollPaneStyle ;
+    private ScrollPane.ScrollPaneStyle storageScrollPaneStyle;
+    private ScrollPane.ScrollPaneStyle deckScrollPaneStyle ;
     private final Stage stage ;
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
@@ -56,6 +59,7 @@ public class PreGameController {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
+        scrollPaneStyle = GameAssetManager.getGameAssetManager().getSkin().get("default", ScrollPane.ScrollPaneStyle.class);
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.top().left();
@@ -63,6 +67,9 @@ public class PreGameController {
         storageScrollPane.setScrollbarsVisible(true);
         storageScrollPane.setFadeScrollBars(false);
         storageScrollPane.setSmoothScrolling(true);
+        storageScrollPane.setScrollBarPositions(false, true);
+        storageScrollPaneStyle = new ScrollPane.ScrollPaneStyle(scrollPaneStyle);
+        storageScrollPane.setStyle(storageScrollPaneStyle);
 
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         deckTable.top().left();
@@ -70,6 +77,9 @@ public class PreGameController {
         deckScrollPane.setScrollbarsVisible(true);
         deckScrollPane.setFadeScrollBars(false);
         deckScrollPane.setSmoothScrolling(true);
+        deckScrollPane.setScrollBarPositions(false, true);
+        deckScrollPaneStyle = new ScrollPane.ScrollPaneStyle(scrollPaneStyle);
+        deckScrollPane.setStyle(deckScrollPaneStyle);
 
         stage.addActor(table);
         stage.addActor(storageScrollPane);
@@ -108,6 +118,7 @@ public class PreGameController {
         addCardToDeck(card17);
         addCardToDeck(card18);
         addCardToDeck(card19);
+
     }
 
     public void handlePreGameController(ProBending game) {
@@ -141,20 +152,20 @@ public class PreGameController {
     private void refreshDeckTable() {
         deckTable.clear();
         for (int i = 0; i < deckCards.size(); i++) {
-            if (i % 5 == 0) {
+            if (i % 4 == 0) {
                 deckTable.row();
             }
-            deckTable.add(deckCards.get(i));
+            deckTable.add(deckCards.get(i)).pad(10);
         }
     }
 
     private void refreshStorageTable() {
         storageTable.clear();
         for (int i = 0; i < storageCards.size(); i++) {
-            if (i % 5 == 0) {
+            if (i % 4 == 0) {
                 storageTable.row();
             }
-            storageTable.add(storageCards.get(i));
+            storageTable.add(storageCards.get(i)).pad(10);
         }
     }
 
