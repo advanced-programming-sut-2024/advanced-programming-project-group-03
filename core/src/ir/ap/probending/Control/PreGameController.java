@@ -32,6 +32,15 @@ public class PreGameController {
     Card card8 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     Card card9 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     Card card10 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card11 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card12 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card13 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card14 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card15 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card16 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card17 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card18 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
+    Card card19 = new Card(CardsInfo.Amon.getAbility() , CardsInfo.Amon.getName() , CardsInfo.Amon.getDescription() , CardsInfo.Amon.getPower() , CardsInfo.Amon.isHero() , new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation()))  , CardsInfo.Amon.getPlayingRow());
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
     private ScrollPane storageScrollPane = new ScrollPane(storageTable);
@@ -49,18 +58,18 @@ public class PreGameController {
         table.center();
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
-        storageTable.setFillParent(true);
-        storageTable.center();
         storageTable.top().left();
         storageScrollPane.setScrollingDisabled(true, false);
         storageScrollPane.setScrollbarsVisible(true);
+        storageScrollPane.setFadeScrollBars(false);
+        storageScrollPane.setSmoothScrolling(true);
 
         deckTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
-        deckTable.setFillParent(true);
-        deckTable.center();
         deckTable.top().left();
         deckScrollPane.setScrollingDisabled(true, false);
         deckScrollPane.setScrollbarsVisible(true);
+        deckScrollPane.setFadeScrollBars(false);
+        deckScrollPane.setSmoothScrolling(true);
 
         stage.addActor(table);
         stage.addActor(storageScrollPane);
@@ -90,6 +99,15 @@ public class PreGameController {
         addCardToDeck(card8);
         addCardToDeck(card9);
         addCardToDeck(card10);
+        addCardToDeck(card11);
+        addCardToDeck(card12);
+        addCardToDeck(card13);
+        addCardToDeck(card14);
+        addCardToDeck(card15);
+        addCardToDeck(card16);
+        addCardToDeck(card17);
+        addCardToDeck(card18);
+        addCardToDeck(card19);
     }
 
     public void handlePreGameController(ProBending game) {
