@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Card.CardsInfo;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.PreGame;
@@ -123,25 +124,21 @@ public class PreGameController {
     public void addCardToDeck(Card card) {
         preGame.getDeckCards().add(card);
         refreshDeckTable();
-        refreshStorageTable();
     }
 
     public void addCardToStorage(Card card) {
         preGame.getStorageCards().add(card);
         refreshStorageTable();
-        refreshDeckTable();
     }
 
     public void removeCardFromDeck(Card card) {
         preGame.getDeckCards().remove(card);
         refreshDeckTable();
-        refreshStorageTable();
     }
 
     public void removeCardFromStorage(Card card) {
         preGame.getStorageCards().remove(card);
         refreshStorageTable();
-        refreshDeckTable();
     }
 
     private void refreshDeckTable() {
@@ -159,11 +156,10 @@ public class PreGameController {
             int count = storageCards.size();
             for (int i = 0; i < count; i++) {
                 if (cardNames.contains(storageCards.get(i).getName())) {
-                    count--;
                     continue;
                 }
                 cardNames.add(storageCards.get(i).getName());
-                if (cardNames.size() % 4 == 0) {
+                if (cardNames.size() % 5 == 0) {
                     storageTable.row();
                 }
                 storageTable.add(storageCards.get(i)).pad(10);
@@ -208,12 +204,11 @@ public class PreGameController {
 
     // for testing
     private void setUpCards() {
-        Card card = new Card(CardsInfo.Amon.getAbility(), CardsInfo.Amon.getName(), CardsInfo.Amon.getDescription(), CardsInfo.Amon.getPower(), CardsInfo.Amon.isHero(), new Texture(Gdx.files.internal(CardsInfo.Amon.getPictureLocation())), CardsInfo.Amon.getPlayingRow());
-        for (int i = 0; i < 20; i++) {
-            addCardToDeck(card.clone());
-        }
         for (int i = 0; i < 10; i++) {
-            addCardToStorage(card.clone());
+            addCardToStorage(CardObjects.Amon.getCard().clone());
+            addCardToStorage(CardObjects.DesnaAndEska.getCard().clone());
+            addCardToStorage(CardObjects.Due.getCard().clone());
+            addCardToStorage(CardObjects.Hakoda.getCard().clone());
         }
     }
 }

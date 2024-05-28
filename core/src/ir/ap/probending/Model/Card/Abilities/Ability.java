@@ -5,11 +5,6 @@ import ir.ap.probending.Model.Card.Card;
 public abstract class Ability {
 
     public Ability clone () {
-        try {
-            return (Ability) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
