@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardsInfo;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class PreGameController {
     private static PreGameController preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+    private final PreGame preGame = new PreGame();
     private final Table table = new Table();
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
@@ -33,8 +35,6 @@ public class PreGameController {
     private final Stage stage;
     private final Label powerSumLabel = new Label("Power Sum: 0", GameAssetManager.getGameAssetManager().getSkin());
     private final Label cardCountLabel = new Label("Card Count: 0", GameAssetManager.getGameAssetManager().getSkin());
-    private ArrayList<Card> deckCards = new ArrayList<>();
-    private ArrayList<Card> storageCards = new ArrayList<>();
     Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
     Pixmap pixmap2 = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 
@@ -103,10 +103,10 @@ public class PreGameController {
 
     public int getCardNumber(Card card) {
         ArrayList<Card> allCards;
-        if (deckCards.contains(card)) {
-            allCards = deckCards;
-        } else if (storageCards.contains(card)) {
-            allCards = storageCards;
+        if (preGame.getDeckCards().contains(card)) {
+            allCards = preGame.getDeckCards();
+        } else if (preGame.getStorageCards().contains(card)) {
+            allCards = preGame.getStorageCards();
         } else {
             return 0;
         }
@@ -121,35 +121,35 @@ public class PreGameController {
     }
 
     public void addCardToDeck(Card card) {
-        deckCards.add(card);
+        preGame.getDeckCards().add(card);
         refreshDeckTable();
         refreshStorageTable();
     }
 
     public void addCardToStorage(Card card) {
-        storageCards.add(card);
+        preGame.getStorageCards().add(card);
         refreshStorageTable();
         refreshDeckTable();
     }
 
     public void removeCardFromDeck(Card card) {
-        deckCards.remove(card);
+        preGame.getDeckCards().remove(card);
         refreshDeckTable();
         refreshStorageTable();
     }
 
     public void removeCardFromStorage(Card card) {
-        storageCards.remove(card);
+        preGame.getStorageCards().remove(card);
         refreshStorageTable();
         refreshDeckTable();
     }
 
     private void refreshDeckTable() {
-        refreshTables(deckTable, deckCards);
+        refreshTables(deckTable, preGame.getDeckCards());
     }
 
     private void refreshStorageTable() {
-        refreshTables(storageTable, storageCards);
+        refreshTables(storageTable, preGame.getStorageCards());
     }
 
     private void refreshTables(Table storageTable, ArrayList<Card> storageCards) {
@@ -158,7 +158,7 @@ public class PreGameController {
             storageTable.clear();
             int count = storageCards.size();
             for (int i = 0; i < count; i++) {
-                if (cardNames.contains(storageCards.get(i).getName())) { // Use storageCards instead of deckCards
+                if (cardNames.contains(storageCards.get(i).getName())) {
                     count--;
                     continue;
                 }
@@ -177,11 +177,11 @@ public class PreGameController {
 
     private void refreshLabels() {
         int powerSum = 0;
-        for (Card card : deckCards) {
+        for (Card card : preGame.getDeckCards()) {
             powerSum += card.getPower();
         }
         powerSumLabel.setText("Power Sum: " + powerSum);
-        cardCountLabel.setText("Card Count: " + deckCards.size());
+        cardCountLabel.setText("Card Count: " + preGame.getDeckCards().size());
     }
 
     //getters and setters
