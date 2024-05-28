@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardsInfo;
@@ -27,6 +28,7 @@ public class PreGameController {
     private final Table table = new Table();
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
+    private final Window changeFactionWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private ScrollPane storageScrollPane = new ScrollPane(storageTable);
     private ScrollPane deckScrollPane = new ScrollPane(deckTable);
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
