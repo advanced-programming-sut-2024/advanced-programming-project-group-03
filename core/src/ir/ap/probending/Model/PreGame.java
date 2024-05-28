@@ -1,10 +1,12 @@
 package ir.ap.probending.Model;
 
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Factions.Faction;
 
 import java.util.ArrayList;
 
 public class PreGame {
+    private Faction playerFaction;
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
 
@@ -22,5 +24,9 @@ public class PreGame {
 
     public void setStorageCards(ArrayList<Card> storageCards) {
         this.storageCards = storageCards;
+    }
+
+    public Faction getPlayerFaction() {
+        return playerFaction;
     }
 }

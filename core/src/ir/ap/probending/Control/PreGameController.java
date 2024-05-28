@@ -77,9 +77,9 @@ public class PreGameController {
         storageScrollPane.setSize(900, 700);
         deckScrollPane.setSize(900, 700);
 
-        pixmap.setColor(Color.RED); // Replace with your color
+        pixmap.setColor(Color.RED);
         pixmap.fill();
-        pixmap2.setColor(Color.BLUE); // Replace with your color
+        pixmap2.setColor(Color.BLUE);
         pixmap2.fill();
         TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
         TextureRegionDrawable drawable2 = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap2)));
