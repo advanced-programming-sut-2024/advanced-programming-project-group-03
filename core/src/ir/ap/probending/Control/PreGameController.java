@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -30,6 +31,8 @@ public class PreGameController {
     private ScrollPane.ScrollPaneStyle storageScrollPaneStyle;
     private ScrollPane.ScrollPaneStyle deckScrollPaneStyle;
     private final Stage stage;
+    private final Label powerSumLabel = new Label("Power Sum: 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label cardCountLabel = new Label("Card Count: 0", GameAssetManager.getGameAssetManager().getSkin());
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
     Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -82,6 +85,11 @@ public class PreGameController {
         TextureRegionDrawable drawable2 = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap2)));
         storageTable.setBackground(drawable);
         deckTable.setBackground(drawable2);
+
+        stage.addActor(powerSumLabel);
+        stage.addActor(cardCountLabel);
+        powerSumLabel.setPosition(60, 900);
+        cardCountLabel.setPosition(400, 900);
 
     }
 
@@ -137,48 +145,44 @@ public class PreGameController {
     }
 
     private void refreshDeckTable() {
-        try{
+        refreshTables(deckTable, deckCards);
+    }
+
+    private void refreshStorageTable() {
+        refreshTables(storageTable, storageCards);
+    }
+
+    private void refreshTables(Table storageTable, ArrayList<Card> storageCards) {
+        try {
             ArrayList<String> cardNames = new ArrayList<>();
-            deckTable.clear();
-            int count = deckCards.size();
+            storageTable.clear();
+            int count = storageCards.size();
             for (int i = 0; i < count; i++) {
-                if (cardNames.contains(deckCards.get(i).getName())) {
+                if (cardNames.contains(storageCards.get(i).getName())) { // Use storageCards instead of deckCards
                     count--;
                     continue;
                 }
-                cardNames.add(deckCards.get(i).getName());
+                cardNames.add(storageCards.get(i).getName());
                 if (cardNames.size() % 4 == 0) {
-                    deckTable.row();
+                    storageTable.row();
                 }
-                deckTable.add(deckCards.get(i)).pad(10);
+                storageTable.add(storageCards.get(i)).pad(10);
             }
+            refreshLabels();
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void refreshStorageTable() {
-    try {
-        ArrayList<String> cardNames = new ArrayList<>();
-        storageTable.clear();
-        int count = storageCards.size();
-        for (int i = 0; i < count; i++) {
-            if (cardNames.contains(storageCards.get(i).getName())) { // Use storageCards instead of deckCards
-                count--;
-                continue;
-            }
-            cardNames.add(storageCards.get(i).getName());
-            if (cardNames.size() % 4 == 0) {
-                storageTable.row();
-            }
-            storageTable.add(storageCards.get(i)).pad(10);
+    private void refreshLabels() {
+        int powerSum = 0;
+        for (Card card : deckCards) {
+            powerSum += card.getPower();
         }
+        powerSumLabel.setText("Power Sum: " + powerSum);
+        cardCountLabel.setText("Card Count: " + deckCards.size());
     }
-    catch (Exception e){
-        e.printStackTrace();
-    }
-}
 
     //getters and setters
 
