@@ -20,10 +20,10 @@ public class MainMenuController {
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
 
     private MainMenuController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
+        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
 
         table.add(playButton).fillX();
         table.row().pad(10, 0, 10, 0);
