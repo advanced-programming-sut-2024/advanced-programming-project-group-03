@@ -34,7 +34,7 @@ public enum CardObjects {
     Yakone(CardsInfo.Yakone),
     Yue(CardsInfo.Yue),
 
-    // earth benders
+    // fire benders
     Azula(CardsInfo.Azula),
     Azulon(CardsInfo.Azulon),
     Buijing(CardsInfo.Buijing),
