@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Model.Data.MusicMaster;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -35,6 +36,8 @@ public class MainMenuController {
         table.addActor(profileButton);
         profileButton.setPosition(100, 200);
 
+        //musics
+        MusicMaster.getInstance().playBgMusicMenu();
     }
 
     private void playButton(ProBending game){

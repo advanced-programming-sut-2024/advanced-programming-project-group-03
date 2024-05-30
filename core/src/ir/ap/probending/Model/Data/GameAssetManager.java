@@ -13,11 +13,13 @@ public class GameAssetManager {
     private final Image backgroundImage = new Image(new Texture(Gdx.files.internal("bg.jpg")));
     private final String saveDataUserLocation = "users.json";
     private final String liveAppaBackgroundLocation = "bgliveappa.gif";
-
     private final String waterTribeCard = "FactionCards/water.png";
     private final String earthKingdomCard = "FactionCards/earth.png";
     private final String fireNationCard = "FactionCards/fire.png";
     private final String airNomadsCard = "FactionCards/air.png";
+
+    //sfx
+    private final String bgMenuMusic = "SFX/Musics/bgmenu.mp3";
 
     private final String bgAppa1 = "bglive/ezgif-frame-001.jpg";
     private final String bgAppa2 = "bglive/ezgif-frame-002.jpg";
@@ -153,5 +155,8 @@ public class GameAssetManager {
     }
     public String getAirNomadsCard() {
         return airNomadsCard;
+    }
+    public String getMenuMusic() {
+        return bgMenuMusic;
     }
 }
