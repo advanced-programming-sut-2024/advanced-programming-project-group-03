@@ -14,6 +14,11 @@ public class GameAssetManager {
     private final String saveDataUserLocation = "users.json";
     private final String liveAppaBackgroundLocation = "bgliveappa.gif";
 
+    private final String waterTribeCard = "FactionCards/water.png";
+    private final String earthKingdomCard = "FactionCards/earth.png";
+    private final String fireNationCard = "FactionCards/fire.png";
+    private final String airNomadsCard = "FactionCards/air.png";
+
     private final String bgAppa1 = "bglive/ezgif-frame-001.jpg";
     private final String bgAppa2 = "bglive/ezgif-frame-002.jpg";
     private final String bgAppa3 = "bglive/ezgif-frame-003.jpg";
@@ -136,5 +141,17 @@ public class GameAssetManager {
     }
     public TextureRegion[] getBgAppaFrames() {
         return bgAppaFrames;
+    }
+    public String getWaterTribeCard() {
+        return waterTribeCard;
+    }
+    public String getEarthKingdomCard() {
+        return earthKingdomCard;
+    }
+    public String getFireNationCard() {
+        return fireNationCard;
+    }
+    public String getAirNomadsCard() {
+        return airNomadsCard;
     }
 }

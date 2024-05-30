@@ -51,7 +51,7 @@ public class MainMenuScreen implements Screen {
         elapsedTime += v;
         TextureRegion currentFrame = bgAnimation.getKeyFrame(elapsedTime, true);
         batch.begin();
-        batch.draw(currentFrame, 0, 0);
+        //batch.draw(currentFrame, 0, 0);
         stage.draw();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.end();
