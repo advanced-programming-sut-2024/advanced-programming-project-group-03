@@ -30,12 +30,12 @@ public class PreGameController {
     private final Table deckTable = new Table();
     private final Window changeFactionWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton changeFactionButton = new TextButton("Change Faction", GameAssetManager.getGameAssetManager().getSkin());
-    private final ImageButton waterTribeButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "default");
-    private final ImageButton earthKingdomButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "default");
-    private final ImageButton fireNationButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "default");
-    private final ImageButton airNomadsButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "default");
-    private ScrollPane storageScrollPane = new ScrollPane(storageTable);
-    private ScrollPane deckScrollPane = new ScrollPane(deckTable);
+    private final ImageButton waterTribeButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
+    private final ImageButton earthKingdomButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
+    private final ImageButton fireNationButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
+    private final ImageButton airNomadsButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
+    private final ScrollPane storageScrollPane = new ScrollPane(storageTable);
+    private final ScrollPane deckScrollPane = new ScrollPane(deckTable);
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
     private ScrollPane.ScrollPaneStyle storageScrollPaneStyle;
     private ScrollPane.ScrollPaneStyle deckScrollPaneStyle;
@@ -192,6 +192,38 @@ public class PreGameController {
                 changeFactionWindow.setPosition((float) Gdx.graphics.getWidth() / 2 - changeFactionWindow.getWidth() / 2, 500);
             }
         });
+
+        waterTribeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                /*preGame.setPlayerFaction();*/
+                changeFactionWindow.setVisible(false);
+            }
+        });
+
+        earthKingdomButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                /*preGame.setPlayerFaction();*/
+                changeFactionWindow.setVisible(false);
+            }
+        });
+
+        fireNationButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                /*preGame.setPlayerFaction();*/
+                changeFactionWindow.setVisible(false);
+            }
+        });
+
+        airNomadsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                /*preGame.setPlayerFaction();*/
+                changeFactionWindow.setVisible(false);
+            }
+        });
     }
 
     private void factionViewSetUp(){
@@ -208,17 +240,28 @@ public class PreGameController {
 
         Texture waterTribeTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getWaterTribeCard()));
         Texture earthKingdomTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getEarthKingdomCard()));
-        Texture fireNationTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getFireNationCard()));
         Texture airNomadsTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getAirNomadsCard()));
+        Texture fireNationTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getFireNationCard()));
         Drawable waterTribeDrawable = new TextureRegionDrawable(new TextureRegion(waterTribeTexture));
         Drawable earthKingdomDrawable = new TextureRegionDrawable(new TextureRegion(earthKingdomTexture));
-        Drawable fireNationDrawable = new TextureRegionDrawable(new TextureRegion(fireNationTexture));
         Drawable airNomadsDrawable = new TextureRegionDrawable(new TextureRegion(airNomadsTexture));
+        Drawable fireNationDrawable = new TextureRegionDrawable(new TextureRegion(fireNationTexture));
 
-        waterTribeButton.getStyle().imageUp = waterTribeDrawable;
-        earthKingdomButton.getStyle().imageUp = earthKingdomDrawable;
-        fireNationButton.getStyle().imageUp = fireNationDrawable;
-        airNomadsButton.getStyle().imageUp = airNomadsDrawable;
+        ImageButton.ImageButtonStyle waterTribeButtonStyle = new ImageButton.ImageButtonStyle(waterTribeButton.getStyle());
+        waterTribeButtonStyle.imageUp = waterTribeDrawable;
+        waterTribeButton.setStyle(waterTribeButtonStyle);
+
+        ImageButton.ImageButtonStyle airNomadsButtonStyle = new ImageButton.ImageButtonStyle(airNomadsButton.getStyle());
+        airNomadsButtonStyle.imageUp = airNomadsDrawable;
+        airNomadsButton.setStyle(airNomadsButtonStyle);
+
+        ImageButton.ImageButtonStyle fireNationButtonStyle = new ImageButton.ImageButtonStyle(fireNationButton.getStyle());
+        fireNationButtonStyle.imageUp = fireNationDrawable;
+        fireNationButton.setStyle(fireNationButtonStyle);
+
+        ImageButton.ImageButtonStyle earthKingdomButtonStyle = new ImageButton.ImageButtonStyle(earthKingdomButton.getStyle());
+        earthKingdomButtonStyle.imageUp = earthKingdomDrawable;
+        earthKingdomButton.setStyle(earthKingdomButtonStyle);
 
 
     }

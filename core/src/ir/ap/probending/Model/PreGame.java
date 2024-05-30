@@ -29,4 +29,8 @@ public class PreGame {
     public Faction getPlayerFaction() {
         return playerFaction;
     }
+
+    public void setPlayerFaction(Faction playerFaction) {
+        this.playerFaction = playerFaction;
+    }
 }

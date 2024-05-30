@@ -5,7 +5,7 @@ import ir.ap.probending.Model.Leader;
 
 import java.util.ArrayList;
 
-public abstract class Faction {
+public class Faction {
     protected ArrayList<Leader> leaders;
     protected Texture texture;
 
