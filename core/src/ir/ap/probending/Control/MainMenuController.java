@@ -8,13 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
 
 public class MainMenuController {
-    private static MainMenuController mainMenuController = new MainMenuController();
-    private Table table = new Table();
+    private final static MainMenuController mainMenuController = new MainMenuController();
+    private final Table table = new Table();
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signInButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
@@ -42,6 +43,7 @@ public class MainMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 game.getScreen().dispose();
                 game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
+                PreGameController.getPreGameController().getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
             }
         });
     }

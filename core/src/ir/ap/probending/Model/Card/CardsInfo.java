@@ -13,7 +13,7 @@ public enum CardsInfo {
     Huu(new Morale() , "Huu" , 2 , false , "Cards/Water Tribes/Huu.png" , 2 , "We all have the same roots, and we are all branches of the same tree."),
     Kanna(null , "Kanna" , 1 , false , "Cards/Water Tribes/Kanna.png" , 1 , "It's been so long since I've had hope, but you brought it back to life."),
     Katara(new Medic() , "Katara" , 10 , true , "Cards/Water Tribes/Katara.png" , 2 , "I will never , ever turn my back on people who need me!"),
-    Kya1(null , "Kya" , 2 , false , "Cards/Water Tribes/Kya Kataras Mom.png" , 0 , "Just let her go , and i'll give you the information you want."),
+    Kya1(null , "Kya " , 2 , false , "Cards/Water Tribes/Kya Kataras Mom.png" , 0 , "Just let her go , and i'll give you the information you want."),
     Kya2(new Agile() , "Kya" , 6 , false , "Cards/Water Tribes/Kya.png" , 0 , "You thing you're the responsible one? Where were you after dad died and mom was all alone?"),
     MingHua(null , "Ming Hua" , 7 , false , "Cards/Water Tribes/Ming Hua.png" , 1 , "We could have just taken the elevator. Show-off."),
     OldKatara(new Medic() , "Old Katara" , 5 , false , "Cards/Water Tribes/Old Katara.png" , 0 , "I will , turn my back on people who need me!"),

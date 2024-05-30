@@ -54,8 +54,7 @@ public class PreGameController {
         scrollPaneStyle = GameAssetManager.getGameAssetManager().getSkin().get("default", ScrollPane.ScrollPaneStyle.class);
 
         factionViewSetUp();
-        // for testing
-        setUpCards();
+        //TODO have to implement load saved deck and faction
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.top().left();
@@ -290,13 +289,7 @@ public class PreGameController {
         return stage;
     }
 
-    // for testing
-    private void setUpCards() {
-        for (int i = 0; i < 10; i++) {
-            addCardToStorage(CardObjects.Amon.getCard().clone());
-            addCardToStorage(CardObjects.DesnaAndEska.getCard().clone());
-            addCardToStorage(CardObjects.Due.getCard().clone());
-            addCardToStorage(CardObjects.Hakoda.getCard().clone());
-        }
+    public PreGame getPreGame() {
+        return preGame;
     }
 }

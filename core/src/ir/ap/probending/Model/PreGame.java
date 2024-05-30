@@ -15,7 +15,11 @@ public class PreGame {
         playerFaction = faction;
         deckCards.clear();
         storageCards.clear();
-        storageCards.addAll(faction.getCardArray());
+
+        ArrayList<Card> factionCards = faction.getCardArray();
+        //sort the faction cards arraylist by their power
+        factionCards.sort((card1, card2) -> card2.getPower() - card1.getPower());
+        storageCards.addAll(factionCards);
         PreGameController.getPreGameController().refreshLabels();
         PreGameController.getPreGameController().refreshStorageTable();
         PreGameController.getPreGameController().refreshDeckTable();
