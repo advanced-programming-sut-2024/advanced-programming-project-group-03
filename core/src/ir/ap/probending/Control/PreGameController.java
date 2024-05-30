@@ -157,16 +157,17 @@ public class PreGameController {
         try {
             ArrayList<String> cardNames = new ArrayList<>();
             storageTable.clear();
-            int count = storageCards.size();
-            for (int i = 0; i < count; i++) {
-                if (cardNames.contains(storageCards.get(i).getName())) {
+            storageTable.row();
+
+            for (Card storageCard : storageCards) {
+                if (cardNames.contains(storageCard.getName())) {
                     continue;
                 }
-                cardNames.add(storageCards.get(i).getName());
-                if (cardNames.size() % 5 == 0) {
+                cardNames.add(storageCard.getName());
+                if (cardNames.size() % 4 == 1) {
                     storageTable.row();
                 }
-                storageTable.add(storageCards.get(i)).pad(10);
+                storageTable.add(storageCard).pad(10);
             }
             refreshLabels();
         }
