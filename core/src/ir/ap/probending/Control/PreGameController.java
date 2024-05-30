@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
@@ -144,11 +145,11 @@ public class PreGameController {
         refreshStorageTable();
     }
 
-    private void refreshDeckTable() {
+    public void refreshDeckTable() {
         refreshTables(deckTable, preGame.getDeckCards());
     }
 
-    private void refreshStorageTable() {
+    public void refreshStorageTable() {
         refreshTables(storageTable, preGame.getStorageCards());
     }
 
@@ -174,7 +175,7 @@ public class PreGameController {
         }
     }
 
-    private void refreshLabels() {
+    public void refreshLabels() {
         int powerSum = 0;
         for (Card card : preGame.getDeckCards()) {
             powerSum += card.getPower();
@@ -196,7 +197,7 @@ public class PreGameController {
         waterTribeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                /*preGame.setPlayerFaction();*/
+                preGame.changeFaction(FactionObjects.WATER.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -204,7 +205,7 @@ public class PreGameController {
         earthKingdomButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                /*preGame.setPlayerFaction();*/
+                preGame.changeFaction(FactionObjects.EARTH.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -212,7 +213,7 @@ public class PreGameController {
         fireNationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                /*preGame.setPlayerFaction();*/
+                preGame.changeFaction(FactionObjects.FIRE.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -220,7 +221,7 @@ public class PreGameController {
         airNomadsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                /*preGame.setPlayerFaction();*/
+                preGame.changeFaction(FactionObjects.AIR.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });

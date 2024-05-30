@@ -2,6 +2,8 @@ package ir.ap.probending.Model.Card;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.ArrayList;
+
 public enum CardObjects {
     // water benders
     Amon(CardsInfo.Amon),
@@ -70,5 +72,42 @@ public enum CardObjects {
     }
     public Card getCard(){
         return card;
+    }
+    public static ArrayList<Card> getWaterCards(){
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(Amon.getCard().clone());
+        cards.add(DesnaAndEska.getCard().clone());
+        cards.add(DesnaAndEska.getCard().clone());
+        cards.add(Due.getCard().clone());
+        cards.add(Hakoda.getCard().clone());
+        cards.add(Hama.getCard().clone());
+        cards.add(Hasook.getCard().clone());
+        cards.add(Huu.getCard().clone());
+        cards.add(Kanna.getCard().clone());
+        cards.add(Katara.getCard().clone());
+        cards.add(Kya1.getCard().clone());
+        cards.add(Kya2.getCard().clone());
+        cards.add(MingHua.getCard().clone());
+        cards.add(OldKatara.getCard().clone());
+        cards.add(Pakku.getCard().clone());
+        cards.add(Senna.getCard().clone());
+        cards.add(ShadyShin.getCard().clone());
+        cards.add(Sokka.getCard().clone());
+        cards.add(Taqukaq.getCard().clone());
+        cards.add(Tarrlok.getCard().clone());
+        cards.add(Thano.getCard().clone());
+        cards.add(Tho.getCard().clone());
+        cards.add(Tonraq.getCard().clone());
+        cards.add(Unalaq.getCard().clone());
+        cards.add(Viper.getCard().clone());
+        cards.add(WaterKid.getCard().clone());
+        cards.add(WaterKid.getCard().clone());
+        cards.add(WaterSoldiers.getCard().clone());
+        cards.add(WaterSoldiers.getCard().clone());
+        cards.add(WaterSoldiers.getCard().clone());
+        cards.add(Yagoda.getCard().clone());
+        cards.add(Yakone.getCard().clone());
+        cards.add(Yue.getCard().clone());
+        return cards;
     }
 }
