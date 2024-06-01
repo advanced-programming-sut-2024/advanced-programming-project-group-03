@@ -4,35 +4,35 @@ import ir.ap.probending.Model.Card.Abilities.*;
 
 public enum CardsInfo {
     //WaterBenders
-    Amon(new Scorch(), "Amon", 8, false, "Cards/Water Tribes/Amon.png", 2 , "The era of bending is over! A new era of equality has begun!"),
-    DesnaAndEska(new TightBonds() , "Desna And Eska" , 3 , false , "Cards/Water Tribes/Desna and Eska.png" , 1 , "But i will not miss him at all. In the end , he became a deplorable man."),
-    Due(new Mardroeme() , "Due" , 2 , false , "Cards/Water Tribes/Due.png" , 2 , "You too ! That means we're kin!"),
-    Hakoda(new Berseker() , "Hakoda" , 4 , false , "Cards/Water Tribes/Hakoda.png" , 2 , "every night when i went to sleep , i would lie awake missing you so much"),
-    Hama(new Spy() , "Hama" , 5 , false , "Cards/Water Tribes/Hama.png", 0 , "They threw me in prison to rot, along with my brothers and sisters! They deserve the same! You must carry on the work."),
-    Hasook(null , "Hasook" , 4 , false , "Cards/Water Tribes/Hasook.png" , 1 , "Get off my case pal!"),
-    Huu(new Morale() , "Huu" , 2 , false , "Cards/Water Tribes/Huu.png" , 2 , "We all have the same roots, and we are all branches of the same tree."),
-    Kanna(null , "Kanna" , 1 , false , "Cards/Water Tribes/Kanna.png" , 1 , "It's been so long since I've had hope, but you brought it back to life."),
-    Katara(new Medic() , "Katara" , 10 , true , "Cards/Water Tribes/Katara.png" , 2 , "I will never , ever turn my back on people who need me!"),
-    Kya1(null , "Kya " , 2 , false , "Cards/Water Tribes/Kya Kataras Mom.png" , 0 , "Just let her go , and i'll give you the information you want."),
-    Kya2(new Agile() , "Kya" , 6 , false , "Cards/Water Tribes/Kya.png" , 0 , "You thing you're the responsible one? Where were you after dad died and mom was all alone?"),
-    MingHua(null , "Ming Hua" , 7 , false , "Cards/Water Tribes/Ming Hua.png" , 1 , "We could have just taken the elevator. Show-off."),
-    OldKatara(new Medic() , "Old Katara" , 5 , false , "Cards/Water Tribes/Old Katara.png" , 0 , "I will , turn my back on people who need me!"),
-    Pakku(new Agile() , "Pakku" , 9 , false , "Cards/Water Tribes/Pakku.png" , 2 , "It is respectful to bow to an old master , but how about a hug for your new grandfather?"),
-    Senna(null , "Senna" , 2  , false , "Cards/Water Tribes/Senna.png" , 0, "We knew one day the world would need you , and you wouldn't need us anymore."),
-    ShadyShin(null , "Shady Shin" , 2 , false , "Cards/Water Tribes/Shady Shin.png" , 2 , "Seeing those young crooks really gives me hope for the future."),
-    Sokka(new Morale() , "Sokka" , 10 , true , "Cards/Water Tribes/Sokka.png" , 2 , "That's all i got. it's pretty much my whole identity. Sokka , the meat and sarcasm guy"),
-    Taqukaq(null , "Taqukaq" , 7 , false , "Cards/Water Tribes/Taqukaq.png" , 0 , "Kindness is the path to understanding."),
-    Tarrlok(new Spy() , "Tarrlok" , 6 , false , "Cards/Water Tribes/Tarrlok.png" , 2 ,"That's what i admire about you , Korra. Your Willingness  to go extremes in order to get what you want. it is a quality we both share."),
-    Thano(new Agile() , "Thano" , 4 , false ,"Cards/Water Tribes/Thano.png" , 1 , "You boys smell something in here? Wait , I know what that is; yeah, that's the scent of losers"),
-    Tho(new Mardroeme() , "Tho" , 2 , false , "Cards/Water Tribes/Tho.png" , 0 , "Didn't know there was waterbenders anywhere but here. They got a nice swamp there , do they?"),
-    Tonraq(new Morale() , "Tonraq" , 6 , false , "Cards/Water Tribes/Tonraq.png" , 1 , "I was protecting you from the shame i brought on the family."),
-    Unalaq(new Berseker() , "Unalaq" , 5 , false , "Cards/Water Tribes/Unalaq.png" , 0 , "You call yourself the bridge between the two worlds , but there shouldn't be a bridge ; we should live together as one."),
-    Viper(null , "Viper" , 3 , false , "Cards/Water Tribes/Viper.png" , 0 , "Since you're obviously fresh of the boat , let me explain a couple things."),
-    WaterKid(new Muster() , "Water Kid" , 3 , false , "Cards/Water Tribes/Water Kid.png" , 1 , "A couple of more years and you might be ready to fight a sea sponge"),
-    WaterSoldiers(new Muster() , "Water Soldiers" , 2 , false , "Cards/Water Tribes/Water Soldiers.png" , 2 , "Onga Bonga"),
-    Yagoda(new Medic() , "Yagoda" , 5 , false , "Cards/Water Tribes/Yagoda.png" , 1 , "Are you here for the healing lesson?"),
-    Yakone(new Scorch() , "Yakone" , 7 , false , "Cards/Water Tribes/Yakone.png" , 2 , "Republic City is mine, Avatar. I'll be back one day to claim it."),
-    Yue(new Morale() , "Yue" , 9 , false , "Cards/Water Tribes/Yue.png" , 0 , "It gave me life. Maybe i can give it back."),
+    Amon(new Scorch(), "Amon", 8, false, "Cards/Water Tribes/Amon.png", 2, "The era of bending is over! A new era of equality has begun!"),
+    DesnaAndEska(new TightBonds(), "Desna And Eska", 3, false, "Cards/Water Tribes/Desna and Eska.png", 1, "But i will not miss him at all. In the end , he became a deplorable man."),
+    Due(new Mardroeme(), "Due", 2, false, "Cards/Water Tribes/Due.png", 2, "You too ! That means we're kin!"),
+    Hakoda(new Berseker(), "Hakoda", 4, false, "Cards/Water Tribes/Hakoda.png", 2, "every night when i went to sleep , i would lie awake missing you so much"),
+    Hama(new Spy(), "Hama", 5, false, "Cards/Water Tribes/Hama.png", 0, "They threw me in prison to rot, along with my brothers and sisters! They deserve the same! You must carry on the work."),
+    Hasook(null, "Hasook", 4, false, "Cards/Water Tribes/Hasook.png", 1, "Get off my case pal!"),
+    Huu(new Morale(), "Huu", 2, false, "Cards/Water Tribes/Huu.png", 2, "We all have the same roots, and we are all branches of the same tree."),
+    Kanna(null, "Kanna", 1, false, "Cards/Water Tribes/Kanna.png", 1, "It's been so long since I've had hope, but you brought it back to life."),
+    Katara(new Medic(), "Katara", 10, true, "Cards/Water Tribes/Katara.png", 2, "I will never , ever turn my back on people who need me!"),
+    Kya1(null, "Kya ", 2, false, "Cards/Water Tribes/Kya Kataras Mom.png", 0, "Just let her go , and i'll give you the information you want."),
+    Kya2(new Agile(), "Kya", 6, false, "Cards/Water Tribes/Kya.png", 0, "You thing you're the responsible one? Where were you after dad died and mom was all alone?"),
+    MingHua(null, "Ming Hua", 7, false, "Cards/Water Tribes/Ming Hua.png", 1, "We could have just taken the elevator. Show-off."),
+    OldKatara(new Medic(), "Old Katara", 5, false, "Cards/Water Tribes/Old Katara.png", 0, "I will , turn my back on people who need me!"),
+    Pakku(new Agile(), "Pakku", 9, false, "Cards/Water Tribes/Pakku.png", 2, "It is respectful to bow to an old master , but how about a hug for your new grandfather?"),
+    Senna(null, "Senna", 2, false, "Cards/Water Tribes/Senna.png", 0, "We knew one day the world would need you , and you wouldn't need us anymore."),
+    ShadyShin(null, "Shady Shin", 2, false, "Cards/Water Tribes/Shady Shin.png", 2, "Seeing those young crooks really gives me hope for the future."),
+    Sokka(new Morale(), "Sokka", 10, true, "Cards/Water Tribes/Sokka.png", 2, "That's all i got. it's pretty much my whole identity. Sokka , the meat and sarcasm guy"),
+    Taqukaq(null, "Taqukaq", 7, false, "Cards/Water Tribes/Taqukaq.png", 0, "Kindness is the path to understanding."),
+    Tarrlok(new Spy(), "Tarrlok", 6, false, "Cards/Water Tribes/Tarrlok.png", 2, "That's what i admire about you , Korra. Your Willingness  to go extremes in order to get what you want. it is a quality we both share."),
+    Thano(new Agile(), "Thano", 4, false, "Cards/Water Tribes/Thano.png", 1, "You boys smell something in here? Wait , I know what that is; yeah, that's the scent of losers"),
+    Tho(new Mardroeme(), "Tho", 2, false, "Cards/Water Tribes/Tho.png", 0, "Didn't know there was waterbenders anywhere but here. They got a nice swamp there , do they?"),
+    Tonraq(new Morale(), "Tonraq", 6, false, "Cards/Water Tribes/Tonraq.png", 1, "I was protecting you from the shame i brought on the family."),
+    Unalaq(new Berseker(), "Unalaq", 5, false, "Cards/Water Tribes/Unalaq.png", 0, "You call yourself the bridge between the two worlds , but there shouldn't be a bridge ; we should live together as one."),
+    Viper(null, "Viper", 3, false, "Cards/Water Tribes/Viper.png", 0, "Since you're obviously fresh of the boat , let me explain a couple things."),
+    WaterKid(new Muster(), "Water Kid", 3, false, "Cards/Water Tribes/Water Kid.png", 1, "A couple of more years and you might be ready to fight a sea sponge"),
+    WaterSoldiers(new Muster(), "Water Soldiers", 2, false, "Cards/Water Tribes/Water Soldiers.png", 2, "Onga Bonga"),
+    Yagoda(new Medic(), "Yagoda", 5, false, "Cards/Water Tribes/Yagoda.png", 1, "Are you here for the healing lesson?"),
+    Yakone(new Scorch(), "Yakone", 7, false, "Cards/Water Tribes/Yakone.png", 2, "Republic City is mine, Avatar. I'll be back one day to claim it."),
+    Yue(new Morale(), "Yue", 9, false, "Cards/Water Tribes/Yue.png", 0, "It gave me life. Maybe i can give it back."),
 
     //Fire benders
     Azula(null, "Azula", 9, false, "Cards/Fire Nation/Azula.png", 2, "Well what choice do I have? Trust is for fools! Fear is the only reliable way. Even you fear me."),
@@ -62,22 +62,60 @@ public enum CardsInfo {
     Ursa(new Medic(), "Ursa", 4, false, "Cards/Fire Nation/Ursa.png", 0, "Everything I've done, I've dont to protect you. Remember this, Zuko. No matter how things may seem to change, never forget who you are."),
     Warden(null, "Warden", 4, false, "Cards/Fire Nation/Warden.png", 1, "Take him below! One week in solitary will improve his manners."),
     Zhao(new Morale(), "Zhao", 4, false, "Cards/Fire Nation/Zhao.png", 1, "I am a legend now! The Fire Nation will for generations tell stories about the great Zhao who darkened the moon!"),
-    Zuko(null, "Zuko", 8, true, "Cards/Fire Nation/Zuko.png", 2, " the mark of the banished prince, cursed to chase the Avatar forever.");
+    Zuko(null, "Zuko", 8, true, "Cards/Fire Nation/Zuko.png", 2, " the mark of the banished prince, cursed to chase the Avatar forever."),
 
+    //Earth benders
+    Baatar(new CommandersHorn(), "Baatar",3,false,"Cards/Earth Kingdom/Baatar.png",0,""),
+    BaatarJr(new Spy(),"Baatar Jr",5,false,"Cards/Earth Kingdom/BaatarJr.png",0,""),
+    BaSingSeCaptain(null,"Ba Sing Se Captain",4,false,"Cards/Earth Kingdom/BaSingSeCaptain.png",1,""),
+    BigBadHippo(null,"Big Bad Hippo",3,false,"Cards/Earth Kingdom/BigBadHippo.png",2,""),
+    Bolin(new Agile(),"Bolin",8,false,"Cards/Earth Kingdom/Bolin.png",1,""),
+    Boqin(null,"Boqin",3,false,"Cards/Earth Kingdom/Boqin.png",1,""),
+    Boulder(null,"Boulder",3,false,"Cards/Earth Kingdom/Boulder.png",2,""),
+    Bumi(new Scorch(),"Bumi",9,false,"Cards/Earth Kingdom/Bumi.png",2,""),
+    CabbageMerchant(null,"Cabbage merchant",2,false,"Cards/Earth Kingdom/CabbageMerchant.png",1,""),
+    CalmMAn(null,"Calm Man",1,false,"Cards/Earth Kingdom/CalmMan.png",1,""),
+    Colossus(null,"Colossus",8,false,"Cards/Earth Kingdom/Colossus.png",0,""),
+    Jet(new Agile(),"Jet",4,false,"Cards/Earth Kingdom/Jet.png",2,""),
+    Kenji(null,"Kenji",2,false,"Cards/Earth Kingdom/Kenji.png",2,""),
+    KiyoshiWarriors(new Muster(),"Kiyoshi Warriors",3,false,"Cards/Earth Kingdom/KiyoshiWarriors.png",2,""),
+    Kong(null,"Kong",2,false,"Cards/Earth Kingdom/Kong.png",0,""),
+    Kuei(new CommandersHorn(),"Kuei",1,false,"Cards/Earth Kingdom/Kuei.png",0,""),
+    Kuji(null,"Kuji",2,false,"Cards/Earth Kingdom/Kuji.png",1,""),
+    Kuvira(null,"Kuvira",9,false,"Cards/Earth Kingdom/Kuvira.png",2,""),
+    LinBeifong(null,"Lin Beifong",9,false,"Cards/Earth Kingdom/LinBeifong.png",2,""),
+    LongFeng(new Spy(),"Long Feng",3,false,"Cards/Earth Kingdom/LongFeng.png",2,""),
+    OldTophBeifong(new Medic(),"Old Toph Beifong",6,false,"Cards/Earth Kingdom/OldTophBeifong.png",2,""),
+    OmashuCaptain(null,"Omashu Captain",3,false,"Cards/Earth Kingdom/OmashuCaptain.png",1,""),
+    OutpostSoldiers(new TightBonds(),"Outpost Soldiers",2,false,"Cards/Earth Kingdom/OutpostSoldiers.png",1,""),
+    Suki(null,"Suki",7,false,"Cards/Earth Kingdom/Suki.png",2,""),
+    SuyinBeifong(new Morale(),"Suyin Beifong",8,false,"Cards/Earth Kingdom/SuyinBeifong.png",1,""),
+    TophBeifong(null,"Toph Beifong",10,true,"Cards/Earth Kingdom/TophBeifong.png",2,""),
+    Aiwei(new Spy(), "Aiwei",2,false,"Cards/Earth Kingdom/Aiwei.png",1,""),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //Air Benders
+    Afico(new Spy(),"Afico",5,false,"Cards/Air Nomads/Afico.png",2,""),
+    AirBoy(new Muster(),"Air Boy",2,false,"Cards/Air Nomads/AirBoy.png",2,""),
+    BumiAir(new Morale(),"Bumi",9,false,"Cards/Air Nomads/Bumi.png",2,""),
+    Daw (new Medic(),"Daw",3,false,"Cards/Air Nomads/Daw.png",1,""),
+    Gyatso(new Medic(),"Gyatso",5,false,"Cards/Air Nomads/Gyatso.png",1,""),
+    Iio(new Morale(),"Iio",6,false,"Cards/Air Nomads/Iio.png",0,""),
+    Ikki(new Mardroeme(),"Ikki",1,false,"Cards/Air Nomads/Ikki.png",2,""),
+    Jinora(new Morale(),"Jinora",7,false,"Cards/Air Nomads/Jinora.png",0,""),
+    Kai(new Berseker(),"Kai",3,false,"Cards/Air Nomads/Kai.png",2,""),
+    Kelsang(new TightBonds(),"Kelsang",5,false,"Cards/Air Nomads/Kelsang.png",0,""),
+    Koun(new TightBonds(),"Koun",4,false,"Cards/Air Nomads/Koun.png",1,""),
+    Meelo(new CommandersHorn(),"Meelo",4,false,"Cards/Air Nomads/Meelo.png",0,""),
+    Opal(new Morale(),"Opal",2,false,"Cards/Air Nomads/Opal.png",0,""),
+    Otak(new Morale(),"Otaku",3,false,"Cards/Air Nomads/Otak.png",0,""),
+    Ryu(new Spy(),"Ryu",5,false,"Cards/Air Nomads/Ryu.png",2,""),
+    Tashi(new Medic(),"Tashi",8,false,"Cards/Air Nomads/Tashi.png",0,""),
+    Tenzin(new Morale(),"Tenzin",8,false,"Cards/Air Nomads/Tenzin.png",1,""),
+    Yung(new Scorch(),"Yung",6,false,"Cards/Air Nomads/Yung.png",1,""),
+    Zaheer(new Scorch(),"Zaheer",9,false,"Cards/Air Nomads/Zaheer.png",1,""),
+    Yangchen(null,"Yangchen",8,false,"Cards/Air Nomads/Yangchen.png",1,""),
+    Pasang(null,"Pasang",8,false, "Cards/Air Nomads/Pasang.png",0,""),
+    Aang(null,"Aang",10,true,"Cards/Air Nomads/Aang.png",2,"");
 
 
     private Ability ability;
@@ -87,7 +125,8 @@ public enum CardsInfo {
     boolean isHero;
     String pictureLocation;
     int playingRow;
-    CardsInfo(Ability ability, String name, int power, boolean isHero, String pictureLocation, int playingRow , String description) {
+
+    CardsInfo(Ability ability, String name, int power, boolean isHero, String pictureLocation, int playingRow, String description) {
         this.ability = ability;
         this.name = name;
         this.description = description;
