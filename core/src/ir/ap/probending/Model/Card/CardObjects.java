@@ -109,7 +109,7 @@ public enum CardObjects {
     Koun(CardsInfo.Koun),
     Meelo(CardsInfo.Meelo),
     Opal(CardsInfo.Opal),
-    Otak(CardsInfo.Otak),
+    Otak(CardsInfo.Otaku),
     Ryu(CardsInfo.Ryu),
     Tashi(CardsInfo.Tashi),
     Tenzin(CardsInfo.Tenzin),
@@ -118,7 +118,7 @@ public enum CardObjects {
     Yangchen(CardsInfo.Yangchen),
     Pasang(CardsInfo.Pasang),
     Aang(CardsInfo.Aang),
-    Afico(CardsInfo.Afico);
+    Afiko(CardsInfo.Afiko);
 
     private Card card;
 
