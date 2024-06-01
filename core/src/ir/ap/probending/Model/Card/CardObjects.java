@@ -94,17 +94,43 @@ public enum CardObjects {
     Suki(CardsInfo.Suki),
     SuyinBeifong(CardsInfo.SuyinBeifong),
     TophBeifong(CardsInfo.TophBeifong),
-    Baatar(CardsInfo.Baatar);
+    Baatar(CardsInfo.Baatar),
 
+    //Air Benders
+    AirBoy(CardsInfo.AirBoy),
+    BumiAir(CardsInfo.BumiAir),
+    Daw(CardsInfo.Daw),
+    Gyatso(CardsInfo.Gyatso),
+    Iio(CardsInfo.Iio),
+    Ikki(CardsInfo.Ikki),
+    Jinora(CardsInfo.Jinora),
+    Kai(CardsInfo.Kai),
+    Kelsang(CardsInfo.Kelsang),
+    Koun(CardsInfo.Koun),
+    Meelo(CardsInfo.Meelo),
+    Opal(CardsInfo.Opal),
+    Otak(CardsInfo.Otak),
+    Ryu(CardsInfo.Ryu),
+    Tashi(CardsInfo.Tashi),
+    Tenzin(CardsInfo.Tenzin),
+    Yung(CardsInfo.Yung),
+    Zaheer(CardsInfo.Zaheer),
+    Yangchen(CardsInfo.Yangchen),
+    Pasang(CardsInfo.Pasang),
+    Aang(CardsInfo.Aang),
+    Afico(CardsInfo.Afico);
 
     private Card card;
-    CardObjects(CardsInfo cardInfo){
-        this.card = new Card(cardInfo.getAbility() , cardInfo.getName() , cardInfo.getDescription() , cardInfo.getPower() , cardInfo.isHero() , new Texture(cardInfo.getPictureLocation()) , cardInfo.getPlayingRow());
+
+    CardObjects(CardsInfo cardInfo) {
+        this.card = new Card(cardInfo.getAbility(), cardInfo.getName(), cardInfo.getDescription(), cardInfo.getPower(), cardInfo.isHero(), new Texture(cardInfo.getPictureLocation()), cardInfo.getPlayingRow());
     }
-    public Card getCard(){
+
+    public Card getCard() {
         return card;
     }
-    public static ArrayList<Card> getWaterCards(){
+
+    public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(Amon.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
