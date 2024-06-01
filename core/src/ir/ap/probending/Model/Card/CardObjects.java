@@ -1,6 +1,7 @@
 package ir.ap.probending.Model.Card;
 
 import com.badlogic.gdx.graphics.Texture;
+import ir.ap.probending.Model.Card.Abilities.*;
 
 import java.util.ArrayList;
 
@@ -64,7 +65,37 @@ public enum CardObjects {
     Ursa(CardsInfo.Ursa),
     Warden(CardsInfo.Warden),
     Zhao(CardsInfo.Zhao),
-    Zuko(CardsInfo.Zuko);
+    Zuko(CardsInfo.Zuko),
+
+    //Earth Benders
+    Aiwei(CardsInfo.Aiwei),
+    BaatarJr(CardsInfo.BaatarJr),
+    BaSingSeCaptain(CardsInfo.BaSingSeCaptain),
+    BigBadHippo(CardsInfo.BigBadHippo),
+    Bolin(CardsInfo.Bolin),
+    Boqin(CardsInfo.Boqin),
+    Boulder(CardsInfo.Boulder),
+    Bumi(CardsInfo.Bumi),
+    CabbageMerchant(CardsInfo.CabbageMerchant),
+    CalmMan(CardsInfo.CalmMAn),
+    Colossus(CardsInfo.Colossus),
+    Jet(CardsInfo.Jet),
+    Kenji(CardsInfo.Kenji),
+    KiyoshiWarriors(CardsInfo.KiyoshiWarriors),
+    Kong(CardsInfo.Kong),
+    Kuei(CardsInfo.Kuei),
+    Kuji(CardsInfo.Kuji),
+    Kuvira(CardsInfo.Kuvira),
+    LinBeifong(CardsInfo.LinBeifong),
+    LongFeng(CardsInfo.LongFeng),
+    OldTophBeifong(CardsInfo.OldTophBeifong),
+    OmashuCaptain(CardsInfo.OmashuCaptain),
+    OutpostSoldiers(CardsInfo.OutpostSoldiers),
+    Suki(CardsInfo.Suki),
+    SuyinBeifong(CardsInfo.SuyinBeifong),
+    TophBeifong(CardsInfo.TophBeifong),
+    Baatar(CardsInfo.Baatar);
+
 
     private Card card;
     CardObjects(CardsInfo cardInfo){
