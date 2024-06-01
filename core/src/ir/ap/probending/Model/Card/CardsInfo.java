@@ -96,7 +96,7 @@ public enum CardsInfo {
     //Air Benders
     Afiko(new Spy(),"Afico",5,false,"Cards/Air Temples/Afiko.png",2,""),
     AirBoy(new Muster(),"Air Boy",2,false,"Cards/Air Temples/AirBoy.png",2,""),
-    BumiAir(new Morale(),"Bumi",9,false,"Cards/Air Temples/Bumi.png",2,""),
+    BumiAir(new Morale(),"Bumi ",9,false,"Cards/Air Temples/Bumi.png",2,""),
     Daw (new Medic(),"Daw",3,false,"Cards/Air Temples/Daw.png",1,""),
     Gyatso(new Medic(),"Gyatso",5,false,"Cards/Air Temples/Gyatso.png",1,""),
     Iio(new Morale(),"Iio",6,false,"Cards/Air Temples/Iio.png",0,""),

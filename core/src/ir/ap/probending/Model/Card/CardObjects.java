@@ -167,4 +167,95 @@ public enum CardObjects {
         cards.add(Yue.getCard().clone());
         return cards;
     }
+    public static ArrayList<Card> getAirCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(AirBoy.getCard().clone());
+        cards.add(BumiAir.getCard().clone());
+        cards.add(Daw.getCard().clone());
+        cards.add(Gyatso.getCard().clone());
+        cards.add(Iio.getCard().clone());
+        cards.add(Ikki.getCard().clone());
+        cards.add(Jinora.getCard().clone());
+        cards.add(Kai.getCard().clone());
+        cards.add(Kelsang.getCard().clone());
+        cards.add(Koun.getCard().clone());
+        cards.add(Meelo.getCard().clone());
+        cards.add(Opal.getCard().clone());
+        cards.add(Otak.getCard().clone());
+        cards.add(Ryu.getCard().clone());
+        cards.add(Tashi.getCard().clone());
+        cards.add(Tenzin.getCard().clone());
+        cards.add(Yung.getCard().clone());
+        cards.add(Zaheer.getCard().clone());
+        cards.add(Yangchen.getCard().clone());
+        cards.add(Pasang.getCard().clone());
+        cards.add(Aang.getCard().clone());
+        cards.add(Afiko.getCard().clone());
+        return cards;
+    }
+
+    public static ArrayList<Card> getEarthCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(Aiwei.getCard().clone());
+        cards.add(BaatarJr.getCard().clone());
+        cards.add(BaSingSeCaptain.getCard().clone());
+        cards.add(BigBadHippo.getCard().clone());
+        cards.add(Bolin.getCard().clone());
+        cards.add(Boqin.getCard().clone());
+        cards.add(Boulder.getCard().clone());
+        cards.add(Bumi.getCard().clone());
+        cards.add(CabbageMerchant.getCard().clone());
+        cards.add(CalmMan.getCard().clone());
+        cards.add(Colossus.getCard().clone());
+        cards.add(Jet.getCard().clone());
+        cards.add(Kenji.getCard().clone());
+        cards.add(KiyoshiWarriors.getCard().clone());
+        cards.add(Kong.getCard().clone());
+        cards.add(Kuei.getCard().clone());
+        cards.add(Kuji.getCard().clone());
+        cards.add(Kuvira.getCard().clone());
+        cards.add(LinBeifong.getCard().clone());
+        cards.add(LongFeng.getCard().clone());
+        cards.add(OldTophBeifong.getCard().clone());
+        cards.add(OmashuCaptain.getCard().clone());
+        cards.add(OutpostSoldiers.getCard().clone());
+        cards.add(Suki.getCard().clone());
+        cards.add(SuyinBeifong.getCard().clone());
+        cards.add(TophBeifong.getCard().clone());
+        cards.add(Baatar.getCard().clone());
+        return cards;
+    }
+
+    public static ArrayList<Card> getFireCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(Azula.getCard().clone());
+        cards.add(Azulon.getCard().clone());
+        cards.add(Buijing.getCard().clone());
+        cards.add(BullyGuard.getCard().clone());
+        cards.add(ChitSang.getCard().clone());
+        cards.add(CircusTrainer.getCard().clone());
+        cards.add(CombustionMan.getCard().clone());
+        cards.add(Councilwoman.getCard().clone());
+        cards.add(Druk.getCard().clone());
+        cards.add(EvilDruk.getCard().clone());
+        cards.add(FireSages.getCard().clone());
+        cards.add(Hide.getCard().clone());
+        cards.add(Iroh.getCard().clone());
+        cards.add(Jee.getCard().clone());
+        cards.add(JeongJeong.getCard().clone());
+        cards.add(Mako.getCard().clone());
+        cards.add(OldZuko.getCard().clone());
+        cards.add(Ozai.getCard().clone());
+        cards.add(Pli.getCard().clone());
+        cards.add(RoyalSoldiers.getCard().clone());
+        cards.add(Sozin.getCard().clone());
+        cards.add(SunWarriors.getCard().clone());
+        cards.add(TaxCollector.getCard().clone());
+        cards.add(TwoToedPing.getCard().clone());
+        cards.add(Ursa.getCard().clone());
+        cards.add(Warden.getCard().clone());
+        cards.add(Zhao.getCard().clone());
+        cards.add(Zuko.getCard().clone());
+        return cards;
+    }
 }
