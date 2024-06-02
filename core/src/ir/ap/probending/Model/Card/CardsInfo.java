@@ -69,7 +69,7 @@ public enum CardsInfo {
     BaatarJr(new Spy(),"Baatar Jr",5,false,"Cards/Earth Kingdom/BaatarJr.png",0,""),
     BaSingSeCaptain(null,"Ba Sing Se Captain",4,false,"Cards/Earth Kingdom/BaSingSeCaptain.png",1,""),
     BigBadHippo(null,"Big Bad Hippo",3,false,"Cards/Earth Kingdom/BigBadHippo.png",2,""),
-    Bolin(new Agile(),"Bolin",8,false,"Cards/Earth Kingdom/Bolin.png",1,""),
+    Bolin(new Agile(),"Bolin",6,false,"Cards/Earth Kingdom/Bolin.png",1,""),
     Boqin(null,"Boqin",3,false,"Cards/Earth Kingdom/Boqin.png",1,""),
     Boulder(null,"Boulder",3,false,"Cards/Earth Kingdom/Boulder.png",2,""),
     Bumi(new Scorch(),"Bumi",9,false,"Cards/Earth Kingdom/Bumi.png",2,""),
@@ -89,7 +89,7 @@ public enum CardsInfo {
     OmashuCaptain(null,"Omashu Captain",3,false,"Cards/Earth Kingdom/OmashuCaptain.png",1,""),
     OutpostSoldiers(new TightBonds(),"Outpost Soldiers",2,false,"Cards/Earth Kingdom/OutpostSoldiers.png",1,""),
     Suki(null,"Suki",7,false,"Cards/Earth Kingdom/Suki.png",2,""),
-    SuyinBeifong(new Morale(),"Suyin Beifong",8,false,"Cards/Earth Kingdom/SuyinBeifong.png",1,""),
+    SuyinBeifong(new Morale(),"Suyin Beifong",6,false,"Cards/Earth Kingdom/SuyinBeifong.png",1,""),
     TophBeifong(null,"Toph Beifong",10,true,"Cards/Earth Kingdom/TophBeifong.png",2,""),
     Aiwei(new Spy(), "Aiwei",2,false,"Cards/Earth Kingdom/Aiwei.png",1,""),
 

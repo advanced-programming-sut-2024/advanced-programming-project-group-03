@@ -17,6 +17,8 @@ public class GameAssetManager {
     private final String earthKingdomCard = "FactionCards/earth.png";
     private final String fireNationCard = "FactionCards/fire.png";
     private final String airNomadsCard = "FactionCards/air.png";
+    private final String paisho = "paisho.jpg";
+    private final String nations = "nations.jpg";
 
     //sfx
     private final String bgMenuMusic = "SFX/Musics/bgmenu.mp3";
@@ -158,5 +160,12 @@ public class GameAssetManager {
     }
     public String getMenuMusic() {
         return bgMenuMusic;
+    }
+    public String getPaisho() {
+        return paisho;
+    }
+
+    public String getNations() {
+        return nations;
     }
 }

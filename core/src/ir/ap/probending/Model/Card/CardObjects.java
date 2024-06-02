@@ -210,6 +210,8 @@ public enum CardObjects {
         cards.add(Jet.getCard().clone());
         cards.add(Kenji.getCard().clone());
         cards.add(KiyoshiWarriors.getCard().clone());
+        cards.add(KiyoshiWarriors.getCard().clone());
+        cards.add(KiyoshiWarriors.getCard().clone());
         cards.add(Kong.getCard().clone());
         cards.add(Kuei.getCard().clone());
         cards.add(Kuji.getCard().clone());
@@ -218,6 +220,7 @@ public enum CardObjects {
         cards.add(LongFeng.getCard().clone());
         cards.add(OldTophBeifong.getCard().clone());
         cards.add(OmashuCaptain.getCard().clone());
+        cards.add(OutpostSoldiers.getCard().clone());
         cards.add(OutpostSoldiers.getCard().clone());
         cards.add(Suki.getCard().clone());
         cards.add(SuyinBeifong.getCard().clone());

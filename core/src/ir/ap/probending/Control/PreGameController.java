@@ -41,10 +41,13 @@ public class PreGameController {
     private ScrollPane.ScrollPaneStyle storageScrollPaneStyle;
     private ScrollPane.ScrollPaneStyle deckScrollPaneStyle;
     private final Stage stage;
-    private final Label powerSumLabel = new Label("Power Sum: 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label powerSumLabel = new Label("Total Power: 0", GameAssetManager.getGameAssetManager().getSkin());
     private final Label cardCountLabel = new Label("Card Count: 0", GameAssetManager.getGameAssetManager().getSkin());
-    Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-    Pixmap pixmap2 = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+    private final Label specialCardCount = new Label("Special Cards : 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label normalCardCount = new Label("Unit Cards : 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label heroCardCount = new Label("Hero Cards : 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label deckCards = new Label("Deck", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label storageCards = new Label("Storage", GameAssetManager.getGameAssetManager().getSkin());
 
     private PreGameController(Stage stage) {
         this.stage = stage;
@@ -54,6 +57,7 @@ public class PreGameController {
         scrollPaneStyle = GameAssetManager.getGameAssetManager().getSkin().get("default", ScrollPane.ScrollPaneStyle.class);
 
         factionViewSetUp();
+        labelsViewSetUp();
         //TODO have to implement load saved deck and faction
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -85,19 +89,10 @@ public class PreGameController {
         storageScrollPane.setSize(900, 700);
         deckScrollPane.setSize(900, 700);
 
-        pixmap.setColor(Color.RED);
-        pixmap.fill();
-        pixmap2.setColor(Color.BLUE);
-        pixmap2.fill();
-        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-        TextureRegionDrawable drawable2 = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap2)));
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
+        TextureRegionDrawable drawable2 = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
         storageTable.setBackground(drawable);
         deckTable.setBackground(drawable2);
-
-        stage.addActor(powerSumLabel);
-        stage.addActor(cardCountLabel);
-        powerSumLabel.setPosition(60, 900);
-        cardCountLabel.setPosition(400, 900);
 
     }
 
@@ -126,21 +121,25 @@ public class PreGameController {
 
     public void addCardToDeck(Card card) {
         preGame.getDeckCards().add(card);
+        sortCards();
         refreshDeckTable();
     }
 
     public void addCardToStorage(Card card) {
         preGame.getStorageCards().add(card);
+        sortCards();
         refreshStorageTable();
     }
 
     public void removeCardFromDeck(Card card) {
         preGame.getDeckCards().remove(card);
+        sortCards();
         refreshDeckTable();
     }
 
     public void removeCardFromStorage(Card card) {
         preGame.getStorageCards().remove(card);
+        sortCards();
         refreshStorageTable();
     }
 
@@ -175,6 +174,10 @@ public class PreGameController {
         }
     }
 
+    private void sortCards(){
+        preGame.getStorageCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+        preGame.getDeckCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+    }
     public void refreshLabels() {
         int powerSum = 0;
         for (Card card : preGame.getDeckCards()) {
@@ -182,6 +185,27 @@ public class PreGameController {
         }
         powerSumLabel.setText("Power Sum: " + powerSum);
         cardCountLabel.setText("Card Count: " + preGame.getDeckCards().size());
+
+        int specialCount = 0;
+        int normalCount = 0;
+        int heroCount = 0;
+
+        for (Card card : preGame.getDeckCards()) {
+            if (card.isHero()){
+                heroCount++;
+                normalCount++;
+            }
+            else if (card.getPlayingRow() == 6){
+                specialCount++;
+            }
+            else {
+                normalCount++;
+            }
+        }
+
+        specialCardCount.setText("Special Cards: " + specialCount);
+        normalCardCount.setText("Unit Cards: " + normalCount);
+        heroCardCount.setText("Hero Cards: " + heroCount);
     }
 
     private void setChangeFactionButton() {
@@ -265,6 +289,23 @@ public class PreGameController {
         earthKingdomButton.setStyle(earthKingdomButtonStyle);
 
 
+    }
+
+    private void labelsViewSetUp(){
+        stage.addActor(powerSumLabel);
+        stage.addActor(cardCountLabel);
+        powerSumLabel.setPosition(60, 100);
+        cardCountLabel.setPosition(360, 100);
+        stage.addActor(specialCardCount);
+        stage.addActor(normalCardCount);
+        stage.addActor(heroCardCount);
+        specialCardCount.setPosition(660, 100);
+        normalCardCount.setPosition(960, 100);
+        heroCardCount.setPosition(1260, 100);
+        stage.addActor(deckCards);
+        stage.addActor(storageCards);
+        deckCards.setPosition((float) Gdx.graphics.getWidth() - 960, 900);
+        storageCards.setPosition(60, 900);
     }
 
     //getters and setters
