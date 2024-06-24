@@ -1,8 +1,8 @@
 package ir.ap.probending.Model.Card.Abilities;
 
-import ir.ap.probending.Model.Board;
+import ir.ap.probending.Model.Game.Board;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.GameBoard;
+import ir.ap.probending.Model.Game.GameBoard;
 
 public class TightBonds extends Ability{
     public void executeAbility(Card card) {

@@ -20,15 +20,10 @@ public class MainMenuScreen implements Screen {
     private ProBending game;
     private SpriteBatch batch;
     private Stage stage;
-    private Animation<TextureRegion> bgAnimation;
-    private float elapsedTime = 0;
 
     public MainMenuScreen(ProBending game) {
         this.game = game;
         this.batch = game.batch;
-
-        TextureRegion[] frames = GameAssetManager.getGameAssetManager().getBgAppaFrames();
-        bgAnimation = new Animation<TextureRegion>(0.1f, frames);
     }
     @Override
     public void show() {
@@ -41,17 +36,12 @@ public class MainMenuScreen implements Screen {
         PickQuestionMenuController.getPickQuestionMenuController().handlePickQuestionMenuButtons(game);
         ProfileController.getProfileController().handleProfileButtons(game);
         MainMenuController.getMainMenuController().handleMainMenuButtons(game);
-
-
     }
 
     @Override
     public void render(float v) {
         ScreenUtils.clear(1, 1, 1, 1);
-        elapsedTime += v;
-        TextureRegion currentFrame = bgAnimation.getKeyFrame(elapsedTime, true);
         batch.begin();
-        //batch.draw(currentFrame, 0, 0);
         stage.draw();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.end();

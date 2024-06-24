@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class GameAssetManager {
     private static GameAssetManager gameAssetManager = new GameAssetManager();
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
-    private final Image backgroundImage = new Image(new Texture(Gdx.files.internal("bg.jpg")));
+    private final String backgroundImage = "bg.jpg";
+    private final String gameBoardImage = "board.jpg";
     private final String saveDataUserLocation = "users.json";
     private final String liveAppaBackgroundLocation = "bgliveappa.gif";
     private final String waterTribeCard = "FactionCards/water.png";
@@ -134,7 +135,7 @@ public class GameAssetManager {
     public Skin getSkin() {
         return skin;
     }
-    public Image getBackground() {
+    public String getBackground() {
         return backgroundImage;
     }
     public String getSaveDataUserLocation() {
@@ -167,5 +168,9 @@ public class GameAssetManager {
 
     public String getNations() {
         return nations;
+    }
+
+    public String getGameBoardImage() {
+        return gameBoardImage;
     }
 }

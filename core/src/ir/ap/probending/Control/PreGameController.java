@@ -1,23 +1,19 @@
 package ir.ap.probending.Control;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Factions.FactionObjects;
-import ir.ap.probending.Model.PreGame;
+import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 import java.util.ArrayList;
@@ -25,7 +21,6 @@ import java.util.ArrayList;
 
 public class PreGameController {
     private static PreGameController preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
-    private final PreGame preGame = new PreGame();
     private final Table table = new Table();
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
@@ -35,6 +30,7 @@ public class PreGameController {
     private final ImageButton earthKingdomButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton fireNationButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton airNomadsButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
+    private final TextButton playGameButton = new TextButton("Play Game", GameAssetManager.getGameAssetManager().getSkin());
     private final ScrollPane storageScrollPane = new ScrollPane(storageTable);
     private final ScrollPane deckScrollPane = new ScrollPane(deckTable);
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
@@ -94,18 +90,33 @@ public class PreGameController {
         storageTable.setBackground(drawable);
         deckTable.setBackground(drawable2);
 
+        stage.addActor(playGameButton);
+        playGameButton.setPosition(1500 , 50);
+
+    }
+
+    public void setPlayGameButton(ProBending game){
+        playGameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.getScreen().dispose();
+                game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
+                Game.startGame();
+            }
+        });
     }
 
     public void handlePreGameController(ProBending game) {
+        setPlayGameButton(game);
         setChangeFactionButton();
     }
 
     public int getCardNumber(Card card) {
         ArrayList<Card> allCards;
-        if (preGame.getDeckCards().contains(card)) {
-            allCards = preGame.getDeckCards();
-        } else if (preGame.getStorageCards().contains(card)) {
-            allCards = preGame.getStorageCards();
+        if (PreGame.getPreGame().getDeckCards().contains(card)) {
+            allCards = PreGame.getPreGame().getDeckCards();
+        } else if (PreGame.getPreGame().getStorageCards().contains(card)) {
+            allCards = PreGame.getPreGame().getStorageCards();
         } else {
             return 0;
         }
@@ -120,35 +131,35 @@ public class PreGameController {
     }
 
     public void addCardToDeck(Card card) {
-        preGame.getDeckCards().add(card);
+        PreGame.getPreGame().getDeckCards().add(card);
         sortCards();
         refreshDeckTable();
     }
 
     public void addCardToStorage(Card card) {
-        preGame.getStorageCards().add(card);
+        PreGame.getPreGame().getStorageCards().add(card);
         sortCards();
         refreshStorageTable();
     }
 
     public void removeCardFromDeck(Card card) {
-        preGame.getDeckCards().remove(card);
+        PreGame.getPreGame().getDeckCards().remove(card);
         sortCards();
         refreshDeckTable();
     }
 
     public void removeCardFromStorage(Card card) {
-        preGame.getStorageCards().remove(card);
+        PreGame.getPreGame().getStorageCards().remove(card);
         sortCards();
         refreshStorageTable();
     }
 
     public void refreshDeckTable() {
-        refreshTables(deckTable, preGame.getDeckCards());
+        refreshTables(deckTable, PreGame.getPreGame().getDeckCards());
     }
 
     public void refreshStorageTable() {
-        refreshTables(storageTable, preGame.getStorageCards());
+        refreshTables(storageTable, PreGame.getPreGame().getStorageCards());
     }
 
     private void refreshTables(Table storageTable, ArrayList<Card> storageCards) {
@@ -175,22 +186,22 @@ public class PreGameController {
     }
 
     private void sortCards(){
-        preGame.getStorageCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
-        preGame.getDeckCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+        PreGame.getPreGame().getStorageCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+        PreGame.getPreGame().getDeckCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
     }
     public void refreshLabels() {
         int powerSum = 0;
-        for (Card card : preGame.getDeckCards()) {
+        for (Card card : PreGame.getPreGame().getDeckCards()) {
             powerSum += card.getPower();
         }
         powerSumLabel.setText("Power Sum: " + powerSum);
-        cardCountLabel.setText("Card Count: " + preGame.getDeckCards().size());
+        cardCountLabel.setText("Card Count: " + PreGame.getPreGame().getDeckCards().size());
 
         int specialCount = 0;
         int normalCount = 0;
         int heroCount = 0;
 
-        for (Card card : preGame.getDeckCards()) {
+        for (Card card : PreGame.getPreGame().getDeckCards()) {
             if (card.isHero()){
                 heroCount++;
                 normalCount++;
@@ -221,7 +232,7 @@ public class PreGameController {
         waterTribeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                preGame.changeFaction(FactionObjects.WATER.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -229,7 +240,7 @@ public class PreGameController {
         earthKingdomButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                preGame.changeFaction(FactionObjects.EARTH.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -237,7 +248,7 @@ public class PreGameController {
         fireNationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                preGame.changeFaction(FactionObjects.FIRE.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -245,7 +256,7 @@ public class PreGameController {
         airNomadsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                preGame.changeFaction(FactionObjects.AIR.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone());
                 changeFactionWindow.setVisible(false);
             }
         });
@@ -330,7 +341,4 @@ public class PreGameController {
         return stage;
     }
 
-    public PreGame getPreGame() {
-        return preGame;
-    }
 }

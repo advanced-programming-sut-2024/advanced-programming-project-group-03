@@ -34,7 +34,6 @@ public class ForgetPasswordController {
     private User selectedUser;
 
     private ForgetPasswordController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setFillParent(true);
         table.center();
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());

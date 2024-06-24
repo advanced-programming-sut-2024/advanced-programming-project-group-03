@@ -1,8 +1,7 @@
 package ir.ap.probending.Model.Card.Abilities;
 
-import com.badlogic.gdx.Game;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.GameBoard;
+import ir.ap.probending.Model.Game.GameBoard;
 
 public class Spy extends Ability {
     public void executeAbility(Card card) {

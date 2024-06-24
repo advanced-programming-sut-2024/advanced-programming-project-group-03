@@ -61,7 +61,6 @@ public class ProfileController {
 
 
     private ProfileController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();

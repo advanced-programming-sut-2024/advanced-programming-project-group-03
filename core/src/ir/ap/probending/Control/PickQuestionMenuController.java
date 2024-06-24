@@ -31,7 +31,6 @@ public class PickQuestionMenuController {
     private String selectedNickname;
 
     private PickQuestionMenuController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setFillParent(true);
         table.center();
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());

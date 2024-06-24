@@ -41,7 +41,6 @@ public class SignInController {
     private boolean showPassword = false;
 
     private SignInController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setFillParent(true);
         table.center();
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());

@@ -34,7 +34,6 @@ public class LoginController {
     private final Label passwordLabel = new Label("Password", GameAssetManager.getGameAssetManager().getSkin());
 
     private LoginController() {
-        table.addActor(GameAssetManager.getGameAssetManager().getBackground());
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
