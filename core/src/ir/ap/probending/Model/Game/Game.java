@@ -26,7 +26,7 @@ public class Game {
         //add hand cards of player1 to view
         int cardInRowCount = 0;
         for (int i = 0; i < GameBoard.getPlayer1().getHand().size(); i++) {
-            GameBoard.getPlayer1Board().addCardToHand(GameBoard.getPlayer1().getHand().get(i));
+            GameBoard.getPlayer1Board().addCardToHand(GameBoard.getPlayer1().getHand().get(i).clone2());
             GameBoard.getPlayer1Board().getHand().get(i).getSprite().setSize(150, 300);
             GameUIController.getGameUIController().getPlayerHandTable().add(GameBoard.getPlayer1Board().getHand().get(i)).pad(0);
             cardInRowCount++;
