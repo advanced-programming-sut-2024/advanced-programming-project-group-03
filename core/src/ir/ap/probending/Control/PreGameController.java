@@ -101,7 +101,7 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 game.getScreen().dispose();
                 game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
-                Game.startGame();
+                Game.getGame().startGame();
             }
         });
     }

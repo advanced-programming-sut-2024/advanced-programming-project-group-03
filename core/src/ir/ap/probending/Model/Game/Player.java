@@ -9,6 +9,7 @@ public class Player {
     private User user;
     private ArrayList<Card> deck;
     private ArrayList<Card> hand;
+    private ArrayList<Card> burntCards = new ArrayList<>();
 
     public Player(User user) {
         this.user = user;
@@ -26,6 +27,22 @@ public class Player {
 
     public void addCardsToDeck(ArrayList<Card> cards) {
         deck.addAll(cards);
+    }
+
+    public void addCardToHand(Card card) {
+        hand.add(card);
+    }
+
+    public void removeCardFromHand(Card card) {
+        hand.remove(card);
+    }
+
+    public void addCardToBurntCards(Card card) {
+        burntCards.add(card);
+    }
+
+    public void removeCardFromBurntCards(Card card) {
+        burntCards.remove(card);
     }
 
     //getters and setters
@@ -52,5 +69,13 @@ public class Player {
 
     public ArrayList<Card> getHand() {
         return hand;
+    }
+
+    public ArrayList<Card> getBurntCards() {
+        return burntCards;
+    }
+
+    public void setBurntCards(ArrayList<Card> burntCards) {
+        this.burntCards = burntCards;
     }
 }

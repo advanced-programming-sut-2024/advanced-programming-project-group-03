@@ -2,12 +2,13 @@ package ir.ap.probending.Model.Card.Abilities;
 
 import ir.ap.probending.Model.Game.Board;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.Game.GameBoard;
 
 public class CommandersHorn extends Ability{
     public void executeAbility(Card card) {
-        Board player1Board = GameBoard.getPlayer1Board();
-        Board player2Board = GameBoard.getPlayer2Board();
+        Board player1Board = Game.getGame().getGameBoard().getPlayer1Board();
+        Board player2Board = Game.getGame().getGameBoard().getPlayer2Board();
         int row;
         if (player1Board.hasCard(card)) {
             row = player1Board.findCard(card)[0];

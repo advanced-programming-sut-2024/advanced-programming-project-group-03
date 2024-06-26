@@ -7,60 +7,11 @@ import java.util.List;
 
 public class Board {
     private Card commander;
-    private ArrayList<Card> hand = new ArrayList<>();
     private ArrayList<Card> closeCombat = new ArrayList<>();
     private ArrayList<Card> ranged = new ArrayList<>();
     private ArrayList<Card> siege = new ArrayList<>();
     private Card special;
-    private ArrayList<Card> burntCards = new ArrayList<>();
 
-    public Card getCommander() {
-        return commander;
-    }
-
-    public void setCommander(Card commander) {
-        this.commander = commander;
-    }
-
-    public ArrayList<Card> getCloseCombat() {
-        return closeCombat;
-    }
-
-    public void setCloseCombat(ArrayList<Card> closeCombat) {
-        this.closeCombat = closeCombat;
-    }
-
-    public ArrayList<Card> getRanged() {
-        return ranged;
-    }
-
-    public void setRanged(ArrayList<Card> ranged) {
-        this.ranged = ranged;
-    }
-
-    public ArrayList<Card> getSiege() {
-        return siege;
-    }
-
-    public void setSiege(ArrayList<Card> siege) {
-        this.siege = siege;
-    }
-
-    public Card getSpecial() {
-        return special;
-    }
-
-    public void setSpecial(Card special) {
-        this.special = special;
-    }
-
-    public ArrayList<Card> getBurntCards() {
-        return burntCards;
-    }
-
-    public void setBurntCards(ArrayList<Card> burntCards) {
-        this.burntCards = burntCards;
-    }
 
     public Card getCard(int i, int j) {
         if (i == 0) {
@@ -130,12 +81,44 @@ public class Board {
         }
     }
 
-    public void addCardToHand(Card card) {
-        hand.add(card);
+    public Card getCommander() {
+        return commander;
     }
 
-
-    public ArrayList<Card> getHand() {
-        return hand;
+    public void setCommander(Card commander) {
+        this.commander = commander;
     }
+
+    public ArrayList<Card> getCloseCombat() {
+        return closeCombat;
+    }
+
+    public void setCloseCombat(ArrayList<Card> closeCombat) {
+        this.closeCombat = closeCombat;
+    }
+
+    public ArrayList<Card> getRanged() {
+        return ranged;
+    }
+
+    public void setRanged(ArrayList<Card> ranged) {
+        this.ranged = ranged;
+    }
+
+    public ArrayList<Card> getSiege() {
+        return siege;
+    }
+
+    public void setSiege(ArrayList<Card> siege) {
+        this.siege = siege;
+    }
+
+    public Card getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(Card special) {
+        this.special = special;
+    }
+
 }

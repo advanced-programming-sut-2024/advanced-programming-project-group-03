@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Factions.FactionObjects;
+import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
@@ -91,108 +92,129 @@ public class GameUIController {
         cardImage.setVisible(true);
     }
 
+    private void setAllCanPlaceCardToFalse(){
+        canPlaceCardOnRow0 = false;
+        canPlaceCardOnRow1 = false;
+        canPlaceCardOnRow2 = false;
+        canPlaceCardOnRow3 = false;
+        canPlaceCardOnRow4 = false;
+        canPlaceCardOnRow5 = false;
+        canPlaceCardOnSpellRow = false;
+    }
+
+    private void rowClickAction(boolean canPlaceCard , Table table){
+        if (canPlaceCard && clickedCard != null){
+            table.add(clickedCard).pad(10);
+            setAllCanPlaceCardToFalse();
+            Game.getGame().playCard(clickedCard);
+        }
+    }
+
     private void eventListenersForTables(){
         row0ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnRow0 && clickedCard != null){
-                    row0Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow0, row0Table);
             }
         });
 
         row1ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnRow1 && clickedCard != null){
-                    row1Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow1, row1Table);
             }
         });
 
         row2ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
-                if (canPlaceCardOnRow2 && clickedCard != null){
-                    row2Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow2, row2Table);
             }
         });
 
         row3ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnRow3 && clickedCard != null){
-                    row3Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow3, row3Table);
             }
         });
 
         row4ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnRow4 && clickedCard != null){
-                    row4Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow4, row4Table);
             }
         });
 
         row5ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnRow5 && clickedCard != null){
-                    row5Table.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnRow5, row5Table);
             }
         });
 
         spellRowScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (canPlaceCardOnSpellRow && clickedCard != null){
-                    spellRowTable.add(clickedCard).size(100, 130).pad(5);
-                }
+                rowClickAction(canPlaceCardOnSpellRow, spellRowTable);
             }
         });
+
     }
 
     public void updateRowTable(ArrayList<Card> row0, ArrayList<Card> row1, ArrayList<Card> row2, ArrayList<Card> row3, ArrayList<Card> row4, ArrayList<Card> row5){
         row0Table.clear();
+        int i = 0;
         for (Card card : row0){
-            row0Table.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row0Table.row();
+            i++;
+            row0Table.add(card).size(100, 130).pad(10);
         }
 
         row1Table.clear();
+        i = 0;
         for (Card card : row1){
-            row1Table.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row1Table.row();
+            i++;
+            row1Table.add(card).size(100, 130).pad(10);
         }
 
         row2Table.clear();
+        i = 0;
         for (Card card : row2){
-            row2Table.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row2Table.row();
+            i++;
+            row2Table.add(card).size(100, 130).pad(10);
         }
 
         row3Table.clear();
+        i = 0;
         for (Card card : row3){
-            row3Table.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row3Table.row();
+            i++;
+            row3Table.add(card).size(100, 130).pad(10);
         }
 
         row4Table.clear();
+        i = 0;
         for (Card card : row4){
-            row4Table.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row4Table.row();
+            i++;
+            row4Table.add(card).size(100, 130).pad(10);
         }
 
         row5Table.clear();
+        i = 0;
         for (Card card : row5){
-            row5Table.add(card).size(100, 130).pad(5);
-        }
-    }
-
-    public void updateHandTable(ArrayList<Card> hand){
-        playerHandTable.clear();
-        for (Card card : hand){
-            playerHandTable.add(card).size(100, 130).pad(5);
+            if (i % 5 == 0)
+                row5Table.row();
+            i++;
+            row5Table.add(card).size(100, 130).pad(10);
         }
     }
 
