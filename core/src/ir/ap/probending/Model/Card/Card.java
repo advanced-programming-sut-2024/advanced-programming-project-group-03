@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
-import com.badlogic.gdx.Gdx;
+import ir.ap.probending.Model.Game.Game;
 
 
 public class Card extends Actor {
@@ -113,22 +113,22 @@ public class Card extends Actor {
                 if (GameUIController.getGameUIController().getPlayerHandTable().getChildren().contains(Card.this, true) && isClicked) {
                     switch (Card.this.getPlayingRow()) {
                         case 0:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
                             break;
                         case 1:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
                             break;
                         case 2:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
-                            break;
-                        case 3:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
-                            break;
-                        case 4:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
-                            break;
-                        case 5:
-                            GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
                             break;
                         case 6:
                             GameUIController.getGameUIController().setCanPlaceCardOnSpellRow(true);

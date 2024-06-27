@@ -7,16 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.Game.Game;
-import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
-import java.util.ArrayList;
 
 
 public class GameUIController {
@@ -26,6 +22,25 @@ public class GameUIController {
     private final Image cardImage = new Image();
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
     TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
+    private final Label player1Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label currentTurnPlayerUsername = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton passButton = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window setEndDialog = new Window("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label setWinnerLabel = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
     private final Table row0Table = new Table();
@@ -79,7 +94,12 @@ public class GameUIController {
         addRow5TableView();
         addSpellRowTableView();
         eventListenersForTables();
-
+        addPassButtonsView();
+        addPassLabels();
+        addEndGameDialog();
+        addCurrentTurnUserNameToView();
+        addPowerSumLabels();
+        addSetWonLabels();
     }
 
     //functionality methods
@@ -107,6 +127,7 @@ public class GameUIController {
             table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
             Game.getGame().playCard(clickedCard);
+            cardImage.setVisible(false);
         }
     }
 
@@ -162,63 +183,31 @@ public class GameUIController {
 
     }
 
-    public void updateRowTable(ArrayList<Card> row0, ArrayList<Card> row1, ArrayList<Card> row2, ArrayList<Card> row3, ArrayList<Card> row4, ArrayList<Card> row5){
-        row0Table.clear();
-        int i = 0;
-        for (Card card : row0){
-            if (i % 5 == 0)
-                row0Table.row();
-            i++;
-            row0Table.add(card).size(100, 130).pad(10);
-        }
-
-        row1Table.clear();
-        i = 0;
-        for (Card card : row1){
-            if (i % 5 == 0)
-                row1Table.row();
-            i++;
-            row1Table.add(card).size(100, 130).pad(10);
-        }
-
-        row2Table.clear();
-        i = 0;
-        for (Card card : row2){
-            if (i % 5 == 0)
-                row2Table.row();
-            i++;
-            row2Table.add(card).size(100, 130).pad(10);
-        }
-
-        row3Table.clear();
-        i = 0;
-        for (Card card : row3){
-            if (i % 5 == 0)
-                row3Table.row();
-            i++;
-            row3Table.add(card).size(100, 130).pad(10);
-        }
-
-        row4Table.clear();
-        i = 0;
-        for (Card card : row4){
-            if (i % 5 == 0)
-                row4Table.row();
-            i++;
-            row4Table.add(card).size(100, 130).pad(10);
-        }
-
-        row5Table.clear();
-        i = 0;
-        for (Card card : row5){
-            if (i % 5 == 0)
-                row5Table.row();
-            i++;
-            row5Table.add(card).size(100, 130).pad(10);
-        }
+    public void showSetEndDialog(String text){
+        setEndDialog.setVisible(true);
+        setWinnerLabel.setText(text);
     }
 
+    public void showPassForPlayer1(){
+        passForPlayer1.setVisible(true);
+    }
+
+    public void showPassForPlayer2(){
+        passForPlayer2.setVisible(true);
+    }
+
+    public void hidePassForPlayer1(){
+        passForPlayer1.setVisible(false);
+    }
+
+    public void hidePassForPlayer2(){
+        passForPlayer2.setVisible(false);
+    }
+
+
+
     //add view methods for cleaner code
+
     private void addHandTableView(){
         playerHandTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         playerHandTable.top().left();
@@ -234,7 +223,6 @@ public class GameUIController {
 
         table.addActor(playerHandScrollPane);
     }
-
     private void addRow0TableView(){
         row0Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row0Table.top().left();
@@ -347,12 +335,115 @@ public class GameUIController {
         table.addActor(spellRowScrollPane);
     }
 
+    private void addPassButtonsView(){
+        passButton.setSize(100, 50);
+        passButton.setPosition(300, 100);
+        passButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getGame().endTurn();
+            }
+        });
+        table.addActor(passButton);
+    }
+
+    public void addUsernameLabels(){
+        player1Username.setText(Game.getGame().getGameBoard().getPlayer1().getUser().getUsername());
+        player1Username.setPosition(100, 50);
+        player1Username.setSize(200, 50);
+        table.addActor(player1Username);
+
+        player2Username.setText(Game.getGame().getGameBoard().getPlayer2().getUser().getUsername());
+        player2Username.setPosition(100, 800);
+        player2Username.setSize(200, 50);
+        table.addActor(player2Username);
+    }
+
+    public void addPassLabels(){
+        passForPlayer1.setPosition(300, 150);
+        passForPlayer1.setSize(200, 50);
+        passForPlayer1.setVisible(false);
+        table.addActor(passForPlayer1);
+
+        passForPlayer2.setPosition(300, 900);
+        passForPlayer2.setSize(200, 50);
+        passForPlayer2.setVisible(false);
+        table.addActor(passForPlayer2);
+    }
+
+    private void addEndGameDialog(){
+        setEndDialog.setSize(800, 400);
+        setEndDialog.setPosition(800, 400);
+        setEndDialog.setVisible(false);
+        closeEndDialogButton.setSize(100, 50);
+        closeEndDialogButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setEndDialog.setVisible(false);
+                Game.getGame().startNewSet();
+            }
+        });
+        setEndDialog.add(setWinnerLabel).pad(10);
+        setEndDialog.row();
+        setEndDialog.add(closeEndDialogButton).pad(10);
+        table.addActor(setEndDialog);
+    }
+
+    public void addCurrentTurnUserNameToView(){
+        currentTurnPlayerUsername.setPosition(100, 400);
+        currentTurnPlayerUsername.setSize(200, 50);
+        table.addActor(currentTurnPlayerUsername);
+    }
+
+    private void addPowerSumLabels(){
+        player1SiegePowerSum.setPosition(530, 290);
+        player1SiegePowerSum.setSize(400, 50);
+        table.addActor(player1SiegePowerSum);
+
+        player1RangedPowerSum.setPosition(530, 430);
+        player1RangedPowerSum.setSize(200, 50);
+        table.addActor(player1RangedPowerSum);
+
+        player1CloseCombatPowerSum.setPosition(530, 560);
+        player1CloseCombatPowerSum.setSize(200, 50);
+        table.addActor(player1CloseCombatPowerSum);
+
+        player2SiegePowerSum.setPosition(530, 980);
+        player2SiegePowerSum.setSize(200, 50);
+        table.addActor(player2SiegePowerSum);
+
+        player2RangedPowerSum.setPosition(530, 850);
+        player2RangedPowerSum.setSize(200, 50);
+        table.addActor(player2RangedPowerSum);
+
+        player2CloseCombatPowerSum.setPosition(530, 710);
+        player2CloseCombatPowerSum.setSize(200, 50);
+        table.addActor(player2CloseCombatPowerSum);
+
+        player1TotalPowerSum.setPosition(448, 320);
+        player1TotalPowerSum.setSize(200, 50);
+        table.addActor(player1TotalPowerSum);
+
+        player2TotalPowerSum.setPosition(448, 720);
+        player2TotalPowerSum.setSize(200, 50);
+        table.addActor(player2TotalPowerSum);
+    }
+
+    private void addSetWonLabels(){
+        player1SetWon.setPosition(100, 10);
+        player1SetWon.setSize(200, 50);
+        table.addActor(player1SetWon);
+
+        player2SetWon.setPosition(100, 760);
+        player2SetWon.setSize(200, 50);
+        table.addActor(player2SetWon);
+    }
 
     //getters and setters
+
     public static GameUIController getGameUIController() {
         return gameUIController;
     }
-
     public Table getTable() {
         return table;
     }
@@ -451,5 +542,49 @@ public class GameUIController {
 
     public void setClickedCard(Card clickedCard) {
         this.clickedCard = clickedCard;
+    }
+
+    public void setCurrentTurnPlayerUsername(String username){
+        currentTurnPlayerUsername.setText(username);
+    }
+
+    public void setPlayer1SiegePowerSum(int power){
+        player1SiegePowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1RangedPowerSum(int power){
+        player1RangedPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1CloseCombatPowerSum(int power){
+        player1CloseCombatPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2SiegePowerSum(int power){
+        player2SiegePowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2RangedPowerSum(int power){
+        player2RangedPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2CloseCombatPowerSum(int power){
+        player2CloseCombatPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1TotalPowerSum(int power){
+        player1TotalPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2TotalPowerSum(int power){
+        player2TotalPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1SetWon(int setWon){
+        player1SetWon.setText("Sets Won : " + String.valueOf(setWon));
+    }
+
+    public void setPlayer2SetWon(int setWon){
+        player2SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
 }

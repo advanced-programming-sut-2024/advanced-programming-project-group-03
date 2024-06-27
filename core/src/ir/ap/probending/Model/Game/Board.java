@@ -1,92 +1,127 @@
 package ir.ap.probending.Model.Game;
 
+import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private Card commander;
+    private Card commanderCloseCombat;
+    private Card commanderRanged;
+    private Card commanderSiege;
     private ArrayList<Card> closeCombat = new ArrayList<>();
     private ArrayList<Card> ranged = new ArrayList<>();
     private ArrayList<Card> siege = new ArrayList<>();
-    private Card special;
 
+    public void addCardToCloseCombat(Card card) {
+        closeCombat.add(card);
+    }
 
-    public Card getCard(int i, int j) {
-        if (i == 0) {
-            return closeCombat.get(j);
-        } else if (i == 1) {
-            return ranged.get(j);
-        } else if (i == 2) {
-            return siege.get(j);
-        } else {
-            return null;
+    public void addCardToRanged(Card card) {
+        ranged.add(card);
+    }
+
+    public void addCardToSiege(Card card) {
+        siege.add(card);
+    }
+
+    public void removeCardFromCloseCombat(Card card) {
+        closeCombat.remove(card);
+    }
+
+    public void removeCardFromRanged(Card card) {
+        ranged.remove(card);
+    }
+
+    public void removeCardFromSiege(Card card) {
+        siege.remove(card);
+    }
+
+    public void addCommanderToCloseCombat(Card card) {
+        commanderCloseCombat = card;
+    }
+
+    public void addCommanderToRanged(Card card) {
+        commanderRanged = card;
+    }
+
+    public void addCommanderToSiege(Card card) {
+        commanderSiege = card;
+    }
+
+    public void removeCommanderFromCloseCombat() {
+        commanderCloseCombat = null;
+    }
+
+    public void removeCommanderFromRanged() {
+        commanderRanged = null;
+    }
+
+    public void removeCommanderFromSiege() {
+        commanderSiege = null;
+    }
+
+    public int getCloseCombatPowerSum() {
+        int sum = 0;
+        for (Card card : closeCombat) {
+            sum += card.getPower();
         }
+        return sum;
     }
 
-    public ArrayList<Card> getRow(int i) {
-        if (i == 0) {
-            return closeCombat;
-        } else if (i == 1) {
-            return ranged;
-        } else if (i == 2) {
-            return siege;
-        } else {
-            return null;
+    public int getRangedPowerSum() {
+        int sum = 0;
+        for (Card card : ranged) {
+            sum += card.getPower();
         }
+        return sum;
     }
 
-    public Integer[] findCard(Card card) {
-        Integer[] result = new Integer[2];
-        for (int i = 0; i < 3; i++) {
-            if (closeCombat.contains(card)) {
-                result[0] = 0;
-                result[1] = closeCombat.indexOf(card);
-                return result;
-            } else if (ranged.contains(card)) {
-                result[0] = 1;
-                result[1] = ranged.indexOf(card);
-                return result;
-            } else if (siege.contains(card)) {
-                result[0] = 2;
-                result[1] = siege.indexOf(card);
-                return result;
-            }
+    public int getSiegePowerSum() {
+        int sum = 0;
+        for (Card card : siege) {
+            sum += card.getPower();
         }
-        return null;
+        return sum;
     }
 
-    public boolean hasCard (Card card) {
-        return closeCombat.contains(card) || ranged.contains(card) || siege.contains(card);
+    public int getTotalPower() {
+        return getCloseCombatPowerSum() + getRangedPowerSum() + getSiegePowerSum();
     }
 
-    public void addCard(Card card) {
-        if (card.getPlayingRow() == 0) {
-            siege.add(card);
-        } else if (card.getPlayingRow() == 1) {
-            ranged.add(card);
-        } else if (card.getPlayingRow() == 2) {
-            closeCombat.add(card);
-        }
+    public void clearBoard() {
+        closeCombat.clear();
+        ranged.clear();
+        siege.clear();
+        commanderCloseCombat = null;
+        commanderRanged = null;
+        commanderSiege = null;
     }
 
-    public void removeCard(Card card) {
-        if (card.getPlayingRow() == 0) {
-            siege.remove(card);
-        } else if (card.getPlayingRow() == 1) {
-            ranged.remove(card);
-        } else if (card.getPlayingRow() == 2) {
-            closeCombat.remove(card);
-        }
+    //getters and setters
+    public Card getCommanderCloseCombat() {
+        return commanderCloseCombat;
     }
 
-    public Card getCommander() {
-        return commander;
+    public void setCommanderCloseCombat(Card commanderCloseCombat) {
+        this.commanderCloseCombat = commanderCloseCombat;
     }
 
-    public void setCommander(Card commander) {
-        this.commander = commander;
+    public Card getCommanderRanged() {
+        return commanderRanged;
+    }
+
+    public void setCommanderRanged(Card commanderRanged) {
+        this.commanderRanged = commanderRanged;
+    }
+
+    public Card getCommanderSiege() {
+        return commanderSiege;
+    }
+
+    public void setCommanderSiege(Card commanderSiege) {
+        this.commanderSiege = commanderSiege;
     }
 
     public ArrayList<Card> getCloseCombat() {
@@ -112,13 +147,4 @@ public class Board {
     public void setSiege(ArrayList<Card> siege) {
         this.siege = siege;
     }
-
-    public Card getSpecial() {
-        return special;
-    }
-
-    public void setSpecial(Card special) {
-        this.special = special;
-    }
-
 }
