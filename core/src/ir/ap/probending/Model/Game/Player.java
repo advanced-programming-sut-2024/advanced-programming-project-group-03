@@ -11,6 +11,7 @@ public class Player {
     private ArrayList<Card> hand;
     private ArrayList<Card> burntCards = new ArrayList<>();
     private boolean isPassedThisRound = false;
+    private int setsWon = 0;
 
     public Player(User user) {
         this.user = user;
@@ -86,5 +87,13 @@ public class Player {
 
     public void setPassedThisRound(boolean passedThisRound) {
         isPassedThisRound = passedThisRound;
+    }
+
+    public int getSetsWon() {
+        return setsWon;
+    }
+
+    public void setSetsWon(int setsWon) {
+        this.setsWon = setsWon;
     }
 }

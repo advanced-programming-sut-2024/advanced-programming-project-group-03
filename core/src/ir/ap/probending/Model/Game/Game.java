@@ -76,10 +76,15 @@ public class Game {
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
             //TODO end set
 
-            if (decideWinner() != null)
+            if (decideWinner() != null){
                 GameUIController.getGameUIController().showSetEndDialog(Objects.requireNonNull(decideWinner()).getUser().getUsername() + " won this set");
-            else
+                Objects.requireNonNull(decideWinner()).setSetsWon(Objects.requireNonNull(decideWinner()).getSetsWon() + 1);
+            }
+            else{
                 GameUIController.getGameUIController().showSetEndDialog("Draw");
+                gameBoard.getPlayer1().setSetsWon(gameBoard.getPlayer1().getSetsWon() + 1);
+                gameBoard.getPlayer2().setSetsWon(gameBoard.getPlayer2().getSetsWon() + 1);
+            }
         }
     }
 
@@ -101,6 +106,8 @@ public class Game {
         }
         setUpHandView(currentPlayer);
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+        updatePowerLabelsNumbers();
+        updateSetWonLabels();
     }
 
     public void playCard(Card card) {
@@ -137,7 +144,8 @@ public class Game {
                 break;
         }
 
-        setUpHandView(currentPlayer);
+        updatePowerLabelsNumbers();
+        endTurn();
     }
 
     private void selectRandomCardsAndFactionForPlayer2() {
@@ -159,6 +167,22 @@ public class Game {
             return gameBoard.getPlayer2();
         else
             return null;
+    }
+
+    private void updatePowerLabelsNumbers(){
+        GameUIController.getGameUIController().setPlayer1CloseCombatPowerSum(gameBoard.getPlayer1Board().getCloseCombatPowerSum());
+        GameUIController.getGameUIController().setPlayer1RangedPowerSum(gameBoard.getPlayer1Board().getRangedPowerSum());
+        GameUIController.getGameUIController().setPlayer1SiegePowerSum(gameBoard.getPlayer1Board().getSiegePowerSum());
+        GameUIController.getGameUIController().setPlayer2CloseCombatPowerSum(gameBoard.getPlayer2Board().getCloseCombatPowerSum());
+        GameUIController.getGameUIController().setPlayer2RangedPowerSum(gameBoard.getPlayer2Board().getRangedPowerSum());
+        GameUIController.getGameUIController().setPlayer2SiegePowerSum(gameBoard.getPlayer2Board().getSiegePowerSum());
+        GameUIController.getGameUIController().setPlayer1TotalPowerSum(gameBoard.getPlayer1Board().getTotalPower());
+        GameUIController.getGameUIController().setPlayer2TotalPowerSum(gameBoard.getPlayer2Board().getTotalPower());
+    }
+
+    private void updateSetWonLabels(){
+        GameUIController.getGameUIController().setPlayer1SetWon(gameBoard.getPlayer1().getSetsWon());
+        GameUIController.getGameUIController().setPlayer2SetWon(gameBoard.getPlayer2().getSetsWon());
     }
 
     //views

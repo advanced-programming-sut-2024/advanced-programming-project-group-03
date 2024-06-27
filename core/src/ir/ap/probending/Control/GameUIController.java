@@ -27,8 +27,19 @@ public class GameUIController {
     private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label currentTurnPlayerUsername = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton passButton = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
-    private final Dialog setEndDialog = new Dialog("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Window setEndDialog = new Window("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label setWinnerLabel = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
@@ -87,6 +98,8 @@ public class GameUIController {
         addPassLabels();
         addEndGameDialog();
         addCurrentTurnUserNameToView();
+        addPowerSumLabels();
+        addSetWonLabels();
     }
 
     //functionality methods
@@ -172,7 +185,7 @@ public class GameUIController {
 
     public void showSetEndDialog(String text){
         setEndDialog.setVisible(true);
-        setEndDialog.text(text);
+        setWinnerLabel.setText(text);
     }
 
     public void showPassForPlayer1(){
@@ -191,9 +204,7 @@ public class GameUIController {
         passForPlayer2.setVisible(false);
     }
 
-    public void setCurrentTurnPlayerUsername(String username){
-        currentTurnPlayerUsername.setText(username);
-    }
+
 
     //add view methods for cleaner code
 
@@ -369,11 +380,12 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setEndDialog.setVisible(false);
-                setEndDialog.text("");
                 Game.getGame().startNewSet();
             }
         });
-        setEndDialog.getContentTable().add(closeEndDialogButton);
+        setEndDialog.add(setWinnerLabel).pad(10);
+        setEndDialog.row();
+        setEndDialog.add(closeEndDialogButton).pad(10);
         table.addActor(setEndDialog);
     }
 
@@ -381,6 +393,50 @@ public class GameUIController {
         currentTurnPlayerUsername.setPosition(100, 400);
         currentTurnPlayerUsername.setSize(200, 50);
         table.addActor(currentTurnPlayerUsername);
+    }
+
+    private void addPowerSumLabels(){
+        player1SiegePowerSum.setPosition(530, 290);
+        player1SiegePowerSum.setSize(400, 50);
+        table.addActor(player1SiegePowerSum);
+
+        player1RangedPowerSum.setPosition(530, 430);
+        player1RangedPowerSum.setSize(200, 50);
+        table.addActor(player1RangedPowerSum);
+
+        player1CloseCombatPowerSum.setPosition(530, 560);
+        player1CloseCombatPowerSum.setSize(200, 50);
+        table.addActor(player1CloseCombatPowerSum);
+
+        player2SiegePowerSum.setPosition(530, 980);
+        player2SiegePowerSum.setSize(200, 50);
+        table.addActor(player2SiegePowerSum);
+
+        player2RangedPowerSum.setPosition(530, 850);
+        player2RangedPowerSum.setSize(200, 50);
+        table.addActor(player2RangedPowerSum);
+
+        player2CloseCombatPowerSum.setPosition(530, 710);
+        player2CloseCombatPowerSum.setSize(200, 50);
+        table.addActor(player2CloseCombatPowerSum);
+
+        player1TotalPowerSum.setPosition(448, 320);
+        player1TotalPowerSum.setSize(200, 50);
+        table.addActor(player1TotalPowerSum);
+
+        player2TotalPowerSum.setPosition(448, 720);
+        player2TotalPowerSum.setSize(200, 50);
+        table.addActor(player2TotalPowerSum);
+    }
+
+    private void addSetWonLabels(){
+        player1SetWon.setPosition(100, 10);
+        player1SetWon.setSize(200, 50);
+        table.addActor(player1SetWon);
+
+        player2SetWon.setPosition(100, 760);
+        player2SetWon.setSize(200, 50);
+        table.addActor(player2SetWon);
     }
 
     //getters and setters
@@ -486,5 +542,49 @@ public class GameUIController {
 
     public void setClickedCard(Card clickedCard) {
         this.clickedCard = clickedCard;
+    }
+
+    public void setCurrentTurnPlayerUsername(String username){
+        currentTurnPlayerUsername.setText(username);
+    }
+
+    public void setPlayer1SiegePowerSum(int power){
+        player1SiegePowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1RangedPowerSum(int power){
+        player1RangedPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1CloseCombatPowerSum(int power){
+        player1CloseCombatPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2SiegePowerSum(int power){
+        player2SiegePowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2RangedPowerSum(int power){
+        player2RangedPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2CloseCombatPowerSum(int power){
+        player2CloseCombatPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1TotalPowerSum(int power){
+        player1TotalPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer2TotalPowerSum(int power){
+        player2TotalPowerSum.setText(String.valueOf(power));
+    }
+
+    public void setPlayer1SetWon(int setWon){
+        player1SetWon.setText("Sets Won : " + String.valueOf(setWon));
+    }
+
+    public void setPlayer2SetWon(int setWon){
+        player2SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
 }
