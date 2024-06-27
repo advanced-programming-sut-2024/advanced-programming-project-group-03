@@ -1,5 +1,7 @@
 package ir.ap.probending.Model.Game;
 
+import ir.ap.probending.Control.GameUIController;
+
 public class GameBoard {
     private Board player1Board;
     private Player player1;
@@ -23,16 +25,6 @@ public class GameBoard {
         if (player2Board == null)
             player2Board = new Board();
         return player2Board;
-    }
-
-    public void swapBoards() {
-        Board temp = player1Board;
-        player1Board = player2Board;
-        player2Board = temp;
-
-        Player tempUser = player1;
-        player1 = player2;
-        player2 = tempUser;
     }
 
     //getters and setters

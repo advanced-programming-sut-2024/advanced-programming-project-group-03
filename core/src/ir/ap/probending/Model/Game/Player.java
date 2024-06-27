@@ -10,6 +10,7 @@ public class Player {
     private ArrayList<Card> deck;
     private ArrayList<Card> hand;
     private ArrayList<Card> burntCards = new ArrayList<>();
+    private boolean isPassedThisRound = false;
 
     public Player(User user) {
         this.user = user;
@@ -77,5 +78,13 @@ public class Player {
 
     public void setBurntCards(ArrayList<Card> burntCards) {
         this.burntCards = burntCards;
+    }
+
+    public boolean isPassedThisRound() {
+        return isPassedThisRound;
+    }
+
+    public void setPassedThisRound(boolean passedThisRound) {
+        isPassedThisRound = passedThisRound;
     }
 }

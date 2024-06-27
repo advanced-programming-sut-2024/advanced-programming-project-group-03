@@ -26,6 +26,12 @@ public class GameUIController {
     private final Image cardImage = new Image();
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
     TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
+    private final Label player1Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton passPlayer1Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton passPlayer2Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
     private final Table row0Table = new Table();
@@ -79,7 +85,8 @@ public class GameUIController {
         addRow5TableView();
         addSpellRowTableView();
         eventListenersForTables();
-
+        addPassButtonsView();
+        addPassLabels();
     }
 
     //functionality methods
@@ -162,60 +169,20 @@ public class GameUIController {
 
     }
 
-    public void updateRowTable(ArrayList<Card> row0, ArrayList<Card> row1, ArrayList<Card> row2, ArrayList<Card> row3, ArrayList<Card> row4, ArrayList<Card> row5){
-        row0Table.clear();
-        int i = 0;
-        for (Card card : row0){
-            if (i % 5 == 0)
-                row0Table.row();
-            i++;
-            row0Table.add(card).size(100, 130).pad(10);
-        }
+    public void showPassForPlayer1(){
+        passForPlayer1.setVisible(true);
+    }
 
-        row1Table.clear();
-        i = 0;
-        for (Card card : row1){
-            if (i % 5 == 0)
-                row1Table.row();
-            i++;
-            row1Table.add(card).size(100, 130).pad(10);
-        }
+    public void showPassForPlayer2(){
+        passForPlayer2.setVisible(true);
+    }
 
-        row2Table.clear();
-        i = 0;
-        for (Card card : row2){
-            if (i % 5 == 0)
-                row2Table.row();
-            i++;
-            row2Table.add(card).size(100, 130).pad(10);
-        }
+    public void hidePassForPlayer1(){
+        passForPlayer1.setVisible(false);
+    }
 
-        row3Table.clear();
-        i = 0;
-        for (Card card : row3){
-            if (i % 5 == 0)
-                row3Table.row();
-            i++;
-            row3Table.add(card).size(100, 130).pad(10);
-        }
-
-        row4Table.clear();
-        i = 0;
-        for (Card card : row4){
-            if (i % 5 == 0)
-                row4Table.row();
-            i++;
-            row4Table.add(card).size(100, 130).pad(10);
-        }
-
-        row5Table.clear();
-        i = 0;
-        for (Card card : row5){
-            if (i % 5 == 0)
-                row5Table.row();
-            i++;
-            row5Table.add(card).size(100, 130).pad(10);
-        }
+    public void hidePassForPlayer2(){
+        passForPlayer2.setVisible(false);
     }
 
     //add view methods for cleaner code
@@ -347,6 +314,52 @@ public class GameUIController {
         table.addActor(spellRowScrollPane);
     }
 
+    private void addPassButtonsView(){
+        passPlayer1Button.setSize(100, 50);
+        passPlayer1Button.setPosition(300, 100);
+        passPlayer1Button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getGame().endTurn();
+            }
+        });
+
+        passPlayer2Button.setSize(100, 50);
+        passPlayer2Button.setPosition(300, 850);
+        passPlayer2Button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getGame().endTurn();
+            }
+        });
+
+        table.addActor(passPlayer1Button);
+        table.addActor(passPlayer2Button);
+    }
+
+    public void addUsernameLabels(){
+        player1Username.setText(Game.getGame().getGameBoard().getPlayer1().getUser().getUsername());
+        player1Username.setPosition(100, 50);
+        player1Username.setSize(200, 50);
+        table.addActor(player1Username);
+
+        player2Username.setText(Game.getGame().getGameBoard().getPlayer2().getUser().getUsername());
+        player2Username.setPosition(100, 800);
+        player2Username.setSize(200, 50);
+        table.addActor(player2Username);
+    }
+
+    public void addPassLabels(){
+        passForPlayer1.setPosition(200, 150);
+        passForPlayer1.setSize(200, 50);
+        passForPlayer1.setVisible(false);
+        table.addActor(passForPlayer1);
+
+        passForPlayer2.setPosition(200, 900);
+        passForPlayer2.setSize(200, 50);
+        passForPlayer2.setVisible(false);
+        table.addActor(passForPlayer2);
+    }
 
     //getters and setters
     public static GameUIController getGameUIController() {
@@ -452,4 +465,5 @@ public class GameUIController {
     public void setClickedCard(Card clickedCard) {
         this.clickedCard = clickedCard;
     }
+
 }

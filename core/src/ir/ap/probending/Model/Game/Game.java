@@ -8,6 +8,7 @@ public class Game {
     private static Game game = new Game();
     private Player currentPlayer;
     private GameBoard gameBoard;
+    private boolean isCardPlayedThisRound = false;
     private Game() {
     }
     public void startGame() {
@@ -19,7 +20,7 @@ public class Game {
 
         // give cards to players
         gameBoard.getPlayer1().addCardsToDeck(PreGame.getPreGame().getDeckCards());
-        gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getDeckCards());//TODO change this to a different deck
+        selectRandomCardsAndFactionForPlayer2();
 
         //give 10 random cards to each player
         for (int i = 0; i < 10; i++) {
@@ -28,27 +29,65 @@ public class Game {
         }
 
         //add hand cards of player1 to view
-        int cardInRowCount = 0;
-        for (int i = 0; i < gameBoard.getPlayer1().getHand().size(); i++) {
-            gameBoard.getPlayer1().getHand().get(i).getSprite().setSize(150, 300);
-            GameUIController.getGameUIController().getPlayerHandTable().add(gameBoard.getPlayer1().getHand().get(i).clone2());
-            cardInRowCount++;
-            if (cardInRowCount == 5) {
-                GameUIController.getGameUIController().getPlayerHandTable().row();
-                cardInRowCount = 0;
-            }
-        }
+        setUpHandView(gameBoard.getPlayer1());
 
         //set leaders and factions
         //TODO
 
+        //setup views that are dependent to gameboard
+        setupViewsThatAreDependentToGameBoard();
     }
 
     public void endTurn() {
-        //TODO
+        //check if both players have passed this round
+        if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
+            //TODO end set
+
+            //wait for 2 seconds
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            //start new set
+            gameBoard.getPlayer1().setPassedThisRound(false);
+            gameBoard.getPlayer2().setPassedThisRound(false);
+            GameUIController.getGameUIController().hidePassForPlayer1();
+            GameUIController.getGameUIController().hidePassForPlayer2();
+        }
+
+        if (currentPlayer.equals(gameBoard.getPlayer1()) && !currentPlayer.isPassedThisRound()) {
+            if (!isCardPlayedThisRound) {
+                currentPlayer.setPassedThisRound(true);
+                GameUIController.getGameUIController().showPassForPlayer1();
+            }
+            else {
+                currentPlayer.setPassedThisRound(false);
+                isCardPlayedThisRound = false;
+            }
+
+            currentPlayer = gameBoard.getPlayer2();
+            setUpHandView(gameBoard.getPlayer2());
+        }
+        else if (currentPlayer.equals(gameBoard.getPlayer2()) && !currentPlayer.isPassedThisRound()){
+            if (!isCardPlayedThisRound) {
+                currentPlayer.setPassedThisRound(true);
+                GameUIController.getGameUIController().showPassForPlayer2();
+            }
+            else {
+                currentPlayer.setPassedThisRound(false);
+                isCardPlayedThisRound = false;
+            }
+
+            currentPlayer = gameBoard.getPlayer1();
+            setUpHandView(gameBoard.getPlayer1());
+        }
     }
 
     public void playCard(Card card) {
+        isCardPlayedThisRound = true;
+
         for (int i = 0; i < currentPlayer.getHand().size(); i++) {
             if (currentPlayer.getHand().get(i).getName().equals(card.getName())) {
                 currentPlayer.getHand().remove(i);
@@ -56,11 +95,25 @@ public class Game {
             }
         }
 
+        setUpHandView(currentPlayer);
+    }
+
+    private void selectRandomCardsAndFactionForPlayer2() {
+        gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getDeckCards());//TODO change this to a different deck
+        //random cards from random faction and random leader for player2 TODO
+    }
+
+    //views
+    private void setupViewsThatAreDependentToGameBoard() {
+        GameUIController.getGameUIController().addUsernameLabels();
+    }
+    private void setUpHandView(Player player){
+        //add hand cards of player1 to view
         GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
         int cardInRowCount = 0;
-        for (int i = 0; i < currentPlayer.getHand().size(); i++) {
-            currentPlayer.getHand().get(i).getSprite().setSize(150, 300);
-            GameUIController.getGameUIController().getPlayerHandTable().add(currentPlayer.getHand().get(i).clone2());
+        for (int i = 0; i < player.getHand().size(); i++) {
+            player.getHand().get(i).getSprite().setSize(150, 300);
+            GameUIController.getGameUIController().getPlayerHandTable().add(player.getHand().get(i).clone2());
             cardInRowCount++;
             if (cardInRowCount == 5) {
                 GameUIController.getGameUIController().getPlayerHandTable().row();
