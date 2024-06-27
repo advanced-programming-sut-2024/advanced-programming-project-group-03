@@ -1,23 +1,21 @@
 package Server;
 
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import ir.ap.probending.Model.User;
 
-import javax.print.DocFlavor;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Server extends Thread {
-    private static ArrayList<User> users = new ArrayList<>();
+    private static final String USERS_FILE = "users.json";
+    private static List<User> users = new ArrayList<>();
     private Socket socket;
-    private User currentuser = null;
+    private User currentUser = null;
 
     public Server(Socket socket) {
         this.socket = socket;
@@ -36,9 +34,12 @@ public class Server extends Thread {
                 }
                 String[] messageParts = message.split(" ");
                 String command = messageParts[0];
+                String response = "";
                 switch (command) {
                     case "signup":
-                        signUp(messageParts[1], messageParts[2], messageParts[3], messageParts[4]);
+                        response = signUp(messageParts[1], messageParts[2], messageParts[3], messageParts[4]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
                         break;
                 }
             }
@@ -48,7 +49,7 @@ public class Server extends Thread {
         }
     }
 
-    private String signUp(String username, String password, String email, String nickname) {
+    private synchronized String signUp(String username, String password, String email, String nickname) {
         if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
             return "Username already exists";
         } else if (users.stream().anyMatch(user -> user.getEmail().equals(email))) {
@@ -58,12 +59,34 @@ public class Server extends Thread {
         } else {
             User user = new User(username, password, email, nickname);
             users.add(user);
-
+            saveUsersToFile();
             return "Signed up successfully";
         }
     }
 
+    private static void loadUsersFromFile() {
+        try (Reader reader = new FileReader(USERS_FILE)) {
+            Gson gson = new Gson();
+            Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = gson.fromJson(reader, userListType);
+        } catch (FileNotFoundException e) {
+            System.out.println("Users file not found. Starting with an empty user list.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void saveUsersToFile() {
+        try (Writer writer = new FileWriter(USERS_FILE)) {
+            Gson gson = new Gson();
+            gson.toJson(users, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
+        loadUsersFromFile();
 
         try {
             ServerSocket serverSocket = new ServerSocket(5000);
