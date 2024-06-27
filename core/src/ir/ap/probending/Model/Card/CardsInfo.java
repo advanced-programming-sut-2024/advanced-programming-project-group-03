@@ -115,7 +115,19 @@ public enum CardsInfo {
     Zaheer(new Scorch(),"Zaheer",9,false,"Cards/Air Temples/Zaheer.png",1,""),
     Yangchen(null,"Yangchen",8,false,"Cards/Air Temples/Yangchen.png",1,""),
     Pasang(null,"Pasang",8,false, "Cards/Air Temples/Pasang.png",0,""),
-    Aang(null,"Aang",10,true,"Cards/Air Temples/Aang.png",2,"");
+    Aang(null,"Aang",10,true,"Cards/Air Temples/Aang.png",2,""),
+
+    //Neutral
+    AvatarAang(null,"Avatar Aang",15,true,"Cards/Neutral/Aang.png",2,""),
+    AvatarKorra(null,"Avatar Korra",15,true,"Cards/Neutral/Korra.png",2,""),
+    AvatarRoku(null,"Avatar Roku",15,true,"Cards/Neutral/Roku.png",2,""),
+    AvatarKyoshi(null,"Avatar Kyoshi",15,true,"Cards/Neutral/Kyoshi.png",2,""),
+
+    Decoy(new Decoy(),"Decoy",0,false,"Cards/Neutral/Decoy.png",2,"");
+
+    //Weather
+//    Fog(null,"Fog",0,false,"Cards/Neutral/weather_wog.png",2,""),
+
 
 
     private Ability ability;

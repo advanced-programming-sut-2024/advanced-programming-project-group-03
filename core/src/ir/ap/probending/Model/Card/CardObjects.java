@@ -118,7 +118,11 @@ public enum CardObjects {
     Yangchen(CardsInfo.Yangchen),
     Pasang(CardsInfo.Pasang),
     Aang(CardsInfo.Aang),
-    Afiko(CardsInfo.Afiko);
+    Afiko(CardsInfo.Afiko),
+    AvatarAang(CardsInfo.AvatarAang),
+    AvatarKorra(CardsInfo.AvatarKorra),
+    AvatarKyoshi(CardsInfo.AvatarKyoshi),
+    AvatarRoku(CardsInfo.AvatarRoku);
 
     private Card card;
 
@@ -132,6 +136,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
+        getNeutralCards(cards);
         cards.add(Amon.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
@@ -167,8 +172,10 @@ public enum CardObjects {
         cards.add(Yue.getCard().clone());
         return cards;
     }
+
     public static ArrayList<Card> getAirCards() {
         ArrayList<Card> cards = new ArrayList<>();
+        getNeutralCards(cards);
         cards.add(AirBoy.getCard().clone());
         cards.add(BumiAir.getCard().clone());
         cards.add(Daw.getCard().clone());
@@ -196,6 +203,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getEarthCards() {
         ArrayList<Card> cards = new ArrayList<>();
+        getNeutralCards(cards);
         cards.add(Aiwei.getCard().clone());
         cards.add(BaatarJr.getCard().clone());
         cards.add(BaSingSeCaptain.getCard().clone());
@@ -231,6 +239,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getFireCards() {
         ArrayList<Card> cards = new ArrayList<>();
+        getNeutralCards(cards);
         cards.add(Azula.getCard().clone());
         cards.add(Azulon.getCard().clone());
         cards.add(Buijing.getCard().clone());
@@ -260,5 +269,12 @@ public enum CardObjects {
         cards.add(Zhao.getCard().clone());
         cards.add(Zuko.getCard().clone());
         return cards;
+    }
+
+    public static void getNeutralCards(ArrayList<Card> cards) {
+        cards.add(AvatarAang.getCard().clone());
+        cards.add(AvatarKorra.getCard().clone());
+        cards.add(AvatarKyoshi.getCard().clone());
+        cards.add(AvatarRoku.getCard().clone());
     }
 }
