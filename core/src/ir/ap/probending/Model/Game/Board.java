@@ -1,5 +1,6 @@
 package ir.ap.probending.Model.Game;
 
+import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 
 import java.util.ArrayList;
@@ -87,6 +88,15 @@ public class Board {
 
     public int getTotalPower() {
         return getCloseCombatPowerSum() + getRangedPowerSum() + getSiegePowerSum();
+    }
+
+    public void clearBoard() {
+        closeCombat.clear();
+        ranged.clear();
+        siege.clear();
+        commanderCloseCombat = null;
+        commanderRanged = null;
+        commanderSiege = null;
     }
 
     //getters and setters

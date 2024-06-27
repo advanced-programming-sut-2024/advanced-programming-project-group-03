@@ -4,10 +4,13 @@ import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameMaster;
 
+import java.util.Objects;
+
 public class Game {
     private static Game game = new Game();
     private Player currentPlayer;
     private GameBoard gameBoard;
+    private int currentSet = 1;
     private boolean isCardPlayedThisRound = false;
     private Game() {
     }
@@ -17,6 +20,7 @@ public class Game {
 
         // Set players
         currentPlayer = gameBoard.getPlayer1();
+        GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
 
         // give cards to players
         gameBoard.getPlayer1().addCardsToDeck(PreGame.getPreGame().getDeckCards());
@@ -66,24 +70,37 @@ public class Game {
             setUpHandView(gameBoard.getPlayer1());
         }
 
+        GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+
         //check if both players have passed this set
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
             //TODO end set
 
-            if (gameBoard.getPlayer1Board().getCloseCombatPowerSum() > gameBoard.getPlayer2Board().getCloseCombatPowerSum())
-                GameUIController.getGameUIController().showSetEndDialog(gameBoard.getPlayer1().getUser().getUsername() + " won this set");
-            else if (gameBoard.getPlayer1Board().getCloseCombatPowerSum() < gameBoard.getPlayer2Board().getCloseCombatPowerSum())
-                GameUIController.getGameUIController().showSetEndDialog(gameBoard.getPlayer2().getUser().getUsername() + " won this set");
+            if (decideWinner() != null)
+                GameUIController.getGameUIController().showSetEndDialog(Objects.requireNonNull(decideWinner()).getUser().getUsername() + " won this set");
             else
                 GameUIController.getGameUIController().showSetEndDialog("Draw");
-
-
-            //start new set
-            gameBoard.getPlayer1().setPassedThisRound(false);
-            gameBoard.getPlayer2().setPassedThisRound(false);
-            GameUIController.getGameUIController().hidePassForPlayer1();
-            GameUIController.getGameUIController().hidePassForPlayer2();
         }
+    }
+
+    public void startNewSet() {
+        currentSet++;
+        GameUIController.getGameUIController().setClickedCard(null);
+        clearBoard();
+        gameBoard.getPlayer1().setPassedThisRound(false);
+        gameBoard.getPlayer2().setPassedThisRound(false);
+        isCardPlayedThisRound = false;
+        setUpHandView(gameBoard.getPlayer1());
+        GameUIController.getGameUIController().hidePassForPlayer1();
+        GameUIController.getGameUIController().hidePassForPlayer2();
+        if (currentSet % 2 == 0){
+            currentPlayer = gameBoard.getPlayer2();
+        }
+        else {
+            currentPlayer = gameBoard.getPlayer1();
+        }
+        setUpHandView(currentPlayer);
+        GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
     }
 
     public void playCard(Card card) {
@@ -136,8 +153,12 @@ public class Game {
     }
 
     private Player decideWinner() {
-        //TODO
-        return null;
+        if (gameBoard.getPlayer1Board().getTotalPower() > gameBoard.getPlayer2Board().getTotalPower())
+            return gameBoard.getPlayer1();
+        else if (gameBoard.getPlayer1Board().getTotalPower() < gameBoard.getPlayer2Board().getTotalPower())
+            return gameBoard.getPlayer2();
+        else
+            return null;
     }
 
     //views
@@ -157,6 +178,18 @@ public class Game {
                 cardInRowCount = 0;
             }
         }
+    }
+
+    public void clearBoard() {
+        gameBoard.getPlayer1Board().clearBoard();
+        gameBoard.getPlayer2Board().clearBoard();
+        GameUIController.getGameUIController().getRow0Table().clearChildren();
+        GameUIController.getGameUIController().getRow1Table().clearChildren();
+        GameUIController.getGameUIController().getRow2Table().clearChildren();
+        GameUIController.getGameUIController().getRow3Table().clearChildren();
+        GameUIController.getGameUIController().getRow4Table().clearChildren();
+        GameUIController.getGameUIController().getRow5Table().clearChildren();
+        GameUIController.getGameUIController().getSpellRowTable().clearChildren();
     }
 
     //getters and setters

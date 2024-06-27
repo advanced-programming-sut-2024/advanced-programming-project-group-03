@@ -7,16 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.Game.Game;
-import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
-import java.util.ArrayList;
 
 
 public class GameUIController {
@@ -30,9 +26,10 @@ public class GameUIController {
     private final Label player2Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
-    private final TextButton passPlayer1Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
-    private final TextButton passPlayer2Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label currentTurnPlayerUsername = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton passButton = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
     private final Dialog setEndDialog = new Dialog("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
     private final Table row0Table = new Table();
@@ -89,6 +86,7 @@ public class GameUIController {
         addPassButtonsView();
         addPassLabels();
         addEndGameDialog();
+        addCurrentTurnUserNameToView();
     }
 
     //functionality methods
@@ -193,7 +191,12 @@ public class GameUIController {
         passForPlayer2.setVisible(false);
     }
 
+    public void setCurrentTurnPlayerUsername(String username){
+        currentTurnPlayerUsername.setText(username);
+    }
+
     //add view methods for cleaner code
+
     private void addHandTableView(){
         playerHandTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         playerHandTable.top().left();
@@ -209,7 +212,6 @@ public class GameUIController {
 
         table.addActor(playerHandScrollPane);
     }
-
     private void addRow0TableView(){
         row0Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row0Table.top().left();
@@ -323,26 +325,15 @@ public class GameUIController {
     }
 
     private void addPassButtonsView(){
-        passPlayer1Button.setSize(100, 50);
-        passPlayer1Button.setPosition(300, 100);
-        passPlayer1Button.addListener(new ClickListener(){
+        passButton.setSize(100, 50);
+        passButton.setPosition(300, 100);
+        passButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Game.getGame().endTurn();
             }
         });
-
-        passPlayer2Button.setSize(100, 50);
-        passPlayer2Button.setPosition(300, 850);
-        passPlayer2Button.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Game.getGame().endTurn();
-            }
-        });
-
-        table.addActor(passPlayer1Button);
-        table.addActor(passPlayer2Button);
+        table.addActor(passButton);
     }
 
     public void addUsernameLabels(){
@@ -358,29 +349,45 @@ public class GameUIController {
     }
 
     public void addPassLabels(){
-        passForPlayer1.setPosition(200, 150);
+        passForPlayer1.setPosition(300, 150);
         passForPlayer1.setSize(200, 50);
         passForPlayer1.setVisible(false);
         table.addActor(passForPlayer1);
 
-        passForPlayer2.setPosition(200, 900);
+        passForPlayer2.setPosition(300, 900);
         passForPlayer2.setSize(200, 50);
         passForPlayer2.setVisible(false);
         table.addActor(passForPlayer2);
     }
 
     private void addEndGameDialog(){
-        setEndDialog.setSize(400, 400);
+        setEndDialog.setSize(800, 400);
         setEndDialog.setPosition(800, 400);
         setEndDialog.setVisible(false);
+        closeEndDialogButton.setSize(100, 50);
+        closeEndDialogButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setEndDialog.setVisible(false);
+                setEndDialog.text("");
+                Game.getGame().startNewSet();
+            }
+        });
+        setEndDialog.getContentTable().add(closeEndDialogButton);
         table.addActor(setEndDialog);
     }
 
+    public void addCurrentTurnUserNameToView(){
+        currentTurnPlayerUsername.setPosition(100, 400);
+        currentTurnPlayerUsername.setSize(200, 50);
+        table.addActor(currentTurnPlayerUsername);
+    }
+
     //getters and setters
+
     public static GameUIController getGameUIController() {
         return gameUIController;
     }
-
     public Table getTable() {
         return table;
     }
@@ -480,5 +487,4 @@ public class GameUIController {
     public void setClickedCard(Card clickedCard) {
         this.clickedCard = clickedCard;
     }
-
 }
