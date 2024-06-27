@@ -39,24 +39,6 @@ public class Game {
     }
 
     public void endTurn() {
-        //check if both players have passed this round
-        if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
-            //TODO end set
-
-            //wait for 2 seconds
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            //start new set
-            gameBoard.getPlayer1().setPassedThisRound(false);
-            gameBoard.getPlayer2().setPassedThisRound(false);
-            GameUIController.getGameUIController().hidePassForPlayer1();
-            GameUIController.getGameUIController().hidePassForPlayer2();
-        }
-
         if (currentPlayer.equals(gameBoard.getPlayer1()) && !currentPlayer.isPassedThisRound()) {
             if (!isCardPlayedThisRound) {
                 currentPlayer.setPassedThisRound(true);
@@ -83,6 +65,25 @@ public class Game {
             currentPlayer = gameBoard.getPlayer1();
             setUpHandView(gameBoard.getPlayer1());
         }
+
+        //check if both players have passed this set
+        if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
+            //TODO end set
+
+            if (gameBoard.getPlayer1Board().getCloseCombatPowerSum() > gameBoard.getPlayer2Board().getCloseCombatPowerSum())
+                GameUIController.getGameUIController().showSetEndDialog(gameBoard.getPlayer1().getUser().getUsername() + " won this set");
+            else if (gameBoard.getPlayer1Board().getCloseCombatPowerSum() < gameBoard.getPlayer2Board().getCloseCombatPowerSum())
+                GameUIController.getGameUIController().showSetEndDialog(gameBoard.getPlayer2().getUser().getUsername() + " won this set");
+            else
+                GameUIController.getGameUIController().showSetEndDialog("Draw");
+
+
+            //start new set
+            gameBoard.getPlayer1().setPassedThisRound(false);
+            gameBoard.getPlayer2().setPassedThisRound(false);
+            GameUIController.getGameUIController().hidePassForPlayer1();
+            GameUIController.getGameUIController().hidePassForPlayer2();
+        }
     }
 
     public void playCard(Card card) {
@@ -95,12 +96,48 @@ public class Game {
             }
         }
 
+        switch (card.getPlayingRow()){
+            case 0:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToSiege(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToSiege(card);
+                break;
+            case 1:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToRanged(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToRanged(card);
+                break;
+            case 2:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(card);
+                break;
+            case 6:
+                Game.getGame().getGameBoard().addSpellCard(card);
+                break;
+        }
+
         setUpHandView(currentPlayer);
     }
 
     private void selectRandomCardsAndFactionForPlayer2() {
         gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getDeckCards());//TODO change this to a different deck
         //random cards from random faction and random leader for player2 TODO
+    }
+
+    public int getCurrentTurn(){
+        if (currentPlayer.equals(gameBoard.getPlayer1()))
+            return 1;
+        else
+            return 2;
+    }
+
+    private Player decideWinner() {
+        //TODO
+        return null;
     }
 
     //views

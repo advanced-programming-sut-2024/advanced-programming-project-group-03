@@ -32,6 +32,7 @@ public class GameUIController {
     private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton passPlayer1Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton passPlayer2Button = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
+    private final Dialog setEndDialog = new Dialog("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
     private final Table row0Table = new Table();
@@ -87,6 +88,7 @@ public class GameUIController {
         eventListenersForTables();
         addPassButtonsView();
         addPassLabels();
+        addEndGameDialog();
     }
 
     //functionality methods
@@ -114,6 +116,7 @@ public class GameUIController {
             table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
             Game.getGame().playCard(clickedCard);
+            cardImage.setVisible(false);
         }
     }
 
@@ -167,6 +170,11 @@ public class GameUIController {
             }
         });
 
+    }
+
+    public void showSetEndDialog(String text){
+        setEndDialog.setVisible(true);
+        setEndDialog.text(text);
     }
 
     public void showPassForPlayer1(){
@@ -359,6 +367,13 @@ public class GameUIController {
         passForPlayer2.setSize(200, 50);
         passForPlayer2.setVisible(false);
         table.addActor(passForPlayer2);
+    }
+
+    private void addEndGameDialog(){
+        setEndDialog.setSize(400, 400);
+        setEndDialog.setPosition(800, 400);
+        setEndDialog.setVisible(false);
+        table.addActor(setEndDialog);
     }
 
     //getters and setters
