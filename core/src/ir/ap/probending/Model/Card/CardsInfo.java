@@ -123,10 +123,14 @@ public enum CardsInfo {
     AvatarRoku(null,"Avatar Roku",15,true,"Cards/Neutral/Roku.png",2,""),
     AvatarKyoshi(null,"Avatar Kyoshi",15,true,"Cards/Neutral/Kyoshi.png",2,""),
 
-    Decoy(new Decoy(),"Decoy",0,false,"Cards/Neutral/Decoy.png",2,"");
+    Decoy(new Decoy(),"Decoy",0,false,"Cards/Neutral/Decoy.png",2,""),
 
     //Weather
-//    Fog(null,"Fog",0,false,"Cards/Neutral/weather_wog.png",2,""),
+    Clear(new Clear(),"Clear",0,false,"Cards/Neutral/weather_clear.png",6,""),
+    Fog(new Fog(),"Fog",0,false,"Cards/Neutral/weather_fog.png",6,""),
+    Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
+    Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
+    Storm(new Storm(),"Snow",0,false,"Cards/Neutral/weather_storm.png",6,"");
 
 
 

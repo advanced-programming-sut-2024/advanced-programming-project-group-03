@@ -122,7 +122,13 @@ public enum CardObjects {
     AvatarAang(CardsInfo.AvatarAang),
     AvatarKorra(CardsInfo.AvatarKorra),
     AvatarKyoshi(CardsInfo.AvatarKyoshi),
-    AvatarRoku(CardsInfo.AvatarRoku);
+    AvatarRoku(CardsInfo.AvatarRoku),
+    Decoy(CardsInfo.Decoy),
+    Clear(CardsInfo.Clear),
+    Rain(CardsInfo.Rain),
+    Fog(CardsInfo.Fog),
+    Frost(CardsInfo.Frost),
+    Storm(CardsInfo.Storm);
 
     private Card card;
 
@@ -276,5 +282,11 @@ public enum CardObjects {
         cards.add(AvatarKorra.getCard().clone());
         cards.add(AvatarKyoshi.getCard().clone());
         cards.add(AvatarRoku.getCard().clone());
+        cards.add(Decoy.getCard().clone());
+        cards.add(Clear.getCard().clone());
+        cards.add(Rain.getCard().clone());
+        cards.add(Fog.getCard().clone());
+        cards.add(Frost.getCard().clone());
+        cards.add(Storm.getCard().clone());
     }
 }
