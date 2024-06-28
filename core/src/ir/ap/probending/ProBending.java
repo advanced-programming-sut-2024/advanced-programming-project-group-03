@@ -16,9 +16,9 @@ public class ProBending extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		while (!client.establishConnection("localhost", 5000)) {
-			System.out.println("Connection failed, retrying...");
-		}
+//		while (!client.establishConnection("localhost", 5000)) {
+//			System.out.println("Connection failed, retrying...");
+//		}
 		ScreenMasterSetting.getInstance().setGame(this);
 		ScreenMasterSetting.getInstance().setMainMenuScreen(new MainMenuScreen(ScreenMasterSetting.getInstance().getGame()));
 		ScreenMasterSetting.getInstance().setPreGameScreen(new PreGameScreen(ScreenMasterSetting.getInstance().getGame()));
