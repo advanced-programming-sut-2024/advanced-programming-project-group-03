@@ -52,8 +52,15 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     case "sendEmail":
-                        response = sendEmail(messageParts[1]);
+                        response = sendEmail();
                         dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    case "getUser":
+                        User user = getUser();
+                        Gson gson = new Gson();
+                        String userJson = gson.toJson(user);
+                        dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
                         break;
                 }
@@ -92,7 +99,14 @@ public class Server extends Thread {
         }
     }
 
-    private String sendEmail(String recipientEmail) {
+    private User getUser() {
+        return currentUser;
+    }
+
+    private String sendEmail() {
+        if (currentUser == null) {
+            return "Email not found";
+        }
         final String senderEmail = "proBendingAvatar@gmail.com";
         final String senderPassword = "1234abcd!";
 
@@ -112,11 +126,12 @@ public class Server extends Thread {
         Random random = new Random();
         int confirmationCode = 100000 + random.nextInt(900000);
         String confirmationCodeStr = String.valueOf(confirmationCode);
+        currentUser.setLoginNumber(confirmationCodeStr);
 
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(currentUser.getEmail()));
             message.setSubject("Email Confirmation Code");
             message.setText("Please use this code to confirm your email: " + confirmationCodeStr);
 
