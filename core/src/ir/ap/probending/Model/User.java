@@ -9,6 +9,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String loginNumber;
     private int questionIndex;
     private String questionAnswer;
     private ArrayList<GameHistory> gameHistories;
@@ -150,5 +151,13 @@ public class User {
 
     public void setQuestionAnswer(String questionAnswer) {
         this.questionAnswer = questionAnswer;
+    }
+
+    public String getLoginNumber() {
+        return loginNumber;
+    }
+
+    public void setLoginNumber(String loginNumber) {
+        this.loginNumber = loginNumber;
     }
 }

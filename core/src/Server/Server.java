@@ -10,6 +10,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class Server extends Thread {
     private static final String USERS_FILE = "users.json";
@@ -41,6 +46,16 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
+                    case "login":
+                        response = login(messageParts[1], messageParts[2]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    case "sendEmail":
+                        response = sendEmail(messageParts[1]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
                 }
             }
             socket.close();
@@ -60,10 +75,59 @@ public class Server extends Thread {
             User user = new User(username, password, email, nickname);
             users.add(user);
             saveUsersToFile();
-            return "Signed up successfully";
+
+            return "Signed up successfully.";
         }
     }
 
+    private synchronized String login(String username, String password) {
+        User user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
+        if (user == null) {
+            return "User not found";
+        } else if (!user.getPassword().equals(password)) {
+            return "Incorrect password";
+        } else {
+            currentUser = user;
+            return "Sending email confirmation link";
+        }
+    }
+
+    private String sendEmail(String recipientEmail) {
+        final String senderEmail = "proBendingAvatar@gmail.com";
+        final String senderPassword = "1234abcd!";
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+
+        // Generate a 6-digit random confirmation code
+        Random random = new Random();
+        int confirmationCode = 100000 + random.nextInt(900000);
+        String confirmationCodeStr = String.valueOf(confirmationCode);
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject("Email Confirmation Code");
+            message.setText("Please use this code to confirm your email: " + confirmationCodeStr);
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Return the confirmation code so it can be stored and compared later
+        return confirmationCodeStr;
+    }
     private static void loadUsersFromFile() {
         try (Reader reader = new FileReader(USERS_FILE)) {
             Gson gson = new Gson();
