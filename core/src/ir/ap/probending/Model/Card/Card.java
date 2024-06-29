@@ -60,7 +60,7 @@ public class Card extends Actor {
     }
 
     private Card(Card card) {
-        this.ability = null; //TODO: implement clone method
+        this.ability = card.getAbility();
         this.name = card.name;
         this.description = card.description;
         this.power = card.power;
@@ -89,7 +89,7 @@ public class Card extends Actor {
     }
 
     private Card(Card card , int x) {
-        this.ability = null; //TODO: implement clone method
+        this.ability = card.getAbility();
         this.name = card.name;
         this.description = card.description;
         this.power = card.power;

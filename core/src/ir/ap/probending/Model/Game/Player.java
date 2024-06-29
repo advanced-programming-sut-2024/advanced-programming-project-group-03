@@ -47,6 +47,14 @@ public class Player {
         burntCards.remove(card);
     }
 
+    public void removeCardFromDeckCards(Card card){
+        deck.remove(card);
+    }
+
+    public void removeCardFromDeckCards(ArrayList<Card> card){
+        deck.removeAll(card);
+    }
+
     //getters and setters
 
     public User getUser() {
@@ -96,4 +104,6 @@ public class Player {
     public void setSetsWon(int setsWon) {
         this.setsWon = setsWon;
     }
+
+
 }
