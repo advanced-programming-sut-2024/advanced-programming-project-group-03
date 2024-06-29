@@ -1,6 +1,7 @@
 package ir.ap.probending.Model.Game;
 
 import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.Model.Card.Abilities.Morale;
 import ir.ap.probending.Model.Card.Card;
 
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ public class Board {
     private ArrayList<Card> closeCombat = new ArrayList<>();
     private ArrayList<Card> ranged = new ArrayList<>();
     private ArrayList<Card> siege = new ArrayList<>();
+    private int moraleBoostCloseCombat = 0;
+    private int moraleBoostRanged = 0;
+    private int moraleBoostSiege = 0;
 
     public void addCardToCloseCombat(Card card) {
         closeCombat.add(card);
@@ -67,7 +71,8 @@ public class Board {
         for (Card card : closeCombat) {
             sum += card.getPower();
         }
-        return sum;
+        sum += (closeCombat.size() - moraleBoostCloseCombat - getCloseCombatHeroCount() ) * moraleBoostCloseCombat;
+        return sum ;
     }
 
     public int getRangedPowerSum() {
@@ -75,7 +80,8 @@ public class Board {
         for (Card card : ranged) {
             sum += card.getPower();
         }
-        return sum;
+        sum += (ranged.size() - moraleBoostRanged - getRangedHeroCount() ) * moraleBoostRanged;
+        return sum ;
     }
 
     public int getSiegePowerSum() {
@@ -83,7 +89,8 @@ public class Board {
         for (Card card : siege) {
             sum += card.getPower();
         }
-        return sum;
+        sum += (siege.size() - moraleBoostSiege - getSiegeHeroCount() ) * moraleBoostSiege;
+        return sum ;
     }
 
     public int getTotalPower() {
@@ -97,6 +104,33 @@ public class Board {
         commanderCloseCombat = null;
         commanderRanged = null;
         commanderSiege = null;
+    }
+
+    private int getCloseCombatHeroCount(){
+        int count = 0;
+        for (Card card : closeCombat) {
+            if (card.isHero() && !(card.getAbility() instanceof Morale))
+                count++;
+        }
+        return count;
+    }
+
+    private int getRangedHeroCount(){
+        int count = 0;
+        for (Card card : ranged) {
+            if (card.isHero() && !(card.getAbility() instanceof Morale))
+                count++;
+        }
+        return count;
+    }
+
+    private int getSiegeHeroCount(){
+        int count = 0;
+        for (Card card : siege) {
+            if (card.isHero() && !(card.getAbility() instanceof Morale))
+                count++;
+        }
+        return count;
     }
 
     //getters and setters
@@ -146,5 +180,29 @@ public class Board {
 
     public void setSiege(ArrayList<Card> siege) {
         this.siege = siege;
+    }
+
+    public int getMoraleBoostCloseCombat() {
+        return moraleBoostCloseCombat;
+    }
+
+    public void setMoraleBoostCloseCombat(int moraleBoostCloseCombat) {
+        this.moraleBoostCloseCombat = moraleBoostCloseCombat;
+    }
+
+    public int getMoraleBoostRanged() {
+        return moraleBoostRanged;
+    }
+
+    public void setMoraleBoostRanged(int moraleBoostRanged) {
+        this.moraleBoostRanged = moraleBoostRanged;
+    }
+
+    public int getMoraleBoostSiege() {
+        return moraleBoostSiege;
+    }
+
+    public void setMoraleBoostSiege(int moraleBoostSiege) {
+        this.moraleBoostSiege = moraleBoostSiege;
     }
 }
