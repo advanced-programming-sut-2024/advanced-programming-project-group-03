@@ -83,6 +83,14 @@ public class Server extends Thread {
     }
 
     private synchronized String signUp(String username, String password, String email, String nickname) {
+        if (users == null) {
+            User user = new User(username, password, email, nickname);
+            users.add(user);
+            saveUsersToFile();
+
+            return "Signed up successfully.";
+        }
+
         if (users.stream().anyMatch(user -> user.getUsername().equals(username))) {
             return "Username already exists";
         } else if (users.stream().anyMatch(user -> user.getEmail().equals(email))) {
@@ -99,6 +107,10 @@ public class Server extends Thread {
     }
 
     private synchronized String login(String username, String password) {
+        if (users == null) {
+            return "User not found";
+        }
+
         User user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
         if (user == null) {
             return "User not found";
@@ -165,6 +177,9 @@ public class Server extends Thread {
             Gson gson = new Gson();
             Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
             users = gson.fromJson(reader, userListType);
+            if (users == null) {
+                users = new ArrayList<>();
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Users file not found. Starting with an empty user list.");
         } catch (IOException e) {
