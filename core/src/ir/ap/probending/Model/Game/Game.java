@@ -144,6 +144,10 @@ public class Game {
                 break;
         }
 
+        if (card.getAbility() != null){
+            card.getAbility().executeAbility(card);
+        }
+
         updatePowerLabelsNumbers();
         endTurn();
     }
