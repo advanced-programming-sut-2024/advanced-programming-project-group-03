@@ -65,7 +65,10 @@ public class PickQuestionMenuController {
                     String userString = ProBending.client.communicate("getUser");
                     User user = gson.fromJson(userString, User.class);
                     user.addQuestionAnswer(questionSelector.getSelectedIndex(), answerField.getText());
+                    System.out.println("registered successfully");
                     ProBending.client.communicate("saveUser " + gson.toJson(user));
+
+                    System.out.println("registered successfully");
 
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));

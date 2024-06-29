@@ -79,6 +79,8 @@ public class Server extends Thread {
                         Gson gson1 = new Gson();
                         User user1 = gson1.fromJson(userString, User.class);
                         saveUser(user1);
+                        dataOutputStream.writeUTF("");
+                        dataOutputStream.flush();
                 }
             }
             socket.close();
@@ -105,6 +107,7 @@ public class Server extends Thread {
         } else {
             User user = new User(username, password, email, nickname);
             users.add(user);
+            currentUser = user;
             saveUsersToFile();
 
             return "Signed up successfully.";
@@ -132,6 +135,9 @@ public class Server extends Thread {
     }
 
     private void saveUser(User user) {
+        if (user.getUsername().equals(currentUser.getUsername())) {
+            currentUser = user;
+        }
         users.removeIf(u -> u.getUsername().equals(user.getUsername()));
         users.add(user);
         saveUsersToFile();
