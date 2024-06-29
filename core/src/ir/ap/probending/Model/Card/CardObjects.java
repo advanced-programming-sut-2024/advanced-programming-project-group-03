@@ -128,7 +128,13 @@ public enum CardObjects {
     Rain(CardsInfo.Rain),
     Fog(CardsInfo.Fog),
     Frost(CardsInfo.Frost),
-    Storm(CardsInfo.Storm);
+    Storm(CardsInfo.Storm),
+
+    // Leaders
+    EarthLeader(CardsInfo.EarthLeader),
+    FireLeader(CardsInfo.FireLeader),
+    WaterLeader(CardsInfo.WaterLeader),
+    WindLeader(CardsInfo.WindLeader);
 
     private Card card;
 

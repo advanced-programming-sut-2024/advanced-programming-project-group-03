@@ -130,7 +130,16 @@ public enum CardsInfo {
     Fog(new Fog(),"Fog",0,false,"Cards/Neutral/weather_fog.png",6,""),
     Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
     Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
-    Storm(new Storm(),"Snow",0,false,"Cards/Neutral/weather_storm.png",6,"");
+    Storm(new Storm(),"Snow",0,false,"Cards/Neutral/weather_storm.png",6,""),
+
+    //Leaders
+    EarthLeader(null, "Kuei", 0, false, "Cards/Leaders/EarthLeader.png", -1, ""),
+    FireLeader(null, "Zuko", 0, false, "Cards/Leaders/FireLeader.png", -1, ""),
+    WaterLeader(null, "Tonraq", 0, false, "Cards/Leaders/WaterLeader.png", -1, ""),
+    WindLeader(null, "Tenzin", 0, false, "Cards/Leaders/WindLeader.png", -1, "");
+
+
+
 
 
 
