@@ -47,6 +47,7 @@ public class Server extends Thread {
                             response = "Invalid input";
                         else
                             response = signUp(messageParts[1], messageParts[2], messageParts[3], messageParts[4]);
+                        System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
@@ -55,17 +56,20 @@ public class Server extends Thread {
                             response = "Invalid input";
                         else
                             response = login(messageParts[1], messageParts[2]);
+                        System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
                     case "sendEmail":
                         response = sendEmail();
+                        System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
                     case "getUser":
                         User user = getUser();
                         Gson gson = new Gson();
+                        System.out.println(response);
                         String userJson = gson.toJson(user);
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();

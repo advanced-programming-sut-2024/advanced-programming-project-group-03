@@ -238,7 +238,7 @@ public class SignInController {
             public void clicked(InputEvent event, float x, float y) {
                 if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail()) {
                     errorLabel.setText("");
-                    String response = ProBending.client.communicate("register " + usernameField.getText() + " " + passwordField.getText() + " " + emailField.getText() + " " + nicknameField.getText());
+                    String response = ProBending.client.communicate("signup " + usernameField.getText() + " " + passwordField.getText() + " " + emailField.getText() + " " + nicknameField.getText());
                     if (response.equals("Signed up successfully.")) {
                         ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                         ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
