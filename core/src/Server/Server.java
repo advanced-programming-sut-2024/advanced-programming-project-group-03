@@ -74,6 +74,11 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
                         break;
+                    case "saveUser":
+                        String userString = message.substring(9);
+                        Gson gson1 = new Gson();
+                        User user1 = gson1.fromJson(userString, User.class);
+                        saveUser(user1);
                 }
             }
             socket.close();
@@ -124,6 +129,12 @@ public class Server extends Thread {
 
     private User getUser() {
         return currentUser;
+    }
+
+    private void saveUser(User user) {
+        users.removeIf(u -> u.getUsername().equals(user.getUsername()));
+        users.add(user);
+        saveUsersToFile();
     }
 
     private String sendEmail() {
