@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Game.Game;
@@ -124,6 +125,16 @@ public class GameUIController {
 
     private void rowClickAction(boolean canPlaceCard , Table table){
         if (canPlaceCard && clickedCard != null){
+            if (clickedCard.getAbility() instanceof Muster){
+                int count = 0;
+                for (Card card : Game.getGame().getCurrentPlayer().getDeck()){
+                    if (card.getName().equals(clickedCard.getName()))
+                        count++;
+                }
+                for (int i = 0; i < count; i++){
+                    table.add(clickedCard.clone2()).pad(10);
+                }
+            }
             table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
             Game.getGame().playCard(clickedCard);
