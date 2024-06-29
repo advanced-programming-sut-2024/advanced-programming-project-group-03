@@ -141,8 +141,8 @@ public class Server extends Thread {
         if (currentUser == null) {
             return "Email not found";
         }
-        final String senderEmail = "proBendingAvatar@gmail.com";
-        final String senderPassword = "1234abcd!";
+        final String senderEmail = "probendingAp@proton.me";
+        final String senderPassword = "1234abcd";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
