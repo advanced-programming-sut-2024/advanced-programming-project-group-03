@@ -146,11 +146,17 @@ public class Server extends Thread {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
-        // Return the confirmation code so it can be stored and compared later
         return confirmationCodeStr;
     }
     private static void loadUsersFromFile() {
+        File file = new File(USERS_FILE);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try (Reader reader = new FileReader(USERS_FILE)) {
             Gson gson = new Gson();
             Type userListType = new TypeToken<ArrayList<User>>() {}.getType();

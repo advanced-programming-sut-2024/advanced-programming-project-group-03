@@ -105,7 +105,7 @@ public enum CardsInfo {
     Kai(new Berseker(),"Kai",3,false,"Cards/Air Temples/Kai.png",2,""),
     Kelsang(new TightBonds(),"Kelsang",5,false,"Cards/Air Temples/Kelsang.png",0,""),
     Koun(new TightBonds(),"Koun",4,false,"Cards/Air Temples/Koun.png",1,""),
-    Meelo(new CommandersHorn(),"Meelo",4,false,"Cards/Air Temples/Meelo.png",0,""),
+    Meelo(new CommandersHorn(),"Meelo",4,false,"Cards/Air Temples/Meelo.png",7,""),
     Opal(new Morale(),"Opal",2,false,"Cards/Air Temples/Opal.png",0,""),
     Otaku(new Morale(),"Otaku",3,false,"Cards/Air Temples/Otaku.png",0,""),
     Ryu(new Spy(),"Ryu",5,false,"Cards/Air Temples/Ryu.png",2,""),
