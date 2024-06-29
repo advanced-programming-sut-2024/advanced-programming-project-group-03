@@ -9,6 +9,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -17,7 +18,7 @@ public class MailSender {
 
     public void sendEmailWithCode(String recipientEmail, int code) throws Exception {
         GoogleCredentials credentials = ServiceAccountCredentials.fromStream(
-                        new ByteArrayInputStream(SERVICE_ACCOUNT_PATH.getBytes()))
+                        new FileInputStream(SERVICE_ACCOUNT_PATH))
                 .createScoped("https://mail.google.com/");
 
         credentials.refreshIfExpired();
@@ -30,16 +31,16 @@ public class MailSender {
 
         Session session = Session.getInstance(props);
         MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(""));
+        msg.setFrom(new InternetAddress("probending@probending.iam.gserviceaccount.com"));
         msg.setRecipients(Message.RecipientType.TO, recipientEmail);
         msg.setSubject("Test Email");
         msg.setText("Hello, this is a test email. Your code is: " + code);
 
         SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
         try {
-            t.connect("smtp.gmail.com", "your-email@gmail.com", null);
+            t.connect("smtp.gmail.com", "probending@probending.iam.gserviceaccount.com", null);
             t.issueCommand("AUTH XOAUTH2 " + new String(BASE64EncoderStream.encode(
-                    ("user=probending@probending.iam.gserviceaccount.com\1auth=Bearer " + accessToken + "\1\1").getBytes())), 235);
+                    ("user=probending@probending.iam.gserviceaccount.com" + '\001' + "auth=Bearer " + accessToken + '\001' + '\001').getBytes())), 235);
             t.sendMessage(msg, msg.getAllRecipients());
         } finally {
             t.close();

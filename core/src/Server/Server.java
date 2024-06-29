@@ -147,37 +147,16 @@ public class Server extends Thread {
         if (currentUser == null) {
             return "Email not found";
         }
-        final String senderEmail = "probendingAp@proton.me";
-        final String senderPassword = "1234abcd";
-
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, senderPassword);
-            }
-        });
-
-        // Generate a 6-digit random confirmation code
         Random random = new Random();
         int confirmationCode = 100000 + random.nextInt(900000);
         String confirmationCodeStr = String.valueOf(confirmationCode);
         currentUser.setLoginNumber(confirmationCodeStr);
-
+        MailSender mailSender = new MailSender();
         try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(currentUser.getEmail()));
-            message.setSubject("Email Confirmation Code");
-            message.setText("Please use this code to confirm your email: " + confirmationCodeStr);
-
-            Transport.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            mailSender.sendEmailWithCode(currentUser.getEmail(), confirmationCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to send email";
         }
         return confirmationCodeStr;
     }
