@@ -40,14 +40,21 @@ public class Server extends Thread {
                 String[] messageParts = message.split(" ");
                 String command = messageParts[0];
                 String response = "";
+                System.out.println(command);
                 switch (command) {
                     case "signup":
-                        response = signUp(messageParts[1], messageParts[2], messageParts[3], messageParts[4]);
+                        if (messageParts.length != 5)
+                            response = "Invalid input";
+                        else
+                            response = signUp(messageParts[1], messageParts[2], messageParts[3], messageParts[4]);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
                     case "login":
-                        response = login(messageParts[1], messageParts[2]);
+                        if (messageParts.length != 3)
+                            response = "Invalid input";
+                        else
+                            response = login(messageParts[1], messageParts[2]);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
