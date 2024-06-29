@@ -24,8 +24,6 @@ public class Client {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             return true;
         } catch (IOException e) {
-            System.out.println("Failed to connect to server. Starting the server...");
-            Server.main(new String[]{});
             return false;
         }
     }
