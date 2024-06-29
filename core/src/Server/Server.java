@@ -40,7 +40,7 @@ public class Server extends Thread {
                 String[] messageParts = message.split(" ");
                 String command = messageParts[0];
                 String response = "";
-                System.out.println(command);
+                System.out.println(message);
                 switch (command) {
                     case "signup":
                         if (messageParts.length != 5)
