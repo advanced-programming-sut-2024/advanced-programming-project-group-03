@@ -77,15 +77,12 @@ public class LoginController {
                 String response = ProBending.client.communicate("login " + usernameField.getText() + " " + passwordField.getText());
 
                 switch (response) {
-                    case "User not found":
-                        errorLabel.setText("User does not exist");
-                        break;
-                    case "Incorrect password":
-                        errorLabel.setText("Password is incorrect");
-                        break;
                     case "Sending email confirmation link":
                         verificationCode = ProBending.client.communicate("sendEmail");
                         errorLabel.setText("Enter the verification code sent to your email");
+                        break;
+                    default:
+                        errorLabel.setText(response);
                         break;
                 }
             }

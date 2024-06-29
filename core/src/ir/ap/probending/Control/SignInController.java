@@ -160,55 +160,55 @@ public class SignInController {
         return true;
     }
 
-    private boolean checkForUsedUsername(){
-        try {
-            List<User> users = SaveUser.loadUsers();
-            for (User user : users){
-                if (user.getUsername().equals(usernameField.getText())){
-                    errorLabel.setText("Username is already used");
-                    return false;
-                }
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return true;
-    }
+//    private boolean checkForUsedUsername(){
+//        try {
+//            List<User> users = SaveUser.loadUsers();
+//            for (User user : users){
+//                if (user.getUsername().equals(usernameField.getText())){
+//                    errorLabel.setText("Username is already used");
+//                    return false;
+//                }
+//            }
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
 
-    private boolean checkForUsedEmail(){
-        try {
-            List<User> users = SaveUser.loadUsers();
-            for (User user : users){
-                if (user.getEmail().equals(emailField.getText())){
-                    errorLabel.setText("Email is already used");
-                    return false;
-                }
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+//    private boolean checkForUsedEmail(){
+//        try {
+//            List<User> users = SaveUser.loadUsers();
+//            for (User user : users){
+//                if (user.getEmail().equals(emailField.getText())){
+//                    errorLabel.setText("Email is already used");
+//                    return false;
+//                }
+//            }
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        return true;
+//    }
 
-        return true;
-    }
-
-    private boolean checkForUsedPassword(){
-        try {
-            List<User> users = SaveUser.loadUsers();
-            for (User user : users){
-                if (user.getPassword().equals(passwordField.getText())){
-                    errorLabel.setText("Password is already used by :" + user.getUsername());
-                    return false;
-                }
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return true;
-    }
+//    private boolean checkForUsedPassword(){
+//        try {
+//            List<User> users = SaveUser.loadUsers();
+//            for (User user : users){
+//                if (user.getPassword().equals(passwordField.getText())){
+//                    errorLabel.setText("Password is already used by :" + user.getUsername());
+//                    return false;
+//                }
+//            }
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        return true;
+//    }
 
     private boolean checkForWeakPassword(){
         String selectedPassword = passwordField.getText();
@@ -240,17 +240,21 @@ public class SignInController {
         signUpButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail() && checkForUsedUsername() && checkForUsedEmail() && checkForUsedPassword()){
+                if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail()){
                     errorLabel.setText("");
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
-                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(PickQuestionMenuController.getPickQuestionMenuController().getTable());
+                    String response = ProBending.client.communicate("register " + usernameField.getText() + " " + passwordField.getText() + " " + emailField.getText() + " " + nicknameField.getText());
+                    if (response.equals("Signed up successfully.")) {
+                        ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                        ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                        Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                        ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(PickQuestionMenuController.getPickQuestionMenuController().getTable());
 
-                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedUsername(usernameField.getText());
-                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedPassword(passwordField.getText());
-                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedEmail(emailField.getText());
-                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedNickname(nicknameField.getText());
+                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedUsername(usernameField.getText());
+                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedPassword(passwordField.getText());
+                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedEmail(emailField.getText());
+                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedNickname(nicknameField.getText());
+                    } else
+                        errorLabel.setText(response);
                 }
             }
         });
