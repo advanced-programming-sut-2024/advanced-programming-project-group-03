@@ -112,7 +112,7 @@ public class Game {
         updateSetWonLabels();
     }
 
-    public void playCard(Card card) {
+    public void playCard(Card card , int row) {
         isCardPlayedThisRound = true;
 
         for (int i = 0; i < currentPlayer.getHand().size(); i++) {
@@ -122,7 +122,7 @@ public class Game {
             }
         }
 
-        switch (card.getPlayingRow()){
+        switch (row){
             case 0:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
                     gameBoard.getPlayer1Board().addCardToSiege(card);
@@ -151,6 +151,7 @@ public class Game {
         }
 
         updatePowerLabelsNumbers();
+        GameUIController.getGameUIController().updateRows();
         endTurn();
     }
 
