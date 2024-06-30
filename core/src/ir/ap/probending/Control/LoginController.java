@@ -78,8 +78,10 @@ public class LoginController {
 
                 switch (response) {
                     case "Sending email confirmation link":
-//                        verificationCode = ProBending.client.communicate("sendLoginEmail");
+                        verificationCode = ProBending.client.communicate("sendLoginEmail");
                         errorLabel.setText("Enter the verification code sent to your email");
+                        usernameField.setText("");
+                        passwordField.setText("");
                         break;
                     default:
                         errorLabel.setText(response);
