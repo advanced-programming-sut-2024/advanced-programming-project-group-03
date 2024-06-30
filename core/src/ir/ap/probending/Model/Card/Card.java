@@ -140,6 +140,33 @@ public class Card extends Actor {
         });
     }
 
+    private Card(Card card , int x , int y) {
+        this.ability = card.getAbility();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                Game.getGame().playCard(Card.this , Game.getGame().getOtherPlayer());
+
+                GameUIController.getGameUIController().deactivateCardListWindow();
+                GameUIController.getGameUIController().clearCardListWindow();
+                Game.getGame().getCurrentPlayer().removeCardFromDeckCards(Card.this);
+                return true;
+            }
+        });
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         cardSprite.setPosition(getX(), getY());
@@ -220,6 +247,10 @@ public class Card extends Actor {
         this.playingRow = playingRow;
     }
 
+    public void setClicked(boolean clicked) {
+        isClicked = clicked;
+    }
+
     public Card clone() {
         return new Card(this);
     }
@@ -228,7 +259,7 @@ public class Card extends Actor {
         return new Card(this, 1);
     }
 
-    public void setClicked(boolean clicked) {
-        isClicked = clicked;
+    public Card clone3() {
+        return new Card(this, 1, 1);
     }
 }

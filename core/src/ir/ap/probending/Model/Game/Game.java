@@ -71,6 +71,7 @@ public class Game {
         }
 
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+        GameUIController.getGameUIController().updateRows();
 
         //check if both players have passed this set
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
@@ -89,6 +90,7 @@ public class Game {
     }
 
     public void startNewSet() {
+        depositCardToBurntCards();
         currentSet++;
         GameUIController.getGameUIController().setClickedCard(null);
         clearBoard();
@@ -152,6 +154,41 @@ public class Game {
         endTurn();
     }
 
+    public void playCard(Card card , Player player) {
+        isCardPlayedThisRound = true;
+
+        switch (card.getPlayingRow()){
+            case 0:
+                if (player.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToSiege(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToSiege(card);
+                break;
+            case 1:
+                if (player.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToRanged(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToRanged(card);
+                break;
+            case 2:
+                if (player.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(card);
+                else
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(card);
+                break;
+            case 6:
+                Game.getGame().getGameBoard().addSpellCard(card);
+                break;
+        }
+
+        if (card.getAbility() != null){
+            card.getAbility().executeAbility(card);
+        }
+
+        updatePowerLabelsNumbers();
+        GameUIController.getGameUIController().updateRows();
+    }
+
     private void selectRandomCardsAndFactionForPlayer2() {
         gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getDeckCards());//TODO change this to a different deck
         //random cards from random faction and random leader for player2 TODO
@@ -187,6 +224,34 @@ public class Game {
     private void updateSetWonLabels(){
         GameUIController.getGameUIController().setPlayer1SetWon(gameBoard.getPlayer1().getSetsWon());
         GameUIController.getGameUIController().setPlayer2SetWon(gameBoard.getPlayer2().getSetsWon());
+    }
+
+    private void depositCardToBurntCards(){
+        for (Card card : gameBoard.getPlayer1Board().getSiege()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer1Board().getRanged()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer1Board().getCloseCombat()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getSiege()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getRanged()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getCloseCombat()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+    }
+
+    public Player getOtherPlayer(){
+        if (currentPlayer.equals(gameBoard.getPlayer1()))
+            return gameBoard.getPlayer2();
+        else
+            return gameBoard.getPlayer1();
     }
 
     //views
