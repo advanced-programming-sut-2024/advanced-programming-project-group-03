@@ -15,6 +15,8 @@ import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
+import java.util.ArrayList;
+
 
 public class GameUIController {
     private final Table table = new Table();
@@ -42,6 +44,9 @@ public class GameUIController {
     private final Window setEndDialog = new Window("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label setWinnerLabel = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Window cardListWindow = new Window("Card List" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Table cardListTable = new Table();
+    private final ScrollPane cardListScrollPane = new ScrollPane(cardListTable);
     private final Table playerHandTable = new Table();
     private final ScrollPane playerHandScrollPane = new ScrollPane(playerHandTable);
     private final Table row0Table = new Table();
@@ -101,6 +106,7 @@ public class GameUIController {
         addCurrentTurnUserNameToView();
         addPowerSumLabels();
         addSetWonLabels();
+        addCardListWindow();
     }
 
     //functionality methods
@@ -125,7 +131,7 @@ public class GameUIController {
 
     private void rowClickAction(boolean canPlaceCard , Table table){
         if (canPlaceCard && clickedCard != null){
-            if (clickedCard.getAbility() instanceof Muster){
+/*            if (clickedCard.getAbility() instanceof Muster){
                 int count = 0;
                 for (Card card : Game.getGame().getCurrentPlayer().getDeck()){
                     if (card.getName().equals(clickedCard.getName()))
@@ -134,10 +140,10 @@ public class GameUIController {
                 for (int i = 0; i < count; i++){
                     table.add(clickedCard.clone2()).pad(10);
                 }
-            }
+            }*/
             table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
-            Game.getGame().playCard(clickedCard);
+            Game.getGame().playCard(clickedCard );
             cardImage.setVisible(false);
         }
     }
@@ -215,7 +221,86 @@ public class GameUIController {
         passForPlayer2.setVisible(false);
     }
 
+    public void updateRows(){
+        row0Table.clear();
+        row1Table.clear();
+        row2Table.clear();
+        row3Table.clear();
+        row4Table.clear();
+        row5Table.clear();
+        spellRowTable.clear();
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
 
+            if (!Game.getGame().getGameBoard().getPlayer1Board().getSiege().isEmpty())
+                row0Table.add(card).padTop(-160).padRight(-100);
+            else
+                row0Table.add(card).padTop(-160);
+
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getRanged()){
+            if (!Game.getGame().getGameBoard().getPlayer1Board().getRanged().isEmpty())
+                row1Table.add(card).padTop(-160).padRight(-100);
+            else
+                row1Table.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
+            if (!Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().isEmpty())
+                row2Table.add(card).padTop(-160).padRight(-100);
+            else
+                row2Table.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getSiege()){
+            if (!Game.getGame().getGameBoard().getPlayer2Board().getSiege().isEmpty())
+                row5Table.add(card).padTop(-160).padRight(-100);
+            else
+                row5Table.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getRanged()){
+            if (!Game.getGame().getGameBoard().getPlayer2Board().getRanged().isEmpty())
+                row4Table.add(card).padTop(-160).padRight(-100);
+            else
+                row4Table.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
+            if (!Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().isEmpty())
+                row3Table.add(card).padTop(-160).padRight(-100);
+            else
+                row3Table.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+        for (Card card : Game.getGame().getGameBoard().getSpellCards()){
+            spellRowTable.add(card).padTop(-160);
+            card.getSprite().setSize(100 , 200);
+        }
+    }
+
+    public void activateCardListWindow(){
+        cardListWindow.setVisible(true);
+    }
+
+    public void deactivateCardListWindow(){
+        cardListWindow.setVisible(false);
+    }
+
+    public void addCardsToCardListWindow(ArrayList<Card> cards){
+        cardListTable.clear();
+        int count = 0;
+        for (Card card : cards){
+            cardListTable.add(card).pad(10);
+            count++;
+            if (count % 5 == 0)
+                cardListTable.row();
+        }
+    }
+
+    public void clearCardListWindow(){
+        cardListTable.clear();
+    }
 
     //add view methods for cleaner code
 
@@ -237,13 +322,13 @@ public class GameUIController {
     private void addRow0TableView(){
         row0Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row0Table.top().left();
-        row0ScrollPane.setScrollingDisabled(true, false);
-        row0ScrollPane.setScrollbarsVisible(true);
-        row0ScrollPane.setFadeScrollBars(false);
+        row0ScrollPane.setScrollingDisabled(true, true);
+        row0ScrollPane.setScrollbarsVisible(false);
+/*        row0ScrollPane.setFadeScrollBars(true);
         row0ScrollPane.setSmoothScrolling(true);
-        row0ScrollPane.setScrollBarPositions(false, true);
+        row0ScrollPane.setScrollBarPositions(false, true);*/
         row0ScrollPane.setStyle(scrollPaneStyle);
-        row0Table.setBackground(drawable);
+        //row0Table.setBackground(drawable);
         row0ScrollPane.setSize(830, 130);
         row0ScrollPane.setPosition(700, 250);
 
@@ -253,13 +338,13 @@ public class GameUIController {
     private void addRow1TableView(){
         row1Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row1Table.top().left();
-        row1ScrollPane.setScrollingDisabled(true, false);
-        row1ScrollPane.setScrollbarsVisible(true);
-        row1ScrollPane.setFadeScrollBars(false);
+        row1ScrollPane.setScrollingDisabled(true, true);
+        row1ScrollPane.setScrollbarsVisible(false);
+/*        row1ScrollPane.setFadeScrollBars(false);
         row1ScrollPane.setSmoothScrolling(true);
-        row1ScrollPane.setScrollBarPositions(false, true);
+        row1ScrollPane.setScrollBarPositions(false, true);*/
         row1ScrollPane.setStyle(scrollPaneStyle);
-        row1Table.setBackground(drawable);
+        //row1Table.setBackground(drawable);
         row1ScrollPane.setSize(830, 130);
         row1ScrollPane.setPosition(700, 390);
 
@@ -269,13 +354,13 @@ public class GameUIController {
     private void addRow2TableView(){
         row2Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row2Table.top().left();
-        row2ScrollPane.setScrollingDisabled(true, false);
-        row2ScrollPane.setScrollbarsVisible(true);
-        row2ScrollPane.setFadeScrollBars(false);
+        row2ScrollPane.setScrollingDisabled(true, true);
+        row2ScrollPane.setScrollbarsVisible(false);
+/*        row2ScrollPane.setFadeScrollBars(false);
         row2ScrollPane.setSmoothScrolling(true);
-        row2ScrollPane.setScrollBarPositions(false, true);
+        row2ScrollPane.setScrollBarPositions(false, true);*/
         row2ScrollPane.setStyle(scrollPaneStyle);
-        row2Table.setBackground(drawable);
+        //row2Table.setBackground(drawable);
         row2ScrollPane.setSize(830, 130);
         row2ScrollPane.setPosition(700, 530);
 
@@ -285,13 +370,13 @@ public class GameUIController {
     private void addRow3TableView(){
         row3Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row3Table.top().left();
-        row3ScrollPane.setScrollingDisabled(true, false);
-        row3ScrollPane.setScrollbarsVisible(true);
-        row3ScrollPane.setFadeScrollBars(false);
+        row3ScrollPane.setScrollingDisabled(true, true);
+        row3ScrollPane.setScrollbarsVisible(false);
+/*        row3ScrollPane.setFadeScrollBars(false);
         row3ScrollPane.setSmoothScrolling(true);
-        row3ScrollPane.setScrollBarPositions(false, true);
+        row3ScrollPane.setScrollBarPositions(false, true);*/
         row3ScrollPane.setStyle(scrollPaneStyle);
-        row3Table.setBackground(drawable);
+        //row3Table.setBackground(drawable);
         row3ScrollPane.setSize(830, 130);
         row3ScrollPane.setPosition(700, 670);
 
@@ -301,13 +386,13 @@ public class GameUIController {
     private void addRow4TableView(){
         row4Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row4Table.top().left();
-        row4ScrollPane.setScrollingDisabled(true, false);
-        row4ScrollPane.setScrollbarsVisible(true);
-        row4ScrollPane.setFadeScrollBars(false);
+        row4ScrollPane.setScrollingDisabled(true, true);
+        row4ScrollPane.setScrollbarsVisible(false);
+  /*      row4ScrollPane.setFadeScrollBars(false);
         row4ScrollPane.setSmoothScrolling(true);
-        row4ScrollPane.setScrollBarPositions(false, true);
+        row4ScrollPane.setScrollBarPositions(false, true);*/
         row4ScrollPane.setStyle(scrollPaneStyle);
-        row4Table.setBackground(drawable);
+        //row4Table.setBackground(drawable);
         row4ScrollPane.setSize(830, 130);
         row4ScrollPane.setPosition(700, 810);
 
@@ -317,13 +402,13 @@ public class GameUIController {
     private void addRow5TableView(){
         row5Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row5Table.top().left();
-        row5ScrollPane.setScrollingDisabled(true, false);
-        row5ScrollPane.setScrollbarsVisible(true);
-        row5ScrollPane.setFadeScrollBars(false);
+        row5ScrollPane.setScrollingDisabled(true, true);
+        row5ScrollPane.setScrollbarsVisible(false);
+/*        row5ScrollPane.setFadeScrollBars(false);
         row5ScrollPane.setSmoothScrolling(true);
-        row5ScrollPane.setScrollBarPositions(false, true);
+        row5ScrollPane.setScrollBarPositions(false, true);*/
         row5ScrollPane.setStyle(scrollPaneStyle);
-        row5Table.setBackground(drawable);
+        //row5Table.setBackground(drawable);
         row5ScrollPane.setSize(830, 130);
         row5ScrollPane.setPosition(700, 950);
 
@@ -448,6 +533,16 @@ public class GameUIController {
         player2SetWon.setPosition(100, 760);
         player2SetWon.setSize(200, 50);
         table.addActor(player2SetWon);
+    }
+
+    private void addCardListWindow(){
+        cardListWindow.setSize(1000, 1000);
+        cardListWindow.setPosition(500 , 40);
+        cardListWindow.setVisible(false);
+        cardListScrollPane.setSize(400, 800);
+        cardListTable.setSize(400, 800);
+        cardListWindow.add(cardListScrollPane);
+        table.addActor(cardListWindow);
     }
 
     //getters and setters
