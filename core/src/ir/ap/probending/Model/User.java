@@ -9,7 +9,8 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String loginNumber;
+    private String loginNumber = "";
+    private boolean registerConfirmed = false;
     private int questionIndex;
     private String questionAnswer;
     private ArrayList<GameHistory> gameHistories;
@@ -160,4 +161,13 @@ public class User {
     public void setLoginNumber(String loginNumber) {
         this.loginNumber = loginNumber;
     }
+
+    public boolean isRegisterConfirmed() {
+        return registerConfirmed;
+    }
+
+    public void setRegisterConfirmed(boolean registerConfirmed) {
+        this.registerConfirmed = registerConfirmed;
+    }
+
 }

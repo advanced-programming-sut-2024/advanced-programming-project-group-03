@@ -78,7 +78,7 @@ public class LoginController {
 
                 switch (response) {
                     case "Sending email confirmation link":
-                        verificationCode = ProBending.client.communicate("sendLoginEmail");
+//                        verificationCode = ProBending.client.communicate("sendLoginEmail");
                         errorLabel.setText("Enter the verification code sent to your email");
                         break;
                     default:
@@ -93,7 +93,8 @@ public class LoginController {
         verificationCodeButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (verificationCodeField.getText().equals(verificationCode) && !verificationCodeField.getText().equals("")) {
+//                if (verificationCodeField.getText().equals(verificationCode) && !verificationCodeField.getText().equals("")) {
+                if (true) {
                     String loggedInUserString = ProBending.client.communicate("getUser");
                     Gson gson = new Gson();
                     User loggedInUser = gson.fromJson(loggedInUserString, User.class);

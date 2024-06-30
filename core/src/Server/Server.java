@@ -63,7 +63,7 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     case "sendSignupEmail":
-                        response = sendSignUpEmail();
+                        response = sendSignupEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
@@ -126,9 +126,11 @@ public class Server extends Thread {
             return "User not found";
         } else if (!user.getPassword().equals(password)) {
             return "Incorrect password";
+        } else if (!user.isRegisterConfirmed()) {
+            return "Email not confirmed";
         } else {
             currentUser = user;
-            return "Sending email confirmation link";
+            return "Sending email confirmation code";
         }
     }
 
@@ -163,9 +165,31 @@ public class Server extends Thread {
         return confirmationCodeStr;
     }
 
-    private String sendSignUpEmail() {
-        return "";
+    private String sendSignupEmail() {
+        if (currentUser == null) {
+            return "User not found";
+        }
+
+        // Construct the confirmation link with the token
+        String confirmationLink = "http://localhost:8080/confirm?token=" + currentUser.getUsername();
+
+        // Send the confirmation email
+        MailSender mailSender = new MailSender();
+        try {
+            mailSender.sendEmail(currentUser.getEmail(), "Sign Up Confirmation", "Please click the link below to confirm your email:\n" + confirmationLink);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to send email";
+        }
+
+        return "Confirmation email sent successfully";
     }
+
+    public static void receiveToken(String token){
+        System.out.println("Received token: " + token);
+        users.stream().filter(user -> user.getUsername().equals(token)).findFirst().ifPresent(user -> user.setRegisterConfirmed(true));
+    }
+
     private static void loadUsersFromFile() {
         File file = new File(USERS_FILE);
         if (!file.exists()) {
@@ -199,6 +223,7 @@ public class Server extends Thread {
     }
 
     public static void main(String[] args) {
+        new ConfirmationController();
         loadUsersFromFile();
 
         try {
