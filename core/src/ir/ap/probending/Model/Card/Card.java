@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
+import ir.ap.probending.Model.Card.Abilities.Agile;
+import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Game.Game;
 
 
@@ -111,28 +113,50 @@ public class Card extends Actor {
                 GameUIController.getGameUIController().setClickedCard(Card.this);
 
                 if (GameUIController.getGameUIController().getPlayerHandTable().getChildren().contains(Card.this, true) && isClicked) {
-                    switch (Card.this.getPlayingRow()) {
-                        case 0:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
-                            break;
-                        case 1:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
-                            break;
-                        case 2:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
-                            break;
-                        case 6:
-                            GameUIController.getGameUIController().setCanPlaceCardOnSpellRow(true);
-                            break;
+                    if (Card.this.getAbility() instanceof Agile){
+                        if (Game.getGame().getCurrentTurn() == 1){
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
+                        }
+                        else if (Game.getGame().getCurrentTurn() == 2){
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
+                        }
+                    }
+                    else if (Card.this.getAbility() instanceof Agile2) {
+                        if (Game.getGame().getCurrentTurn() == 1){
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
+                        }
+                        else if (Game.getGame().getCurrentTurn() == 2){
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
+                            GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
+                        }
+                    }
+                    else {
+                        switch (Card.this.getPlayingRow()) {
+                            case 0:
+                                if (Game.getGame().getCurrentTurn() == 1)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
+                                else if (Game.getGame().getCurrentTurn() == 2)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
+                                break;
+                            case 1:
+                                if (Game.getGame().getCurrentTurn() == 1)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
+                                else if (Game.getGame().getCurrentTurn() == 2)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
+                                break;
+                            case 2:
+                                if (Game.getGame().getCurrentTurn() == 1)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
+                                else if (Game.getGame().getCurrentTurn() == 2)
+                                    GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
+                                break;
+                            case 6:
+                                GameUIController.getGameUIController().setCanPlaceCardOnSpellRow(true);
+                                break;
+                        }
                     }
                 }
                 return true;
