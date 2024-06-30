@@ -11,7 +11,10 @@ public class Medic extends Ability{
 
         ArrayList<Card> burntCards = new ArrayList<>();
         for (Card burntCard : Game.getGame().getCurrentPlayer().getBurntCards()) {
-            if (!burntCard.isHero()){
+            if (!burntCard.isHero() && !(burntCard.getAbility() instanceof Berseker) &&
+                    !(burntCard.getAbility() instanceof Mardroeme) && !(burntCard.getAbility() instanceof CommandersHorn) &&
+                    !(burntCard.getAbility() instanceof Decoy) && !(burntCard.getAbility() instanceof Scorch) &&
+                    !(burntCard.getAbility() instanceof SummonAvenger)){
                 burntCards.add(burntCard.clone3());
             }
         }
