@@ -129,7 +129,7 @@ public class GameUIController {
         canPlaceCardOnSpellRow = false;
     }
 
-    private void rowClickAction(boolean canPlaceCard , Table table){
+    private void rowClickAction(boolean canPlaceCard , Table table , int row){
         if (canPlaceCard && clickedCard != null){
 /*            if (clickedCard.getAbility() instanceof Muster){
                 int count = 0;
@@ -143,8 +143,16 @@ public class GameUIController {
             }*/
             table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
-            Game.getGame().playCard(clickedCard );
             cardImage.setVisible(false);
+
+            if (row == 5)
+                Game.getGame().playCard(clickedCard , 0 );
+            else if (row == 4)
+                Game.getGame().playCard(clickedCard , 1 );
+            else if (row == 3)
+                Game.getGame().playCard(clickedCard , 2 );
+            else
+                Game.getGame().playCard(clickedCard , row );
         }
     }
 
@@ -152,49 +160,49 @@ public class GameUIController {
         row0ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow0, row0Table);
+                rowClickAction(canPlaceCardOnRow0, row0Table , 0);
             }
         });
 
         row1ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow1, row1Table);
+                rowClickAction(canPlaceCardOnRow1, row1Table , 1);
             }
         });
 
         row2ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow2, row2Table);
+                rowClickAction(canPlaceCardOnRow2, row2Table , 2);
             }
         });
 
         row3ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow3, row3Table);
+                rowClickAction(canPlaceCardOnRow3, row3Table , 3);
             }
         });
 
         row4ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow4, row4Table);
+                rowClickAction(canPlaceCardOnRow4, row4Table, 4);
             }
         });
 
         row5ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow5, row5Table);
+                rowClickAction(canPlaceCardOnRow5, row5Table , 5);
             }
         });
 
         spellRowScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnSpellRow, spellRowTable);
+                rowClickAction(canPlaceCardOnSpellRow, spellRowTable , 6);
             }
         });
 
