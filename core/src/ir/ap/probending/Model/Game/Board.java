@@ -133,6 +133,14 @@ public class Board {
         return count;
     }
 
+    public ArrayList<Card> getAllCards(){
+        ArrayList<Card> allCards = new ArrayList<>();
+        allCards.addAll(closeCombat);
+        allCards.addAll(ranged);
+        allCards.addAll(siege);
+        return allCards;
+    }
+
     //getters and setters
     public Card getCommanderCloseCombat() {
         return commanderCloseCombat;
