@@ -10,11 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class Server extends Thread {
     private static final String USERS_FILE = "users.json";
@@ -60,8 +56,14 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    case "sendEmail":
-                        response = sendEmail();
+                    case "sendLoginEmail":
+                        response = sendLoginEmail();
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    case "sendSignupEmail":
+                        response = sendSignUpEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
@@ -143,7 +145,7 @@ public class Server extends Thread {
         saveUsersToFile();
     }
 
-    private String sendEmail() {
+    private String sendLoginEmail() {
         if (currentUser == null) {
             return "Email not found";
         }
@@ -153,12 +155,16 @@ public class Server extends Thread {
         currentUser.setLoginNumber(confirmationCodeStr);
         MailSender mailSender = new MailSender();
         try {
-            mailSender.sendEmailWithCode(currentUser.getEmail(), confirmationCode);
+            mailSender.sendEmail(currentUser.getEmail(), "Pro Bending Login Confirmation", "Your confirmation code is: " + confirmationCodeStr);
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to send email";
         }
         return confirmationCodeStr;
+    }
+
+    private String sendSignUpEmail() {
+        return "";
     }
     private static void loadUsersFromFile() {
         File file = new File(USERS_FILE);

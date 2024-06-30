@@ -1,49 +1,33 @@
 package Server;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.sun.mail.smtp.SMTPTransport;
-import com.sun.mail.util.BASE64EncoderStream;
+import okhttp3.*;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class MailSender {
-    private static final String SERVICE_ACCOUNT_PATH = "core/src/Server/probending-98ca50d3b2a8.json";
 
-    public void sendEmailWithCode(String recipientEmail, int code) throws Exception {
-        GoogleCredentials credentials = ServiceAccountCredentials.fromStream(
-                        new FileInputStream(SERVICE_ACCOUNT_PATH))
-                .createScoped("https://mail.google.com/");
+    private static final String API_TOKEN = "beadc9803cac741eeb5df956d1964c15";
 
-        credentials.refreshIfExpired();
-        String accessToken = credentials.getAccessToken().getTokenValue();
+    public static void sendEmail(String recipientEmail, String subject, String text) throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\"from\":{\"email\":\"mailtrap@demomailtrap.com\",\"name\":\"Mailtrap Test\"},\"to\":[{\"email\":\"" + recipientEmail + "\"}],\"subject\":\"" + subject + "\",\"text\":\"" + text + "\",\"category\":\"Integration Test\"}");
+        Request request = new Request.Builder()
+                .url("https://send.api.mailtrap.io/api/send")
+                .method("POST", body)
+                .addHeader("Authorization", "Bearer " + API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        System.out.println("Response from Mailtrap API: " + response.body().string());
+    }
 
-        Properties props = new Properties();
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+    public static void main(String[] args) throws IOException {
+        String recipientEmail = "hekmatinima@gmail.com";
+        String subject = "You are awesome!";
+        String text = "Congrats for sending test email with Mailtrap!";
 
-        Session session = Session.getInstance(props);
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("probending@probending.iam.gserviceaccount.com"));
-        msg.setRecipients(Message.RecipientType.TO, recipientEmail);
-        msg.setSubject("Test Email");
-        msg.setText("Hello, this is a test email. Your code is: " + code);
-
-        SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-        try {
-            t.connect("smtp.gmail.com", "probending@probending.iam.gserviceaccount.com", null);
-            t.issueCommand("AUTH XOAUTH2 " + new String(BASE64EncoderStream.encode(
-                    ("user=probending@probending.iam.gserviceaccount.com" + '\001' + "auth=Bearer " + accessToken + '\001' + '\001').getBytes())), 235);
-            t.sendMessage(msg, msg.getAllRecipients());
-        } finally {
-            t.close();
-        }
+        sendEmail(recipientEmail, subject, text);
     }
 }
