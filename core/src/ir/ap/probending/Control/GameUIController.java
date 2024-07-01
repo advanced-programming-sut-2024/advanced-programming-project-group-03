@@ -131,17 +131,6 @@ public class GameUIController {
 
     private void rowClickAction(boolean canPlaceCard , Table table , int row){
         if (canPlaceCard && clickedCard != null){
-/*            if (clickedCard.getAbility() instanceof Muster){
-                int count = 0;
-                for (Card card : Game.getGame().getCurrentPlayer().getDeck()){
-                    if (card.getName().equals(clickedCard.getName()))
-                        count++;
-                }
-                for (int i = 0; i < count; i++){
-                    table.add(clickedCard.clone2()).pad(10);
-                }
-            }*/
-            table.add(clickedCard).pad(10);
             setAllCanPlaceCardToFalse();
             cardImage.setVisible(false);
 
@@ -153,6 +142,9 @@ public class GameUIController {
                 Game.getGame().playCard(clickedCard , 2 );
             else
                 Game.getGame().playCard(clickedCard , row );
+
+            clickedCard = null;
+            updateRows();
         }
     }
 
@@ -282,7 +274,12 @@ public class GameUIController {
             card.getSprite().setSize(100 , 200);
         }
         for (Card card : Game.getGame().getGameBoard().getSpellCards()){
-            spellRowTable.add(card).padTop(-160);
+            if (!Game.getGame().getGameBoard().getSpellCards().isEmpty()) {
+                spellRowTable.add(card).padTop(-160).padRight(-100);
+            }
+            else {
+                spellRowTable.add(card).padTop(-160);
+            }
             card.getSprite().setSize(100 , 200);
         }
     }
@@ -432,8 +429,8 @@ public class GameUIController {
         spellRowScrollPane.setSmoothScrolling(true);
         spellRowScrollPane.setScrollBarPositions(false, true);
         spellRowScrollPane.setStyle(scrollPaneStyle);
-        spellRowTable.setBackground(drawable);
-        spellRowScrollPane.setSize(300, 130);
+        //spellRowTable.setBackground(drawable);
+        spellRowScrollPane.setSize(350, 130);
         spellRowScrollPane.setPosition(140, 500);
 
         table.addActor(spellRowScrollPane);

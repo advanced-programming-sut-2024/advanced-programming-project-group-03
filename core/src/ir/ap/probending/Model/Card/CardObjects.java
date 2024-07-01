@@ -128,13 +128,7 @@ public enum CardObjects {
     Rain(CardsInfo.Rain),
     Fog(CardsInfo.Fog),
     Frost(CardsInfo.Frost),
-    Storm(CardsInfo.Storm),
-
-    // Leaders
-    EarthLeader(CardsInfo.EarthLeader),
-    FireLeader(CardsInfo.FireLeader),
-    WaterLeader(CardsInfo.WaterLeader),
-    WindLeader(CardsInfo.WindLeader);
+    Storm(CardsInfo.Storm);
 
     private Card card;
 
@@ -148,7 +142,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Amon.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
@@ -187,7 +181,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getAirCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(AirBoy.getCard().clone());
         cards.add(BumiAir.getCard().clone());
         cards.add(Daw.getCard().clone());
@@ -215,7 +209,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getEarthCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Aiwei.getCard().clone());
         cards.add(BaatarJr.getCard().clone());
         cards.add(BaSingSeCaptain.getCard().clone());
@@ -251,7 +245,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getFireCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Azula.getCard().clone());
         cards.add(Azulon.getCard().clone());
         cards.add(Buijing.getCard().clone());
@@ -283,7 +277,8 @@ public enum CardObjects {
         return cards;
     }
 
-    public static void getNeutralCards(ArrayList<Card> cards) {
+    public static ArrayList<Card> getNeutralCards() {
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(AvatarAang.getCard().clone());
         cards.add(AvatarKorra.getCard().clone());
         cards.add(AvatarKyoshi.getCard().clone());
@@ -294,5 +289,6 @@ public enum CardObjects {
         cards.add(Fog.getCard().clone());
         cards.add(Frost.getCard().clone());
         cards.add(Storm.getCard().clone());
+        return cards;
     }
 }

@@ -1,6 +1,7 @@
 package ir.ap.probending.Model.Game;
 
 import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.Model.Card.Abilities.Frost;
 import ir.ap.probending.Model.Card.Abilities.Morale;
 import ir.ap.probending.Model.Card.Card;
 
@@ -68,8 +69,20 @@ public class Board {
 
     public int getCloseCombatPowerSum() {
         int sum = 0;
-        for (Card card : closeCombat) {
-            sum += card.getPower();
+        if (Game.getGame().getGameBoard().isFrostPlayed()){
+            for (Card card : closeCombat) {
+                if (!card.isHero()){
+                    sum += 1;
+                }
+                else {
+                    sum += card.getPower();
+                }
+            }
+        }
+        else {
+            for (Card card : closeCombat) {
+                sum += card.getPower();
+            }
         }
         sum += (closeCombat.size() - moraleBoostCloseCombat - getCloseCombatHeroCount() ) * moraleBoostCloseCombat;
         return sum ;
@@ -77,8 +90,20 @@ public class Board {
 
     public int getRangedPowerSum() {
         int sum = 0;
-        for (Card card : ranged) {
-            sum += card.getPower();
+        if (Game.getGame().getGameBoard().isFogPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
+            for (Card card : ranged) {
+                if (!card.isHero()){
+                    sum += 1;
+                }
+                else {
+                    sum += card.getPower();
+                }
+            }
+        }
+        else{
+            for (Card card : ranged) {
+                sum += card.getPower();
+            }
         }
         sum += (ranged.size() - moraleBoostRanged - getRangedHeroCount() ) * moraleBoostRanged;
         return sum ;
@@ -86,8 +111,20 @@ public class Board {
 
     public int getSiegePowerSum() {
         int sum = 0;
-        for (Card card : siege) {
-            sum += card.getPower();
+        if (Game.getGame().getGameBoard().isRainPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
+            for (Card card : siege) {
+                if (!card.isHero()){
+                    sum += 1;
+                }
+                else {
+                    sum += card.getPower();
+                }
+            }
+        }
+        else {
+            for (Card card : siege) {
+                sum += card.getPower();
+            }
         }
         sum += (siege.size() - moraleBoostSiege - getSiegeHeroCount() ) * moraleBoostSiege;
         return sum ;

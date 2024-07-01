@@ -125,24 +125,24 @@ public class Game {
         switch (row){
             case 0:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToSiege(card);
+                    gameBoard.getPlayer1Board().addCardToSiege(card.clone4());
                 else
-                    gameBoard.getPlayer2Board().addCardToSiege(card);
+                    gameBoard.getPlayer2Board().addCardToSiege(card.clone4());
                 break;
             case 1:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToRanged(card);
+                    gameBoard.getPlayer1Board().addCardToRanged(card.clone4());
                 else
-                    gameBoard.getPlayer2Board().addCardToRanged(card);
+                    gameBoard.getPlayer2Board().addCardToRanged(card.clone4());
                 break;
             case 2:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToCloseCombat(card);
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(card.clone4());
                 else
-                    gameBoard.getPlayer2Board().addCardToCloseCombat(card);
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(card.clone4());
                 break;
             case 6:
-                Game.getGame().getGameBoard().addSpellCard(card);
+                Game.getGame().getGameBoard().addSpellCard(card.clone4());
                 break;
         }
 
@@ -153,6 +153,7 @@ public class Game {
         updatePowerLabelsNumbers();
         GameUIController.getGameUIController().updateRows();
         endTurn();
+
     }
 
     public void playCard(Card card , Player player) {
@@ -277,6 +278,7 @@ public class Game {
     public void clearBoard() {
         gameBoard.getPlayer1Board().clearBoard();
         gameBoard.getPlayer2Board().clearBoard();
+        gameBoard.getSpellCards().clear();
         GameUIController.getGameUIController().getRow0Table().clearChildren();
         GameUIController.getGameUIController().getRow1Table().clearChildren();
         GameUIController.getGameUIController().getRow2Table().clearChildren();

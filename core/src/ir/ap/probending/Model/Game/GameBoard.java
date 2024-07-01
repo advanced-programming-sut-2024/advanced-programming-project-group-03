@@ -39,6 +39,50 @@ public class GameBoard {
         spellCards.remove(card);
     }
 
+    public boolean isFrostPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Frost")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isRainPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Rain")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFogPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Fog")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isClearPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Clear")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isStormPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Storm")) {
+                return true;
+            }
+        }
+        return false;
+    }
     //getters and setters
 
     public  Player getPlayer1() {
