@@ -184,11 +184,36 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (GameUIController.getGameUIController().getClickedCard() != null && GameUIController.getGameUIController().getClickedCard().getAbility() instanceof Decoy){
-                    Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
-                    Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
-                    GameUIController.getGameUIController().updateRows();
-                    Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow);
-                    GameUIController.getGameUIController().setClickedCard(null);
+                    boolean isCardForCurrentPlayer = false;
+                    if(Game.getGame().getCurrentTurn() == 1){
+                        if (Game.getGame().getGameBoard().getPlayer1Board().getSiege().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer1Board().getRanged().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                    }
+                    else if (Game.getGame().getCurrentTurn() == 2){
+                        if (Game.getGame().getGameBoard().getPlayer2Board().getSiege().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer2Board().getRanged().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                    }
+                    if (isCardForCurrentPlayer && !Card.this.isHero){
+                        Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
+                        Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
+                        GameUIController.getGameUIController().updateRows();
+                        Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow);
+                        GameUIController.getGameUIController().setClickedCard(null);
+                    }
                 }
                 else {
                     GameUIController.getGameUIController().showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card.this);
