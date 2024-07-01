@@ -130,7 +130,7 @@ public enum CardsInfo {
     Fog(new Fog(),"Fog",0,false,"Cards/Neutral/weather_fog.png",6,""),
     Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
     Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
-    Storm(new Storm(),"Snow",0,false,"Cards/Neutral/weather_storm.png",6,"");
+    Storm(new Storm(),"Storm",0,false,"Cards/Neutral/weather_storm.png",6,"");
 
 
 
