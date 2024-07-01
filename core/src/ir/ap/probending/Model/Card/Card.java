@@ -15,6 +15,8 @@ import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Game.Game;
 
+import java.util.ArrayList;
+
 
 public class Card extends Actor {
     private Ability ability;
@@ -214,6 +216,47 @@ public class Card extends Actor {
         });
     }
 
+    private Card(Card card , int x , int y , int z) {
+        this.ability = card.getAbility();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                Game.getGame().getGameBoard().getPlayer1().drawCard();
+                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                    if (card.getName().equals(Card.this.getName())){
+                        Game.getGame().getGameBoard().getPlayer1().removeCardFromHand(card);
+                        break;
+                    }
+                }
+                Game.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
+                Game.getGame().setUpHandView(Game.getGame().getGameBoard().getPlayer1());
+                GameUIController.getGameUIController().clearCardListWindow();
+                ArrayList<Card> cards = new ArrayList<>();
+                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                    cards.add(card.clone5());
+                }
+                GameUIController.getGameUIController().addCardsToCardListWindow(cards);
+                Game.getGame().setVetoCount(Game.getGame().getVetoCount() + 1);
+                if (Game.getGame().getVetoCount() == 2){
+                    GameUIController.getGameUIController().deactivateCardListWindow();
+                }
+                return true;
+            }
+        });
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         cardSprite.setPosition(getX(), getY());
@@ -312,5 +355,9 @@ public class Card extends Actor {
 
     public Card clone4() {
         return new Card(this, "");
+    }
+
+    public Card clone5() {
+        return new Card(this, 1, 1, 1);
     }
 }

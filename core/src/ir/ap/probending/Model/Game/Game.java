@@ -4,6 +4,7 @@ import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameMaster;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Game {
@@ -12,6 +13,7 @@ public class Game {
     private GameBoard gameBoard;
     private int currentSet = 1;
     private boolean isCardPlayedThisRound = false;
+    private int vetoCount = 0;
     private Game() {
     }
     public void startGame() {
@@ -31,6 +33,14 @@ public class Game {
             gameBoard.getPlayer1().drawCard();
             gameBoard.getPlayer2().drawCard();
         }
+
+        //veto cards
+        GameUIController.getGameUIController().activateCardListWindow();
+        ArrayList<Card> vetoCards = new ArrayList<>();
+        for (Card card : gameBoard.getPlayer1().getHand()) {
+            vetoCards.add(card.clone5());
+        }
+        GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
 
         //add hand cards of player1 to view
         setUpHandView(gameBoard.getPlayer1());
@@ -260,7 +270,7 @@ public class Game {
     private void setupViewsThatAreDependentToGameBoard() {
         GameUIController.getGameUIController().addUsernameLabels();
     }
-    private void setUpHandView(Player player){
+    public void setUpHandView(Player player){
         //add hand cards of player1 to view
         GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
         int cardInRowCount = 0;
@@ -314,4 +324,11 @@ public class Game {
         this.gameBoard = gameBoard;
     }
 
+    public int getVetoCount() {
+        return vetoCount;
+    }
+
+    public void setVetoCount(int vetoCount) {
+        this.vetoCount = vetoCount;
+    }
 }

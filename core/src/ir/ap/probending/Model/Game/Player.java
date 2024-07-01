@@ -31,6 +31,10 @@ public class Player {
         deck.addAll(cards);
     }
 
+    public void addCardToDeck(Card card) {
+        deck.add(card);
+    }
+
     public void addCardToHand(Card card) {
         hand.add(card);
     }
