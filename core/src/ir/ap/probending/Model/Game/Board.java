@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private Card commanderCloseCombat;
-    private Card commanderRanged;
-    private Card commanderSiege;
     private ArrayList<Card> closeCombat = new ArrayList<>();
     private ArrayList<Card> ranged = new ArrayList<>();
     private ArrayList<Card> siege = new ArrayList<>();
+    private Card commander7;
+    private Card commander8;
+    private Card commander9;
     private int moraleBoostCloseCombat = 0;
     private int moraleBoostRanged = 0;
     private int moraleBoostSiege = 0;
@@ -41,30 +41,6 @@ public class Board {
 
     public void removeCardFromSiege(Card card) {
         siege.remove(card);
-    }
-
-    public void addCommanderToCloseCombat(Card card) {
-        commanderCloseCombat = card;
-    }
-
-    public void addCommanderToRanged(Card card) {
-        commanderRanged = card;
-    }
-
-    public void addCommanderToSiege(Card card) {
-        commanderSiege = card;
-    }
-
-    public void removeCommanderFromCloseCombat() {
-        commanderCloseCombat = null;
-    }
-
-    public void removeCommanderFromRanged() {
-        commanderRanged = null;
-    }
-
-    public void removeCommanderFromSiege() {
-        commanderSiege = null;
     }
 
     public int getCloseCombatPowerSum() {
@@ -138,9 +114,9 @@ public class Board {
         closeCombat.clear();
         ranged.clear();
         siege.clear();
-        commanderCloseCombat = null;
-        commanderRanged = null;
-        commanderSiege = null;
+        commander7 = null;
+        commander8 = null;
+        commander9 = null;
     }
 
     private int getCloseCombatHeroCount(){
@@ -179,30 +155,6 @@ public class Board {
     }
 
     //getters and setters
-    public Card getCommanderCloseCombat() {
-        return commanderCloseCombat;
-    }
-
-    public void setCommanderCloseCombat(Card commanderCloseCombat) {
-        this.commanderCloseCombat = commanderCloseCombat;
-    }
-
-    public Card getCommanderRanged() {
-        return commanderRanged;
-    }
-
-    public void setCommanderRanged(Card commanderRanged) {
-        this.commanderRanged = commanderRanged;
-    }
-
-    public Card getCommanderSiege() {
-        return commanderSiege;
-    }
-
-    public void setCommanderSiege(Card commanderSiege) {
-        this.commanderSiege = commanderSiege;
-    }
-
     public ArrayList<Card> getCloseCombat() {
         return closeCombat;
     }
@@ -249,5 +201,29 @@ public class Board {
 
     public void setMoraleBoostSiege(int moraleBoostSiege) {
         this.moraleBoostSiege = moraleBoostSiege;
+    }
+
+    public Card getCommander7() {
+        return commander7;
+    }
+
+    public void setCommander7(Card commander7) {
+        this.commander7 = commander7;
+    }
+
+    public Card getCommander8() {
+        return commander8;
+    }
+
+    public void setCommander8(Card commander8) {
+        this.commander8 = commander8;
+    }
+
+    public Card getCommander9() {
+        return commander9;
+    }
+
+    public void setCommander9(Card commander9) {
+        this.commander9 = commander9;
     }
 }

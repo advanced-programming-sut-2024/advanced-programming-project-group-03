@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import ir.ap.probending.Model.Card.Abilities.CommandersHorn;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
@@ -64,6 +65,19 @@ public class GameUIController {
     private final ScrollPane row5ScrollPane = new ScrollPane(row5Table);
     private final Table spellRowTable = new Table();
     private final ScrollPane spellRowScrollPane = new ScrollPane(spellRowTable);
+    private final Table commanderHorn7Table = new Table();
+    private final ScrollPane commanderHorn7ScrollPane = new ScrollPane(commanderHorn7Table);
+    private final Table commanderHorn8Table = new Table();
+    private final ScrollPane commanderHorn8ScrollPane = new ScrollPane(commanderHorn8Table);
+    private final Table commanderHorn9Table = new Table();
+    private final ScrollPane commanderHorn9ScrollPane = new ScrollPane(commanderHorn9Table);
+    private final Table commanderHorn10Table = new Table();
+    private final ScrollPane commanderHorn10ScrollPane = new ScrollPane(commanderHorn10Table);
+    private final Table commanderHorn11Table = new Table();
+    private final ScrollPane commanderHorn11ScrollPane = new ScrollPane(commanderHorn11Table);
+    private final Table commanderHorn12Table = new Table();
+    private final ScrollPane commanderHorn12ScrollPane = new ScrollPane(commanderHorn12Table);
+
 
     private boolean canPlaceCardOnRow0 = false;
     private boolean canPlaceCardOnRow1 = false;
@@ -101,12 +115,19 @@ public class GameUIController {
         addRow5TableView();
         addSpellRowTableView();
         eventListenersForTables();
+        eventListenersForCommanderSlots();
         addPassButtonsView();
         addPassLabels();
         addEndGameDialog();
         addCurrentTurnUserNameToView();
         addPowerSumLabels();
         addSetWonLabels();
+        addCommanderHorn7ToView();
+        addCommanderHorn8ToView();
+        addCommanderHorn9ToView();
+        addCommanderHorn10ToView();
+        addCommanderHorn11ToView();
+        addCommanderHorn12ToView();
         addCardListWindow();
     }
 
@@ -205,6 +226,80 @@ public class GameUIController {
 
     }
 
+    private void eventListenersForCommanderSlots(){
+        commanderHorn7ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                    Game.getGame().playCard(clickedCard , 7);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+
+        commanderHorn8ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                    Game.getGame().playCard(clickedCard , 8);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+
+        commanderHorn9ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                    Game.getGame().playCard(clickedCard , 9);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+
+        commanderHorn10ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                    Game.getGame().playCard(clickedCard , 10);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+
+        commanderHorn11ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                    Game.getGame().playCard(clickedCard , 11);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+
+        commanderHorn12ScrollPane.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                    Game.getGame().playCard(clickedCard , 12);
+                    setAllCanPlaceCardToFalse();
+                    cardImage.setVisible(false);
+                    updateRows();
+                }
+            }
+        });
+    }
+
     public void showSetEndDialog(String text){
         setEndDialog.setVisible(true);
         setWinnerLabel.setText(text);
@@ -234,6 +329,12 @@ public class GameUIController {
         row4Table.clear();
         row5Table.clear();
         spellRowTable.clear();
+        commanderHorn7Table.clear();
+        commanderHorn8Table.clear();
+        commanderHorn9Table.clear();
+        commanderHorn10Table.clear();
+        commanderHorn11Table.clear();
+        commanderHorn12Table.clear();
         for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
 
             if (!Game.getGame().getGameBoard().getPlayer1Board().getSiege().isEmpty())
@@ -287,6 +388,37 @@ public class GameUIController {
             }
             card.getSprite().setSize(100 , 200);
         }
+
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander7() != null){
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander7().getSprite().setSize(100 , 200);
+            commanderHorn7Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander7()).padTop(-160);
+        }
+
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander8() != null){
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander8().getSprite().setSize(100 , 200);
+            commanderHorn8Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander8()).padTop(-160);
+        }
+
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander9() != null){
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander9().getSprite().setSize(100 , 200);
+            commanderHorn9Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander9()).padTop(-160);
+        }
+
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander9() != null){
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander9().getSprite().setSize(100 , 200);
+            commanderHorn10Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander9()).padTop(-160);
+        }
+
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander8() != null){
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander8().getSprite().setSize(100 , 200);
+            commanderHorn11Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander8()).padTop(-160);
+        }
+
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander7() != null){
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander7().getSprite().setSize(100 , 200);
+            commanderHorn12Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
+        }
+
     }
 
     public void activateCardListWindow(){
@@ -439,6 +571,102 @@ public class GameUIController {
         spellRowScrollPane.setPosition(140, 500);
 
         table.addActor(spellRowScrollPane);
+    }
+
+    private void addCommanderHorn7ToView(){
+        commanderHorn7Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn7Table.top().left();
+        commanderHorn7ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn7ScrollPane.setScrollbarsVisible(false);
+        commanderHorn7ScrollPane.setFadeScrollBars(false);
+        commanderHorn7ScrollPane.setSmoothScrolling(true);
+        commanderHorn7ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn7ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn7Table.setBackground(drawable);
+        commanderHorn7ScrollPane.setSize(150, 130);
+        commanderHorn7ScrollPane.setPosition(580, 250);
+
+        table.addActor(commanderHorn7ScrollPane);
+    }
+
+    private void addCommanderHorn8ToView(){
+        commanderHorn8Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn8Table.top().left();
+        commanderHorn8ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn8ScrollPane.setScrollbarsVisible(false);
+        commanderHorn8ScrollPane.setFadeScrollBars(false);
+        commanderHorn8ScrollPane.setSmoothScrolling(true);
+        commanderHorn8ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn8ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn8Table.setBackground(drawable);
+        commanderHorn8ScrollPane.setSize(150, 130);
+        commanderHorn8ScrollPane.setPosition(580, 390);
+
+        table.addActor(commanderHorn8ScrollPane);
+    }
+
+    private void addCommanderHorn9ToView(){
+        commanderHorn9Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn9Table.top().left();
+        commanderHorn9ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn9ScrollPane.setScrollbarsVisible(false);
+        commanderHorn9ScrollPane.setFadeScrollBars(false);
+        commanderHorn9ScrollPane.setSmoothScrolling(true);
+        commanderHorn9ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn9ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn9Table.setBackground(drawable);
+        commanderHorn9ScrollPane.setSize(150, 130);
+        commanderHorn9ScrollPane.setPosition(580, 530);
+
+        table.addActor(commanderHorn9ScrollPane);
+    }
+
+    private void addCommanderHorn10ToView(){
+        commanderHorn10Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn10Table.top().left();
+        commanderHorn10ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn10ScrollPane.setScrollbarsVisible(false);
+        commanderHorn10ScrollPane.setFadeScrollBars(false);
+        commanderHorn10ScrollPane.setSmoothScrolling(true);
+        commanderHorn10ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn10ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn10Table.setBackground(drawable);
+        commanderHorn10ScrollPane.setSize(150, 130);
+        commanderHorn10ScrollPane.setPosition(580, 670);
+
+        table.addActor(commanderHorn10ScrollPane);
+    }
+
+    private void addCommanderHorn11ToView(){
+        commanderHorn11Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn11Table.top().left();
+        commanderHorn11ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn11ScrollPane.setScrollbarsVisible(false);
+        commanderHorn11ScrollPane.setFadeScrollBars(false);
+        commanderHorn11ScrollPane.setSmoothScrolling(true);
+        commanderHorn11ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn11ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn11Table.setBackground(drawable);
+        commanderHorn11ScrollPane.setSize(150, 130);
+        commanderHorn11ScrollPane.setPosition(580, 810);
+
+        table.addActor(commanderHorn11ScrollPane);
+    }
+
+    private void addCommanderHorn12ToView(){
+        commanderHorn12Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        commanderHorn12Table.top().left();
+        commanderHorn12ScrollPane.setScrollingDisabled(true, true);
+        commanderHorn12ScrollPane.setScrollbarsVisible(false);
+        commanderHorn12ScrollPane.setFadeScrollBars(false);
+        commanderHorn12ScrollPane.setSmoothScrolling(true);
+        commanderHorn12ScrollPane.setScrollBarPositions(false, true);
+        commanderHorn12ScrollPane.setStyle(scrollPaneStyle);
+        //commanderHorn12Table.setBackground(drawable);
+        commanderHorn12ScrollPane.setSize(150, 130);
+        commanderHorn12ScrollPane.setPosition(580, 950);
+
+        table.addActor(commanderHorn12ScrollPane);
     }
 
     private void addPassButtonsView(){

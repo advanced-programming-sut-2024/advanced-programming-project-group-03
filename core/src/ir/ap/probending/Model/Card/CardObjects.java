@@ -183,6 +183,8 @@ public enum CardObjects {
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(getNeutralCards());
         cards.add(AirBoy.getCard().clone());
+        cards.add(AirBoy.getCard().clone());
+        cards.add(AirBoy.getCard().clone());
         cards.add(BumiAir.getCard().clone());
         cards.add(Daw.getCard().clone());
         cards.add(Gyatso.getCard().clone());
@@ -191,6 +193,8 @@ public enum CardObjects {
         cards.add(Jinora.getCard().clone());
         cards.add(Kai.getCard().clone());
         cards.add(Kelsang.getCard().clone());
+        cards.add(Kelsang.getCard().clone());
+        cards.add(Koun.getCard().clone());
         cards.add(Koun.getCard().clone());
         cards.add(Meelo.getCard().clone());
         cards.add(Opal.getCard().clone());
@@ -250,12 +254,14 @@ public enum CardObjects {
         cards.add(Azulon.getCard().clone());
         cards.add(Buijing.getCard().clone());
         cards.add(BullyGuard.getCard().clone());
+        cards.add(BullyGuard.getCard().clone());
         cards.add(ChitSang.getCard().clone());
         cards.add(CircusTrainer.getCard().clone());
         cards.add(CombustionMan.getCard().clone());
         cards.add(Councilwoman.getCard().clone());
         cards.add(Druk.getCard().clone());
-        cards.add(EvilDruk.getCard().clone());
+        cards.add(FireSages.getCard().clone());
+        cards.add(FireSages.getCard().clone());
         cards.add(FireSages.getCard().clone());
         cards.add(Hide.getCard().clone());
         cards.add(Iroh.getCard().clone());
@@ -266,7 +272,10 @@ public enum CardObjects {
         cards.add(Ozai.getCard().clone());
         cards.add(Pli.getCard().clone());
         cards.add(RoyalSoldiers.getCard().clone());
+        cards.add(RoyalSoldiers.getCard().clone());
+        cards.add(RoyalSoldiers.getCard().clone());
         cards.add(Sozin.getCard().clone());
+        cards.add(SunWarriors.getCard().clone());
         cards.add(SunWarriors.getCard().clone());
         cards.add(TaxCollector.getCard().clone());
         cards.add(TwoToedPing.getCard().clone());

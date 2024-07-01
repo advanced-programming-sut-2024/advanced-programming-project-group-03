@@ -156,6 +156,30 @@ public class Game {
             case 6:
                 Game.getGame().getGameBoard().addSpellCard(newCard);
                 break;
+            case 7:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander7(newCard);
+                break;
+            case 8:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander8(newCard);
+                break;
+           case 9:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander9(newCard);
+                break;
+           case 10:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander9(newCard);
+                break;
+           case 11:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander8(newCard);
+                break;
+           case 12:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander7(newCard);
+                break;
         }
 
         if (card.getAbility() != null){
