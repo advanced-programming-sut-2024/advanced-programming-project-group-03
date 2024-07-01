@@ -68,6 +68,10 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
+                    case "confirm":
+                        response = receiveToken(messageParts[1]);
+                        System.out.println(response);
+                        break;
                     case "getUser":
                         User user = getUser();
                         Gson gson = new Gson();
@@ -85,7 +89,6 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                 }
             }
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +129,7 @@ public class Server extends Thread {
             return "User not found";
         } else if (!user.getPassword().equals(password)) {
             return "Incorrect password";
-        } else if (!user.isRegisterConfirmed()) {
+        } else if (!user.getEmail().equals("probendingavatar@gmail.com") || !user.isRegisterConfirmed()) {
             return "Email not confirmed";
         } else {
             currentUser = user;
@@ -151,43 +154,48 @@ public class Server extends Thread {
         if (currentUser == null) {
             return "Email not found";
         }
-        Random random = new Random();
-        int confirmationCode = 100000 + random.nextInt(900000);
-        String confirmationCodeStr = String.valueOf(confirmationCode);
-        currentUser.setLoginNumber(confirmationCodeStr);
-        MailSender mailSender = new MailSender();
-        try {
-            mailSender.sendEmail(currentUser.getEmail(), "Pro Bending Login Confirmation", "Your confirmation code is: " + confirmationCodeStr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Failed to send email";
+        if (currentUser.getEmail().equals("probendingavatar@gmail.com")) {
+            Random random = new Random();
+            int confirmationCode = 100000 + random.nextInt(900000);
+            String confirmationCodeStr = String.valueOf(confirmationCode);
+            currentUser.setLoginNumber(confirmationCodeStr);
+            MailSender mailSender = new MailSender();
+            try {
+                mailSender.sendEmail(currentUser.getEmail(), "Pro Bending Login Confirmation", "Your confirmation code is: " + confirmationCodeStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Failed to send email";
+            }
+            return confirmationCodeStr;
         }
-        return confirmationCodeStr;
+        return "";
     }
 
     private String sendSignupEmail() {
         if (currentUser == null) {
             return "User not found";
         }
+        if (currentUser.getEmail().equals("probendingavatar@gmail.com")) {
+            // Construct the confirmation link with the token
+            String confirmationLink = "http://localhost:8080/confirm?token=" + currentUser.getUsername();
 
-        // Construct the confirmation link with the token
-        String confirmationLink = "http://localhost:8080/confirm?token=" + currentUser.getUsername();
-
-        // Send the confirmation email
-        MailSender mailSender = new MailSender();
-        try {
-            mailSender.sendEmail(currentUser.getEmail(), "Sign Up Confirmation", "Please click the link below to confirm your email:\n" + confirmationLink);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Failed to send email";
+            // Send the confirmation email
+            MailSender mailSender = new MailSender();
+            try {
+                mailSender.sendEmail(currentUser.getEmail(), "Sign Up Confirmation", "Please click the link below to confirm your email:\n" + confirmationLink);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Failed to send email";
+            }
         }
 
         return "Confirmation email sent successfully";
     }
 
-    public static void receiveToken(String token){
-        System.out.println("Received token: " + token);
+    public static String receiveToken(String token) {
+        String response = "Received token: " + token;
         users.stream().filter(user -> user.getUsername().equals(token)).findFirst().ifPresent(user -> user.setRegisterConfirmed(true));
+        return response;
     }
 
     private static void loadUsersFromFile() {
@@ -201,7 +209,8 @@ public class Server extends Thread {
         }
         try (Reader reader = new FileReader(USERS_FILE)) {
             Gson gson = new Gson();
-            Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
+            Type userListType = new TypeToken<ArrayList<User>>() {
+            }.getType();
             users = gson.fromJson(reader, userListType);
             if (users == null) {
                 users = new ArrayList<>();
@@ -222,8 +231,8 @@ public class Server extends Thread {
         }
     }
 
+
     public static void main(String[] args) {
-        new ConfirmationController();
         loadUsersFromFile();
 
         try {

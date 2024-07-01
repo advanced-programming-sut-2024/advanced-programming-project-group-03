@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class MailSender {
 
-    private static final String API_TOKEN = "beadc9803cac741eeb5df956d1964c15";
+    private static final String API_TOKEN = "b7b46c0ae9de573c74a5e24e2becda90";
 
     public static void sendEmail(String recipientEmail, String subject, String text) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -24,7 +24,7 @@ public class MailSender {
     }
 
     public static void main(String[] args) throws IOException {
-        String recipientEmail = "hekmatinima@gmail.com";
+        String recipientEmail = "probendingavatar@gmail.com";
         String subject = "You are awesome!";
         String text = "Congrats for sending test email with Mailtrap!";
 

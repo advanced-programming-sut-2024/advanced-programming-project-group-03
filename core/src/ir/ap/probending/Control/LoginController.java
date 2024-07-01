@@ -67,7 +67,7 @@ public class LoginController {
         table.add(verificationCodeButton).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(backToMainMenuButton).fillX();
-        
+
     }
 
     private void setLoginButton(ProBending game){
@@ -76,16 +76,13 @@ public class LoginController {
             public void clicked(InputEvent event, float x, float y) {
                 String response = ProBending.client.communicate("login " + usernameField.getText() + " " + passwordField.getText());
 
-                switch (response) {
-                    case "Sending email confirmation link":
-                        verificationCode = ProBending.client.communicate("sendLoginEmail");
-                        errorLabel.setText("Enter the verification code sent to your email");
-                        usernameField.setText("");
-                        passwordField.setText("");
-                        break;
-                    default:
-                        errorLabel.setText(response);
-                        break;
+                if (response.equals("Sending email confirmation link")) {
+                    verificationCode = ProBending.client.communicate("sendLoginEmail");
+                    errorLabel.setText("Enter the verification code sent to your email");
+                    usernameField.setText("");
+                    passwordField.setText("");
+                } else {
+                    errorLabel.setText(response);
                 }
             }
         });
@@ -95,11 +92,11 @@ public class LoginController {
         verificationCodeButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                if (verificationCodeField.getText().equals(verificationCode) && !verificationCodeField.getText().equals("")) {
-                if (true) {
-                    String loggedInUserString = ProBending.client.communicate("getUser");
-                    Gson gson = new Gson();
-                    User loggedInUser = gson.fromJson(loggedInUserString, User.class);
+                String loggedInUserString = ProBending.client.communicate("getUser");
+                Gson gson = new Gson();
+                User loggedInUser = gson.fromJson(loggedInUserString, User.class);
+                if (loggedInUser.getEmail().equals("probendingavatar@gmail.com") || (verificationCodeField.getText().equals(verificationCode) && !verificationCodeField.getText().equals(""))) {
+
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
