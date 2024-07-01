@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -131,21 +132,25 @@ public class GameUIController {
 
     private void rowClickAction(boolean canPlaceCard , Table table , int row){
         if (canPlaceCard && clickedCard != null){
-            setAllCanPlaceCardToFalse();
-            cardImage.setVisible(false);
+            if (!(clickedCard.getAbility() instanceof Decoy)){
 
-            if (row == 5)
-                Game.getGame().playCard(clickedCard , 0 );
-            else if (row == 4)
-                Game.getGame().playCard(clickedCard , 1 );
-            else if (row == 3)
-                Game.getGame().playCard(clickedCard , 2 );
-            else
-                Game.getGame().playCard(clickedCard , row );
-
-            clickedCard = null;
-            updateRows();
+                if (row == 5) {
+                    Game.getGame().playCard(clickedCard , 0 );
+                }
+                else if (row == 4) {
+                    Game.getGame().playCard(clickedCard , 1 );
+                }
+                else if (row == 3) {
+                    Game.getGame().playCard(clickedCard , 2 );
+                }
+                else {
+                    Game.getGame().playCard(clickedCard , row );
+                }
+            }
         }
+        setAllCanPlaceCardToFalse();
+        cardImage.setVisible(false);
+        updateRows();
     }
 
     private void eventListenersForTables(){
@@ -698,4 +703,5 @@ public class GameUIController {
     public void setPlayer2SetWon(int setWon){
         player2SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
+
 }

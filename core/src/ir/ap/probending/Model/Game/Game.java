@@ -132,32 +132,34 @@ public class Game {
             }
         }
 
+        Card newCard = card.clone4();
+
         switch (row){
             case 0:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToSiege(card.clone4());
+                    gameBoard.getPlayer1Board().addCardToSiege(newCard);
                 else
-                    gameBoard.getPlayer2Board().addCardToSiege(card.clone4());
+                    gameBoard.getPlayer2Board().addCardToSiege(newCard);
                 break;
             case 1:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToRanged(card.clone4());
+                    gameBoard.getPlayer1Board().addCardToRanged(newCard);
                 else
-                    gameBoard.getPlayer2Board().addCardToRanged(card.clone4());
+                    gameBoard.getPlayer2Board().addCardToRanged(newCard);
                 break;
             case 2:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
-                    gameBoard.getPlayer1Board().addCardToCloseCombat(card.clone4());
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(newCard);
                 else
-                    gameBoard.getPlayer2Board().addCardToCloseCombat(card.clone4());
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(newCard);
                 break;
             case 6:
-                Game.getGame().getGameBoard().addSpellCard(card.clone4());
+                Game.getGame().getGameBoard().addSpellCard(newCard);
                 break;
         }
 
         if (card.getAbility() != null){
-            card.getAbility().executeAbility(card);
+            card.getAbility().executeAbility(newCard);
         }
 
         updatePowerLabelsNumbers();

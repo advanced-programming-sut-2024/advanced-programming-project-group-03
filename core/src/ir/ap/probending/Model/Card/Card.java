@@ -13,6 +13,7 @@ import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
+import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Game.Game;
 
 import java.util.ArrayList;
@@ -182,7 +183,42 @@ public class Card extends Actor {
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                GameUIController.getGameUIController().showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card.this);
+                if (GameUIController.getGameUIController().getClickedCard() != null && GameUIController.getGameUIController().getClickedCard().getAbility() instanceof Decoy){
+                    Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
+                    Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
+                    GameUIController.getGameUIController().updateRows();
+
+                    int selectedRow = -1;
+                    switch (Card.this.playingRow){
+                        case 0:
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                selectedRow = 0;
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                selectedRow = 5;
+                            break;
+                        case 1:
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                selectedRow = 1;
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                selectedRow = 4;
+                            break;
+                        case 2:
+                            if (Game.getGame().getCurrentTurn() == 1)
+                                selectedRow = 2;
+                            else if (Game.getGame().getCurrentTurn() == 2)
+                                selectedRow = 3;
+                            break;
+                        case 6:
+                            selectedRow = 6;
+                            break;
+                    }
+
+                    Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , selectedRow);
+                    GameUIController.getGameUIController().setClickedCard(null);
+                }
+                else {
+                    GameUIController.getGameUIController().showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card.this);
+                }
 
                 return true;
             }

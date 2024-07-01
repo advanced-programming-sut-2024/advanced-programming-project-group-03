@@ -16,24 +16,24 @@ public class Muster extends Ability{
                 switch (card.getPlayingRow()){
                     case 0:
                         if (player.equals(Game.getGame().getGameBoard().getPlayer1()))
-                            Game.getGame().getGameBoard().getPlayer1Board().addCardToSiege(card);
+                            Game.getGame().getGameBoard().getPlayer1Board().addCardToSiege(card.clone4());
                         else
-                            Game.getGame().getGameBoard().getPlayer2Board().addCardToSiege(card);
+                            Game.getGame().getGameBoard().getPlayer2Board().addCardToSiege(card.clone4());
                         break;
                     case 1:
                         if (player.equals(Game.getGame().getGameBoard().getPlayer1()))
-                            Game.getGame().getGameBoard().getPlayer1Board().addCardToRanged(card);
+                            Game.getGame().getGameBoard().getPlayer1Board().addCardToRanged(card.clone4());
                         else
-                            Game.getGame().getGameBoard().getPlayer2Board().addCardToRanged(card);
+                            Game.getGame().getGameBoard().getPlayer2Board().addCardToRanged(card.clone4());
                         break;
                     case 2:
                         if (player.equals(Game.getGame().getGameBoard().getPlayer1()))
-                            Game.getGame().getGameBoard().getPlayer1Board().addCardToCloseCombat(card);
+                            Game.getGame().getGameBoard().getPlayer1Board().addCardToCloseCombat(card.clone4());
                         else
-                            Game.getGame().getGameBoard().getPlayer2Board().addCardToCloseCombat(card);
+                            Game.getGame().getGameBoard().getPlayer2Board().addCardToCloseCombat(card.clone4());
                         break;
                     case 6:
-                        Game.getGame().getGameBoard().addSpellCard(card);
+                        Game.getGame().getGameBoard().addSpellCard(card.clone4());
                         break;
                 }
 

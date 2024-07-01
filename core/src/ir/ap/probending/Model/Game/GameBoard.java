@@ -83,6 +83,27 @@ public class GameBoard {
         }
         return false;
     }
+
+    public void removeCardFromBoard(Card card) {
+        if (player1Board.getCloseCombat().contains(card)) {
+            player1Board.getCloseCombat().remove(card);
+        }
+        else if (player1Board.getRanged().contains(card)) {
+            player1Board.getRanged().remove(card);
+        }
+        else if (player1Board.getSiege().contains(card)) {
+            player1Board.getSiege().remove(card);
+        }
+        else if (player2Board.getCloseCombat().contains(card)) {
+            player2Board.getCloseCombat().remove(card);
+        }
+        else if (player2Board.getRanged().contains(card)) {
+            player2Board.getRanged().remove(card);
+        }
+        else if (player2Board.getSiege().contains(card)) {
+            player2Board.getSiege().remove(card);
+        }
+    }
     //getters and setters
 
     public  Player getPlayer1() {
