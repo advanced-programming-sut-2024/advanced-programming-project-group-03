@@ -187,33 +187,7 @@ public class Card extends Actor {
                     Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
                     Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
                     GameUIController.getGameUIController().updateRows();
-
-                    int selectedRow = -1;
-                    switch (Card.this.playingRow){
-                        case 0:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                selectedRow = 0;
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                selectedRow = 5;
-                            break;
-                        case 1:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                selectedRow = 1;
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                selectedRow = 4;
-                            break;
-                        case 2:
-                            if (Game.getGame().getCurrentTurn() == 1)
-                                selectedRow = 2;
-                            else if (Game.getGame().getCurrentTurn() == 2)
-                                selectedRow = 3;
-                            break;
-                        case 6:
-                            selectedRow = 6;
-                            break;
-                    }
-
-                    Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , selectedRow);
+                    Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow);
                     GameUIController.getGameUIController().setClickedCard(null);
                 }
                 else {
