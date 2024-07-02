@@ -46,7 +46,13 @@ public class Game {
         setUpHandView(gameBoard.getPlayer1());
 
         //set leaders and factions
-        //TODO
+        gameBoard.getPlayer1Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());
+        gameBoard.getPlayer1Board().setFaction(PreGame.getPreGame().getPlayerFaction());
+        gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());//TODO change this to a random leader
+        gameBoard.getPlayer2Board().setFaction(PreGame.getPreGame().getPlayerFaction());//TODO
+
+        GameUIController.getGameUIController().addLeadersToLeaderTable1(gameBoard.getPlayer1Board().getLeader());
+        GameUIController.getGameUIController().addLeadersToLeaderTable2(gameBoard.getPlayer2Board().getLeader());
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();

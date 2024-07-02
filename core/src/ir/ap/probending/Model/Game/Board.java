@@ -4,6 +4,7 @@ import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Frost;
 import ir.ap.probending.Model.Card.Abilities.Morale;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Factions.Faction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class Board {
     private Card commander7;
     private Card commander8;
     private Card commander9;
+    private Card leader;
+    private Faction faction;
     private int moraleBoostCloseCombat = 0;
     private int moraleBoostRanged = 0;
     private int moraleBoostSiege = 0;
@@ -205,6 +208,12 @@ public class Board {
         return commander9 != null;
     }
 
+    public void playLeaderAbility(){
+        if (leader != null){
+            leader.getAbility().executeAbility(leader);
+        }
+    }
+
     //getters and setters
     public ArrayList<Card> getCloseCombat() {
         return closeCombat;
@@ -276,5 +285,21 @@ public class Board {
 
     public void setCommander9(Card commander9) {
         this.commander9 = commander9;
+    }
+
+    public Card getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Card leader) {
+        this.leader = leader;
+    }
+
+    public Faction getFaction() {
+        return faction;
+    }
+
+    public void setFaction(Faction faction) {
+        this.faction = faction;
     }
 }

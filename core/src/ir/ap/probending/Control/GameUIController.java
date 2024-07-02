@@ -77,7 +77,11 @@ public class GameUIController {
     private final ScrollPane commanderHorn11ScrollPane = new ScrollPane(commanderHorn11Table);
     private final Table commanderHorn12Table = new Table();
     private final ScrollPane commanderHorn12ScrollPane = new ScrollPane(commanderHorn12Table);
-
+    private final Table leaderPlayer1Table = new Table();
+    private final Table leaderPlayer2Table = new Table();
+    private final ScrollPane leaderPlayer1ScrollPane = new ScrollPane(leaderPlayer1Table);
+    private final ScrollPane leaderPlayer2ScrollPane = new ScrollPane(leaderPlayer2Table);
+    private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability" , GameAssetManager.getGameAssetManager().getSkin());
 
     private boolean canPlaceCardOnRow0 = false;
     private boolean canPlaceCardOnRow1 = false;
@@ -129,6 +133,8 @@ public class GameUIController {
         addCommanderHorn11ToView();
         addCommanderHorn12ToView();
         addCardListWindow();
+        addLeadersView();
+        addLeaderAbilityButtons();
     }
 
     //functionality methods
@@ -442,6 +448,16 @@ public class GameUIController {
 
     public void clearCardListWindow(){
         cardListTable.clear();
+    }
+
+    public void addLeadersToLeaderTable1(Card card){
+        leaderPlayer1Table.add(card).pad(10);
+        card.getSprite().setSize(100, 200);
+    }
+
+    public void addLeadersToLeaderTable2(Card card){
+        leaderPlayer2Table.add(card).pad(10);
+        card.getSprite().setSize(100, 200);
     }
 
     //add view methods for cleaner code
@@ -781,6 +797,50 @@ public class GameUIController {
         cardListTable.setSize(400, 800);
         cardListWindow.add(cardListScrollPane);
         table.addActor(cardListWindow);
+    }
+
+    private void addLeaderAbilityButtons(){
+        playLeaderAbilityButton.setSize(200, 50);
+        playLeaderAbilityButton.setPosition(100, 300);
+        playLeaderAbilityButton.getLabel().setFontScale(0.5f);
+        playLeaderAbilityButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (Game.getGame().getCurrentTurn() == 1)
+                    Game.getGame().getGameBoard().getPlayer1Board().playLeaderAbility();
+                else
+                    Game.getGame().getGameBoard().getPlayer2Board().playLeaderAbility();
+            }
+        });
+        table.addActor(playLeaderAbilityButton);
+    }
+
+    private void addLeadersView(){
+        leaderPlayer1Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        leaderPlayer1Table.top().left();
+        leaderPlayer1ScrollPane.setScrollingDisabled(true, true);
+        leaderPlayer1ScrollPane.setScrollbarsVisible(false);
+        leaderPlayer1ScrollPane.setFadeScrollBars(false);
+        leaderPlayer1ScrollPane.setSmoothScrolling(true);
+        leaderPlayer1ScrollPane.setScrollBarPositions(false, true);
+        leaderPlayer1ScrollPane.setStyle(scrollPaneStyle);
+        leaderPlayer1ScrollPane.setSize(150, 300);
+        leaderPlayer1ScrollPane.setPosition(130, 120);
+
+        table.addActor(leaderPlayer1ScrollPane);
+
+        leaderPlayer2Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        leaderPlayer2Table.top().left();
+        leaderPlayer2ScrollPane.setScrollingDisabled(true, true);
+        leaderPlayer2ScrollPane.setScrollbarsVisible(false);
+        leaderPlayer2ScrollPane.setFadeScrollBars(false);
+        leaderPlayer2ScrollPane.setSmoothScrolling(true);
+        leaderPlayer2ScrollPane.setScrollBarPositions(false, true);
+        leaderPlayer2ScrollPane.setStyle(scrollPaneStyle);
+        leaderPlayer2ScrollPane.setSize(150, 300);
+        leaderPlayer2ScrollPane.setPosition(130, 870);
+
+        table.addActor(leaderPlayer2ScrollPane);
     }
 
     //getters and setters
