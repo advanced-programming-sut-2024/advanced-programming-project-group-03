@@ -153,7 +153,9 @@ public enum CardsInfo {
     AirTemplesLeader2(new LeaderAbility17(),"Air2",0,false,"Cards/Leaders/WindLeader.png",100,"Look at 3 random cards from you opponent hand"),
     AirTemplesLeader3(new LeaderAbility18(),"Air3",0,false,"Cards/Leaders/WindLeader.png",100,"Cancel your opponents leader ability"),
     AirTemplesLeader4(new LeaderAbility19(),"Air4",0,false,"Cards/Leaders/WindLeader.png",100,"Draw a card from your opponents discard pile"),
-    AirTemplesLeader5(new LeaderAbility20(),"Air5",0,false,"Cards/Leaders/WindLeader.png",100,"Puts players discarded cards back to their deck");
+    AirTemplesLeader5(new LeaderAbility20(),"Air5",0,false,"Cards/Leaders/WindLeader.png",100,"Restore Abilities Restores Randomly"),
+    AirTemplesLeader6(new LeaderAbility21(),"Air6",0,false,"Cards/Leaders/WindLeader.png",100,"shuffle cards from burnt cards to deck"),
+    AirTemplesLeader7(new LeaderAbility22(),"Air7",0,false,"Cards/Leaders/WindLeader.png",100,"Units only lose half the strength in bad weather condition");
 
 
     private Ability ability;

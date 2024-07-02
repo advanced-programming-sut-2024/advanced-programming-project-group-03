@@ -55,7 +55,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isFrostPlayed()){
             for (Card card : closeCombat) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();
@@ -97,7 +102,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isFogPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
             for (Card card : ranged) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();
@@ -139,7 +149,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isRainPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
             for (Card card : siege) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();

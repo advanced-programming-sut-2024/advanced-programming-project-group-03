@@ -10,21 +10,33 @@ import java.util.ArrayList;
 public class LeaderAbility9 extends Ability {
     @Override
     public void executeAbility(Card card) {
-        ArrayList<Card> weatherCards = new ArrayList<>();
-        for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
-            if (c.getName().equals("Rain") || c.getName().equals("Fog") || c.getName().equals("Frost") || c.getName().equals("Clear") || c.getName().equals("Storm")) {
-                weatherCards.add(c);
+        if (!Game.getGame().isRestoreCardRandomlyActivated()){
+            ArrayList<Card> weatherCards = new ArrayList<>();
+            for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
+                if (c.getName().equals("Rain") || c.getName().equals("Fog") || c.getName().equals("Frost") || c.getName().equals("Clear") || c.getName().equals("Storm")) {
+                    weatherCards.add(c);
+                }
+            }
+
+            if (!weatherCards.isEmpty()){
+                GameUIController.getGameUIController().clearCardListWindow();
+                GameUIController.getGameUIController().activateCardListWindow();
+                ArrayList<Card> cards = new ArrayList<>();
+                for (Card c : weatherCards) {
+                    cards.add(c.clone3());
+                }
+                GameUIController.getGameUIController().addCardsToCardListWindow(cards);
             }
         }
-
-        if (!weatherCards.isEmpty()){
-            GameUIController.getGameUIController().clearCardListWindow();
-            GameUIController.getGameUIController().activateCardListWindow();
-            ArrayList<Card> cards = new ArrayList<>();
-            for (Card c : weatherCards) {
-                cards.add(c.clone3());
+        else {
+            ArrayList<Card> weatherCards = new ArrayList<>();
+            for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
+                if (c.getName().equals("Rain") || c.getName().equals("Fog") || c.getName().equals("Frost") || c.getName().equals("Clear") || c.getName().equals("Storm")) {
+                    weatherCards.add(c);
+                }
             }
-            GameUIController.getGameUIController().addCardsToCardListWindow(cards);
+
+            Game.getGame().playCard(weatherCards.get((int) (Math.random() * weatherCards.size())) , Game.getGame().getCurrentPlayer());
         }
     }
 }
