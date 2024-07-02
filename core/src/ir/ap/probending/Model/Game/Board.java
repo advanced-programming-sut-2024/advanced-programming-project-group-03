@@ -16,6 +16,9 @@ public class Board {
     private Card commander7;
     private Card commander8;
     private Card commander9;
+    private boolean commander7Played = false;
+    private boolean commander8Played = false;
+    private boolean commander9Played = false;
     private Card leader;
     private Faction faction;
     private int moraleBoostCloseCombat = 0;
@@ -197,15 +200,15 @@ public class Board {
     }
 
     public boolean doesSiegeHaveCommander(){
-        return commander7 != null;
+        return commander7 != null || commander7Played;
     }
 
     public boolean doesRangedHaveCommander(){
-        return commander8 != null;
+        return commander8 != null || commander8Played;
     }
 
     public boolean doesCloseCombatHaveCommander(){
-        return commander9 != null;
+        return commander9 != null || commander9Played;
     }
 
     public void playLeaderAbility(){
@@ -301,5 +304,65 @@ public class Board {
 
     public void setFaction(Faction faction) {
         this.faction = faction;
+    }
+
+    public boolean isCommander7Played() {
+        return commander7Played;
+    }
+
+    public void setCommander7Played(boolean commander7Played) {
+        this.commander7Played = commander7Played;
+    }
+
+    public boolean isCommander8Played() {
+        return commander8Played;
+    }
+
+    public void setCommander8Played(boolean commander8Played) {
+        this.commander8Played = commander8Played;
+    }
+
+    public boolean isCommander9Played() {
+        return commander9Played;
+    }
+
+    public void setCommander9Played(boolean commander9Played) {
+        this.commander9Played = commander9Played;
+    }
+
+    public Card getStrongestSiege() {
+        Card strongestSiege = null;
+        int maxPower = 0;
+        for (Card card : siege) {
+            if (card.getPower() > maxPower){
+                maxPower = card.getPower();
+                strongestSiege = card;
+            }
+        }
+        return strongestSiege;
+    }
+
+    public Card getStrongestRanged() {
+        Card strongestRanged = null;
+        int maxPower = 0;
+        for (Card card : ranged) {
+            if (card.getPower() > maxPower){
+                maxPower = card.getPower();
+                strongestRanged = card;
+            }
+        }
+        return strongestRanged;
+    }
+
+    public Card getStrongestCloseCombat() {
+        Card strongestCloseCombat = null;
+        int maxPower = 0;
+        for (Card card : closeCombat) {
+            if (card.getPower() > maxPower){
+                maxPower = card.getPower();
+                strongestCloseCombat = card;
+            }
+        }
+        return strongestCloseCombat;
     }
 }

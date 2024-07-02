@@ -126,6 +126,9 @@ public class Game {
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
         updatePowerLabelsNumbers();
         updateSetWonLabels();
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander7Played(false);
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander8Played(false);
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander9Played(false);
     }
 
     public void playCard(Card card , int row) {
