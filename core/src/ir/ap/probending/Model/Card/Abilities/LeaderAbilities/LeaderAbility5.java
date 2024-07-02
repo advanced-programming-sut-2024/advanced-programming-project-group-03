@@ -24,5 +24,7 @@ public class LeaderAbility5 extends Ability {
         }
 
         GameUIController.getGameUIController().updateRows();
+        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }

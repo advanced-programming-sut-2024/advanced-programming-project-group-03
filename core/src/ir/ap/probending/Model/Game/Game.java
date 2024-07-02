@@ -88,6 +88,12 @@ public class Game {
 
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
         GameUIController.getGameUIController().updateRows();
+        if (currentPlayer.isPlayedLeaderAbility()){
+            GameUIController.getGameUIController().hideLeaderAbilityButton();
+        }
+        else {
+            GameUIController.getGameUIController().showLeaderAbilityButton();
+        }
 
         //check if both players have passed this set
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
@@ -116,6 +122,7 @@ public class Game {
         setUpHandView(gameBoard.getPlayer1());
         GameUIController.getGameUIController().hidePassForPlayer1();
         GameUIController.getGameUIController().hidePassForPlayer2();
+        GameUIController.getGameUIController().showLeaderAbilityButton();
         if (currentSet % 2 == 0){
             currentPlayer = gameBoard.getPlayer2();
         }
@@ -257,7 +264,7 @@ public class Game {
             return null;
     }
 
-    private void updatePowerLabelsNumbers(){
+    public void updatePowerLabelsNumbers(){
         GameUIController.getGameUIController().setPlayer1CloseCombatPowerSum(gameBoard.getPlayer1Board().getCloseCombatPowerSum());
         GameUIController.getGameUIController().setPlayer1RangedPowerSum(gameBoard.getPlayer1Board().getRangedPowerSum());
         GameUIController.getGameUIController().setPlayer1SiegePowerSum(gameBoard.getPlayer1Board().getSiegePowerSum());

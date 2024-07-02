@@ -425,6 +425,16 @@ public class GameUIController {
             commanderHorn12Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
         }
 
+        Game.getGame().updatePowerLabelsNumbers();
+
+    }
+
+    public void showLeaderAbilityButton(){
+        playLeaderAbilityButton.setVisible(true);
+    }
+
+    public void hideLeaderAbilityButton(){
+        playLeaderAbilityButton.setVisible(false);
     }
 
     public void activateCardListWindow(){

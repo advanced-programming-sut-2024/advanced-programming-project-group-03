@@ -10,5 +10,7 @@ public class LeaderAbility2 extends Ability {
     public void executeAbility(Card card) {
         Game.getGame().getGameBoard().getSpellCards().clear();
         GameUIController.getGameUIController().updateRows();
+        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }

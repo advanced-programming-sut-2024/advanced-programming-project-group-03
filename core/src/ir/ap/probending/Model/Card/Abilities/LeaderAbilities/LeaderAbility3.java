@@ -15,5 +15,7 @@ public class LeaderAbility3 extends Ability {
             Game.getGame().getGameBoard().getPlayer2Board().setCommander7Played(true);
         }
         GameUIController.getGameUIController().updateRows();
+        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }
