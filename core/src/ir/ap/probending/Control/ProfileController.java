@@ -1,5 +1,6 @@
 package ir.ap.probending.Control;
 
+import Server.FriendRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +17,7 @@ import ir.ap.probending.Model.ScreenMasterSetting;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileController {
@@ -66,8 +68,8 @@ public class ProfileController {
     private Label userUsernameLabel = new Label("Username : ", GameAssetManager.getGameAssetManager().getSkin());
     private Label userNicknameLabel = new Label("Nickname : ", GameAssetManager.getGameAssetManager().getSkin());
     private Label userRankLabel = new Label("Rank : ", GameAssetManager.getGameAssetManager().getSkin());
-    private Button addFriendButton = new Button(GameAssetManager.getGameAssetManager().getSkin());
-    private ScrollPane addFriendHistory = new ScrollPane(new Table(), GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton addFriendButton = new TextButton("Add Friend", GameAssetManager.getGameAssetManager().getSkin());
+    private SelectBox<String> addFriendHistory = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
     private ProfileController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
@@ -81,11 +83,11 @@ public class ProfileController {
             profileWindow.row().pad(10, 0, 10, 0);
             profileWindow.add(userRankLabel).fillX();
             profileWindow.row().pad(10, 0, 10, 0);
+            profileWindow.row().pad(10, 0, 10, 0);
             profileWindow.add(addFriendButton).fillX();
             profileWindow.row().pad(10, 0, 10, 0);
             profileWindow.add(addFriendHistory).fillX();
-
-
+            profileWindow.row().pad(10, 0, 10, 0);
 
             profileWindow.setSize(960, 540);
             profileWindow.setPosition(Gdx.graphics.getWidth()/2 - profileWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - profileWindow.getHeight()/2);
@@ -212,6 +214,7 @@ public class ProfileController {
                     searchUserLabel.setVisible(true);
                 }
                 else {
+                    profileWindow.add(addFriendHistory).fillX();
                     searchUserLabel.setVisible(false);
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
@@ -220,15 +223,28 @@ public class ProfileController {
                     userUsernameLabel.setText("Username : " + user.getUsername());
                     userNicknameLabel.setText("Nickname : " + user.getNickname());
                     userRankLabel.setText("Rank : " + user.getRank());
+                    String currentUserJson= ProBending.client.communicate("getUser ");
+                    User currentUser = gson.fromJson(currentUserJson, User.class);
                     addFriendButton.addListener(new ClickListener(){
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            String currentUserJson= ProBending.client.communicate("getUser ");
-                            User currentUser = gson.fromJson(currentUserJson, User.class);
-                            ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
+                           String response= ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
+                            System.out.println(response);
                         }
                     });
-
+                    //add friend History
+                    ArrayList<FriendRequest> friendRequests = user.getReceivedFriendRequests();
+                    ArrayList<FriendRequest> friendRequestsByCurrentUser = new ArrayList<>();
+                    for (FriendRequest friendRequest : friendRequests){
+                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())){
+                            friendRequestsByCurrentUser.add(friendRequest);
+                        }
+                    }
+                    List<String> friendRequestStrings = new ArrayList<>();
+                    for (FriendRequest friendRequest : friendRequestsByCurrentUser){
+                        friendRequestStrings.add(friendRequest.getSender().getUsername() + " " + friendRequest.getState());
+                    }
+                    addFriendHistory.setItems(friendRequestStrings.toArray(new String[0]));
                 }
             }
         });
