@@ -141,7 +141,7 @@ public enum CardsInfo {
     WaterTribeLeader5(new LeaderAbility5(),"Water5",0,false,"Cards/Leaders/WaterLeader.png",100,"Destroy enemies strongest ranged if sum of ranged is more than 10"),
     FireNationLeader1(new LeaderAbility6(),"Fire1",0,false,"Cards/Leaders/FireLeader.png",100,"Double the power of close combat units (unless commander is there)"),
     FireNationLeader2(new LeaderAbility7(),"Fire2",0,false,"Cards/Leaders/FireLeader.png",100,"Restore a card from discard pile to your hand"),
-    FireNationLeader3(new LeaderAbility8(),"Fire3",0,false,"Cards/Leaders/FireLeader.png",100,"Discard 2 card and and draw 1 card from deck"),
+    FireNationLeader3(new LeaderAbility8(),"Fire3",0,false,"Cards/Leaders/FireLeader.png",100,"Discard 2 card and and draw 1 card from deck by choice"),
     FireNationLeader4(new LeaderAbility9(),"Fire4",0,false,"Cards/Leaders/FireLeader.png",100,"Plays a weather card from your deck"),
     FireNationLeader5(new LeaderAbility10(),"Fire5",0,false,"Cards/Leaders/FireLeader.png",100,"Doubles the power of all spy's"),
     EarthKingdomLeader1(new LeaderAbility11(),"Earth1",0,false,"Cards/Leaders/EarthLeader.png",100,"Destroy enemies strongest close combat if sum of ranged is more than 10"),

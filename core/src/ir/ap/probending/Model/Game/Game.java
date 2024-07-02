@@ -118,6 +118,7 @@ public class Game {
         clearBoard();
         gameBoard.getPlayer1().setPassedThisRound(false);
         gameBoard.getPlayer2().setPassedThisRound(false);
+        gameBoard.setSpyDoublePowerActivated(false);
         isCardPlayedThisRound = false;
         setUpHandView(gameBoard.getPlayer1());
         GameUIController.getGameUIController().hidePassForPlayer1();

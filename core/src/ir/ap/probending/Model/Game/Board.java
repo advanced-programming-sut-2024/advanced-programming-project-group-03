@@ -3,6 +3,7 @@ package ir.ap.probending.Model.Game;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Frost;
 import ir.ap.probending.Model.Card.Abilities.Morale;
+import ir.ap.probending.Model.Card.Abilities.Spy;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
 
@@ -80,6 +81,14 @@ public class Board {
             sum *= 2;
             sum += sumOfHeroPower;
         }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : closeCombat) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
+        }
         return sum ;
     }
 
@@ -114,6 +123,14 @@ public class Board {
             sum *= 2;
             sum += sumOfHeroPower;
         }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : ranged) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
+        }
         return sum ;
     }
 
@@ -147,6 +164,14 @@ public class Board {
 
             sum *= 2;
             sum += sumOfHeroPower;
+        }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : siege) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
         }
         return sum ;
     }
