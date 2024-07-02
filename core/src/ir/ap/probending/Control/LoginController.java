@@ -95,15 +95,20 @@ public class LoginController {
                 String loggedInUserString = ProBending.client.communicate("getUser");
                 Gson gson = new Gson();
                 User loggedInUser = gson.fromJson(loggedInUserString, User.class);
-                if (!loggedInUser.getEmail().equals("probendin")) {
-
+                if (!loggedInUser.getEmail().equals("probendingavatar@gmail.com")) {
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
                     errorLabel.setText("");
-
                     GameMaster.getGameMaster().setLoggedInUser1(loggedInUser);
+                }
+                else if(verificationCodeField.getText().equals(verificationCode)){
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                    errorLabel.setText("");
                 }
                 else {
                     errorLabel.setText("Verification code is incorrect");

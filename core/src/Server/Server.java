@@ -88,7 +88,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF("");
                         dataOutputStream.flush();
                         break;}
-                    case "getUserByUsername":{
+                    case "searchUser":{
                         String username = messageParts[1];
                         User requestedUser = getUserByUsername(username);
                         if(requestedUser == null){
@@ -101,7 +101,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(userJson1);
                         dataOutputStream.flush();
                         break;}
-                    case "AddFriend": {
+                    case "addFriend": {
                         String senderUsername = messageParts[1];
                         String receiverUsername = messageParts[2];
                         User sender = getUserByUsername(senderUsername);
@@ -111,7 +111,7 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     }
-                    case "AcceptFriend": {
+                    case "acceptFriend": {
                         String senderUsername = messageParts[1];
                         String receiverUsername = messageParts[2];
                         int friendRequestId = Integer.parseInt(messageParts[3]);
@@ -119,11 +119,13 @@ public class Server extends Thread {
                         User receiver = getUserByUsername(receiverUsername);
                         FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
                         friendRequest.setState("accepted");
+                        receiver.addFriend(sender);
+                        sender.addFriend(receiver);
                         dataOutputStream.writeUTF("Friend request accepted");
                         dataOutputStream.flush();
                         break;
                     }
-                    case "RejectFriend": {
+                    case "rejectFriend": {
                         String senderUsername = messageParts[1];
                         String receiverUsername = messageParts[2];
                         int friendRequestId = Integer.parseInt(messageParts[3]);
