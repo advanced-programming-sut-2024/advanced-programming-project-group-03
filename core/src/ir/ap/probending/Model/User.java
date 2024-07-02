@@ -1,5 +1,6 @@
 package ir.ap.probending.Model;
 
+import Server.FriendRequest;
 import ir.ap.probending.Model.Data.GameHistory;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class User {
     private String nickname;
     private int score;
     private int rank;
+    private ArrayList<FriendRequest> receivedFriendRequests;
 
     public User(String username, String password, String email, String nickname) {
         this.username = username;
@@ -34,6 +36,7 @@ public class User {
         gameLostCount = 0;
         score = 0;
         rank = 0;
+        receivedFriendRequests = new ArrayList<>();
     }
 
     public User() {
@@ -169,5 +172,18 @@ public class User {
     public void setRegisterConfirmed(boolean registerConfirmed) {
         this.registerConfirmed = registerConfirmed;
     }
-
+    public void addFriendRequest(FriendRequest friendRequest) {
+        receivedFriendRequests.add(friendRequest);
+    }
+    public FriendRequest getFriendRequestById(int id) {
+        for (FriendRequest friendRequest : receivedFriendRequests) {
+            if (friendRequest.getId() == id) {
+                return friendRequest;
+            }
+        }
+        return null;
+    }
+    public ArrayList<FriendRequest> getReceivedFriendRequests() {
+        return receivedFriendRequests;
+    }
 }

@@ -95,7 +95,7 @@ public class LoginController {
                 String loggedInUserString = ProBending.client.communicate("getUser");
                 Gson gson = new Gson();
                 User loggedInUser = gson.fromJson(loggedInUserString, User.class);
-                if (loggedInUser.getEmail().equals("probendingavatar@gmail.com") || (verificationCodeField.getText().equals(verificationCode) && !verificationCodeField.getText().equals(""))) {
+                if (!loggedInUser.getEmail().equals("probendin")) {
 
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));

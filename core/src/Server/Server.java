@@ -38,7 +38,7 @@ public class Server extends Thread {
                 String response = "";
                 System.out.println(message);
                 switch (command) {
-                    case "signup":
+                    case "signup":{
                         if (messageParts.length != 5)
                             response = "Invalid input";
                         else
@@ -46,8 +46,8 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "login":
+                        break;}
+                    case "login":{
                         if (messageParts.length != 3)
                             response = "Invalid input";
                         else
@@ -55,38 +55,86 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "sendLoginEmail":
+                        break;}
+                    case "sendLoginEmail":{
                         response = sendLoginEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "sendSignupEmail":
+                        break;}
+                    case "sendSignupEmail":{
                         response = sendSignupEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "confirm":
+                        break;}
+                    case "confirm":{
                         response = receiveToken(messageParts[1]);
                         System.out.println(response);
-                        break;
-                    case "getUser":
+                        break;}
+                    case "getUser":{
                         User user = getUser();
                         Gson gson = new Gson();
                         System.out.println(response);
                         String userJson = gson.toJson(user);
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
-                        break;
-                    case "saveUser":
+                        break;}
+                    case "saveUser":{
                         String userString = message.substring(9);
                         Gson gson1 = new Gson();
                         User user1 = gson1.fromJson(userString, User.class);
                         saveUser(user1);
                         dataOutputStream.writeUTF("");
                         dataOutputStream.flush();
+                        break;}
+                    case "getUserByUsername":{
+                        String username = messageParts[1];
+                        User requestedUser = getUserByUsername(username);
+                        if(requestedUser == null){
+                            dataOutputStream.writeUTF("User not found");
+                            dataOutputStream.flush();
+                            break;
+                        }
+                        Gson gson2 = new Gson();
+                        String userJson1 = gson2.toJson(requestedUser);
+                        dataOutputStream.writeUTF(userJson1);
+                        dataOutputStream.flush();
+                        break;}
+                    case "AddFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+                        dataOutputStream.writeUTF("Friend request sent");
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "AcceptFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        int friendRequestId = Integer.parseInt(messageParts[3]);
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                        friendRequest.setState("accepted");
+                        dataOutputStream.writeUTF("Friend request accepted");
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "RejectFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        int friendRequestId = Integer.parseInt(messageParts[3]);
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                        friendRequest.setState("rejected");
+                        dataOutputStream.writeUTF("Friend request rejected");
+                        dataOutputStream.flush();
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {
@@ -129,7 +177,7 @@ public class Server extends Thread {
             return "User not found";
         } else if (!user.getPassword().equals(password)) {
             return "Incorrect password";
-        } else if (!user.getEmail().equals("probendingavatar@gmail.com") || !user.isRegisterConfirmed()) {
+        } else if (user.getEmail().equals("probendingavatar@gmail.com") && !user.isRegisterConfirmed()) {
             return "Email not confirmed";
         } else {
             currentUser = user;
@@ -196,6 +244,14 @@ public class Server extends Thread {
         String response = "Received token: " + token;
         users.stream().filter(user -> user.getUsername().equals(token)).findFirst().ifPresent(user -> user.setRegisterConfirmed(true));
         return response;
+    }
+    public static User getUserByUsername(String username){
+        for(User user:users){
+            if(user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
     }
 
     private static void loadUsersFromFile() {
