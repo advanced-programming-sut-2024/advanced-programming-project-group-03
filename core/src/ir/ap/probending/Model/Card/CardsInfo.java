@@ -1,6 +1,7 @@
 package ir.ap.probending.Model.Card;
 
 import ir.ap.probending.Model.Card.Abilities.*;
+import ir.ap.probending.Model.Card.Abilities.LeaderAbilities.*;
 
 public enum CardsInfo {
     //WaterBenders
@@ -130,8 +131,29 @@ public enum CardsInfo {
     Fog(new Fog(),"Fog",0,false,"Cards/Neutral/weather_fog.png",6,""),
     Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
     Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
-    Storm(new Storm(),"Storm",0,false,"Cards/Neutral/weather_storm.png",6,"");
+    Storm(new Storm(),"Storm",0,false,"Cards/Neutral/weather_storm.png",6,""),
 
+    //leaders
+    WaterTribeLeader1(new LeaderAbility1(),"Water1",0,false,"Cards/Leaders/WaterLeader.png",100,"Pick a fog card from your deck and plays it"),
+    WaterTribeLeader2(new LeaderAbility2(),"Water2",0,false,"Cards/Leaders/WaterLeader.png",100,"Clears Any weather effect"),
+    WaterTribeLeader3(new LeaderAbility3(),"Water3",0,false,"Cards/Leaders/WaterLeader.png",100,"Double the power of siege units (unless commander is there)"),
+    WaterTribeLeader4(new LeaderAbility4(),"Water4",0,false,"Cards/Leaders/WaterLeader.png",100,"Destroy enemies strongest siege if sum of siege is more than 10"),
+    WaterTribeLeader5(new LeaderAbility5(),"Water5",0,false,"Cards/Leaders/WaterLeader.png",100,"Destroy enemies strongest ranged if sum of ranged is more than 10"),
+    FireNationLeader1(new LeaderAbility6(),"Fire1",0,false,"Cards/Leaders/FireLeader.png",100,"Double the power of close combat units (unless commander is there)"),
+    FireNationLeader2(new LeaderAbility7(),"Fire2",0,false,"Cards/Leaders/FireLeader.png",100,"Restore a card from discard pile to your hand"),
+    FireNationLeader3(new LeaderAbility8(),"Fire3",0,false,"Cards/Leaders/FireLeader.png",100,"Discard 2 card and and draw 1 card from deck"),
+    FireNationLeader4(new LeaderAbility9(),"Fire4",0,false,"Cards/Leaders/FireLeader.png",100,"Plays a weather card from your deck"),
+    FireNationLeader5(new LeaderAbility10(),"Fire5",0,false,"Cards/Leaders/FireLeader.png",100,"Doubles the power of all spy's"),
+    EarthKingdomLeader1(new LeaderAbility11(),"Earth1",0,false,"Cards/Leaders/EarthLeader.png",100,"Destroy enemies strongest close combat if sum of ranged is more than 10"),
+    EarthKingdomLeader2(new LeaderAbility12(),"Earth2",0,false,"Cards/Leaders/EarthLeader.png",100,"Double the power of ranged units (unless commander is there)"),
+    EarthKingdomLeader3(new LeaderAbility13(),"Earth3",0,false,"Cards/Leaders/EarthLeader.png",100,"Draw and extra card"),
+    EarthKingdomLeader4(new LeaderAbility14(),"Earth4",0,false,"Cards/Leaders/EarthLeader.png",100,"Pick a frost card from deck and play it instantly"),
+    EarthKingdomLeader5(new LeaderAbility15(),"Earth5",0,false,"Cards/Leaders/EarthLeader.png",100,"Moves agile units to the best row"),
+    AirTemplesLeader1(new LeaderAbility16(),"Air1",0,false,"Cards/Leaders/WindLeader.png",100,"Pick a rain card from deck and play it instantly"),
+    AirTemplesLeader2(new LeaderAbility17(),"Air2",0,false,"Cards/Leaders/WindLeader.png",100,"Look at 3 random cards from you opponent hand"),
+    AirTemplesLeader3(new LeaderAbility18(),"Air3",0,false,"Cards/Leaders/WindLeader.png",100,"Cancel your opponents leader ability"),
+    AirTemplesLeader4(new LeaderAbility19(),"Air4",0,false,"Cards/Leaders/WindLeader.png",100,"Draw a card from your opponents discard pile"),
+    AirTemplesLeader5(new LeaderAbility20(),"Air5",0,false,"Cards/Leaders/WindLeader.png",100,"Puts players discarded cards back to their deck");
 
 
     private Ability ability;

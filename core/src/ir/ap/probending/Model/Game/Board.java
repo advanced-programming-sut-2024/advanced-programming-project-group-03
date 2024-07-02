@@ -61,6 +61,19 @@ public class Board {
             }
         }
         sum += (closeCombat.size() - moraleBoostCloseCombat - getCloseCombatHeroCount() ) * moraleBoostCloseCombat;
+
+        if (doesCloseCombatHaveCommander()){
+            int sumOfHeroPower = 0;
+            for (Card card : closeCombat) {
+                if (card.isHero()){
+                    sumOfHeroPower += card.getPower();
+                    sum -= card.getPower();
+                }
+            }
+
+            sum *= 2;
+            sum += sumOfHeroPower;
+        }
         return sum ;
     }
 
@@ -82,6 +95,19 @@ public class Board {
             }
         }
         sum += (ranged.size() - moraleBoostRanged - getRangedHeroCount() ) * moraleBoostRanged;
+
+        if (doesRangedHaveCommander()){
+            int sumOfHeroPower = 0;
+            for (Card card : ranged) {
+                if (card.isHero()){
+                    sumOfHeroPower += card.getPower();
+                    sum -= card.getPower();
+                }
+            }
+
+            sum *= 2;
+            sum += sumOfHeroPower;
+        }
         return sum ;
     }
 
@@ -103,6 +129,19 @@ public class Board {
             }
         }
         sum += (siege.size() - moraleBoostSiege - getSiegeHeroCount() ) * moraleBoostSiege;
+
+        if (doesSiegeHaveCommander()){
+            int sumOfHeroPower = 0;
+            for (Card card : siege) {
+                if (card.isHero()){
+                    sumOfHeroPower += card.getPower();
+                    sum -= card.getPower();
+                }
+            }
+
+            sum *= 2;
+            sum += sumOfHeroPower;
+        }
         return sum ;
     }
 
@@ -152,6 +191,18 @@ public class Board {
         allCards.addAll(ranged);
         allCards.addAll(siege);
         return allCards;
+    }
+
+    public boolean doesSiegeHaveCommander(){
+        return commander7 != null;
+    }
+
+    public boolean doesRangedHaveCommander(){
+        return commander8 != null;
+    }
+
+    public boolean doesCloseCombatHaveCommander(){
+        return commander9 != null;
     }
 
     //getters and setters

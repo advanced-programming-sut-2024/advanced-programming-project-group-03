@@ -128,7 +128,29 @@ public enum CardObjects {
     Rain(CardsInfo.Rain),
     Fog(CardsInfo.Fog),
     Frost(CardsInfo.Frost),
-    Storm(CardsInfo.Storm);
+    Storm(CardsInfo.Storm),
+
+    //leader cards
+    WaterTribeLeader1(CardsInfo.WaterTribeLeader1),
+    WaterTribeLeader2(CardsInfo.WaterTribeLeader2),
+    WaterTribeLeader3(CardsInfo.WaterTribeLeader3),
+    WaterTribeLeader4(CardsInfo.WaterTribeLeader4),
+    WaterTribeLeader5(CardsInfo.WaterTribeLeader5),
+    FireNationLeader1(CardsInfo.FireNationLeader1),
+    FireNationLeader2(CardsInfo.FireNationLeader2),
+    FireNationLeader3(CardsInfo.FireNationLeader3),
+    FireNationLeader4(CardsInfo.FireNationLeader4),
+    FireNationLeader5(CardsInfo.FireNationLeader5),
+    EarthKingdomLeader1(CardsInfo.EarthKingdomLeader1),
+    EarthKingdomLeader2(CardsInfo.EarthKingdomLeader2),
+    EarthKingdomLeader3(CardsInfo.EarthKingdomLeader3),
+    EarthKingdomLeader4(CardsInfo.EarthKingdomLeader4),
+    EarthKingdomLeader5(CardsInfo.EarthKingdomLeader5),
+    AirNomadsLeader1(CardsInfo.AirTemplesLeader1),
+    AirNomadsLeader2(CardsInfo.AirTemplesLeader2),
+    AirNomadsLeader3(CardsInfo.AirTemplesLeader3),
+    AirNomadsLeader4(CardsInfo.AirTemplesLeader4),
+    AirNomadsLeader5(CardsInfo.AirTemplesLeader5);
 
     private Card card;
 
@@ -298,6 +320,46 @@ public enum CardObjects {
         cards.add(Fog.getCard().clone());
         cards.add(Frost.getCard().clone());
         cards.add(Storm.getCard().clone());
+        return cards;
+    }
+
+    public static ArrayList<Card> getWaterLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(WaterTribeLeader1.getCard().clone6());
+        cards.add(WaterTribeLeader2.getCard().clone6());
+        cards.add(WaterTribeLeader3.getCard().clone6());
+        cards.add(WaterTribeLeader4.getCard().clone6());
+        cards.add(WaterTribeLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getFireLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(FireNationLeader1.getCard().clone6());
+        cards.add(FireNationLeader2.getCard().clone6());
+        cards.add(FireNationLeader3.getCard().clone6());
+        cards.add(FireNationLeader4.getCard().clone6());
+        cards.add(FireNationLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getEarthLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(EarthKingdomLeader1.getCard().clone6());
+        cards.add(EarthKingdomLeader2.getCard().clone6());
+        cards.add(EarthKingdomLeader3.getCard().clone6());
+        cards.add(EarthKingdomLeader4.getCard().clone6());
+        cards.add(EarthKingdomLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getAirLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(AirNomadsLeader1.getCard().clone6());
+        cards.add(AirNomadsLeader2.getCard().clone6());
+        cards.add(AirNomadsLeader3.getCard().clone6());
+        cards.add(AirNomadsLeader4.getCard().clone6());
+        cards.add(AirNomadsLeader5.getCard().clone6());
         return cards;
     }
 }
