@@ -223,7 +223,7 @@ public class ProfileController {
                     userUsernameLabel.setText("Username : " + user.getUsername());
                     userNicknameLabel.setText("Nickname : " + user.getNickname());
                     userRankLabel.setText("Rank : " + user.getRank());
-                    String currentUserJson = ProBending.client.communicate("getUser ");
+                    String currentUserJson = ProBending.client.communicate("getUser");
                     User currentUser = gson.fromJson(currentUserJson, User.class);
                     addFriendButton.addListener(new ClickListener() {
                         @Override
@@ -233,18 +233,16 @@ public class ProfileController {
                         }
                     });
                     //add friend History
-                    ArrayList<FriendRequest> friendRequests = user.getReceivedFriendRequests();
-                    ArrayList<FriendRequest> friendRequestsByCurrentUser = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequests) {
-                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())) {
-                            friendRequestsByCurrentUser.add(friendRequest);
+                    ArrayList<FriendRequest> friendRequests = currentUser.getSentFriendRequests();
+                    for(FriendRequest friendRequest : friendRequests) {
+                        if(friendRequest==null){
+                            continue;
+                        }
+                        if(friendRequest.getReceiver().equals(user.getUsername())) {
+                            addFriendHistory.getItems().add("Friend Request Sent");
                         }
                     }
-                    List<String> friendRequestStrings = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequestsByCurrentUser) {
-                        friendRequestStrings.add(friendRequest.getSender().getUsername() + " " + friendRequest.getState());
-                    }
-                    addFriendHistory.setItems(friendRequestStrings.toArray(new String[0]));
+
                 }
             }
         });
@@ -454,4 +452,4 @@ public class ProfileController {
     public Actor getTable() {
         return table;
     }
-}   
+}

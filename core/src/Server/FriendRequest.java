@@ -11,7 +11,6 @@ public class FriendRequest {
         this.receiver = receiver;
         state = "pending";
         id = counter++;
-        receiver.addFriendRequest(this);
     }
     public String getState() {
         return state;
@@ -19,7 +18,7 @@ public class FriendRequest {
     public void setState(String state) {
         this.state = state;
     }
-    public User getReceiver() {
+    public String  getReceiver() {
         return receiver;
     }
     public int getId() {

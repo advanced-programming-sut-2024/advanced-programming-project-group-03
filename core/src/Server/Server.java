@@ -2,6 +2,7 @@ package Server;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.User;
 
 import java.io.*;
@@ -119,7 +120,9 @@ public class Server extends Thread {
                         String receiverUsername = messageParts[2];
                         User sender = getUserByUsername(senderUsername);
                         User receiver = getUserByUsername(receiverUsername);
-                        FriendRequest friendRequest = new FriendRequest(receiver);
+                        FriendRequest friendRequest = new FriendRequest(receiver.getUsername());
+                        sender.addFriendRequest(friendRequest);
+                        SaveUser.saveUser(sender);
                         dataOutputStream.writeUTF("Friend request sent");
                         dataOutputStream.flush();
                         break;
@@ -337,7 +340,7 @@ public class Server extends Thread {
     }
 
     private void addFriend(User sender, User receiver) {
-        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+        FriendRequest friendRequest = new FriendRequest(receiver.getUsername());
         receiver.addFriendRequest(friendRequest);
     }
 
