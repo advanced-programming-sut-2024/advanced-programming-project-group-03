@@ -225,14 +225,17 @@ public class ProfileController {
                     userRankLabel.setText("Rank : " + user.getRank());
                     String currentUserJson = ProBending.client.communicate("getUser");
                     User currentUser = gson.fromJson(currentUserJson, User.class);
+                    User finalCurrentUser = currentUser;
                     addFriendButton.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                            String response = ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
+                            String response = ProBending.client.communicate("addFriend " + finalCurrentUser.getUsername() + " " + user.getUsername());
                             System.out.println(response);
                         }
                     });
                     //add friend History
+                    currentUserJson = ProBending.client.communicate("getUser");
+                    currentUser = gson.fromJson(currentUserJson, User.class);
                     ArrayList<FriendRequest> friendRequests = currentUser.getSentFriendRequests();
                     for(FriendRequest friendRequest : friendRequests) {
                         if(friendRequest==null){
