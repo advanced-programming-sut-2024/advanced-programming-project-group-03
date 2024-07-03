@@ -128,7 +128,29 @@ public enum CardObjects {
     Rain(CardsInfo.Rain),
     Fog(CardsInfo.Fog),
     Frost(CardsInfo.Frost),
-    Storm(CardsInfo.Storm);
+    Storm(CardsInfo.Storm),
+
+    //leader cards
+    WaterTribeLeader1(CardsInfo.WaterTribeLeader1),
+    WaterTribeLeader2(CardsInfo.WaterTribeLeader2),
+    WaterTribeLeader3(CardsInfo.WaterTribeLeader3),
+    WaterTribeLeader4(CardsInfo.WaterTribeLeader4),
+    WaterTribeLeader5(CardsInfo.WaterTribeLeader5),
+    FireNationLeader1(CardsInfo.FireNationLeader1),
+    FireNationLeader2(CardsInfo.FireNationLeader2),
+    FireNationLeader3(CardsInfo.FireNationLeader3),
+    FireNationLeader4(CardsInfo.FireNationLeader4),
+    FireNationLeader5(CardsInfo.FireNationLeader5),
+    EarthKingdomLeader1(CardsInfo.EarthKingdomLeader1),
+    EarthKingdomLeader2(CardsInfo.EarthKingdomLeader2),
+    EarthKingdomLeader3(CardsInfo.EarthKingdomLeader3),
+    EarthKingdomLeader4(CardsInfo.EarthKingdomLeader4),
+    EarthKingdomLeader5(CardsInfo.EarthKingdomLeader5),
+    AirNomadsLeader1(CardsInfo.AirTemplesLeader1),
+    AirNomadsLeader2(CardsInfo.AirTemplesLeader2),
+    AirNomadsLeader3(CardsInfo.AirTemplesLeader3),
+    AirNomadsLeader4(CardsInfo.AirTemplesLeader4),
+    AirNomadsLeader5(CardsInfo.AirTemplesLeader5);
 
     private Card card;
 
@@ -142,7 +164,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Amon.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
         cards.add(DesnaAndEska.getCard().clone());
@@ -181,7 +203,9 @@ public enum CardObjects {
 
     public static ArrayList<Card> getAirCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
+        cards.add(AirBoy.getCard().clone());
+        cards.add(AirBoy.getCard().clone());
         cards.add(AirBoy.getCard().clone());
         cards.add(BumiAir.getCard().clone());
         cards.add(Daw.getCard().clone());
@@ -191,6 +215,8 @@ public enum CardObjects {
         cards.add(Jinora.getCard().clone());
         cards.add(Kai.getCard().clone());
         cards.add(Kelsang.getCard().clone());
+        cards.add(Kelsang.getCard().clone());
+        cards.add(Koun.getCard().clone());
         cards.add(Koun.getCard().clone());
         cards.add(Meelo.getCard().clone());
         cards.add(Opal.getCard().clone());
@@ -209,7 +235,7 @@ public enum CardObjects {
 
     public static ArrayList<Card> getEarthCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Aiwei.getCard().clone());
         cards.add(BaatarJr.getCard().clone());
         cards.add(BaSingSeCaptain.getCard().clone());
@@ -245,17 +271,19 @@ public enum CardObjects {
 
     public static ArrayList<Card> getFireCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        getNeutralCards(cards);
+        cards.addAll(getNeutralCards());
         cards.add(Azula.getCard().clone());
         cards.add(Azulon.getCard().clone());
         cards.add(Buijing.getCard().clone());
+        cards.add(BullyGuard.getCard().clone());
         cards.add(BullyGuard.getCard().clone());
         cards.add(ChitSang.getCard().clone());
         cards.add(CircusTrainer.getCard().clone());
         cards.add(CombustionMan.getCard().clone());
         cards.add(Councilwoman.getCard().clone());
         cards.add(Druk.getCard().clone());
-        cards.add(EvilDruk.getCard().clone());
+        cards.add(FireSages.getCard().clone());
+        cards.add(FireSages.getCard().clone());
         cards.add(FireSages.getCard().clone());
         cards.add(Hide.getCard().clone());
         cards.add(Iroh.getCard().clone());
@@ -266,7 +294,10 @@ public enum CardObjects {
         cards.add(Ozai.getCard().clone());
         cards.add(Pli.getCard().clone());
         cards.add(RoyalSoldiers.getCard().clone());
+        cards.add(RoyalSoldiers.getCard().clone());
+        cards.add(RoyalSoldiers.getCard().clone());
         cards.add(Sozin.getCard().clone());
+        cards.add(SunWarriors.getCard().clone());
         cards.add(SunWarriors.getCard().clone());
         cards.add(TaxCollector.getCard().clone());
         cards.add(TwoToedPing.getCard().clone());
@@ -277,7 +308,8 @@ public enum CardObjects {
         return cards;
     }
 
-    public static void getNeutralCards(ArrayList<Card> cards) {
+    public static ArrayList<Card> getNeutralCards() {
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(AvatarAang.getCard().clone());
         cards.add(AvatarKorra.getCard().clone());
         cards.add(AvatarKyoshi.getCard().clone());
@@ -288,5 +320,46 @@ public enum CardObjects {
         cards.add(Fog.getCard().clone());
         cards.add(Frost.getCard().clone());
         cards.add(Storm.getCard().clone());
+        return cards;
+    }
+
+    public static ArrayList<Card> getWaterLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(WaterTribeLeader1.getCard().clone6());
+        cards.add(WaterTribeLeader2.getCard().clone6());
+        cards.add(WaterTribeLeader3.getCard().clone6());
+        cards.add(WaterTribeLeader4.getCard().clone6());
+        cards.add(WaterTribeLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getFireLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(FireNationLeader1.getCard().clone6());
+        cards.add(FireNationLeader2.getCard().clone6());
+        cards.add(FireNationLeader3.getCard().clone6());
+        cards.add(FireNationLeader4.getCard().clone6());
+        cards.add(FireNationLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getEarthLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(EarthKingdomLeader1.getCard().clone6());
+        cards.add(EarthKingdomLeader2.getCard().clone6());
+        cards.add(EarthKingdomLeader3.getCard().clone6());
+        cards.add(EarthKingdomLeader4.getCard().clone6());
+        cards.add(EarthKingdomLeader5.getCard().clone6());
+        return cards;
+    }
+
+    public static ArrayList<Card> getAirLeaderCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(AirNomadsLeader1.getCard().clone6());
+        cards.add(AirNomadsLeader2.getCard().clone6());
+        cards.add(AirNomadsLeader3.getCard().clone6());
+        cards.add(AirNomadsLeader4.getCard().clone6());
+        cards.add(AirNomadsLeader5.getCard().clone6());
+        return cards;
     }
 }

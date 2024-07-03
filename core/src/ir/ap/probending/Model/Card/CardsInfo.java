@@ -1,6 +1,7 @@
 package ir.ap.probending.Model.Card;
 
 import ir.ap.probending.Model.Card.Abilities.*;
+import ir.ap.probending.Model.Card.Abilities.LeaderAbilities.*;
 
 public enum CardsInfo {
     //WaterBenders
@@ -14,7 +15,7 @@ public enum CardsInfo {
     Kanna(null, "Kanna", 1, false, "Cards/Water Tribes/Kanna.png", 1, "It's been so long since I've had hope, but you brought it back to life."),
     Katara(new Medic(), "Katara", 10, true, "Cards/Water Tribes/Katara.png", 2, "I will never , ever turn my back on people who need me!"),
     Kya1(null, "Kya ", 2, false, "Cards/Water Tribes/Kya Kataras Mom.png", 0, "Just let her go , and i'll give you the information you want."),
-    Kya2(new Agile(), "Kya", 6, false, "Cards/Water Tribes/Kya.png", 0, "You thing you're the responsible one? Where were you after dad died and mom was all alone?"),
+    Kya2(new Agile2(), "Kya", 6, false, "Cards/Water Tribes/Kya.png", 0, "You thing you're the responsible one? Where were you after dad died and mom was all alone?"),
     MingHua(null, "Ming Hua", 7, false, "Cards/Water Tribes/Ming Hua.png", 1, "We could have just taken the elevator. Show-off."),
     OldKatara(new Medic(), "Old Katara", 5, false, "Cards/Water Tribes/Old Katara.png", 0, "I will , turn my back on people who need me!"),
     Pakku(new Agile(), "Pakku", 9, false, "Cards/Water Tribes/Pakku.png", 2, "It is respectful to bow to an old master , but how about a hug for your new grandfather?"),
@@ -48,7 +49,7 @@ public enum CardsInfo {
     FireSages(new Muster(), "Fire Sages", 2, false, "Cards/Fire Nation/Fire Sages.png", 1, "We are the Fire Sages, gaurdians of the temple of the Avatar."),
     Hide(new Agile(), "Hide", 2, false, "Cards/Fire Nation/Hide.png", 1, "on Ji. Is. My. Girlfriend. Don't forget it"),
     Iroh(new Medic(), "Iroh", 8, false, "Cards/Fire Nation/Iroh.png", 1, "After I reconquer Ba Sing Se, I'm going to reconquer my tea shop, and I'm going to play Pai Sho every day!"),
-    Jee(new Agile(), "Jee", 3, false, "Cards/Fire Nation/jee.png", 1, "Then again, what should I expect from a spoiled prince?"),
+    Jee(new Agile2(), "Jee", 3, false, "Cards/Fire Nation/jee.png", 1, "Then again, what should I expect from a spoiled prince?"),
     JeongJeong(new Spy(), "Jeong Jeong", 7, false, "Cards/Fire Nation/Jeong Jeong.png", 2, "Fire brings only destruction and pain. It forces those of us burdened with its care to walk a razor's edge between humanity and savagery. Eventually, we are torn apart."),
     Mako(new Morale(), "Mako", 5, false, "Cards/Fire Nation/Mako.png", 2, "I did what I had to do to survive and protect my little brother."),
     OldZuko(null, "Old Zuko", 10, true, "Cards/Fire Nation/Old Zuko.png", 0, "No one knew better than aang that in times of turmoil the world needs it's avatar the most"),
@@ -69,7 +70,7 @@ public enum CardsInfo {
     BaatarJr(new Spy(),"Baatar Jr",5,false,"Cards/Earth Kingdom/BaatarJr.png",0,""),
     BaSingSeCaptain(null,"Ba Sing Se Captain",4,false,"Cards/Earth Kingdom/BaSingSeCaptain.png",1,""),
     BigBadHippo(null,"Big Bad Hippo",3,false,"Cards/Earth Kingdom/BigBadHippo.png",2,""),
-    Bolin(new Agile(),"Bolin",6,false,"Cards/Earth Kingdom/Bolin.png",1,""),
+    Bolin(new Agile2(),"Bolin",6,false,"Cards/Earth Kingdom/Bolin.png",1,""),
     Boqin(null,"Boqin",3,false,"Cards/Earth Kingdom/Boqin.png",1,""),
     Boulder(null,"Boulder",3,false,"Cards/Earth Kingdom/Boulder.png",2,""),
     Bumi(new Scorch(),"Bumi",9,false,"Cards/Earth Kingdom/Bumi.png",2,""),
@@ -130,8 +131,31 @@ public enum CardsInfo {
     Fog(new Fog(),"Fog",0,false,"Cards/Neutral/weather_fog.png",6,""),
     Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
     Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
-    Storm(new Storm(),"Snow",0,false,"Cards/Neutral/weather_storm.png",6,"");
+    Storm(new Storm(),"Storm",0,false,"Cards/Neutral/weather_storm.png",6,""),
 
+    //leaders
+    WaterTribeLeader1(new LeaderAbility1(),"Water1",0,false,"Cards/Leaders/WaterLeader.png",100,"Pick a fog card from your deck and plays it"),
+    WaterTribeLeader2(new LeaderAbility2(),"Water2",0,false,"Cards/Leaders/WaterLeader.png",100,"Clears Any weather effect"),
+    WaterTribeLeader3(new LeaderAbility3(),"Water3",0,false,"Cards/Leaders/WaterLeader.png",100,"Double the power of siege units (unless commander is there)"),
+    WaterTribeLeader4(new LeaderAbility4(),"Water4",0,false,"Cards/Leaders/WaterLeader.png",100,"Destroy enemies strongest siege if sum of siege is more than 10"),
+    WaterTribeLeader5(new LeaderAbility5(),"Water5",0,false,"Cards/Leaders/WaterLeader.png",100,"Destroy enemies strongest ranged if sum of ranged is more than 10"),
+    FireNationLeader1(new LeaderAbility6(),"Fire1",0,false,"Cards/Leaders/FireLeader.png",100,"Double the power of close combat units (unless commander is there)"),
+    FireNationLeader2(new LeaderAbility7(),"Fire2",0,false,"Cards/Leaders/FireLeader.png",100,"Restore a card from discard pile to your hand"),
+    FireNationLeader3(new LeaderAbility8(),"Fire3",0,false,"Cards/Leaders/FireLeader.png",100,"Discard 2 card and and draw 1 card from deck by choice"),
+    FireNationLeader4(new LeaderAbility9(),"Fire4",0,false,"Cards/Leaders/FireLeader.png",100,"Plays a weather card from your deck"),
+    FireNationLeader5(new LeaderAbility10(),"Fire5",0,false,"Cards/Leaders/FireLeader.png",100,"Doubles the power of all spy's"),
+    EarthKingdomLeader1(new LeaderAbility11(),"Earth1",0,false,"Cards/Leaders/EarthLeader.png",100,"Destroy enemies strongest close combat if sum of ranged is more than 10"),
+    EarthKingdomLeader2(new LeaderAbility12(),"Earth2",0,false,"Cards/Leaders/EarthLeader.png",100,"Double the power of ranged units (unless commander is there)"),
+    EarthKingdomLeader3(new LeaderAbility13(),"Earth3",0,false,"Cards/Leaders/EarthLeader.png",100,"Draw and extra card"),
+    EarthKingdomLeader4(new LeaderAbility14(),"Earth4",0,false,"Cards/Leaders/EarthLeader.png",100,"Pick a frost card from deck and play it instantly"),
+    EarthKingdomLeader5(new LeaderAbility15(),"Earth5",0,false,"Cards/Leaders/EarthLeader.png",100,"Moves agile units to the best row"),
+    AirTemplesLeader1(new LeaderAbility16(),"Air1",0,false,"Cards/Leaders/WindLeader.png",100,"Pick a rain card from deck and play it instantly"),
+    AirTemplesLeader2(new LeaderAbility17(),"Air2",0,false,"Cards/Leaders/WindLeader.png",100,"Look at 3 random cards from you opponent hand"),
+    AirTemplesLeader3(new LeaderAbility18(),"Air3",0,false,"Cards/Leaders/WindLeader.png",100,"Cancel your opponents leader ability"),
+    AirTemplesLeader4(new LeaderAbility19(),"Air4",0,false,"Cards/Leaders/WindLeader.png",100,"Draw a card from your opponents discard pile"),
+    AirTemplesLeader5(new LeaderAbility20(),"Air5",0,false,"Cards/Leaders/WindLeader.png",100,"Restore Abilities Restores Randomly"),
+    AirTemplesLeader6(new LeaderAbility21(),"Air6",0,false,"Cards/Leaders/WindLeader.png",100,"shuffle cards from burnt cards to deck"),
+    AirTemplesLeader7(new LeaderAbility22(),"Air7",0,false,"Cards/Leaders/WindLeader.png",100,"Units only lose half the strength in bad weather condition");
 
 
     private Ability ability;

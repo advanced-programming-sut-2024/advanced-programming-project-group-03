@@ -1,6 +1,8 @@
 package ir.ap.probending.Model.Data;
 
+import com.google.gson.Gson;
 import ir.ap.probending.Model.User;
+import ir.ap.probending.ProBending;
 
 public class GameMaster {
     private static GameMaster gameMaster = new GameMaster();
@@ -16,6 +18,13 @@ public class GameMaster {
     //getters and setters
 
     public User getLoggedInUser1() {
+        String response = ProBending.client.communicate("getUser");
+        if (response.equals("User not found")) {
+            loggedInUser1 = guestUser1;
+            return loggedInUser1;
+        }
+        Gson gson = new Gson();
+        loggedInUser1 = gson.fromJson(ProBending.client.communicate("getUser"), User.class);
         return loggedInUser1;
     }
 

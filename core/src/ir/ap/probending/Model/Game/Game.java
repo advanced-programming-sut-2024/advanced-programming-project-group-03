@@ -4,6 +4,7 @@ import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameMaster;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Game {
@@ -12,6 +13,9 @@ public class Game {
     private GameBoard gameBoard;
     private int currentSet = 1;
     private boolean isCardPlayedThisRound = false;
+    private int vetoCount = 0;
+    private boolean isRestoreCardRandomlyActivated = false;
+    private boolean isLoseHalfInBadWeatherActivated = false;
     private Game() {
     }
     public void startGame() {
@@ -32,11 +36,25 @@ public class Game {
             gameBoard.getPlayer2().drawCard();
         }
 
+        //veto cards
+        GameUIController.getGameUIController().activateCardListWindow();
+        ArrayList<Card> vetoCards = new ArrayList<>();
+        for (Card card : gameBoard.getPlayer1().getHand()) {
+            vetoCards.add(card.clone5());
+        }
+        GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
+
         //add hand cards of player1 to view
         setUpHandView(gameBoard.getPlayer1());
 
         //set leaders and factions
-        //TODO
+        gameBoard.getPlayer1Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());
+        gameBoard.getPlayer1Board().setFaction(PreGame.getPreGame().getPlayerFaction());
+        gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());//TODO change this to a random leader
+        gameBoard.getPlayer2Board().setFaction(PreGame.getPreGame().getPlayerFaction());//TODO
+
+        GameUIController.getGameUIController().addLeadersToLeaderTable1(gameBoard.getPlayer1Board().getLeader());
+        GameUIController.getGameUIController().addLeadersToLeaderTable2(gameBoard.getPlayer2Board().getLeader());
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();
@@ -71,6 +89,13 @@ public class Game {
         }
 
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+        GameUIController.getGameUIController().updateRows();
+        if (currentPlayer.isPlayedLeaderAbility()){
+            GameUIController.getGameUIController().hideLeaderAbilityButton();
+        }
+        else {
+            GameUIController.getGameUIController().showLeaderAbilityButton();
+        }
 
         //check if both players have passed this set
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
@@ -89,15 +114,18 @@ public class Game {
     }
 
     public void startNewSet() {
+        depositCardToBurntCards();
         currentSet++;
         GameUIController.getGameUIController().setClickedCard(null);
         clearBoard();
         gameBoard.getPlayer1().setPassedThisRound(false);
         gameBoard.getPlayer2().setPassedThisRound(false);
+        gameBoard.setSpyDoublePowerActivated(false);
         isCardPlayedThisRound = false;
         setUpHandView(gameBoard.getPlayer1());
         GameUIController.getGameUIController().hidePassForPlayer1();
         GameUIController.getGameUIController().hidePassForPlayer2();
+        GameUIController.getGameUIController().showLeaderAbilityButton();
         if (currentSet % 2 == 0){
             currentPlayer = gameBoard.getPlayer2();
         }
@@ -108,9 +136,21 @@ public class Game {
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
         updatePowerLabelsNumbers();
         updateSetWonLabels();
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander7Played(false);
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander8Played(false);
+        Game.getGame().getGameBoard().getPlayer1Board().setCommander9Played(false);
+        isRestoreCardRandomlyActivated = false;
+        isLoseHalfInBadWeatherActivated = false;
+
+        if (currentPlayer.isPlayedLeaderAbility()){
+            GameUIController.getGameUIController().hideLeaderAbilityButton();
+        }
+        else {
+            GameUIController.getGameUIController().showLeaderAbilityButton();
+        }
     }
 
-    public void playCard(Card card) {
+    public void playCard(Card card , int row) {
         isCardPlayedThisRound = true;
 
         for (int i = 0; i < currentPlayer.getHand().size(); i++) {
@@ -120,21 +160,84 @@ public class Game {
             }
         }
 
-        switch (card.getPlayingRow()){
+        Card newCard = card.clone4();
+
+        switch (row){
             case 0:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToSiege(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToSiege(newCard);
+                break;
+            case 1:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToRanged(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToRanged(newCard);
+                break;
+            case 2:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(newCard);
+                break;
+            case 6:
+                Game.getGame().getGameBoard().addSpellCard(newCard);
+                break;
+            case 7:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander7(newCard);
+                break;
+            case 8:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander8(newCard);
+                break;
+           case 9:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander9(newCard);
+                break;
+           case 10:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander9(newCard);
+                break;
+           case 11:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander8(newCard);
+                break;
+           case 12:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander7(newCard);
+                break;
+        }
+
+        if (card.getAbility() != null){
+            card.getAbility().executeAbility(newCard);
+        }
+
+        updatePowerLabelsNumbers();
+        GameUIController.getGameUIController().updateRows();
+        endTurn();
+
+    }
+
+    public void playCard(Card card , Player player) {
+        isCardPlayedThisRound = true;
+
+        switch (card.getPlayingRow()){
+            case 0:
+                if (player.equals(gameBoard.getPlayer1()))
                     gameBoard.getPlayer1Board().addCardToSiege(card);
                 else
                     gameBoard.getPlayer2Board().addCardToSiege(card);
                 break;
             case 1:
-                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                if (player.equals(gameBoard.getPlayer1()))
                     gameBoard.getPlayer1Board().addCardToRanged(card);
                 else
                     gameBoard.getPlayer2Board().addCardToRanged(card);
                 break;
             case 2:
-                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                if (player.equals(gameBoard.getPlayer1()))
                     gameBoard.getPlayer1Board().addCardToCloseCombat(card);
                 else
                     gameBoard.getPlayer2Board().addCardToCloseCombat(card);
@@ -144,8 +247,12 @@ public class Game {
                 break;
         }
 
+        if (card.getAbility() != null){
+            card.getAbility().executeAbility(card);
+        }
+
         updatePowerLabelsNumbers();
-        endTurn();
+        GameUIController.getGameUIController().updateRows();
     }
 
     private void selectRandomCardsAndFactionForPlayer2() {
@@ -169,7 +276,7 @@ public class Game {
             return null;
     }
 
-    private void updatePowerLabelsNumbers(){
+    public void updatePowerLabelsNumbers(){
         GameUIController.getGameUIController().setPlayer1CloseCombatPowerSum(gameBoard.getPlayer1Board().getCloseCombatPowerSum());
         GameUIController.getGameUIController().setPlayer1RangedPowerSum(gameBoard.getPlayer1Board().getRangedPowerSum());
         GameUIController.getGameUIController().setPlayer1SiegePowerSum(gameBoard.getPlayer1Board().getSiegePowerSum());
@@ -185,11 +292,39 @@ public class Game {
         GameUIController.getGameUIController().setPlayer2SetWon(gameBoard.getPlayer2().getSetsWon());
     }
 
+    private void depositCardToBurntCards(){
+        for (Card card : gameBoard.getPlayer1Board().getSiege()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer1Board().getRanged()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer1Board().getCloseCombat()) {
+            gameBoard.getPlayer1().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getSiege()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getRanged()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+        for (Card card : gameBoard.getPlayer2Board().getCloseCombat()) {
+            gameBoard.getPlayer2().addCardToBurntCards(card);
+        }
+    }
+
+    public Player getOtherPlayer(){
+        if (currentPlayer.equals(gameBoard.getPlayer1()))
+            return gameBoard.getPlayer2();
+        else
+            return gameBoard.getPlayer1();
+    }
+
     //views
     private void setupViewsThatAreDependentToGameBoard() {
         GameUIController.getGameUIController().addUsernameLabels();
     }
-    private void setUpHandView(Player player){
+    public void setUpHandView(Player player){
         //add hand cards of player1 to view
         GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
         int cardInRowCount = 0;
@@ -207,6 +342,7 @@ public class Game {
     public void clearBoard() {
         gameBoard.getPlayer1Board().clearBoard();
         gameBoard.getPlayer2Board().clearBoard();
+        gameBoard.getSpellCards().clear();
         GameUIController.getGameUIController().getRow0Table().clearChildren();
         GameUIController.getGameUIController().getRow1Table().clearChildren();
         GameUIController.getGameUIController().getRow2Table().clearChildren();
@@ -242,5 +378,27 @@ public class Game {
         this.gameBoard = gameBoard;
     }
 
+    public int getVetoCount() {
+        return vetoCount;
+    }
 
+    public void setVetoCount(int vetoCount) {
+        this.vetoCount = vetoCount;
+    }
+
+    public boolean isRestoreCardRandomlyActivated() {
+        return isRestoreCardRandomlyActivated;
+    }
+
+    public void setRestoreCardRandomlyActivated(boolean restoreCardRandomlyActivated) {
+        isRestoreCardRandomlyActivated = restoreCardRandomlyActivated;
+    }
+
+    public boolean isLoseHalfInBadWeatherActivated() {
+        return isLoseHalfInBadWeatherActivated;
+    }
+
+    public void setLoseHalfInBadWeatherActivated(boolean loseHalfInBadWeatherActivated) {
+        isLoseHalfInBadWeatherActivated = loseHalfInBadWeatherActivated;
+    }
 }

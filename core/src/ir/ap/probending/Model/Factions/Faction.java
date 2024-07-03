@@ -2,17 +2,16 @@ package ir.ap.probending.Model.Factions;
 
 import com.badlogic.gdx.graphics.Texture;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Leader;
 
 import java.util.ArrayList;
 
 public class Faction {
     private String factionName;
-    private ArrayList<Leader> leaders;
+    private ArrayList<Card> leaders;
     private ArrayList<Card> cards;
     private Texture texture;
 
-    public Faction(String factionName, Texture texture , ArrayList<Leader> leaders, ArrayList<Card> cards) {
+    public Faction(String factionName, Texture texture , ArrayList<Card> leaders, ArrayList<Card> cards) {
         this.factionName = factionName;
         this.texture = texture;
         this.leaders = new ArrayList<>(leaders);
@@ -23,15 +22,15 @@ public class Faction {
         return new Faction(factionName, texture, leaders, cards);
     }
 
-    public ArrayList<Leader> getLeaderArray() {
+    public ArrayList<Card> getLeaderArray() {
         return leaders;
     }
 
-    public void addLeader(Leader leader) {
+    public void addLeader(Card leader) {
         leaders.add(leader);
     }
 
-    public void removeLeader(Leader leader) {
+    public void removeLeader(Card leader) {
         leaders.remove(leader);
     }
 

@@ -10,6 +10,7 @@ public class GameBoard {
     private Player player1;
     private Board player2Board;
     private Player player2;
+    private boolean isSpyDoublePowerActivated = false;
     private ArrayList<Card> spellCards = new ArrayList<>();
 
     public GameBoard(Player player1, Player player2 , Board player1Board, Board player2Board) {
@@ -39,6 +40,71 @@ public class GameBoard {
         spellCards.remove(card);
     }
 
+    public boolean isFrostPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Frost")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isRainPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Rain")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isFogPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Fog")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isClearPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Clear")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isStormPlayed() {
+        for (Card card : spellCards) {
+            if (card.getName().equals("Storm")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeCardFromBoard(Card card) {
+        if (player1Board.getCloseCombat().contains(card)) {
+            player1Board.getCloseCombat().remove(card);
+        }
+        else if (player1Board.getRanged().contains(card)) {
+            player1Board.getRanged().remove(card);
+        }
+        else if (player1Board.getSiege().contains(card)) {
+            player1Board.getSiege().remove(card);
+        }
+        else if (player2Board.getCloseCombat().contains(card)) {
+            player2Board.getCloseCombat().remove(card);
+        }
+        else if (player2Board.getRanged().contains(card)) {
+            player2Board.getRanged().remove(card);
+        }
+        else if (player2Board.getSiege().contains(card)) {
+            player2Board.getSiege().remove(card);
+        }
+    }
     //getters and setters
 
     public  Player getPlayer1() {
@@ -71,5 +137,13 @@ public class GameBoard {
 
     public void setSpellCards(ArrayList<Card> spellCards) {
         this.spellCards = spellCards;
+    }
+
+    public boolean isSpyDoublePowerActivated() {
+        return isSpyDoublePowerActivated;
+    }
+
+    public void setSpyDoublePowerActivated(boolean spyDoublePowerActivated) {
+        isSpyDoublePowerActivated = spyDoublePowerActivated;
     }
 }

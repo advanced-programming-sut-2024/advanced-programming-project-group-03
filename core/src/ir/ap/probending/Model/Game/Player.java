@@ -12,6 +12,7 @@ public class Player {
     private ArrayList<Card> burntCards = new ArrayList<>();
     private boolean isPassedThisRound = false;
     private int setsWon = 0;
+    private boolean isPlayedLeaderAbility = false;
 
     public Player(User user) {
         this.user = user;
@@ -31,6 +32,10 @@ public class Player {
         deck.addAll(cards);
     }
 
+    public void addCardToDeck(Card card) {
+        deck.add(card);
+    }
+
     public void addCardToHand(Card card) {
         hand.add(card);
     }
@@ -45,6 +50,14 @@ public class Player {
 
     public void removeCardFromBurntCards(Card card) {
         burntCards.remove(card);
+    }
+
+    public void removeCardFromDeckCards(Card card){
+        deck.remove(card);
+    }
+
+    public void removeCardFromDeckCards(ArrayList<Card> card){
+        deck.removeAll(card);
     }
 
     //getters and setters
@@ -95,5 +108,14 @@ public class Player {
 
     public void setSetsWon(int setsWon) {
         this.setsWon = setsWon;
+    }
+
+
+    public boolean isPlayedLeaderAbility() {
+        return isPlayedLeaderAbility;
+    }
+
+    public void setPlayedLeaderAbility(boolean playedLeaderAbility) {
+        isPlayedLeaderAbility = playedLeaderAbility;
     }
 }
