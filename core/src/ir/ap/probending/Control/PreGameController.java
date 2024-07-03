@@ -28,6 +28,17 @@ public class PreGameController {
     private final Window changeFactionWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton changeFactionButton = new TextButton("Change Faction", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton chooseLeaderButton = new TextButton("Choose Leader", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label saveDeckLabel = new Label("Save Deck", GameAssetManager.getGameAssetManager().getSkin() , "title");
+    private final TextButton saveDeckButton = new TextButton("Save Deck", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton loadDeckButton = new TextButton("Load Deck", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window saveDeckWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window loadDeckWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton saveDeckToFileButton = new TextButton("Save To Json File", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton saveDeckToDBButton = new TextButton("Save To Database", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeSaveDeck = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton loadDeckFromFileButton = new TextButton("Load From Json File", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton loadDeckFromDBButton = new TextButton("Load From Database", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextField saveDeckTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton applyLeaderButton = new TextButton("Apply", GameAssetManager.getGameAssetManager().getSkin());
     private final Window chooseLeaderWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final Label leaderLabel = new Label("Choose your Leader Ability", GameAssetManager.getGameAssetManager().getSkin() , "title");
@@ -67,7 +78,7 @@ public class PreGameController {
         factionViewSetUp();
         labelsViewSetUp();
         leaderViewSetup();
-        //TODO have to implement load saved deck and faction
+        saveDeckViewSetUp();
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.top().left();
@@ -414,6 +425,59 @@ public class PreGameController {
 
         stage.addActor(leaderAbility);
         leaderAbility.setPosition(50, 50);
+    }
+
+    private void saveDeckViewSetUp(){
+        stage.addActor(saveDeckButton);
+        saveDeckButton.setPosition(50, 950);
+        stage.addActor(saveDeckWindow);
+        saveDeckWindow.setSize(500, 500);
+        saveDeckWindow.setPosition(0 , 500);
+        saveDeckWindow.setVisible(false);
+        saveDeckWindow.setMovable(false);
+        saveDeckWindow.addActor(saveDeckLabel);
+        saveDeckLabel.setPosition(90, 380);
+        saveDeckLabel.setFontScale(0.7f);
+        saveDeckWindow.addActor(saveDeckTextField);
+        saveDeckTextField.setWidth(500);
+        saveDeckTextField.setPosition(0, 300);
+        saveDeckWindow.addActor(saveDeckToFileButton);
+        saveDeckToFileButton.setPosition(0, 200);
+        saveDeckWindow.addActor(saveDeckToDBButton);
+        saveDeckToDBButton.setPosition(0, 100);
+        saveDeckWindow.addActor(closeSaveDeck);
+        closeSaveDeck.setPosition(0, 0);
+
+        saveDeckButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveDeckWindow.setVisible(true);
+                saveDeckWindow.toFront();
+            }
+        });
+
+        saveDeckToFileButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PreGame.getPreGame().saveDeckToFile(saveDeckTextField.getText());
+                saveDeckWindow.setVisible(false);
+            }
+        });
+
+        saveDeckToDBButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PreGame.getPreGame().saveDeckToDB();
+                saveDeckWindow.setVisible(false);
+            }
+        });
+
+        closeSaveDeck.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveDeckWindow.setVisible(false);
+            }
+        });
     }
 
     //getters and setters
