@@ -102,6 +102,7 @@ public class LoginController {
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
                     errorLabel.setText("");
                     GameMaster.getGameMaster().setLoggedInUser1(loggedInUser);
+                    loggedInUser.setHasLoggedIn(true);
                 }
                 else if(verificationCodeField.getText().equals(verificationCode)){
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();

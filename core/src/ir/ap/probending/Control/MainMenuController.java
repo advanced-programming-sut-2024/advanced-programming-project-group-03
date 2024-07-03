@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.MusicMaster;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.Game.PreGame;
@@ -21,14 +22,15 @@ import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
 
 public class MainMenuController {
-    private final static MainMenuController mainMenuController = new MainMenuController();
+    private final static MainMenuController mainMenuController = new MainMenuController(true);
+    private final static MainMenuController unloggedMainMenuController = new MainMenuController(false);
     private final Table table = new Table();
     private final Image backgroundImage = new Image(new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getBackground())));
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signInButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
 
-    private MainMenuController() {
+    private MainMenuController(boolean logged) {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
@@ -38,16 +40,18 @@ public class MainMenuController {
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //put image bakcground
 
-
-        table.add(playButton).fillX();
-        table.row().pad(10, 0, 10, 0);
+        if (logged) {
+            table.add(playButton).fillX();
+            table.row().pad(10, 0, 10, 0);
+        }
 
         table.addActor(signInButton);
         signInButton.setPosition(50, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
 
-        table.addActor(profileButton);
-        profileButton.setPosition(100, 200);
-
+        if (logged) {
+            table.addActor(profileButton);
+            profileButton.setPosition(100, 200);
+        }
         //musics
         MusicMaster.getInstance().playBgMusicMenu();
     }
@@ -98,7 +102,10 @@ public class MainMenuController {
     //getters and setters
 
     public static MainMenuController getMainMenuController(){
-        return mainMenuController;
+        if (GameMaster.getGameMaster().getLoggedInUser1().getUsername().equals("Guest1") || !GameMaster.getGameMaster().getLoggedInUser1().getHasLoggedIn())
+            return unloggedMainMenuController;
+        else
+            return mainMenuController;
     }
 
     public Actor getTable() {
