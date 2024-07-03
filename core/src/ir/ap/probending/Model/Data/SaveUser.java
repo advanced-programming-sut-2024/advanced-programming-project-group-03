@@ -54,7 +54,7 @@ public class SaveUser {
         return new ArrayList<>();
     }
 
-    public static void updateUser(User user){
+    public static void      updateUser(User user){
         try {
             Json json = new Json();
             json.setOutputType(JsonWriter.OutputType.json);

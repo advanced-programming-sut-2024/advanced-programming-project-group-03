@@ -22,8 +22,7 @@ public class User {
     private int score;
     private int rank;
     private ArrayList<FriendRequest> receivedFriendRequests;
-    private ArrayList<User> friends;
-
+    private ArrayList<String> friends;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -187,7 +186,7 @@ public class User {
     public ArrayList<FriendRequest> getReceivedFriendRequests() {
         return receivedFriendRequests;
     }
-    public void addFriend(User friend) {
+    public void addFriend(String friend) {
         friends.add(friend);
     }
 }

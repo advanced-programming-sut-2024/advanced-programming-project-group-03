@@ -87,7 +87,6 @@ public class ProfileController {
             profileWindow.add(addFriendButton).fillX();
             profileWindow.row().pad(10, 0, 10, 0);
             profileWindow.add(addFriendHistory).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
 
             profileWindow.setSize(960, 540);
             profileWindow.setPosition(Gdx.graphics.getWidth()/2 - profileWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - profileWindow.getHeight()/2);
@@ -229,20 +228,23 @@ public class ProfileController {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                            String response= ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
-                            System.out.println(response);
+                           user.addFriendRequest(new FriendRequest(user));
+                           SaveUser.updateUser(user);
+                           System.out.println(response);
                         }
                     });
                     //add friend History
-                    ArrayList<FriendRequest> friendRequests = user.getReceivedFriendRequests();
+                    ArrayList<FriendRequest> friendRequests = currentUser.getReceivedFriendRequests();
                     ArrayList<FriendRequest> friendRequestsByCurrentUser = new ArrayList<>();
                     for (FriendRequest friendRequest : friendRequests){
-                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())){
+                        if (friendRequest.getReceiver().getUsername().equals(user.getUsername())){
                             friendRequestsByCurrentUser.add(friendRequest);
                         }
                     }
+                    System.out.println(friendRequests);
                     List<String> friendRequestStrings = new ArrayList<>();
                     for (FriendRequest friendRequest : friendRequestsByCurrentUser){
-                        friendRequestStrings.add(friendRequest.getSender().getUsername() + " " + friendRequest.getState());
+                        friendRequestStrings.add(currentUser.getUsername() + " " + friendRequest.getState());
                     }
                     addFriendHistory.setItems(friendRequestStrings.toArray(new String[0]));
                 }

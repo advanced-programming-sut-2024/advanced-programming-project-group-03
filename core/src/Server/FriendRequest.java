@@ -5,11 +5,9 @@ import ir.ap.probending.Model.User;
 public class FriendRequest {
     static int counter = 0;
     private String state;
-    private User sender;
-    private User receiver;
+    private String receiver;
     private int id;
-    public FriendRequest(User sender, User receiver) {
-        this.sender = sender;
+    public FriendRequest(String receiver) {
         this.receiver = receiver;
         state = "pending";
         id = counter++;
@@ -20,9 +18,6 @@ public class FriendRequest {
     }
     public void setState(String state) {
         this.state = state;
-    }
-    public User getSender() {
-        return sender;
     }
     public User getReceiver() {
         return receiver;

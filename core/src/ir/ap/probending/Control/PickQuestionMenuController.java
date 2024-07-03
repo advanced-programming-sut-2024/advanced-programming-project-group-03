@@ -59,7 +59,6 @@ public class PickQuestionMenuController {
                 if (Regex.VALIDANSWER.matches(answerField.getText()) && questionSelector.getSelectedIndex() != 0) {
 //                    User user = new User(selectedUsername, selectedPassword, selectedEmail, selectedNickname);
 //                    user.addQuestionAnswer(questionSelector.getSelectedIndex() , answerField.getText());
-//
 //                    SaveUser.saveUser(user);
                     Gson gson = new Gson();
                     String userString = ProBending.client.communicate("getUser");

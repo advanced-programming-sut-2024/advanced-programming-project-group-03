@@ -106,7 +106,7 @@ public class Server extends Thread {
                         String receiverUsername = messageParts[2];
                         User sender = getUserByUsername(senderUsername);
                         User receiver = getUserByUsername(receiverUsername);
-                        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+                        FriendRequest friendRequest = new FriendRequest(receiver);
                         dataOutputStream.writeUTF("Friend request sent");
                         dataOutputStream.flush();
                         break;
@@ -119,8 +119,8 @@ public class Server extends Thread {
                         User receiver = getUserByUsername(receiverUsername);
                         FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
                         friendRequest.setState("accepted");
-                        receiver.addFriend(sender);
-                        sender.addFriend(receiver);
+                        receiver.addFriend(sender.getUsername());
+                        sender.addFriend(receiver.getUsername());
                         dataOutputStream.writeUTF("Friend request accepted");
                         dataOutputStream.flush();
                         break;
