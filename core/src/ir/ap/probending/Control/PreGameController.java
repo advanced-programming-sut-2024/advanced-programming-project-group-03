@@ -1,6 +1,7 @@
 package ir.ap.probending.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,6 +51,11 @@ public class PreGameController {
     private final Label deckCards = new Label("Deck", GameAssetManager.getGameAssetManager().getSkin());
     private final Label storageCards = new Label("Storage", GameAssetManager.getGameAssetManager().getSkin());
     private final Label leaderAbility = new Label("Leader Ability", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label waterFactionAbilitiyLabel = new Label("Water : Draw a card from deck whenever you win a set", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label earthFactionAbilitiyLabel = new Label("Earth : Decides who takes the first turn", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label fireFactionAbilitiyLabel = new Label("Fire : Keeps a random unit card after each round", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label airFactionAbilitiyLabel = new Label("Air : Wins any round that ends in a draw", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label airFactionAbilitiyLabel2 = new Label("Air : 2 random cards from burnt cards are placed in the battle field at the start of 3rd set", GameAssetManager.getGameAssetManager().getSkin());
 
     private PreGameController(Stage stage) {
         this.stage = stage;
@@ -279,13 +285,44 @@ public class PreGameController {
         stage.addActor(changeFactionButton);
         changeFactionButton.setPosition((float) Gdx.graphics.getWidth() / 2 - changeFactionButton.getWidth() / 2, 950);
         stage.addActor(changeFactionWindow);
-        changeFactionWindow.setSize(1100, 500);
+        changeFactionWindow.setSize(1200, 800);
+        changeFactionWindow.setPosition((float) Gdx.graphics.getWidth() / 2 - changeFactionWindow.getWidth() / 2, 500);
         changeFactionWindow.setVisible(false);
         changeFactionWindow.setMovable(false);
-        changeFactionWindow.add(waterTribeButton).pad(10);
-        changeFactionWindow.add(earthKingdomButton).pad(10);
-        changeFactionWindow.add(fireNationButton).pad(10);
-        changeFactionWindow.add(airNomadsButton).pad(10);
+        changeFactionWindow.row();
+        changeFactionWindow.addActor(waterTribeButton);
+        changeFactionWindow.addActor(earthKingdomButton);
+        changeFactionWindow.addActor(fireNationButton);
+        changeFactionWindow.addActor(airNomadsButton);
+        waterTribeButton.setPosition(180, 400);
+        earthKingdomButton.setPosition(360, 400);
+        fireNationButton.setPosition(540, 400);
+        airNomadsButton.setPosition(720, 400);
+        waterTribeButton.setSize(180 ,356);
+        earthKingdomButton.setSize(180 ,356);
+        fireNationButton.setSize(180 ,356);
+        airNomadsButton.setSize(180 ,356);
+
+        changeFactionWindow.addActor(waterFactionAbilitiyLabel);
+        waterFactionAbilitiyLabel.setColor(Color.BLUE);
+
+        changeFactionWindow.addActor(earthFactionAbilitiyLabel);
+        earthFactionAbilitiyLabel.setColor(Color.GREEN);
+
+        changeFactionWindow.addActor(fireFactionAbilitiyLabel);
+        fireFactionAbilitiyLabel.setColor(Color.RED);
+
+        changeFactionWindow.addActor(airFactionAbilitiyLabel);
+        airFactionAbilitiyLabel.setColor(Color.YELLOW);
+
+        changeFactionWindow.addActor(airFactionAbilitiyLabel2);
+        airFactionAbilitiyLabel2.setColor(Color.YELLOW);
+
+        waterFactionAbilitiyLabel.setPosition(10, 210);
+        earthFactionAbilitiyLabel.setPosition(10, 160);
+        fireFactionAbilitiyLabel.setPosition(10, 110);
+        airFactionAbilitiyLabel.setPosition(10, 60);
+        airFactionAbilitiyLabel2.setPosition(10, 10);
 
         Texture waterTribeTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getWaterTribeCard()));
         Texture earthKingdomTexture = new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getEarthKingdomCard()));

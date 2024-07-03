@@ -733,7 +733,7 @@ public class GameUIController {
 
     private void addEndGameDialog(){
         setEndDialog.setSize(800, 400);
-        setEndDialog.setPosition(800, 400);
+        setEndDialog.setPosition(600, 400);
         setEndDialog.setVisible(false);
         closeEndDialogButton.setSize(100, 50);
         closeEndDialogButton.addListener(new ClickListener(){
