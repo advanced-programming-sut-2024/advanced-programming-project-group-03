@@ -26,6 +26,11 @@ public class PreGameController {
     private final Table deckTable = new Table();
     private final Window changeFactionWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton changeFactionButton = new TextButton("Change Faction", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton chooseLeaderButton = new TextButton("Choose Leader", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton applyLeaderButton = new TextButton("Apply", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window chooseLeaderWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label leaderLabel = new Label("Choose your Leader Ability", GameAssetManager.getGameAssetManager().getSkin() , "title");
+    private final SelectBox<String> leaderSelectBox = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
     private final ImageButton waterTribeButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton earthKingdomButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton fireNationButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
@@ -44,6 +49,7 @@ public class PreGameController {
     private final Label heroCardCount = new Label("Hero Cards : 0", GameAssetManager.getGameAssetManager().getSkin());
     private final Label deckCards = new Label("Deck", GameAssetManager.getGameAssetManager().getSkin());
     private final Label storageCards = new Label("Storage", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label leaderAbility = new Label("Leader Ability", GameAssetManager.getGameAssetManager().getSkin());
 
     private PreGameController(Stage stage) {
         this.stage = stage;
@@ -54,6 +60,7 @@ public class PreGameController {
 
         factionViewSetUp();
         labelsViewSetUp();
+        leaderViewSetup();
         //TODO have to implement load saved deck and faction
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -217,6 +224,8 @@ public class PreGameController {
         specialCardCount.setText("Special Cards: " + specialCount);
         normalCardCount.setText("Unit Cards: " + normalCount);
         heroCardCount.setText("Hero Cards: " + heroCount);
+
+        leaderAbility.setText("Leader Ability : " + PreGame.getPreGame().getSelectedLeader().getDescription());
     }
 
     private void setChangeFactionButton() {
@@ -234,6 +243,7 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
                 changeFactionWindow.setVisible(false);
+                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
@@ -242,6 +252,7 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 PreGame.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone());
                 changeFactionWindow.setVisible(false);
+                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
@@ -250,6 +261,7 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 PreGame.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone());
                 changeFactionWindow.setVisible(false);
+                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
@@ -258,6 +270,7 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 PreGame.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone());
                 changeFactionWindow.setVisible(false);
+                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
     }
@@ -302,6 +315,50 @@ public class PreGameController {
 
     }
 
+    private void leaderViewSetup(){
+        stage.addActor(chooseLeaderButton);
+        chooseLeaderButton.setPosition((float) Gdx.graphics.getWidth() / 2 - chooseLeaderButton.getWidth() / 2 + chooseLeaderButton.getWidth() + 50, 950);
+        stage.addActor(chooseLeaderWindow);
+        chooseLeaderWindow.setSize(1800, 800);
+        chooseLeaderWindow.setVisible(false);
+        chooseLeaderWindow.setMovable(false);
+        chooseLeaderWindow.add(leaderLabel).pad(10);
+        chooseLeaderWindow.row();
+        chooseLeaderWindow.add(leaderSelectBox).pad(10);
+        chooseLeaderWindow.row();
+        chooseLeaderWindow.add(applyLeaderButton).pad(10);
+
+        chooseLeaderButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chooseLeaderWindow.setVisible(true);
+                chooseLeaderWindow.toFront();
+                chooseLeaderWindow.setPosition((float) Gdx.graphics.getWidth() / 2 - chooseLeaderWindow.getWidth() / 2, 500);
+                ArrayList<String> leaderAbilities = new ArrayList<>();
+                for (Card leader : PreGame.getPreGame().getPlayerFaction().getLeaderArray()) {
+                    leaderAbilities.add(leader.getDescription());
+                }
+
+                leaderSelectBox.setItems(leaderAbilities.toArray(new String[0]));
+            }
+        });
+
+        applyLeaderButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                for (Card leader : PreGame.getPreGame().getPlayerFaction().getLeaderArray()) {
+                    if (leader.getDescription().equals(leaderSelectBox.getSelected())) {
+                        PreGame.getPreGame().setSelectedLeader(leader);
+                        break;
+                    }
+                }
+
+                chooseLeaderWindow.setVisible(false);
+                leaderAbility.setText(PreGame.getPreGame().getSelectedLeader().getDescription());
+            }
+        });
+    }
+
     private void labelsViewSetUp(){
         stage.addActor(powerSumLabel);
         stage.addActor(cardCountLabel);
@@ -317,6 +374,9 @@ public class PreGameController {
         stage.addActor(storageCards);
         deckCards.setPosition((float) Gdx.graphics.getWidth() - 960, 900);
         storageCards.setPosition(60, 900);
+
+        stage.addActor(leaderAbility);
+        leaderAbility.setPosition(50, 50);
     }
 
     //getters and setters

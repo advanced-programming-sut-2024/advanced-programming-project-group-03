@@ -2,6 +2,7 @@ package ir.ap.probending.Model.Game;
 
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Factions.Faction;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class PreGame {
     private static PreGame preGame = new PreGame();
     private Faction playerFaction;
+    private Card selectedLeader;
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
 
@@ -16,11 +18,11 @@ public class PreGame {
         playerFaction = faction;
         deckCards.clear();
         storageCards.clear();
-
         ArrayList<Card> factionCards = faction.getCardArray();
         //sort the faction cards arraylist by their power
         factionCards.sort((card1, card2) -> card2.getPower() - card1.getPower());
         storageCards.addAll(factionCards);
+        selectedLeader = faction.getLeaderArray().get(0);
         PreGameController.getPreGameController().refreshLabels();
         PreGameController.getPreGameController().refreshStorageTable();
         PreGameController.getPreGameController().refreshDeckTable();
@@ -58,5 +60,13 @@ public class PreGame {
 
     public static void setPreGame(PreGame preGame) {
         PreGame.preGame = preGame;
+    }
+
+    public Card getSelectedLeader() {
+        return selectedLeader;
+    }
+
+    public void setSelectedLeader(Card selectedLeader) {
+        this.selectedLeader = selectedLeader;
     }
 }

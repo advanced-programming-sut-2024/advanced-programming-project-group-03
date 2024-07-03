@@ -12,6 +12,7 @@ public class Player {
     private ArrayList<Card> burntCards = new ArrayList<>();
     private boolean isPassedThisRound = false;
     private int setsWon = 0;
+    private boolean isPlayedLeaderAbility = false;
 
     public Player(User user) {
         this.user = user;
@@ -29,6 +30,10 @@ public class Player {
 
     public void addCardsToDeck(ArrayList<Card> cards) {
         deck.addAll(cards);
+    }
+
+    public void addCardToDeck(Card card) {
+        deck.add(card);
     }
 
     public void addCardToHand(Card card) {
@@ -106,4 +111,11 @@ public class Player {
     }
 
 
+    public boolean isPlayedLeaderAbility() {
+        return isPlayedLeaderAbility;
+    }
+
+    public void setPlayedLeaderAbility(boolean playedLeaderAbility) {
+        isPlayedLeaderAbility = playedLeaderAbility;
+    }
 }

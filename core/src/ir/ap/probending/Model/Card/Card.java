@@ -13,7 +13,10 @@ import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
+import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Game.Game;
+
+import java.util.ArrayList;
 
 
 public class Card extends Actor {
@@ -164,6 +167,63 @@ public class Card extends Actor {
         });
     }
 
+    private Card(Card card , String x) {
+        this.ability = card.getAbility();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (GameUIController.getGameUIController().getClickedCard() != null && GameUIController.getGameUIController().getClickedCard().getAbility() instanceof Decoy){
+                    boolean isCardForCurrentPlayer = false;
+                    if(Game.getGame().getCurrentTurn() == 1){
+                        if (Game.getGame().getGameBoard().getPlayer1Board().getSiege().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer1Board().getRanged().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                    }
+                    else if (Game.getGame().getCurrentTurn() == 2){
+                        if (Game.getGame().getGameBoard().getPlayer2Board().getSiege().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                        else if (Game.getGame().getGameBoard().getPlayer2Board().getRanged().contains(Card.this)){
+                            isCardForCurrentPlayer = true;
+                        }
+                    }
+                    if (isCardForCurrentPlayer && !Card.this.isHero){
+                        Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
+                        Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
+                        GameUIController.getGameUIController().updateRows();
+                        Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow);
+                        GameUIController.getGameUIController().setClickedCard(null);
+                    }
+                }
+                else {
+                    GameUIController.getGameUIController().showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card.this);
+                }
+
+                return true;
+            }
+        });
+    }
+
     private Card(Card card , int x , int y) {
         this.ability = card.getAbility();
         this.name = card.name;
@@ -186,6 +246,69 @@ public class Card extends Actor {
                 GameUIController.getGameUIController().deactivateCardListWindow();
                 GameUIController.getGameUIController().clearCardListWindow();
                 Game.getGame().getCurrentPlayer().removeCardFromDeckCards(Card.this);
+                return true;
+            }
+        });
+    }
+
+    private Card(Card card , int x , int y , int z) {
+        this.ability = card.getAbility();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                Game.getGame().getGameBoard().getPlayer1().drawCard();
+                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                    if (card.getName().equals(Card.this.getName())){
+                        Game.getGame().getGameBoard().getPlayer1().removeCardFromHand(card);
+                        break;
+                    }
+                }
+                Game.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
+                Game.getGame().setUpHandView(Game.getGame().getGameBoard().getPlayer1());
+                GameUIController.getGameUIController().clearCardListWindow();
+                ArrayList<Card> cards = new ArrayList<>();
+                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                    cards.add(card.clone5());
+                }
+                GameUIController.getGameUIController().addCardsToCardListWindow(cards);
+                Game.getGame().setVetoCount(Game.getGame().getVetoCount() + 1);
+                if (Game.getGame().getVetoCount() == 2){
+                    GameUIController.getGameUIController().deactivateCardListWindow();
+                }
+                return true;
+            }
+        });
+    }
+
+    private Card(Card card , int x , int y , int z , int w) {
+        this.ability = card.getAbility();
+        this.name = card.name;
+        this.description = card.description;
+        this.power = card.power;
+        this.originalPower = card.originalPower;
+        this.isHero = card.isHero;
+        this.cardTexture = card.cardTexture;
+        this.cardSprite = new Sprite(cardTexture);
+        this.playingRow = card.playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
+        setSize(cardSprite.getWidth(), cardSprite.getHeight());
+
+        addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
                 return true;
             }
         });
@@ -285,5 +408,17 @@ public class Card extends Actor {
 
     public Card clone3() {
         return new Card(this, 1, 1);
+    }
+
+    public Card clone4() {
+        return new Card(this, "");
+    }
+
+    public Card clone5() {
+        return new Card(this, 1, 1, 1);
+    }
+
+    public Card clone6() {
+        return new Card(this, 1, 1, 1, 1);
     }
 }
