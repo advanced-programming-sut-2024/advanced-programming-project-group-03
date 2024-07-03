@@ -240,6 +240,7 @@ public class SignInController {
                     errorLabel.setText("");
                     String response = ProBending.client.communicate("signup " + usernameField.getText() + " " + passwordField.getText() + " " + emailField.getText() + " " + nicknameField.getText());
                     if (response.equals("Signed up successfully.")) {
+//                        ProBending.client.communicate("sendSignupEmail");
                         ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                         ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                         Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());

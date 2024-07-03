@@ -1,3 +1,4 @@
+
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -6,6 +7,17 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project.name = appName + "-core"
 
 dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Spring Web MVC for annotations like @Controller, @GetMapping, @RequestParam, etc.
+    implementation 'org.springframework:spring-webmvc:5.3.13'  // Replace with the latest stable version
+
+    // Spring Core (usually included transitively)
+    implementation 'org.springframework:spring-core:5.3.13'
+
+    // Spring Context (usually included transitively)
+    implementation 'org.springframework:spring-context:5.3.13'
 }

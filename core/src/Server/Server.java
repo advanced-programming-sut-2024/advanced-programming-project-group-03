@@ -10,11 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class Server extends Thread {
     private static final String USERS_FILE = "users.json";
@@ -42,7 +38,7 @@ public class Server extends Thread {
                 String response = "";
                 System.out.println(message);
                 switch (command) {
-                    case "signup":
+                    case "signup":{
                         if (messageParts.length != 5)
                             response = "Invalid input";
                         else
@@ -50,8 +46,8 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "login":
+                        break;}
+                    case "login":{
                         if (messageParts.length != 3)
                             response = "Invalid input";
                         else
@@ -59,31 +55,90 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "sendEmail":
-                        response = sendEmail();
+                        break;}
+                    case "sendLoginEmail":{
+                        response = sendLoginEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;
-                    case "getUser":
+                        break;}
+                    case "sendSignupEmail":{
+                        response = sendSignupEmail();
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;}
+                    case "confirm":{
+                        response = receiveToken(messageParts[1]);
+                        System.out.println(response);
+                        break;}
+                    case "getUser":{
                         User user = getUser();
                         Gson gson = new Gson();
                         System.out.println(response);
                         String userJson = gson.toJson(user);
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
-                        break;
-                    case "saveUser":
+                        break;}
+                    case "saveUser":{
                         String userString = message.substring(9);
                         Gson gson1 = new Gson();
                         User user1 = gson1.fromJson(userString, User.class);
                         saveUser(user1);
                         dataOutputStream.writeUTF("");
                         dataOutputStream.flush();
+                        break;}
+                    case "searchUser":{
+                        String username = messageParts[1];
+                        User requestedUser = getUserByUsername(username);
+                        if(requestedUser == null){
+                            dataOutputStream.writeUTF("User not found");
+                            dataOutputStream.flush();
+                            break;
+                        }
+                        Gson gson2 = new Gson();
+                        String userJson1 = gson2.toJson(requestedUser);
+                        dataOutputStream.writeUTF(userJson1);
+                        dataOutputStream.flush();
+                        break;}
+                    case "addFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+                        dataOutputStream.writeUTF("Friend request sent");
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "acceptFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        int friendRequestId = Integer.parseInt(messageParts[3]);
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                        friendRequest.setState("accepted");
+                        receiver.addFriend(sender);
+                        sender.addFriend(receiver);
+                        dataOutputStream.writeUTF("Friend request accepted");
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "rejectFriend": {
+                        String senderUsername = messageParts[1];
+                        String receiverUsername = messageParts[2];
+                        int friendRequestId = Integer.parseInt(messageParts[3]);
+                        User sender = getUserByUsername(senderUsername);
+                        User receiver = getUserByUsername(receiverUsername);
+                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                        friendRequest.setState("rejected");
+                        dataOutputStream.writeUTF("Friend request rejected");
+                        dataOutputStream.flush();
+                        break;
+                    }
                 }
             }
-            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,9 +179,11 @@ public class Server extends Thread {
             return "User not found";
         } else if (!user.getPassword().equals(password)) {
             return "Incorrect password";
+        } else if (user.getEmail().equals("probendingavatar@gmail.com") && !user.isRegisterConfirmed()) {
+            return "Email not confirmed";
         } else {
             currentUser = user;
-            return "Sending email confirmation link";
+            return "Sending email confirmation code";
         }
     }
 
@@ -143,44 +200,62 @@ public class Server extends Thread {
         saveUsersToFile();
     }
 
-    private String sendEmail() {
+    private String sendLoginEmail() {
         if (currentUser == null) {
             return "Email not found";
         }
-        final String senderEmail = "proBendingAvatar@gmail.com";
-        final String senderPassword = "1234abcd!";
-
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, senderPassword);
+        if (currentUser.getEmail().equals("probendingavatar@gmail.com")) {
+            Random random = new Random();
+            int confirmationCode = 100000 + random.nextInt(900000);
+            String confirmationCodeStr = String.valueOf(confirmationCode);
+            currentUser.setLoginNumber(confirmationCodeStr);
+            MailSender mailSender = new MailSender();
+            try {
+                mailSender.sendEmail(currentUser.getEmail(), "Pro Bending Login Confirmation", "Your confirmation code is: " + confirmationCodeStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Failed to send email";
             }
-        });
-
-        // Generate a 6-digit random confirmation code
-        Random random = new Random();
-        int confirmationCode = 100000 + random.nextInt(900000);
-        String confirmationCodeStr = String.valueOf(confirmationCode);
-        currentUser.setLoginNumber(confirmationCodeStr);
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(currentUser.getEmail()));
-            message.setSubject("Email Confirmation Code");
-            message.setText("Please use this code to confirm your email: " + confirmationCodeStr);
-
-            Transport.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            return confirmationCodeStr;
         }
-        return confirmationCodeStr;
+        return "";
     }
+
+    private String sendSignupEmail() {
+        if (currentUser == null) {
+            return "User not found";
+        }
+        if (currentUser.getEmail().equals("probendingavatar@gmail.com")) {
+            // Construct the confirmation link with the token
+            String confirmationLink = "http://localhost:8080/confirm?token=" + currentUser.getUsername();
+
+            // Send the confirmation email
+            MailSender mailSender = new MailSender();
+            try {
+                mailSender.sendEmail(currentUser.getEmail(), "Sign Up Confirmation", "Please click the link below to confirm your email:\n" + confirmationLink);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Failed to send email";
+            }
+        }
+
+        return "Confirmation email sent successfully";
+    }
+
+    public static String receiveToken(String token) {
+        String response = "Received token: " + token;
+        users.stream().filter(user -> user.getUsername().equals(token)).findFirst().ifPresent(user -> user.setRegisterConfirmed(true));
+        return response;
+    }
+    public static User getUserByUsername(String username){
+        for(User user:users){
+            if(user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
+
     private static void loadUsersFromFile() {
         File file = new File(USERS_FILE);
         if (!file.exists()) {
@@ -192,7 +267,8 @@ public class Server extends Thread {
         }
         try (Reader reader = new FileReader(USERS_FILE)) {
             Gson gson = new Gson();
-            Type userListType = new TypeToken<ArrayList<User>>() {}.getType();
+            Type userListType = new TypeToken<ArrayList<User>>() {
+            }.getType();
             users = gson.fromJson(reader, userListType);
             if (users == null) {
                 users = new ArrayList<>();
@@ -212,6 +288,7 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
+
 
     public static void main(String[] args) {
         loadUsersFromFile();
