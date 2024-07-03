@@ -22,15 +22,15 @@ import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
 
 public class MainMenuController {
-    private final static MainMenuController mainMenuController = new MainMenuController(true);
-    private final static MainMenuController unloggedMainMenuController = new MainMenuController(false);
+    private final static MainMenuController mainMenuController = new MainMenuController();
     private final Table table = new Table();
     private final Image backgroundImage = new Image(new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getBackground())));
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signInButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
 
-    private MainMenuController(boolean logged) {
+
+    private MainMenuController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
@@ -40,18 +40,16 @@ public class MainMenuController {
         backgroundImage.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //put image bakcground
 
-        if (logged) {
-            table.add(playButton).fillX();
-            table.row().pad(10, 0, 10, 0);
-        }
+
+        table.add(playButton).fillX();
+        table.row().pad(10, 0, 10, 0);
 
         table.addActor(signInButton);
         signInButton.setPosition(50, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
 
-        if (logged) {
-            table.addActor(profileButton);
-            profileButton.setPosition(100, 200);
-        }
+        table.addActor(profileButton);
+        profileButton.setPosition(100, 200);
+
         //musics
         MusicMaster.getInstance().playBgMusicMenu();
     }
@@ -60,6 +58,10 @@ public class MainMenuController {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                // see if user is logged in
+                if (GameMaster.getGameMaster().getLoggedInUser1().getUsername().equals("Guest1") || !GameMaster.getGameMaster().getLoggedInUser1().getHasLoggedIn()) {
+                    return;
+                }
                 game.getScreen().dispose();
                 game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
                 PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
@@ -83,6 +85,9 @@ public class MainMenuController {
         profileButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (GameMaster.getGameMaster().getLoggedInUser1().getUsername().equals("Guest1") || !GameMaster.getGameMaster().getLoggedInUser1().getHasLoggedIn()) {
+                    return;
+                }
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
@@ -102,10 +107,7 @@ public class MainMenuController {
     //getters and setters
 
     public static MainMenuController getMainMenuController(){
-        if (GameMaster.getGameMaster().getLoggedInUser1().getUsername().equals("Guest1") || !GameMaster.getGameMaster().getLoggedInUser1().getHasLoggedIn())
-            return unloggedMainMenuController;
-        else
-            return mainMenuController;
+        return mainMenuController;
     }
 
     public Actor getTable() {
