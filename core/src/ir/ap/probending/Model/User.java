@@ -23,6 +23,8 @@ public class User {
     private int rank;
     private ArrayList<FriendRequest> sentFriendRequests;
     private ArrayList<String> friends;
+    private ArrayList<FriendRequest> receivedFriendRequests;
+    private boolean hasLoggedIn = false;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -188,5 +190,13 @@ public class User {
     }
     public void addFriend(String friend) {
         friends.add(friend);
+    }
+
+    public boolean getHasLoggedIn() {
+        return hasLoggedIn;
+    }
+
+    public void setHasLoggedIn(boolean hasLoggedIn) {
+        this.hasLoggedIn = hasLoggedIn;
     }
 }
