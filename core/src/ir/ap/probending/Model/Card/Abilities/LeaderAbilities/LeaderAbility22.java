@@ -5,16 +5,10 @@ import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Game.Game;
 
-public class LeaderAbility6 extends Ability {
+public class LeaderAbility22 extends Ability {
     @Override
     public void executeAbility(Card card) {
-        if (Game.getGame().getCurrentTurn() == 1) {
-            Game.getGame().getGameBoard().getPlayer1Board().setCommander9Played(true);
-        }
-        else {
-            Game.getGame().getGameBoard().getPlayer2Board().setCommander9Played(true);
-        }
-        GameUIController.getGameUIController().updateRows();
+        Game.getGame().setLoseHalfInBadWeatherActivated(true);
         Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
         GameUIController.getGameUIController().hideLeaderAbilityButton();
     }

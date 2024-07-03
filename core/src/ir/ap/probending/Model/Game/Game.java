@@ -14,6 +14,8 @@ public class Game {
     private int currentSet = 1;
     private boolean isCardPlayedThisRound = false;
     private int vetoCount = 0;
+    private boolean isRestoreCardRandomlyActivated = false;
+    private boolean isLoseHalfInBadWeatherActivated = false;
     private Game() {
     }
     public void startGame() {
@@ -118,6 +120,7 @@ public class Game {
         clearBoard();
         gameBoard.getPlayer1().setPassedThisRound(false);
         gameBoard.getPlayer2().setPassedThisRound(false);
+        gameBoard.setSpyDoublePowerActivated(false);
         isCardPlayedThisRound = false;
         setUpHandView(gameBoard.getPlayer1());
         GameUIController.getGameUIController().hidePassForPlayer1();
@@ -136,6 +139,15 @@ public class Game {
         Game.getGame().getGameBoard().getPlayer1Board().setCommander7Played(false);
         Game.getGame().getGameBoard().getPlayer1Board().setCommander8Played(false);
         Game.getGame().getGameBoard().getPlayer1Board().setCommander9Played(false);
+        isRestoreCardRandomlyActivated = false;
+        isLoseHalfInBadWeatherActivated = false;
+
+        if (currentPlayer.isPlayedLeaderAbility()){
+            GameUIController.getGameUIController().hideLeaderAbilityButton();
+        }
+        else {
+            GameUIController.getGameUIController().showLeaderAbilityButton();
+        }
     }
 
     public void playCard(Card card , int row) {
@@ -372,5 +384,21 @@ public class Game {
 
     public void setVetoCount(int vetoCount) {
         this.vetoCount = vetoCount;
+    }
+
+    public boolean isRestoreCardRandomlyActivated() {
+        return isRestoreCardRandomlyActivated;
+    }
+
+    public void setRestoreCardRandomlyActivated(boolean restoreCardRandomlyActivated) {
+        isRestoreCardRandomlyActivated = restoreCardRandomlyActivated;
+    }
+
+    public boolean isLoseHalfInBadWeatherActivated() {
+        return isLoseHalfInBadWeatherActivated;
+    }
+
+    public void setLoseHalfInBadWeatherActivated(boolean loseHalfInBadWeatherActivated) {
+        isLoseHalfInBadWeatherActivated = loseHalfInBadWeatherActivated;
     }
 }

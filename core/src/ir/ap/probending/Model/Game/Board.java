@@ -3,6 +3,7 @@ package ir.ap.probending.Model.Game;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Frost;
 import ir.ap.probending.Model.Card.Abilities.Morale;
+import ir.ap.probending.Model.Card.Abilities.Spy;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
 
@@ -54,7 +55,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isFrostPlayed()){
             for (Card card : closeCombat) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();
@@ -80,6 +86,14 @@ public class Board {
             sum *= 2;
             sum += sumOfHeroPower;
         }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : closeCombat) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
+        }
         return sum ;
     }
 
@@ -88,7 +102,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isFogPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
             for (Card card : ranged) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();
@@ -114,6 +133,14 @@ public class Board {
             sum *= 2;
             sum += sumOfHeroPower;
         }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : ranged) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
+        }
         return sum ;
     }
 
@@ -122,7 +149,12 @@ public class Board {
         if (Game.getGame().getGameBoard().isRainPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
             for (Card card : siege) {
                 if (!card.isHero()){
-                    sum += 1;
+                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                        sum += card.getPower() / 2;
+                    }
+                    else {
+                        sum += 1;
+                    }
                 }
                 else {
                     sum += card.getPower();
@@ -147,6 +179,14 @@ public class Board {
 
             sum *= 2;
             sum += sumOfHeroPower;
+        }
+
+        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+            for (Card card : siege) {
+                if (card.getAbility() instanceof Spy){
+                    sum += card.getPower();
+                }
+            }
         }
         return sum ;
     }

@@ -1002,4 +1002,8 @@ public class GameUIController {
         player2SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
 
+    public Window getCardListWindow() {
+        return cardListWindow;
+    }
+
 }

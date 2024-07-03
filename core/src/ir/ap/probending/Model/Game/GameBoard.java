@@ -10,6 +10,7 @@ public class GameBoard {
     private Player player1;
     private Board player2Board;
     private Player player2;
+    private boolean isSpyDoublePowerActivated = false;
     private ArrayList<Card> spellCards = new ArrayList<>();
 
     public GameBoard(Player player1, Player player2 , Board player1Board, Board player2Board) {
@@ -136,5 +137,13 @@ public class GameBoard {
 
     public void setSpellCards(ArrayList<Card> spellCards) {
         this.spellCards = spellCards;
+    }
+
+    public boolean isSpyDoublePowerActivated() {
+        return isSpyDoublePowerActivated;
+    }
+
+    public void setSpyDoublePowerActivated(boolean spyDoublePowerActivated) {
+        isSpyDoublePowerActivated = spyDoublePowerActivated;
     }
 }
