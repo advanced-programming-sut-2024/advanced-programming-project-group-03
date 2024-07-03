@@ -4,18 +4,18 @@ import Server.FriendRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.google.gson.Gson;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.Regex;
 import ir.ap.probending.Model.Data.SaveUser;
-import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
-import ir.ap.probending.Model.ScreenMasterSetting;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +70,13 @@ public class ProfileController {
     private Label userRankLabel = new Label("Rank : ", GameAssetManager.getGameAssetManager().getSkin());
     private TextButton addFriendButton = new TextButton("Add Friend", GameAssetManager.getGameAssetManager().getSkin());
     private SelectBox<String> addFriendHistory = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+
     private ProfileController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
 
-        if (GameMaster.getGameMaster().getGuestUser1() != null){
+        if (GameMaster.getGameMaster().getGuestUser1() != null) {
             table.addActor(profileWindow);
             profileWindow.add(userUsernameLabel).fillX();
             profileWindow.row().pad(10, 0, 10, 0);
@@ -90,7 +91,7 @@ public class ProfileController {
             profileWindow.row().pad(10, 0, 10, 0);
 
             profileWindow.setSize(960, 540);
-            profileWindow.setPosition(Gdx.graphics.getWidth()/2 - profileWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - profileWindow.getHeight()/2);
+            profileWindow.setPosition(Gdx.graphics.getWidth() / 2 - profileWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - profileWindow.getHeight() / 2);
             profileWindow.setVisible(false);
             profileWindow.toFront();
             table.addActor(searchUserField);
@@ -134,8 +135,7 @@ public class ProfileController {
             lostGamesLabel.setText("Lost Games : " + GameMaster.getGameMaster().getLoggedInUser1().getGameLostCount());
             drawGamesLabel.setText("Draw Games : " + (GameMaster.getGameMaster().getLoggedInUser1().getGamePlayedCount() - GameMaster.getGameMaster().getLoggedInUser1().getGameWonCount() - GameMaster.getGameMaster().getLoggedInUser1().getGameLostCount()));
 
-        }
-        else {
+        } else {
             table.add(new Label("You are not logged in", GameAssetManager.getGameAssetManager().getSkin())).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(backToMainMenuButton).fillX();
@@ -204,16 +204,16 @@ public class ProfileController {
         errorLabelNickname.setColor(1, 0, 0, 1);
         errorLabelPassword.setColor(1, 0, 0, 1);
     }
-    private void setSearchUserButton(ProBending game){
-        searchUserButton.addListener(new ClickListener(){
+
+    private void setSearchUserButton(ProBending game) {
+        searchUserButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String response = ProBending.client.communicate("searchUser " + searchUserField.getText());
-                if (response.equals("User not found")){
+                if (response.equals("User not found")) {
                     searchUserLabel.setText("User not found");
                     searchUserLabel.setVisible(true);
-                }
-                else {
+                } else {
                     profileWindow.add(addFriendHistory).fillX();
                     searchUserLabel.setVisible(false);
                     Gson gson = new Gson();
@@ -223,25 +223,25 @@ public class ProfileController {
                     userUsernameLabel.setText("Username : " + user.getUsername());
                     userNicknameLabel.setText("Nickname : " + user.getNickname());
                     userRankLabel.setText("Rank : " + user.getRank());
-                    String currentUserJson= ProBending.client.communicate("getUser ");
+                    String currentUserJson = ProBending.client.communicate("getUser ");
                     User currentUser = gson.fromJson(currentUserJson, User.class);
-                    addFriendButton.addListener(new ClickListener(){
+                    addFriendButton.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
-                           String response= ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
+                            String response = ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
                             System.out.println(response);
                         }
                     });
                     //add friend History
                     ArrayList<FriendRequest> friendRequests = user.getReceivedFriendRequests();
                     ArrayList<FriendRequest> friendRequestsByCurrentUser = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequests){
-                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())){
+                    for (FriendRequest friendRequest : friendRequests) {
+                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())) {
                             friendRequestsByCurrentUser.add(friendRequest);
                         }
                     }
                     List<String> friendRequestStrings = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequestsByCurrentUser){
+                    for (FriendRequest friendRequest : friendRequestsByCurrentUser) {
                         friendRequestStrings.add(friendRequest.getSender().getUsername() + " " + friendRequest.getState());
                     }
                     addFriendHistory.setItems(friendRequestStrings.toArray(new String[0]));
@@ -250,112 +250,117 @@ public class ProfileController {
         });
     }
 
-    private void setChangePasswordButton(ProBending game){
-        changePasswordButton.addListener(new ClickListener(){
+    private void setChangePasswordButton(ProBending game) {
+        changePasswordButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changePasswordWindow.setPosition(Gdx.graphics.getWidth()/2 - changePasswordWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - changePasswordWindow.getHeight()/2);
+                changePasswordWindow.setPosition(Gdx.graphics.getWidth() / 2 - changePasswordWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - changePasswordWindow.getHeight() / 2);
                 changePasswordWindow.setVisible(true);
             }
         });
     }
 
-    private void setChangeNicknameButton(ProBending game){
-        changeNicknameButton.addListener(new ClickListener(){
+    private void setChangeNicknameButton(ProBending game) {
+        changeNicknameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changeNicknameWindow.setPosition(Gdx.graphics.getWidth()/2 - changeNicknameWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - changeNicknameWindow.getHeight()/2);
+                changeNicknameWindow.setPosition(Gdx.graphics.getWidth() / 2 - changeNicknameWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - changeNicknameWindow.getHeight() / 2);
                 changeNicknameWindow.setVisible(true);
             }
         });
     }
 
-    private void setChangeUsernameButton(ProBending game){
-        changeUsernameButton.addListener(new ClickListener(){
+    private void setChangeUsernameButton(ProBending game) {
+        changeUsernameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changeUsernameWindow.setPosition(Gdx.graphics.getWidth()/2 - changeUsernameWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - changeUsernameWindow.getHeight()/2);
+                changeUsernameWindow.setPosition(Gdx.graphics.getWidth() / 2 - changeUsernameWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - changeUsernameWindow.getHeight() / 2);
                 changeUsernameWindow.setVisible(true);
             }
         });
     }
 
-    private void setChangeEmailButton(ProBending game){
-        changeEmailButton.addListener(new ClickListener(){
+    private void setChangeEmailButton(ProBending game) {
+        changeEmailButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changeEmailWindow.setPosition(Gdx.graphics.getWidth()/2 - changeEmailWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - changeEmailWindow.getHeight()/2);
+                changeEmailWindow.setPosition(Gdx.graphics.getWidth() / 2 - changeEmailWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - changeEmailWindow.getHeight() / 2);
                 changeEmailWindow.setVisible(true);
             }
         });
     }
 
-    private void setSubmitEmailButton(ProBending game){
-        submitEmailButton.addListener(new ClickListener(){
+    private void setSubmitEmailButton(ProBending game) {
+        submitEmailButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String email = changeEmailField.getText();
-                if (email.equals(GameMaster.getGameMaster().getLoggedInUser1().getEmail())){
+                if (email.equals(GameMaster.getGameMaster().getLoggedInUser1().getEmail())) {
                     errorLabelEmail.setText("New email can not be the same as old email");
-                }
-                else if (Regex.EMAIL.matches(email)){
-                    GameMaster.getGameMaster().getLoggedInUser1().setEmail(email);
-                    SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
-                    changeEmailWindow.setVisible(false);
-                }
-                else {
+                } else if (!Regex.EMAIL.matches(email)) {
                     errorLabelEmail.setText("Invalid Email");
+                } else {
+                    String response = ProBending.client.communicate("changeEmail " + email);
+                    if (response.equals("Email changed successfully")) {
+                        GameMaster.getGameMaster().getLoggedInUser1().setEmail(email);
+                        SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
+                        changeEmailWindow.setVisible(false);
+                    } else {
+                        errorLabelEmail.setText(response);
+                    }
                 }
             }
         });
     }
 
-    private void setSubmitUsernameButton(ProBending game){
-        submitUsernameButton.addListener(new ClickListener(){
+    private void setSubmitUsernameButton(ProBending game) {
+        submitUsernameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (changeUsernameField.getText().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
-                    errorLabelUsername.setText("New username can not be the same as old username");
-                }
-                else {
+                String response = ProBending.client.communicate("changeUsername " + changeUsernameField.getText());
+                if (response.equals("Username changed successfully")) {
                     GameMaster.getGameMaster().getLoggedInUser1().setUsername(changeUsernameField.getText());
                     SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
                     changeUsernameWindow.setVisible(false);
+                } else {
+                    errorLabelUsername.setText(response);
                 }
             }
         });
     }
 
-    private void setSubmitNicknameButton(ProBending game){
-        submitNicknameButton.addListener(new ClickListener(){
+    private void setSubmitNicknameButton(ProBending game) {
+        submitNicknameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (changeNicknameField.getText().equals(GameMaster.getGameMaster().getLoggedInUser1().getNickname())){
+                if (changeNicknameField.getText().equals(GameMaster.getGameMaster().getLoggedInUser1().getNickname())) {
                     errorLabelNickname.setText("New nickname can not be the same as old nickname");
-                }
-                else {
-                    GameMaster.getGameMaster().getLoggedInUser1().setNickname(changeNicknameField.getText());
-                    SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
-                    changeNicknameWindow.setVisible(false);
+                } else {
+                    String response = ProBending.client.communicate("changeNickname " + changeNicknameField.getText());
+                    if (response.equals("Nickname changed successfully")) {
+                        GameMaster.getGameMaster().getLoggedInUser1().setNickname(changeNicknameField.getText());
+                        SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
+                        changeNicknameWindow.setVisible(false);
+                    } else {
+                        errorLabelNickname.setText(response);
+                    }
                 }
             }
         });
     }
 
-    private void setSubmitPasswordButton(ProBending game){
-        submitPasswordButton.addListener(new ClickListener(){
+    private void setSubmitPasswordButton(ProBending game) {
+        submitPasswordButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (changePasswordField.getText().equals(changePasswordField2.getText())){
+                if (changePasswordField.getText().equals(changePasswordField2.getText())) {
                     errorLabelPassword.setText("New password can not be the same as old password");
-                }
-                else if (!GameMaster.getGameMaster().getLoggedInUser1().getPassword().equals(changePasswordField2.getText())){
+                } else if (!GameMaster.getGameMaster().getLoggedInUser1().getPassword().equals(changePasswordField2.getText())) {
                     errorLabelPassword.setText("Invalid old Password");
-                }
-                else if (!Regex.PASSWORD.matches(changePasswordField.getText())){
+                } else if (!Regex.PASSWORD.matches(changePasswordField.getText())) {
                     errorLabelPassword.setText("Password must obey this regex : " + Regex.PASSWORD.getPatternString());
-                }
-                else {
+                } else {
+                    ProBending.client.communicate("changePassword " + changePasswordField.getText());
                     GameMaster.getGameMaster().getLoggedInUser1().setPassword(changePasswordField.getText());
                     SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
                     changePasswordWindow.setVisible(false);
@@ -364,8 +369,8 @@ public class ProfileController {
         });
     }
 
-    private void setBackToProfileButtonChangeUsername(ProBending game){
-        backToProfileButtonChangeUsername.addListener(new ClickListener(){
+    private void setBackToProfileButtonChangeUsername(ProBending game) {
+        backToProfileButtonChangeUsername.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeUsernameWindow.setVisible(false);
@@ -373,8 +378,8 @@ public class ProfileController {
         });
     }
 
-    private void setBackToProfileButtonChangeNickname(ProBending game){
-        backToProfileButtonChangeNickname.addListener(new ClickListener(){
+    private void setBackToProfileButtonChangeNickname(ProBending game) {
+        backToProfileButtonChangeNickname.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeNicknameWindow.setVisible(false);
@@ -382,8 +387,8 @@ public class ProfileController {
         });
     }
 
-    private void setBackToProfileButtonChangeEmail(ProBending game){
-        backToProfileButtonChangeEmail.addListener(new ClickListener(){
+    private void setBackToProfileButtonChangeEmail(ProBending game) {
+        backToProfileButtonChangeEmail.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeEmailWindow.setVisible(false);
@@ -391,8 +396,8 @@ public class ProfileController {
         });
     }
 
-    private void setBackToProfileButtonChangePassword(ProBending game){
-        backToProfileButtonChangePassword.addListener(new ClickListener(){
+    private void setBackToProfileButtonChangePassword(ProBending game) {
+        backToProfileButtonChangePassword.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changePasswordWindow.setVisible(false);
@@ -400,8 +405,8 @@ public class ProfileController {
         });
     }
 
-    private void setBackToMainMenuButton(ProBending game){
-        backToMainMenuButton.addListener(new ClickListener(){
+    private void setBackToMainMenuButton(ProBending game) {
+        backToMainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
@@ -412,7 +417,7 @@ public class ProfileController {
         });
     }
 
-    public void updateLabels(){
+    public void updateLabels() {
         usernameLabel.setText("Username : " + GameMaster.getGameMaster().getLoggedInUser1().getUsername());
         nicknameLabel.setText("Nickname : " + GameMaster.getGameMaster().getLoggedInUser1().getNickname());
         rankLabel.setText("Rank : " + GameMaster.getGameMaster().getLoggedInUser1().getRank());
@@ -423,7 +428,7 @@ public class ProfileController {
 
     }
 
-    public void handleProfileButtons(ProBending game){
+    public void handleProfileButtons(ProBending game) {
         setSearchUserButton(game);
         setChangePasswordButton(game);
         setChangeNicknameButton(game);
@@ -442,7 +447,7 @@ public class ProfileController {
 
     //getters and setters
 
-    public static ProfileController getProfileController(){
+    public static ProfileController getProfileController() {
         return profileController;
     }
 

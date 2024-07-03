@@ -38,7 +38,7 @@ public class Server extends Thread {
                 String response = "";
                 System.out.println(message);
                 switch (command) {
-                    case "signup":{
+                    case "signup": {
                         if (messageParts.length != 5)
                             response = "Invalid input";
                         else
@@ -46,8 +46,9 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;}
-                    case "login":{
+                        break;
+                    }
+                    case "login": {
                         if (messageParts.length != 3)
                             response = "Invalid input";
                         else
@@ -55,43 +56,54 @@ public class Server extends Thread {
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;}
-                    case "sendLoginEmail":{
+                        break;
+                    }
+                    case "sendLoginEmail": {
                         response = sendLoginEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;}
-                    case "sendSignupEmail":{
+                        break;
+                    }
+                    case "sendSignupEmail": {
                         response = sendSignupEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
-                        break;}
-                    case "confirm":{
+                        break;
+                    }
+                    case "confirm": {
                         response = receiveToken(messageParts[1]);
                         System.out.println(response);
-                        break;}
-                    case "getUser":{
-                        User user = getUser();
-                        Gson gson = new Gson();
-                        System.out.println(response);
-                        String userJson = gson.toJson(user);
+                        break;
+                    }
+                    case "getUser": {
+                        String userJson;
+                        if (currentUser != null) {
+                            User user = getUser();
+                            Gson gson = new Gson();
+                            System.out.println(response);
+                            userJson = gson.toJson(user);
+                        } else {
+                            userJson = "User not found";
+                        }
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
-                        break;}
-                    case "saveUser":{
+                        break;
+                    }
+                    case "saveUser": {
                         String userString = message.substring(9);
                         Gson gson1 = new Gson();
                         User user1 = gson1.fromJson(userString, User.class);
                         saveUser(user1);
                         dataOutputStream.writeUTF("");
                         dataOutputStream.flush();
-                        break;}
-                    case "searchUser":{
+                        break;
+                    }
+                    case "searchUser": {
                         String username = messageParts[1];
                         User requestedUser = getUserByUsername(username);
-                        if(requestedUser == null){
+                        if (requestedUser == null) {
                             dataOutputStream.writeUTF("User not found");
                             dataOutputStream.flush();
                             break;
@@ -100,7 +112,8 @@ public class Server extends Thread {
                         String userJson1 = gson2.toJson(requestedUser);
                         dataOutputStream.writeUTF(userJson1);
                         dataOutputStream.flush();
-                        break;}
+                        break;
+                    }
                     case "addFriend": {
                         String senderUsername = messageParts[1];
                         String receiverUsername = messageParts[2];
@@ -137,10 +150,40 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     }
+                    case "changeUsername": {
+                        response = changeUsername(messageParts[1]);
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "changeEmail": {
+                        response = changeEmail(messageParts[1]);
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "changeNickname": {
+                        response = changeNickname(messageParts[1]);
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    }
+                    case "changePassword": {
+                        response = changePassword(messageParts[1]);
+                        System.out.println(response);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            saveUsersToFile();
         }
     }
 
@@ -247,13 +290,55 @@ public class Server extends Thread {
         users.stream().filter(user -> user.getUsername().equals(token)).findFirst().ifPresent(user -> user.setRegisterConfirmed(true));
         return response;
     }
-    public static User getUserByUsername(String username){
-        for(User user:users){
-            if(user.getUsername().equals(username)){
+
+    public static User getUserByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
                 return user;
             }
         }
         return null;
+    }
+
+    private String changeUsername(String newUsername) {
+        if (users.stream().anyMatch(user -> user.getUsername().equals(newUsername))) {
+            return "Username already exists";
+        } else {
+            currentUser.setUsername(newUsername);
+            saveUsersToFile();
+            return "Username changed successfully";
+        }
+    }
+
+    private String changeEmail(String newEmail) {
+        if (users.stream().anyMatch(user -> user.getEmail().equals(newEmail))) {
+            return "Email already exists";
+        } else {
+            currentUser.setEmail(newEmail);
+            saveUsersToFile();
+            return "Email changed successfully";
+        }
+    }
+
+    private String changeNickname(String newNickname) {
+        if (users.stream().anyMatch(user -> user.getNickname().equals(newNickname))) {
+            return "Nickname already exists";
+        } else {
+            currentUser.setNickname(newNickname);
+            saveUsersToFile();
+            return "Nickname changed successfully";
+        }
+    }
+
+    private String changePassword(String newPassword) {
+        currentUser.setPassword(newPassword);
+        saveUsersToFile();
+        return "Password changed successfully";
+    }
+
+    private void addFriend(User sender, User receiver) {
+        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+        receiver.addFriendRequest(friendRequest);
     }
 
     private static void loadUsersFromFile() {
