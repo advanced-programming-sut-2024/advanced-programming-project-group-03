@@ -24,8 +24,8 @@ public class User {
     private int score;
     private int rank;
     private ArrayList<FriendRequest> sentFriendRequests;
-    private HashMap<String, Boolean> friends = new HashMap<>();
-    private ArrayList<FriendRequest> receivedFriendRequests = new ArrayList<>();
+    private HashMap<String, Boolean> friends;
+    private ArrayList<FriendRequest> receivedFriendRequests ;
     private boolean isPlaying = false;
     private boolean isOnline = false;
     private boolean hasLoggedIn = false;
@@ -43,6 +43,7 @@ public class User {
         score = 0;
         rank = 0;
         sentFriendRequests = new ArrayList<>();
+        friends = new HashMap<>();
     }
 
     public User() {
@@ -182,7 +183,7 @@ public class User {
         sentFriendRequests.add(friendRequest);
     }
     public FriendRequest getFriendRequestById(int id) {
-        for (FriendRequest friendRequest : sentFriendRequests) {
+        for (FriendRequest friendRequest : receivedFriendRequests) {
             if (friendRequest.getId() == id) {
                 return friendRequest;
             }
@@ -191,6 +192,9 @@ public class User {
     }
     public ArrayList<FriendRequest> getSentFriendRequests() {
         return sentFriendRequests;
+    }
+    public ArrayList<FriendRequest> getReceivedFriendRequests() {
+        return receivedFriendRequests;
     }
     public void addFriend(String friend) {
         friends.put(friend, false);
@@ -222,10 +226,6 @@ public class User {
 
     public boolean isPlaying() {
         return isPlaying;
-    }
-
-    public ArrayList<FriendRequest> getReceivedFriendRequests() {
-        return receivedFriendRequests;
     }
     public void addSentFriendRequest(FriendRequest friendRequest) {
         sentFriendRequests.add(friendRequest);
