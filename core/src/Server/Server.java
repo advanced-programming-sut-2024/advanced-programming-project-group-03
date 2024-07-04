@@ -370,7 +370,7 @@ public class Server extends Thread {
             // Start the game session
                 sender.setPlaying(true);
                 currentUser.setPlaying(true);
-                return "Game request accepted. Starting game...";
+                return "Game request accepted";
         }
     }
 

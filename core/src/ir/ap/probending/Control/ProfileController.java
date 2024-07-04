@@ -243,8 +243,9 @@ public class ProfileController {
     }
     private void setRejectFriendRequest(ProBending game){
         Gson gson = new Gson();
-        String currentUserJson = ProBending.client.communicate("getUser");
-        User currentUser = gson.fromJson(currentUserJson, User.class);
+//        String currentUserJson = ProBending.client.communicate("getUser");
+//        User currentUser = gson.fromJson(currentUserJson, User.class);
+        User currentUser = GameMaster.getGameMaster().getLoggedInUser1();
         String selectedFriendRequest = receivedFriendRequests.getSelected();
         if(selectedFriendRequest != null && selectedFriendRequest != ""){
             String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
@@ -269,9 +270,11 @@ public class ProfileController {
         }
     }
     private void setAcceptFriendRequest(ProBending game) {
-        Gson  gson = new Gson();
-        String currentUserJson = ProBending.client.communicate("getUser");
-        User currentUser = gson.fromJson(currentUserJson, User.class);
+//        Gson gson = new Gson();
+//        String currentUserJson = ProBending.client.communicate("getUser");
+//        User currentUser = gson.fromJson(currentUserJson, User.class);
+        Gson gson = new Gson();
+        User currentUser = GameMaster.getGameMaster().getLoggedInUser1();
         String selectedFriendRequest = receivedFriendRequests.getSelected();
         if(selectedFriendRequest != null && selectedFriendRequest != ""){
             String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");

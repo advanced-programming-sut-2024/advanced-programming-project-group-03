@@ -47,11 +47,7 @@ public class User {
     }
 
     public User() {
-        gamePlayedCount = 0;
-        gameWonCount = 0;
-        gameLostCount = 0;
-        score = 0;
-        rank = 0;
+        new User("Guest1", "Guest1", "Guest1", "Guest1");
     }
 
     public String getUsername() {
