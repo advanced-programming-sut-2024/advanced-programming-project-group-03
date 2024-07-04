@@ -97,6 +97,7 @@ public class LoginController {
                 User loggedInUser = gson.fromJson(loggedInUserString, User.class);
                 if (!loggedInUser.getEmail().equals("probendingavatar@gmail.com")) {
                     loggedInUser.setHasLoggedIn(true);
+                    loggedInUser.setOnline(true);
                     ProBending.client.communicate("saveUser " + gson.toJson(loggedInUser));
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
@@ -107,6 +108,7 @@ public class LoginController {
                 }
                 else if(verificationCodeField.getText().equals(verificationCode)){
                     loggedInUser.setHasLoggedIn(true);
+                    loggedInUser.setOnline(true);
                     ProBending.client.communicate("saveUser " + gson.toJson(loggedInUser));
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
