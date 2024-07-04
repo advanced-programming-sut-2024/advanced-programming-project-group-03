@@ -9,15 +9,16 @@ import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Server extends Thread {
     private static final String USERS_FILE = "users.json";
     private static List<User> users = new ArrayList<>();
-    private Socket socket;
+    public Socket socket;
     private User currentUser = null;
-
+    private static List<GameSession> gameSessions = new ArrayList<>();
 
     public Server(Socket socket) throws IOException {
         this.socket = socket;
@@ -39,7 +40,7 @@ public class Server extends Thread {
                 String response = "";
                 System.out.println(message);
                 switch (command) {
-                    case "signup": {
+                    case "signup":
                         if (messageParts.length != 5)
                             response = "Invalid input";
                         else
@@ -48,8 +49,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "login": {
+                    case "login":
                         if (messageParts.length != 3)
                             response = "Invalid input";
                         else
@@ -58,27 +58,23 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "sendLoginEmail": {
+                    case "sendLoginEmail":
                         response = sendLoginEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "sendSignupEmail": {
+                    case "sendSignupEmail":
                         response = sendSignupEmail();
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "confirm": {
+                    case "confirm":
                         response = receiveToken(messageParts[1]);
                         System.out.println(response);
                         break;
-                    }
-                    case "getUser": {
+                    case "getUser":
                         String userJson;
                         if (currentUser != null) {
                             User user = getUser();
@@ -91,8 +87,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(userJson);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "saveUser": {
+                    case "saveUser":
                         String userString = message.substring(9);
                         Gson gson1 = new Gson();
                         User user1 = gson1.fromJson(userString, User.class);
@@ -100,8 +95,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF("");
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "searchUser": {
+                    case "searchUser":
                         String username = messageParts[1];
                         User requestedUser = getUserByUsername(username);
                         if (requestedUser == null) {
@@ -114,8 +108,7 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(userJson1);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "addFriend": {
+                    case "addFriend":
                         String senderUsername = messageParts[1];
                         String receiverUsername = messageParts[2];
                         User sender = getUserByUsername(senderUsername);
@@ -125,67 +118,64 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF("Friend request sent");
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "acceptFriend": {
-                        String senderUsername = messageParts[1];
-                        String receiverUsername = messageParts[2];
+                    case "acceptFriend":
+                        senderUsername = messageParts[1];
+                        receiverUsername = messageParts[2];
                         int friendRequestId = Integer.parseInt(messageParts[3]);
-                        User sender = getUserByUsername(senderUsername);
-                        User receiver = getUserByUsername(receiverUsername);
-                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                        sender = getUserByUsername(senderUsername);
+                        receiver = getUserByUsername(receiverUsername);
+                        friendRequest = receiver.getFriendRequestById(friendRequestId);
                         friendRequest.setState("accepted");
                         receiver.addFriend(sender.getUsername());
                         sender.addFriend(receiver.getUsername());
                         dataOutputStream.writeUTF("Friend request accepted");
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "rejectFriend": {
-                        String senderUsername = messageParts[1];
-                        String receiverUsername = messageParts[2];
-                        int friendRequestId = Integer.parseInt(messageParts[3]);
-                        User sender = getUserByUsername(senderUsername);
-                        User receiver = getUserByUsername(receiverUsername);
-                        FriendRequest friendRequest = receiver.getFriendRequestById(friendRequestId);
+                    case "rejectFriend":
+                        senderUsername = messageParts[1];
+                        receiverUsername = messageParts[2];
+                        friendRequestId = Integer.parseInt(messageParts[3]);
+                        sender = getUserByUsername(senderUsername);
+                        receiver = getUserByUsername(receiverUsername);
+                        friendRequest = receiver.getFriendRequestById(friendRequestId);
                         friendRequest.setState("rejected");
                         dataOutputStream.writeUTF("Friend request rejected");
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "changeUsername": {
+                    case "changeUsername":
                         response = changeUsername(messageParts[1]);
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "changeEmail": {
+                    case "changeEmail":
                         response = changeEmail(messageParts[1]);
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "changeNickname": {
+                    case "changeNickname":
                         response = changeNickname(messageParts[1]);
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "changePassword": {
+                    case "changePassword":
                         response = changePassword(messageParts[1]);
                         System.out.println(response);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
-                    case "sendGameRequest": {
+                    case "sendGameRequest":
                         response = sendGameRequest(messageParts[1]);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    }
+                    case "acceptGameRequest":
+                        response = acceptGameRequest(messageParts[1]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -228,7 +218,6 @@ public class Server extends Thread {
         if (users == null) {
             return "User not found";
         }
-
         User user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
         if (user == null) {
             return "User not found";
@@ -237,7 +226,10 @@ public class Server extends Thread {
         } else if (user.getEmail().equals("probendingavatar@gmail.com") && !user.isRegisterConfirmed()) {
             return "Email not confirmed";
         } else {
+            if (currentUser != null && currentUser != user)
+                currentUser.setOnline(false);
             currentUser = user;
+            saveUsersToFile();
             return "Sending email confirmation code";
         }
     }
@@ -362,6 +354,61 @@ public class Server extends Thread {
         }
     }
 
+    private String acceptGameRequest(String senderUsername) {
+        User sender = getUserByUsername(senderUsername);
+        if (sender == null) {
+            return "User not found";
+        } else if (!sender.getFriends().containsKey(currentUser.getUsername())) {
+            return "User is not your friend";
+        } else if (!currentUser.getFriends().get(senderUsername)) {
+            return "User has not sent you a game request";
+        } else if (sender.isPlaying()) {
+            return "User is already in a game";
+        } else if (!sender.isOnline()) {
+            return "User is offline";
+        } else {
+            // Start the game session
+            try {
+                Server[] servers = (Server[]) getAliveServers();
+                Socket opponentSocket = null;
+                for (Server server : servers) {
+                    if (server.currentUser == sender) {
+                        opponentSocket = server.socket;
+                        break;
+                    }
+                }
+                if (opponentSocket == null)
+                    return "User is offline";
+                GameSession gameSession = new GameSession(socket, opponentSocket);
+                gameSession.start();
+                gameSessions.add(gameSession);
+                sender.setPlaying(true);
+                currentUser.setPlaying(true);
+                return "Game request accepted. Starting game...";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Failed to start game session";
+            }
+        }
+    }
+
+    private static Object[] getAliveServers() {
+        ThreadGroup rootGroup = Thread.currentThread().getThreadGroup();
+        ThreadGroup parentGroup;
+        while ((parentGroup = rootGroup.getParent()) != null) {
+            rootGroup = parentGroup;
+        }
+
+        int noOfThreads = rootGroup.activeCount();
+        Thread[] threads = new Thread[noOfThreads + 10]; // add a small buffer
+        int count = rootGroup.enumerate(threads);
+        return Arrays.stream(threads, 0, count)
+                .filter(Thread::isAlive)
+                .filter(thread -> thread instanceof Server)
+                .map(thread -> (Server) thread)
+                .toArray();
+    }
+
     private String changeNickname(String newNickname) {
         if (users.stream().anyMatch(user -> user.getNickname().equals(newNickname))) {
             return "Nickname already exists";
@@ -410,7 +457,6 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) {
         loadUsersFromFile();
