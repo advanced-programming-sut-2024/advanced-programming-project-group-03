@@ -1,5 +1,6 @@
 package ir.ap.probending.Control;
 
+import Server.Client;
 import Server.FriendRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -70,6 +71,10 @@ public class ProfileController {
     private Label userRankLabel = new Label("Rank : ", GameAssetManager.getGameAssetManager().getSkin());
     private TextButton addFriendButton = new TextButton("Add Friend", GameAssetManager.getGameAssetManager().getSkin());
     private SelectBox<String> addFriendHistory = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton backToProfileButton = new TextButton("Back", GameAssetManager.getGameAssetManager().getSkin());
+    private SelectBox<String> receivedFriendRequests = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton acceptFriendRequest = new TextButton("Accept", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton rejectFriendRequest = new TextButton("Reject", GameAssetManager.getGameAssetManager().getSkin());
 
     private ProfileController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -89,11 +94,25 @@ public class ProfileController {
             profileWindow.row().pad(10, 0, 10, 0);
             profileWindow.add(addFriendHistory).fillX();
             profileWindow.row().pad(10, 0, 10, 0);
+            profileWindow.add(backToProfileButton).fillX();
+            profileWindow.row().pad(10, 0, 10, 0);
 
-            profileWindow.setSize(960, 540);
+
+            profileWindow.setSize(960, 740);
             profileWindow.setPosition(Gdx.graphics.getWidth() / 2 - profileWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - profileWindow.getHeight() / 2);
             profileWindow.setVisible(false);
             profileWindow.toFront();
+            table.addActor(receivedFriendRequests);
+            table.addActor(acceptFriendRequest);
+            table.addActor(rejectFriendRequest);
+            receivedFriendRequests.setPosition(100,900);
+            receivedFriendRequests.setSize(400,100);
+            acceptFriendRequest.setPosition(100,750);
+            rejectFriendRequest.setPosition(300,750);
+            acceptFriendRequest.setSize(200,100);
+            rejectFriendRequest.setSize(200,100);
+
+
             table.addActor(searchUserField);
             searchUserField.setPosition(1300, 900);
             searchUserField.setSize(500, 100);
@@ -204,6 +223,18 @@ public class ProfileController {
         errorLabelNickname.setColor(1, 0, 0, 1);
         errorLabelPassword.setColor(1, 0, 0, 1);
     }
+    public void setReceivedFriendRequests(ProBending game){
+        String currentUserJson = ProBending.client.communicate("getUser");
+        Gson gson = new Gson();
+        User currentUser = gson.fromJson(currentUserJson, User.class);
+        ArrayList<FriendRequest> friendRequests = currentUser.getReceivedFriendRequests();
+        ArrayList<String> friendRequestTexts = new ArrayList<>();
+        for(FriendRequest friendRequest : friendRequests){
+            String friendRequestText = friendRequest.getSender() + " " + friendRequest.getState();
+            friendRequestTexts.add(friendRequestText);
+        }
+        receivedFriendRequests.setItems(friendRequestTexts.toArray(new String[0]));
+    }
 
     private void setSearchUserButton(ProBending game) {
         searchUserButton.addListener(new ClickListener() {
@@ -226,26 +257,30 @@ public class ProfileController {
                     String currentUserJson = ProBending.client.communicate("getUser");
                     User currentUser = gson.fromJson(currentUserJson, User.class);
                     User finalCurrentUser = currentUser;
+                    ArrayList<FriendRequest> friendRequests = new ArrayList<>();
+                    ArrayList<String> friendRequestTexts = new ArrayList<>();
                     addFriendButton.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             String response = ProBending.client.communicate("addFriend " + finalCurrentUser.getUsername() + " " + user.getUsername());
                             System.out.println(response);
+                            FriendRequest newFriendRequest = new FriendRequest(finalCurrentUser.getUsername(), user.getUsername());
+                            friendRequests.add(newFriendRequest);
+                            String newFriendRequestText = finalCurrentUser.getUsername() + " " + newFriendRequest.getState() + " to " + user.getUsername();
+                            friendRequestTexts.add(newFriendRequestText);
+                            addFriendHistory.setItems(friendRequestTexts.toArray(new String[0]));
                         }
                     });
-                    //add friend History
-                    currentUserJson = ProBending.client.communicate("getUser");
-                    currentUser = gson.fromJson(currentUserJson, User.class);
-                    ArrayList<FriendRequest> friendRequests = currentUser.getSentFriendRequests();
-                    for(FriendRequest friendRequest : friendRequests) {
-                        if(friendRequest==null){
-                            continue;
-                        }
-                        if(friendRequest.getReceiver().equals(user.getUsername())) {
-                            addFriendHistory.getItems().add("Friend Request Sent");
+                    for(FriendRequest friendRequest:currentUser.getSentFriendRequests()){
+                        if(friendRequest.getReceiver().equals(user.getUsername())){
+                            friendRequests.add(friendRequest);
                         }
                     }
-
+                    for(FriendRequest friendRequest : friendRequests){
+                        String friendRequestText = currentUser.getUsername() + " " + friendRequest.getState() + " to " + user.getUsername();
+                        friendRequestTexts.add(friendRequestText);
+                    }
+                    addFriendHistory.setItems(friendRequestTexts.toArray(new String[0]));
                 }
             }
         });
@@ -444,8 +479,17 @@ public class ProfileController {
         setBackToProfileButtonChangeNickname(game);
         setBackToProfileButtonChangeEmail(game);
         setBackToProfileButtonChangePassword(game);
+        setBackToProfileButton(game);
     }
 
+    public void setBackToProfileButton(ProBending game) {
+        backToProfileButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                profileWindow.setVisible(false);
+            }
+        });
+    }
     //getters and setters
 
     public static ProfileController getProfileController() {

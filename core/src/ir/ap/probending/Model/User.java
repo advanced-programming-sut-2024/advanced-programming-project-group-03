@@ -24,6 +24,8 @@ public class User {
     private ArrayList<FriendRequest> sentFriendRequests;
     private ArrayList<String> friends;
     private ArrayList<FriendRequest> receivedFriendRequests;
+    private ArrayList<FriendRequest> sentGameRequests;
+    private HashMap<String,Boolean> gameRequests;
     private boolean hasLoggedIn = false;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
@@ -39,6 +41,8 @@ public class User {
         score = 0;
         rank = 0;
         sentFriendRequests = new ArrayList<>();
+        receivedFriendRequests = new ArrayList<>();
+        friends = new ArrayList<>();
     }
 
     public User() {
@@ -174,8 +178,11 @@ public class User {
     public void setRegisterConfirmed(boolean registerConfirmed) {
         this.registerConfirmed = registerConfirmed;
     }
-    public void addFriendRequest(FriendRequest friendRequest) {
+    public void addSentFriendRequest(FriendRequest friendRequest) {
         sentFriendRequests.add(friendRequest);
+    }
+    public void addReceivedFriendRequest(FriendRequest friendRequest) {
+        receivedFriendRequests.add(friendRequest);
     }
     public FriendRequest getFriendRequestById(int id) {
         for (FriendRequest friendRequest : sentFriendRequests) {
@@ -187,6 +194,9 @@ public class User {
     }
     public ArrayList<FriendRequest> getSentFriendRequests() {
         return sentFriendRequests;
+    }
+    public ArrayList<FriendRequest> getReceivedFriendRequests() {
+        return receivedFriendRequests;
     }
     public void addFriend(String friend) {
         friends.add(friend);

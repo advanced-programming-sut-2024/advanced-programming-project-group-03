@@ -120,8 +120,9 @@ public class Server extends Thread {
                         String receiverUsername = messageParts[2];
                         User sender = getUserByUsername(senderUsername);
                         User receiver = getUserByUsername(receiverUsername);
-                        FriendRequest friendRequest = new FriendRequest(receiver.getUsername());
-                        sender.addFriendRequest(friendRequest);
+                        FriendRequest friendRequest = new FriendRequest(sender.getUsername(),receiver.getUsername());
+                        sender.addSentFriendRequest(friendRequest);
+                        receiver.addReceivedFriendRequest(friendRequest);
                         dataOutputStream.writeUTF("Friend request sent");
                         dataOutputStream.flush();
                         break;
