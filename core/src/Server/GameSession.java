@@ -16,9 +16,9 @@ public class GameSession {
     private static GameSession instance;
 
 
-    public static void main() {
+    public static void main(String[] args) {
         try {
-            ServerSocket serverSocket = new ServerSocket(6000);
+            ServerSocket serverSocket = new ServerSocket(5050);
             while (true) {
                 Socket socket = serverSocket.accept();
                 instance.gameSessions.put(socket, null);

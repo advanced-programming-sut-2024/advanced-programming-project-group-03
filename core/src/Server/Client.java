@@ -25,7 +25,7 @@ public class Client {
             socket = new Socket(address, port);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            gamesocket = new Socket(address, 6000);
+            gamesocket = new Socket(address, 5050);
             gameDataInputStream = new DataInputStream(gamesocket.getInputStream());
             gameDataOutputStream = new DataOutputStream(gamesocket.getOutputStream());
             return true;
