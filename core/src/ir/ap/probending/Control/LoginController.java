@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.google.gson.Gson;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -21,14 +20,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.util.List;
 
 public class LoginController {
-    private String verificationCode = "";
     private static LoginController loginController = new LoginController();
     private Table table = new Table();
 
     private final TextField usernameField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextField passwordField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
-    private final TextField verificationCodeField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
-    private final TextButton verificationCodeButton = new TextButton("Verify", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton loginButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton forgetPasswordButton = new TextButton("Forgot Password", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signUpButton = new TextButton("Don't have an account", GameAssetManager.getGameAssetManager().getSkin());
@@ -36,7 +32,6 @@ public class LoginController {
     private final Label errorLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private final Label usernameLabel = new Label("Username", GameAssetManager.getGameAssetManager().getSkin());
     private final Label passwordLabel = new Label("Password", GameAssetManager.getGameAssetManager().getSkin());
-    private final Label verificationCodeLabel = new Label("Verification Code", GameAssetManager.getGameAssetManager().getSkin());
 
     private LoginController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -60,12 +55,6 @@ public class LoginController {
         table.row();
         table.add(signUpButton).fillX();
         table.row().pad(10, 0, 10, 0);
-        table.add(verificationCodeLabel).fillX();
-        table.row();
-        table.add(verificationCodeField).fillX();
-        table.row().pad(10, 0, 10, 0);
-        table.add(verificationCodeButton).fillX();
-        table.row().pad(10, 0, 10, 0);
         table.add(backToMainMenuButton).fillX();
 
     }
@@ -74,44 +63,35 @@ public class LoginController {
         loginButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String response = ProBending.client.communicate("login " + usernameField.getText() + " " + passwordField.getText());
+                List<User> users = SaveUser.loadUsers();
+                boolean isUserExist = false;
+                boolean isPasswordCorrect = false;
+                User loggedInUser = null;
 
-                if (response.equals("Sending email confirmation link")) {
-                    verificationCode = ProBending.client.communicate("sendLoginEmail");
-                    errorLabel.setText("Enter the verification code sent to your email");
-                    usernameField.setText("");
-                    passwordField.setText("");
-                } else {
-                    errorLabel.setText(response);
+                for (User user : users) {
+                    if (user.getUsername().equals(usernameField.getText())) {
+                        isUserExist = true;
+                        if (user.getPassword().equals(passwordField.getText())) {
+                            isPasswordCorrect = true;
+                            loggedInUser = user;
+                        }
+                    }
                 }
-            }
-        });
-    }
 
-    private void setVerificationCodeButton(ProBending game){
-        verificationCodeButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                String loggedInUserString = ProBending.client.communicate("getUser");
-                Gson gson = new Gson();
-                User loggedInUser = gson.fromJson(loggedInUserString, User.class);
-                if (!loggedInUser.getEmail().equals("probendingavatar@gmail.com")) {
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
-                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
-                    errorLabel.setText("");
-                    GameMaster.getGameMaster().setLoggedInUser1(loggedInUser);
+                if (!isUserExist) {
+                    errorLabel.setText("User does not exist");
                 }
-                else if(verificationCodeField.getText().equals(verificationCode)){
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
-                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
-                    errorLabel.setText("");
+                else if (!isPasswordCorrect) {
+                    errorLabel.setText("Password is incorrect");
                 }
                 else {
-                    errorLabel.setText("Verification code is incorrect");
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                    errorLabel.setText("");
+
+                    GameMaster.getGameMaster().setLoggedInUser1(loggedInUser);
                 }
             }
         });
@@ -158,7 +138,6 @@ public class LoginController {
         setBackToMainMenuButton(game);
         setSignUpButton(game);
         setLoginButton(game);
-        setVerificationCodeButton(game);
     }
 
     //getters and setters

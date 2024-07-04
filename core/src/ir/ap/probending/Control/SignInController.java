@@ -1,18 +1,22 @@
 package ir.ap.probending.Control;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.RandomPasswordGenerator;
 import ir.ap.probending.Model.Data.Regex;
-import ir.ap.probending.Model.ScreenMasterSetting;
+import ir.ap.probending.Model.Data.SaveUser;
+import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
+import ir.ap.probending.Model.ScreenMasterSetting;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.Gdx;
+
+import java.util.List;
 
 public class SignInController {
     private static SignInController signInController = new SignInController();
@@ -79,8 +83,8 @@ public class SignInController {
         confirmPasswordField.setPasswordMode(true);
     }
 
-    private void showPassword() {
-        if (showPassword) {
+    private void showPassword(){
+        if (showPassword){
             passwordField.setPasswordMode(true);
             confirmPasswordField.setPasswordMode(true);
             showPassword = false;
@@ -91,140 +95,140 @@ public class SignInController {
         }
     }
 
-    private boolean checkForCorrectUsername() {
+    private boolean checkForCorrectUsername(){
         String selectedUsername = usernameField.getText();
 
-        if (selectedUsername.length() < 4) {
+        if(selectedUsername.length() < 4){
             errorLabel.setText("Username must be at least 4 characters long");
             return false;
         }
-        if (selectedUsername.length() > 20) {
+        if (selectedUsername.length() > 20){
             errorLabel.setText("Username must be at most 20 characters long");
             return false;
         }
-        if (!Regex.USERNAME.matches(selectedUsername)) {
+        if (!Regex.USERNAME.matches(selectedUsername)){
             errorLabel.setText("Username must contain only letters, numbers and hyphens");
             return false;
         }
         return true;
     }
 
-    private boolean checkForCorrectPassword() {
+    private boolean checkForCorrectPassword(){
         String selectedPassword = passwordField.getText();
 
-        if (selectedPassword.length() < 8) {
+        if(selectedPassword.length() < 8){
             errorLabel.setText("Password must be at least 8 characters long");
             return false;
         }
-        if (selectedPassword.length() > 20) {
+        if (selectedPassword.length() > 20){
             errorLabel.setText("Password must be at most 20 characters long");
             return false;
         }
-        if (!Regex.PASSWORD.matches(selectedPassword)) {
+        if (!Regex.PASSWORD.matches(selectedPassword)){
             errorLabel.setText("Your password must obey this regex" + Regex.PASSWORD.getPatternString());
             return false;
         }
         return true;
     }
 
-    private boolean checkForCorrectConfirmPassword() {
+    private boolean checkForCorrectConfirmPassword(){
         String selectedPassword = passwordField.getText();
         String selectedConfirmPassword = confirmPasswordField.getText();
 
-        if (!selectedPassword.equals(selectedConfirmPassword)) {
+        if(!selectedPassword.equals(selectedConfirmPassword)){
             errorLabel.setText("Passwords do not match");
             return false;
         }
         return true;
     }
 
-    private boolean checkForCorrectEmail() {
+    private boolean checkForCorrectEmail(){
         String selectedEmail = emailField.getText();
 
-        if (selectedEmail.length() < 8) {
+        if(selectedEmail.length() < 8){
             errorLabel.setText("Email must be at least 8 characters long");
             return false;
         }
-        if (selectedEmail.length() > 50) {
+        if (selectedEmail.length() > 50){
             errorLabel.setText("Email must be at most 50 characters long");
             return false;
         }
-        if (!Regex.EMAIL.matches(selectedEmail)) {
+        if (!Regex.EMAIL.matches(selectedEmail)){
             errorLabel.setText("Email must obey this regex" + Regex.EMAIL.getPatternString());
             return false;
         }
         return true;
     }
 
-//    private boolean checkForUsedUsername(){
-//        try {
-//            List<User> users = SaveUser.loadUsers();
-//            for (User user : users){
-//                if (user.getUsername().equals(usernameField.getText())){
-//                    errorLabel.setText("Username is already used");
-//                    return false;
-//                }
-//            }
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return true;
-//    }
+    private boolean checkForUsedUsername(){
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getUsername().equals(usernameField.getText())){
+                    errorLabel.setText("Username is already used");
+                    return false;
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return true;
+    }
 
-//    private boolean checkForUsedEmail(){
-//        try {
-//            List<User> users = SaveUser.loadUsers();
-//            for (User user : users){
-//                if (user.getEmail().equals(emailField.getText())){
-//                    errorLabel.setText("Email is already used");
-//                    return false;
-//                }
-//            }
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        return true;
-//    }
+    private boolean checkForUsedEmail(){
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getEmail().equals(emailField.getText())){
+                    errorLabel.setText("Email is already used");
+                    return false;
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
-//    private boolean checkForUsedPassword(){
-//        try {
-//            List<User> users = SaveUser.loadUsers();
-//            for (User user : users){
-//                if (user.getPassword().equals(passwordField.getText())){
-//                    errorLabel.setText("Password is already used by :" + user.getUsername());
-//                    return false;
-//                }
-//            }
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        return true;
-//    }
+        return true;
+    }
 
-    private boolean checkForWeakPassword() {
+    private boolean checkForUsedPassword(){
+        try {
+            List<User> users = SaveUser.loadUsers();
+            for (User user : users){
+                if (user.getPassword().equals(passwordField.getText())){
+                    errorLabel.setText("Password is already used by :" + user.getUsername());
+                    return false;
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    private boolean checkForWeakPassword(){
         String selectedPassword = passwordField.getText();
-        if (selectedPassword.length() < 8) {
+        if(selectedPassword.length() < 8){
             errorLabel.setText("Password must be at least 8 characters long");
             return false;
         }
-        if (selectedPassword.length() > 20) {
+        if (selectedPassword.length() > 20){
             errorLabel.setText("Password must be at most 20 characters long");
             return false;
         }
-        if (!Regex.NUMBER.find(selectedPassword)) {
+        if (!Regex.NUMBER.find(selectedPassword)){
             errorLabel.setText("Password must contain at least one number");
             return false;
         }
-        if (!Regex.ALPHABET.find(selectedPassword)) {
+        if (!Regex.ALPHABET.find(selectedPassword)){
             errorLabel.setText("Password must contain at least one letter");
             return false;
         }
-        if (!Regex.SPECIAL_CHARACTERS.find(selectedPassword)) {
+        if (!Regex.SPECIAL_CHARACTERS.find(selectedPassword)){
             errorLabel.setText("Password must contain at least one special character");
             return false;
         }
@@ -232,39 +236,34 @@ public class SignInController {
 
     }
 
-    private void setSignUpButton(ProBending game) {
-        signUpButton.addListener(new ClickListener() {
+    private void setSignUpButton(ProBending game){
+        signUpButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail()) {
+                if (checkForCorrectUsername() && checkForCorrectPassword() && checkForCorrectConfirmPassword() && checkForWeakPassword() && checkForCorrectEmail() && checkForUsedUsername() && checkForUsedEmail() && checkForUsedPassword()){
                     errorLabel.setText("");
-                    String response = ProBending.client.communicate("signup " + usernameField.getText() + " " + passwordField.getText() + " " + emailField.getText() + " " + nicknameField.getText());
-                    if (response.equals("Signed up successfully.")) {
-//                        ProBending.client.communicate("sendSignupEmail");
-                        ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
-                        ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
-                        Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                        ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(PickQuestionMenuController.getPickQuestionMenuController().getTable());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
+                    Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(PickQuestionMenuController.getPickQuestionMenuController().getTable());
 
-                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedUsername(usernameField.getText());
-                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedPassword(passwordField.getText());
-                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedEmail(emailField.getText());
-                        PickQuestionMenuController.getPickQuestionMenuController().setSelectedNickname(nicknameField.getText());
-                    } else
-                        errorLabel.setText(response);
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedUsername(usernameField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedPassword(passwordField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedEmail(emailField.getText());
+                    PickQuestionMenuController.getPickQuestionMenuController().setSelectedNickname(nicknameField.getText());
                 }
             }
         });
     }
 
-    private void setShowPasswordButton() {
-        showPasswordButton.addListener(new ClickListener() {
+    private void setShowPasswordButton(){
+        showPasswordButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showPassword();
             }
         });
-        showConfirmPasswordButton.addListener(new ClickListener() {
+        showConfirmPasswordButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showPassword();
@@ -272,8 +271,8 @@ public class SignInController {
         });
     }
 
-    private void setBackToLoginMenuButton(ProBending game) {
-        backToLoginMenuButton.addListener(new ClickListener() {
+    private void setBackToLoginMenuButton(ProBending game){
+        backToLoginMenuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
@@ -284,8 +283,8 @@ public class SignInController {
         });
     }
 
-    private void setRandomizePasswordButton(ProBending game) {
-        randomizePasswordButton.addListener(new ClickListener() {
+    private void setRandomizePasswordButton(ProBending game){
+        randomizePasswordButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String generatedPassword = RandomPasswordGenerator.generatePassword();
@@ -305,7 +304,7 @@ public class SignInController {
 
     //getters and setters
 
-    public static SignInController getSignInController() {
+    public static SignInController getSignInController(){
         return signInController;
     }
 

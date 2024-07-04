@@ -1,12 +1,10 @@
 package ir.ap.probending.Control;
 
-import Server.FriendRequest;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.google.gson.Gson;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.Regex;
 import ir.ap.probending.Model.Data.SaveUser;
@@ -17,7 +15,6 @@ import ir.ap.probending.Model.ScreenMasterSetting;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileController {
@@ -61,47 +58,14 @@ public class ProfileController {
     private Label errorLabelNickname = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private Label errorLabelUsername = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private Label errorLabelEmail = new Label("", GameAssetManager.getGameAssetManager().getSkin());
-    private TextField searchUserField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
-    private TextButton searchUserButton = new TextButton("Search", GameAssetManager.getGameAssetManager().getSkin());
-    private Label searchUserLabel = new Label("Search for a user", GameAssetManager.getGameAssetManager().getSkin());
-    private Window profileWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
-    private Label userUsernameLabel = new Label("Username : ", GameAssetManager.getGameAssetManager().getSkin());
-    private Label userNicknameLabel = new Label("Nickname : ", GameAssetManager.getGameAssetManager().getSkin());
-    private Label userRankLabel = new Label("Rank : ", GameAssetManager.getGameAssetManager().getSkin());
-    private TextButton addFriendButton = new TextButton("Add Friend", GameAssetManager.getGameAssetManager().getSkin());
-    private SelectBox<String> addFriendHistory = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+
+
     private ProfileController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
 
         if (GameMaster.getGameMaster().getGuestUser1() != null){
-            table.addActor(profileWindow);
-            profileWindow.add(userUsernameLabel).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
-            profileWindow.add(userNicknameLabel).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
-            profileWindow.add(userRankLabel).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
-            profileWindow.row().pad(10, 0, 10, 0);
-            profileWindow.add(addFriendButton).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
-            profileWindow.add(addFriendHistory).fillX();
-            profileWindow.row().pad(10, 0, 10, 0);
-
-            profileWindow.setSize(960, 540);
-            profileWindow.setPosition(Gdx.graphics.getWidth()/2 - profileWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - profileWindow.getHeight()/2);
-            profileWindow.setVisible(false);
-            profileWindow.toFront();
-            table.addActor(searchUserField);
-            searchUserField.setPosition(1300, 900);
-            searchUserField.setSize(500, 100);
-            table.addActor(searchUserButton);
-            searchUserButton.setSize(500, 100);
-            searchUserButton.setPosition(1300, 700);
-            table.addActor(searchUserLabel);
-            searchUserLabel.setPosition(1300, 800);
-            searchUserLabel.setVisible(false);
             table.add(usernameLabel).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(nicknameLabel).fillX();
@@ -203,51 +167,6 @@ public class ProfileController {
         errorLabelUsername.setColor(1, 0, 0, 1);
         errorLabelNickname.setColor(1, 0, 0, 1);
         errorLabelPassword.setColor(1, 0, 0, 1);
-    }
-    private void setSearchUserButton(ProBending game){
-        searchUserButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                String response = ProBending.client.communicate("searchUser " + searchUserField.getText());
-                if (response.equals("User not found")){
-                    searchUserLabel.setText("User not found");
-                    searchUserLabel.setVisible(true);
-                }
-                else {
-                    profileWindow.add(addFriendHistory).fillX();
-                    searchUserLabel.setVisible(false);
-                    Gson gson = new Gson();
-                    User user = gson.fromJson(response, User.class);
-                    profileWindow.setVisible(true);
-                    profileWindow.toFront();
-                    userUsernameLabel.setText("Username : " + user.getUsername());
-                    userNicknameLabel.setText("Nickname : " + user.getNickname());
-                    userRankLabel.setText("Rank : " + user.getRank());
-                    String currentUserJson= ProBending.client.communicate("getUser ");
-                    User currentUser = gson.fromJson(currentUserJson, User.class);
-                    addFriendButton.addListener(new ClickListener(){
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                           String response= ProBending.client.communicate("addFriend " + currentUser.getUsername() + " " + user.getUsername());
-                            System.out.println(response);
-                        }
-                    });
-                    //add friend History
-                    ArrayList<FriendRequest> friendRequests = user.getReceivedFriendRequests();
-                    ArrayList<FriendRequest> friendRequestsByCurrentUser = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequests){
-                        if (friendRequest.getSender().getUsername().equals(currentUser.getUsername())){
-                            friendRequestsByCurrentUser.add(friendRequest);
-                        }
-                    }
-                    List<String> friendRequestStrings = new ArrayList<>();
-                    for (FriendRequest friendRequest : friendRequestsByCurrentUser){
-                        friendRequestStrings.add(friendRequest.getSender().getUsername() + " " + friendRequest.getState());
-                    }
-                    addFriendHistory.setItems(friendRequestStrings.toArray(new String[0]));
-                }
-            }
-        });
     }
 
     private void setChangePasswordButton(ProBending game){
@@ -424,7 +343,6 @@ public class ProfileController {
     }
 
     public void handleProfileButtons(ProBending game){
-        setSearchUserButton(game);
         setChangePasswordButton(game);
         setChangeNicknameButton(game);
         setChangeUsernameButton(game);

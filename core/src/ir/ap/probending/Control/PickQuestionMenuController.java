@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.google.gson.Gson;
 import ir.ap.probending.Model.Data.Regex;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Data.SecurityQuestions;
@@ -57,18 +56,10 @@ public class PickQuestionMenuController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (Regex.VALIDANSWER.matches(answerField.getText()) && questionSelector.getSelectedIndex() != 0) {
-//                    User user = new User(selectedUsername, selectedPassword, selectedEmail, selectedNickname);
-//                    user.addQuestionAnswer(questionSelector.getSelectedIndex() , answerField.getText());
-//
-//                    SaveUser.saveUser(user);
-                    Gson gson = new Gson();
-                    String userString = ProBending.client.communicate("getUser");
-                    User user = gson.fromJson(userString, User.class);
-                    user.addQuestionAnswer(questionSelector.getSelectedIndex(), answerField.getText());
-                    System.out.println("registered successfully");
-                    ProBending.client.communicate("saveUser " + gson.toJson(user));
+                    User user = new User(selectedUsername, selectedPassword, selectedEmail, selectedNickname);
+                    user.addQuestionAnswer(questionSelector.getSelectedIndex() , answerField.getText());
 
-                    System.out.println("registered successfully");
+                    SaveUser.saveUser(user);
 
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
