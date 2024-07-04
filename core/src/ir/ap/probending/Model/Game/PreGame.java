@@ -3,7 +3,11 @@ package ir.ap.probending.Model.Game;
 import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
+import ir.ap.probending.Model.Data.DeckSave;
+import ir.ap.probending.Model.Data.GameMaster;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Factions.Faction;
+import ir.ap.probending.Model.Factions.FactionObjects;
 
 import java.util.ArrayList;
 
@@ -29,19 +33,92 @@ public class PreGame {
     }
 
     public void saveDeckToFile(String location){
-        //TODO save deck to file
+        try {
+            ArrayList<String> deckCards = new ArrayList<>();
+            for (Card card : this.deckCards){
+                deckCards.add(card.getName());
+            }
+            SaveUser.saveDeckToJson(location, deckCards , playerFaction.getFactionName());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveDeckToDB(){
-        //TODO save deck to database
+        try {
+            ArrayList<String> deckCards = new ArrayList<>();
+            for (Card card : this.deckCards){
+                deckCards.add(card.getName());
+            }
+            DeckSave deckSave = new DeckSave(deckCards, playerFaction.getFactionName());
+
+            GameMaster.getGameMaster().getLoggedInUser1().setDeckSave(deckSave);
+            SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadDeckFromFile(String location){
-        //TODO load deck from file
+        try {
+            DeckSave deckSave = SaveUser.loadDeckFromJson(location);
+            ArrayList<String> cards = new ArrayList<>();
+            if (deckSave.getDeckCards() != null){
+                cards = new ArrayList<>(deckSave.getDeckCards());
+            }
+            if (deckSave.getPlayerFaction() != null){
+                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()));
+            }
+            for (String card : cards){
+                if (getCardByNameFromStorage(card) != null){
+                    deckCards.add(getCardByNameFromStorage(card));
+                    storageCards.remove(getCardByNameFromStorage(card));
+                }
+            }
+            PreGameController.getPreGameController().refreshDeckTable();
+            PreGameController.getPreGameController().refreshLabels();
+            PreGameController.getPreGameController().refreshStorageTable();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadDeckFromDB(){
-        //TODO load deck from database
+        try {
+            DeckSave deckSave = GameMaster.getGameMaster().getLoggedInUser1().getDeckSave();
+            ArrayList<String> cards = new ArrayList<>();
+            if (deckSave.getDeckCards() != null){
+                cards = new ArrayList<>(deckSave.getDeckCards());
+            }
+            if (deckSave.getPlayerFaction() != null){
+                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()));
+            }
+            for (String card : cards){
+                if (getCardByNameFromStorage(card) != null){
+                    deckCards.add(getCardByNameFromStorage(card));
+                    storageCards.remove(getCardByNameFromStorage(card));
+                }
+            }
+            PreGameController.getPreGameController().refreshDeckTable();
+            PreGameController.getPreGameController().refreshLabels();
+            PreGameController.getPreGameController().refreshStorageTable();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Card getCardByNameFromStorage(String name){
+        for (Card card : storageCards){
+            if (card.getName().equals(name)){
+                return card;
+            }
+        }
+        return null;
     }
 
     //getters and setters

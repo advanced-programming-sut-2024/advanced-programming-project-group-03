@@ -20,4 +20,17 @@ public enum FactionObjects {
     public Faction getFaction() {
         return faction;
     }
+
+    public static Faction getFactionByName(String name){
+        if (name.equals("Fire"))
+            return FIRE.getFaction();
+        else if (name.equals("Water"))
+            return WATER.getFaction();
+        else if (name.equals("Earth"))
+            return EARTH.getFaction();
+        else if (name.equals("Air"))
+            return AIR.getFaction();
+        else
+            return null;
+    }
 }

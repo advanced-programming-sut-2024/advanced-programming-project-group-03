@@ -1,13 +1,23 @@
 [
 {
 	"class": "ir.ap.probending.Model.User",
-	"username": "kooni8",
-	"password": "xpthqoymXXUWKSIA!69",
-	"email": "jjj@ggg.ggg",
+	"username": "kiarash",
+	"password": "cxzlebgjGNNBWYYQ!69",
+	"email": "kkk@gmail.com",
 	"questionIndex": 1,
 	"questionAnswer": "2",
 	"gameHistories": [],
-	"nickname": "ksh",
-	"receivedFriendRequests": []
+	"nickname": "sss",
+	"deckSave": {
+		"deckCards": [
+			"Sokka",
+			"Pakku",
+			"Amon",
+			"Taqukaq",
+			"Yakone",
+			"Ming Hua"
+		],
+		"playerFaction": "Water"
+	}
 }
 ]

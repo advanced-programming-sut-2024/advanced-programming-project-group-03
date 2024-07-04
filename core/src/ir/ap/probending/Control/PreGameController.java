@@ -29,6 +29,7 @@ public class PreGameController {
     private final TextButton changeFactionButton = new TextButton("Change Faction", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton chooseLeaderButton = new TextButton("Choose Leader", GameAssetManager.getGameAssetManager().getSkin());
     private final Label saveDeckLabel = new Label("Save Deck", GameAssetManager.getGameAssetManager().getSkin() , "title");
+    private final Label loadDeckLabel = new Label("Load Deck", GameAssetManager.getGameAssetManager().getSkin() , "title");
     private final TextButton saveDeckButton = new TextButton("Save Deck", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton loadDeckButton = new TextButton("Load Deck", GameAssetManager.getGameAssetManager().getSkin());
     private final Window saveDeckWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
@@ -36,9 +37,11 @@ public class PreGameController {
     private final TextButton saveDeckToFileButton = new TextButton("Save To Json File", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton saveDeckToDBButton = new TextButton("Save To Database", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton closeSaveDeck = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeLoadDeck = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton loadDeckFromFileButton = new TextButton("Load From Json File", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton loadDeckFromDBButton = new TextButton("Load From Database", GameAssetManager.getGameAssetManager().getSkin());
     private final TextField saveDeckTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextField loadDeckTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton applyLeaderButton = new TextButton("Apply", GameAssetManager.getGameAssetManager().getSkin());
     private final Window chooseLeaderWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final Label leaderLabel = new Label("Choose your Leader Ability", GameAssetManager.getGameAssetManager().getSkin() , "title");
@@ -79,6 +82,7 @@ public class PreGameController {
         labelsViewSetUp();
         leaderViewSetup();
         saveDeckViewSetUp();
+        loadDeckViewSetUp();
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.top().left();
@@ -476,6 +480,59 @@ public class PreGameController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 saveDeckWindow.setVisible(false);
+            }
+        });
+    }
+
+    private void loadDeckViewSetUp(){
+        stage.addActor(loadDeckButton);
+        loadDeckButton.setPosition(350, 950);
+        stage.addActor(loadDeckWindow);
+        loadDeckWindow.setSize(600, 500);
+        loadDeckWindow.setPosition(0 , 500);
+        loadDeckWindow.setVisible(false);
+        loadDeckWindow.setMovable(false);
+        loadDeckWindow.addActor(loadDeckLabel);
+        loadDeckLabel.setPosition(90, 380);
+        loadDeckLabel.setFontScale(0.7f);
+        loadDeckWindow.addActor(loadDeckTextField);
+        loadDeckTextField.setWidth(500);
+        loadDeckTextField.setPosition(0, 300);
+        loadDeckWindow.addActor(loadDeckFromFileButton);
+        loadDeckFromFileButton.setPosition(0, 200);
+        loadDeckWindow.addActor(loadDeckFromDBButton);
+        loadDeckFromDBButton.setPosition(0, 100);
+        loadDeckWindow.addActor(closeLoadDeck);
+        closeLoadDeck.setPosition(0, 0);
+
+        loadDeckButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                loadDeckWindow.setVisible(true);
+                loadDeckWindow.toFront();
+            }
+        });
+
+        loadDeckFromFileButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PreGame.getPreGame().loadDeckFromFile(saveDeckTextField.getText());
+                loadDeckWindow.setVisible(false);
+            }
+        });
+
+        loadDeckFromDBButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PreGame.getPreGame().loadDeckFromDB();
+                loadDeckWindow.setVisible(false);
+            }
+        });
+
+        closeLoadDeck.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                loadDeckWindow.setVisible(false);
             }
         });
     }

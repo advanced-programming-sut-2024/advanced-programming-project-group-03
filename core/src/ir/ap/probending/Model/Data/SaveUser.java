@@ -3,6 +3,8 @@ package ir.ap.probending.Model.Data;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.User;
 
 import java.util.ArrayList;
@@ -102,5 +104,40 @@ public class SaveUser {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveDeckToJson(String location, ArrayList<String> deckCards , String playerFaction){
+        try {
+            DeckSave deckSave = new DeckSave(deckCards, playerFaction);
+
+            Json json = new Json();
+            json.setOutputType(JsonWriter.OutputType.json);
+
+            FileHandle file = new FileHandle(location);
+
+            String deckCardsJson = json.prettyPrint(deckSave);
+            file.writeString(deckCardsJson, false);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static DeckSave loadDeckFromJson(String location){
+        try {
+            Json json = new Json();
+            json.setOutputType(JsonWriter.OutputType.json);
+
+            FileHandle file = new FileHandle(location);
+
+            String loadedDeck = file.readString();
+            DeckSave deckSave = json.fromJson(DeckSave.class, loadedDeck);
+
+            return deckSave;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
