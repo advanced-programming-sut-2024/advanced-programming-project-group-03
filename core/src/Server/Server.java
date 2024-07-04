@@ -369,17 +369,11 @@ public class Server extends Thread {
         } else {
             // Start the game session
             try {
-                Server[] servers = (Server[]) getAliveServers();
-                Socket opponentSocket = null;
-                for (Server server : servers) {
-                    if (server.currentUser == sender) {
-                        opponentSocket = server.socket;
-                        break;
-                    }
-                }
-                if (opponentSocket == null)
-                    return "User is offline";
-                GameSession gameSession = new GameSession(socket, opponentSocket);
+                if (currentUser.getSocket() == null)
+                    currentUser.setSocket(new Socket("localhost", 5000));
+                if (sender.getSocket() == null)
+                    sender.setSocket(new Socket("localhost", 5000));
+                GameSession gameSession = new GameSession(currentUser.getSocket(), sender.getSocket());
                 gameSession.start();
                 gameSessions.add(gameSession);
                 sender.setPlaying(true);

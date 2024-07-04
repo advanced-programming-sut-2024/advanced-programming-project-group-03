@@ -29,11 +29,15 @@ public class GameSession extends Thread {
                 if (player1Input.available() > 0) {
                     String messageFromPlayer1 = player1Input.readUTF();
                     player2Output.writeUTF(messageFromPlayer1);
+                    if (messageFromPlayer1.equals("exitGameSession"))
+                        break;
                     player2Output.flush();
                 }
 
                 if (player2Input.available() > 0) {
                     String messageFromPlayer2 = player2Input.readUTF();
+                    if (messageFromPlayer2.equals("exitGameSession"))
+                        break;
                     player1Output.writeUTF(messageFromPlayer2);
                     player1Output.flush();
                 }

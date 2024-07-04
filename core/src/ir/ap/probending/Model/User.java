@@ -3,6 +3,7 @@ package ir.ap.probending.Model;
 import Server.FriendRequest;
 import ir.ap.probending.Model.Data.GameHistory;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class User {
     private boolean isPlaying = false;
     private boolean isOnline = false;
     private boolean hasLoggedIn = false;
+    private Socket socket = null;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -223,5 +225,11 @@ public class User {
         return isPlaying;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
 
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
 }
