@@ -78,4 +78,29 @@ public class SaveUser {
             e.printStackTrace();
         }
     }
+
+    public static void updateUser2(User user){
+        try {
+            Json json = new Json();
+            json.setOutputType(JsonWriter.OutputType.json);
+
+            FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
+
+            String loadedUser = file.readString();
+            List<User> users = json.fromJson(ArrayList.class, User.class , loadedUser);
+
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getEmail().equals(user.getEmail())){
+                    users.set(i, user);
+                    break;
+                }
+            }
+
+            String usersJson = json.prettyPrint(users);
+            file.writeString(usersJson, false);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -238,7 +238,7 @@ public class ProfileController {
                 }
                 else {
                     GameMaster.getGameMaster().getLoggedInUser1().setUsername(changeUsernameField.getText());
-                    SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
+                    SaveUser.updateUser2(GameMaster.getGameMaster().getLoggedInUser1());
                     changeUsernameWindow.setVisible(false);
                 }
             }
