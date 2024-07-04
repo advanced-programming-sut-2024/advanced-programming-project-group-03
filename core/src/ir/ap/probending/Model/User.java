@@ -28,9 +28,7 @@ public class User {
     private ArrayList<FriendRequest> receivedFriendRequests;
     private boolean isPlaying = false;
     private boolean isOnline = false;
-    private ArrayList<FriendRequest> sentGameRequests;
     private boolean hasLoggedIn = false;
-    private transient Socket socket = null;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -45,8 +43,6 @@ public class User {
         score = 0;
         rank = 0;
         sentFriendRequests = new ArrayList<>();
-        receivedFriendRequests = new ArrayList<>();
-        friends = new HashMap<>();
     }
 
     public User() {
@@ -182,11 +178,8 @@ public class User {
     public void setRegisterConfirmed(boolean registerConfirmed) {
         this.registerConfirmed = registerConfirmed;
     }
-    public void addSentFriendRequest(FriendRequest friendRequest) {
+    public void addFriendRequest(FriendRequest friendRequest) {
         sentFriendRequests.add(friendRequest);
-    }
-    public void addReceivedFriendRequest(FriendRequest friendRequest) {
-        receivedFriendRequests.add(friendRequest);
     }
     public FriendRequest getFriendRequestById(int id) {
         for (FriendRequest friendRequest : sentFriendRequests) {
@@ -198,9 +191,6 @@ public class User {
     }
     public ArrayList<FriendRequest> getSentFriendRequests() {
         return sentFriendRequests;
-    }
-    public ArrayList<FriendRequest> getReceivedFriendRequests() {
-        return receivedFriendRequests;
     }
     public void addFriend(String friend) {
         friends.put(friend, false);
@@ -234,11 +224,4 @@ public class User {
         return isPlaying;
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
 }

@@ -18,7 +18,6 @@ public class Server extends Thread {
     private static List<User> users = new ArrayList<>();
     public Socket socket;
     private User currentUser = null;
-    private static List<GameSession> gameSessions = new ArrayList<>();
 
     public Server(Socket socket) throws IOException {
         this.socket = socket;
@@ -369,21 +368,9 @@ public class Server extends Thread {
             return "User is offline";
         } else {
             // Start the game session
-            try {
-                if (currentUser.getSocket() == null)
-                    currentUser.setSocket(new Socket("localhost", 5000));
-                if (sender.getSocket() == null)
-                    sender.setSocket(new Socket("localhost", 5000));
-                GameSession gameSession = new GameSession(currentUser.getSocket(), sender.getSocket());
-                gameSession.start();
-                gameSessions.add(gameSession);
                 sender.setPlaying(true);
                 currentUser.setPlaying(true);
                 return "Game request accepted. Starting game...";
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "Failed to start game session";
-            }
         }
     }
 
@@ -455,6 +442,7 @@ public class Server extends Thread {
 
     public static void main(String[] args) {
         loadUsersFromFile();
+        GameSession.main();
 
         try {
             ServerSocket serverSocket = new ServerSocket(5000);
