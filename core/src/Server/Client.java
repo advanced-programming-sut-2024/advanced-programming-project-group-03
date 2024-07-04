@@ -5,8 +5,11 @@ import java.net.Socket;
 
 public class Client {
     private Socket socket;
+    private Socket gamesocket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private DataInputStream gameDataInputStream;
+    private DataOutputStream gameDataOutputStream;
 
     public String communicate(String message) {
         this.sendMessage(message);
@@ -22,6 +25,9 @@ public class Client {
             socket = new Socket(address, port);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            gamesocket = new Socket(address, 6000);
+            gameDataInputStream = new DataInputStream(gamesocket.getInputStream());
+            gameDataOutputStream = new DataOutputStream(gamesocket.getOutputStream());
             return true;
         } catch (IOException e) {
             return false;
