@@ -224,16 +224,45 @@ public class ProfileController {
         errorLabelPassword.setColor(1, 0, 0, 1);
     }
     public void setReceivedFriendRequests(ProBending game){
-        String currentUserJson = ProBending.client.communicate("getUser");
-        Gson gson = new Gson();
-        User currentUser = gson.fromJson(currentUserJson, User.class);
-        ArrayList<FriendRequest> friendRequests = currentUser.getReceivedFriendRequests();
-        ArrayList<String> friendRequestTexts = new ArrayList<>();
-        for(FriendRequest friendRequest : friendRequests){
-            String friendRequestText = friendRequest.getSender() + " " + friendRequest.getState();
-            friendRequestTexts.add(friendRequestText);
-        }
-        receivedFriendRequests.setItems(friendRequestTexts.toArray(new String[0]));
+        receivedFriendRequests.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String currentUserJson = ProBending.client.communicate("getUser");
+                Gson gson = new Gson();
+                User currentUser = gson.fromJson(currentUserJson, User.class);
+                ArrayList<FriendRequest> friendRequests = currentUser.getReceivedFriendRequests();
+                ArrayList<String> friendRequestTexts = new ArrayList<>();
+                for(FriendRequest friendRequest : friendRequests){
+                    String friendRequestText = friendRequest.getSender() + " " + friendRequest.getState();
+                    friendRequestTexts.add(friendRequestText);
+                }
+                receivedFriendRequests.setItems(friendRequestTexts.toArray(new String[0]));
+                String selectedFriendRequest = receivedFriendRequests.getSelected();
+                String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
+                if(selectedFriendRequestParts[1].equals("pending")){
+                    acceptFriendRequest.addListener(new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            String response = ProBending.client.communicate("acceptFriendRequest " + selectedFriendRequestParts[0]);
+                            if(response.equals("Friend request accepted")){
+                                receivedFriendRequests.getItems().removeValue(selectedFriendRequest,true);
+                                receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                            }
+                        }
+                    });
+                    rejectFriendRequest.addListener(new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            String response = ProBending.client.communicate("rejectFriendRequest " + selectedFriendRequestParts[0]);
+                            if(response.equals("Friend request rejected")){
+                                receivedFriendRequests.getItems().removeValue(selectedFriendRequest,true);
+                                receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void setSearchUserButton(ProBending game) {
@@ -269,6 +298,7 @@ public class ProfileController {
                             String newFriendRequestText = finalCurrentUser.getUsername() + " " + newFriendRequest.getState() + " to " + user.getUsername();
                             friendRequestTexts.add(newFriendRequestText);
                             addFriendHistory.setItems(friendRequestTexts.toArray(new String[0]));
+
                         }
                     });
                     for(FriendRequest friendRequest:currentUser.getSentFriendRequests()){
@@ -465,6 +495,7 @@ public class ProfileController {
     }
 
     public void handleProfileButtons(ProBending game) {
+        setReceivedFriendRequests(game);
         setSearchUserButton(game);
         setChangePasswordButton(game);
         setChangeNicknameButton(game);

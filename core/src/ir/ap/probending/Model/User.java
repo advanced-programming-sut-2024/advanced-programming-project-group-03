@@ -29,9 +29,8 @@ public class User {
     private boolean isPlaying = false;
     private boolean isOnline = false;
     private ArrayList<FriendRequest> sentGameRequests;
-    private HashMap<String,Boolean> gameRequests;
     private boolean hasLoggedIn = false;
-    private Socket socket = null;
+    private transient Socket socket = null;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -47,7 +46,7 @@ public class User {
         rank = 0;
         sentFriendRequests = new ArrayList<>();
         receivedFriendRequests = new ArrayList<>();
-        friends = new ArrayList<>();
+        friends = new HashMap<>();
     }
 
     public User() {
