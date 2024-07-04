@@ -2,7 +2,6 @@ package Server;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.User;
 
 import java.io.*;
@@ -18,8 +17,11 @@ public class Server extends Thread {
     private static List<User> users = new ArrayList<>();
     private Socket socket;
     private User currentUser = null;
+    // change later
+    private DataInputStream EnemyDataInputStream = new DataInputStream(socket.getInputStream());
+    private DataOutputStream EnemyDataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-    public Server(Socket socket) {
+    public Server(Socket socket) throws IOException {
         this.socket = socket;
     }
 
@@ -179,6 +181,8 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
+                    } case "play": {
+                        EnemyDataOutputStream.writeUTF(message.substring(5));
                     }
                 }
             }
@@ -336,11 +340,6 @@ public class Server extends Thread {
         currentUser.setPassword(newPassword);
         saveUsersToFile();
         return "Password changed successfully";
-    }
-
-    private void addFriend(User sender, User receiver) {
-        FriendRequest friendRequest = new FriendRequest(receiver.getUsername());
-        receiver.addFriendRequest(friendRequest);
     }
 
     private static void loadUsersFromFile() {
