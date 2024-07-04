@@ -17,9 +17,7 @@ public class Server extends Thread {
     private static List<User> users = new ArrayList<>();
     private Socket socket;
     private User currentUser = null;
-    // change later
-    private DataInputStream EnemyDataInputStream = new DataInputStream(socket.getInputStream());
-    private DataOutputStream EnemyDataOutputStream = new DataOutputStream(socket.getOutputStream());
+
 
     public Server(Socket socket) throws IOException {
         this.socket = socket;
@@ -181,8 +179,6 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
-                    } case "play": {
-                        EnemyDataOutputStream.writeUTF(message.substring(5));
                     }
                 }
             }
