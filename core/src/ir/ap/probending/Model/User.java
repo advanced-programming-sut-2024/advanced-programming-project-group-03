@@ -5,6 +5,7 @@ import ir.ap.probending.Model.Data.GameHistory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class User {
     private String username;
@@ -22,8 +23,10 @@ public class User {
     private int score;
     private int rank;
     private ArrayList<FriendRequest> sentFriendRequests;
-    private ArrayList<String> friends;
+    private HashMap<String, Boolean> friends;
     private ArrayList<FriendRequest> receivedFriendRequests;
+    private boolean isPlaying = false;
+    private boolean isOnline = false;
     private boolean hasLoggedIn = false;
     public User(String username, String password, String email, String nickname) {
         this.username = username;
@@ -189,7 +192,11 @@ public class User {
         return sentFriendRequests;
     }
     public void addFriend(String friend) {
-        friends.add(friend);
+        friends.put(friend, false);
+    }
+
+    public HashMap<String, Boolean> getFriends() {
+        return friends;
     }
 
     public boolean getHasLoggedIn() {
@@ -199,4 +206,22 @@ public class User {
     public void setHasLoggedIn(boolean hasLoggedIn) {
         this.hasLoggedIn = hasLoggedIn;
     }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+
 }

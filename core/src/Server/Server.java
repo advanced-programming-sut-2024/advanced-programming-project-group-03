@@ -180,11 +180,21 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     }
+                    case "sendGameRequest": {
+                        response = sendGameRequest(messageParts[1]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            if (currentUser != null) {
+                currentUser.setOnline(false);
+                currentUser.setPlaying(false);
+            }
             saveUsersToFile();
         }
     }
@@ -306,7 +316,21 @@ public class Server extends Thread {
         if (users.stream().anyMatch(user -> user.getUsername().equals(newUsername))) {
             return "Username already exists";
         } else {
+            String oldUsername = currentUser.getUsername();
             currentUser.setUsername(newUsername);
+            for (User user : users) {
+                for (FriendRequest friendRequest : user.getSentFriendRequests()) {
+                    if (friendRequest.getReceiver().equals(oldUsername)) {
+                        friendRequest.setReceiver(newUsername);
+                    }
+                }
+                if (user.getFriends().containsKey(oldUsername)) {
+                    boolean hasSendGameInvitation = user.getFriends().get(oldUsername);
+                    user.getFriends().remove(oldUsername);
+                    user.getFriends().put(newUsername, hasSendGameInvitation);
+                }
+
+            }
             saveUsersToFile();
             return "Username changed successfully";
         }
@@ -319,6 +343,22 @@ public class Server extends Thread {
             currentUser.setEmail(newEmail);
             saveUsersToFile();
             return "Email changed successfully";
+        }
+    }
+
+    private String sendGameRequest(String receiverUsername) {
+        User receiver = getUserByUsername(receiverUsername);
+        if (receiver == null) {
+            return "User not found";
+        } else if (receiver.isPlaying()) {
+            return "User is already in a game";
+        } else if (!receiver.isOnline()) {
+            return "User is offline";
+        } else if (!receiver.getFriends().containsKey(currentUser.getUsername())) {
+            return "User is not your friend";
+        } else {
+            receiver.getFriends().put(currentUser.getUsername(), true);
+            return "Game request sent";
         }
     }
 
