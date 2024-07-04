@@ -224,4 +224,13 @@ public class User {
         return isPlaying;
     }
 
+    public ArrayList<FriendRequest> getReceivedFriendRequests() {
+        return receivedFriendRequests;
+    }
+    public void addSentFriendRequest(FriendRequest friendRequest) {
+        sentFriendRequests.add(friendRequest);
+    }
+    public void addReceivedFriendRequest(FriendRequest friendRequest) {
+        receivedFriendRequests.add(friendRequest);
+    }
 }
