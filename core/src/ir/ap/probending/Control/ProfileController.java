@@ -238,28 +238,30 @@ public class ProfileController {
                 }
                 receivedFriendRequests.setItems(friendRequestTexts.toArray(new String[0]));
                 String selectedFriendRequest = receivedFriendRequests.getSelected();
-                String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
-                if(selectedFriendRequestParts[1].equals("pending")){
-                    acceptFriendRequest.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            String response = ProBending.client.communicate("acceptFriendRequest " + selectedFriendRequestParts[0]);
-                            if(response.equals("Friend request accepted")){
-                                receivedFriendRequests.getItems().removeValue(selectedFriendRequest,true);
-                                receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                if (selectedFriendRequest != null && selectedFriendRequest != "") {
+                    String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
+                    if (selectedFriendRequestParts[1].equals("pending")) {
+                        acceptFriendRequest.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                String response = ProBending.client.communicate("acceptFriendRequest " + selectedFriendRequestParts[0]);
+                                if (response.equals("Friend request accepted")) {
+                                    receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
+                                    receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                                }
                             }
-                        }
-                    });
-                    rejectFriendRequest.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            String response = ProBending.client.communicate("rejectFriendRequest " + selectedFriendRequestParts[0]);
-                            if(response.equals("Friend request rejected")){
-                                receivedFriendRequests.getItems().removeValue(selectedFriendRequest,true);
-                                receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                        });
+                        rejectFriendRequest.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                String response = ProBending.client.communicate("rejectFriendRequest " + selectedFriendRequestParts[0]);
+                                if (response.equals("Friend request rejected")) {
+                                    receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
+                                    receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });

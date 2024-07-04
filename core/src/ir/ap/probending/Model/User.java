@@ -24,8 +24,8 @@ public class User {
     private int score;
     private int rank;
     private ArrayList<FriendRequest> sentFriendRequests;
-    private HashMap<String, Boolean> friends;
-    private ArrayList<FriendRequest> receivedFriendRequests;
+    private HashMap<String, Boolean> friends = new HashMap<>();
+    private ArrayList<FriendRequest> receivedFriendRequests = new ArrayList<>();
     private boolean isPlaying = false;
     private boolean isOnline = false;
     private boolean hasLoggedIn = false;

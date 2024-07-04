@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class GameSession {
     private HashMap<Socket, Socket> gameSessions = new HashMap<>();
     private ArrayList<Socket> sockets = new ArrayList<>();
-    private static GameSession instance;
+    private static GameSession instance = new GameSession();
 
 
     public static void main(String[] args) {
