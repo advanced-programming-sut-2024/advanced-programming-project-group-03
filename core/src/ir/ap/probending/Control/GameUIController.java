@@ -13,7 +13,9 @@ import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Card.Abilities.Mardroeme;
 import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
@@ -451,6 +453,7 @@ public class GameUIController {
         player2DeckCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getDeck().size() + " deck cards");
         player1BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer1().getBurntCards().size() + " burnt cards");
         player2BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getBurntCards().size() + " burnt cards");
+        updateDeckAndBurntCardView();
     }
 
     public void showLeaderAbilityButton(){
@@ -553,6 +556,103 @@ public class GameUIController {
         playLeaderAbilityButton.setVisible(false);
         cardListWindow.setVisible(false);
         showLeaderAbilityButton();
+    }
+
+    private void updateDeckAndBurntCardView(){
+        int burnt1 = Game.getGame().getGameBoard().getPlayer1().getBurntCards().size();
+        int burnt2 = Game.getGame().getGameBoard().getPlayer2().getBurntCards().size();
+        int deck1 = Game.getGame().getGameBoard().getPlayer1().getDeck().size();
+        int deck2 = Game.getGame().getGameBoard().getPlayer2().getDeck().size();
+        String faction1 = Game.getGame().getGameBoard().getPlayer1Board().getFaction().getFactionName();
+        String faction2 = Game.getGame().getGameBoard().getPlayer2Board().getFaction().getFactionName();
+
+        if (burnt1 > 0){
+            player1BurntCardTable.clear();
+            player1BurntCardTable.row();
+            switch (faction1){
+                case "Fire":
+                    player1BurntCardTable.add(CardObjects.getFireSymbol()).padTop(-160);
+                    break;
+                case "Water":
+                    player1BurntCardTable.add(CardObjects.getWaterSymbol()).padTop(-160);
+                    break;
+                case "Earth":
+                    player1BurntCardTable.add(CardObjects.getEarthSymbol()).padTop(-160);
+                    break;
+                case "Air":
+                    player1BurntCardTable.add(CardObjects.getAirSymbol()).padTop(-160);
+                    break;
+            }
+        }
+        else {
+            player1BurntCardTable.clear();
+        }
+
+        if (burnt2 > 0){
+            player2BurntCardTable.clear();
+            player2BurntCardTable.row();
+            switch (faction2){
+                case "Fire":
+                    player2BurntCardTable.add(CardObjects.getFireSymbol()).padTop(-160);
+                    break;
+                case "Water":
+                    player2BurntCardTable.add(CardObjects.getWaterSymbol()).padTop(-160);
+                    break;
+                case "Earth":
+                    player2BurntCardTable.add(CardObjects.getEarthSymbol()).padTop(-160);
+                    break;
+                case "Air":
+                    player2BurntCardTable.add(CardObjects.getAirSymbol()).padTop(-160);
+                    break;
+            }
+        }
+        else {
+            player2BurntCardTable.clear();
+        }
+
+        if (deck1 > 0){
+            player1DeckCardTable.clear();
+            player1DeckCardTable.row();
+            switch (faction1){
+                case "Fire":
+                    player1DeckCardTable.add(CardObjects.getFireSymbol()).padTop(-160);
+                    break;
+                case "Water":
+                    player1DeckCardTable.add(CardObjects.getWaterSymbol()).padTop(-160);
+                    break;
+                case "Earth":
+                    player1DeckCardTable.add(CardObjects.getEarthSymbol()).padTop(-160);
+                    break;
+                case "Air":
+                    player1DeckCardTable.add(CardObjects.getAirSymbol()).padTop(-160);
+                    break;
+            }
+        }
+        else {
+            player1DeckCardTable.clear();
+        }
+
+        if (deck2 > 0){
+            player2DeckCardTable.clear();
+            player2DeckCardTable.row();
+            switch (faction2){
+                case "Fire":
+                    player2DeckCardTable.add(CardObjects.getFireSymbol()).padTop(-160);
+                    break;
+                case "Water":
+                    player2DeckCardTable.add(CardObjects.getWaterSymbol()).padTop(-160);
+                    break;
+                case "Earth":
+                    player2DeckCardTable.add(CardObjects.getEarthSymbol()).padTop(-160);
+                    break;
+                case "Air":
+                    player2DeckCardTable.add(CardObjects.getAirSymbol()).padTop(-160);
+                    break;
+            }
+        }
+        else {
+            player2DeckCardTable.clear();
+        }
     }
 
     //add view methods for cleaner code
@@ -789,11 +889,52 @@ public class GameUIController {
         player1DeckCardScrollPane.setSmoothScrolling(true);
         player1DeckCardScrollPane.setScrollBarPositions(false, true);
         player1DeckCardScrollPane.setStyle(scrollPaneStyle);
-        player1DeckCardTable.setBackground(drawable);
-        player1DeckCardScrollPane.setSize(150, 130);
-        player1DeckCardScrollPane.setPosition(1500, 100);
+        //player1DeckCardTable.setBackground(drawable);
+        player1DeckCardScrollPane.setSize(100, 200);
+        player1DeckCardScrollPane.setPosition(1550, 100);
+
+        table.addActor(player1DeckCardScrollPane);
 
         player2DeckCardTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        player2DeckCardTable.top().left();
+        player2DeckCardScrollPane.setScrollingDisabled(true, true);
+        player2DeckCardScrollPane.setScrollbarsVisible(false);
+        player2DeckCardScrollPane.setFadeScrollBars(false);
+        player2DeckCardScrollPane.setSmoothScrolling(true);
+        player2DeckCardScrollPane.setScrollBarPositions(false, true);
+        //player2DeckCardTable.setBackground(drawable);
+        player2DeckCardScrollPane.setSize(100, 200);
+        player2DeckCardScrollPane.setPosition(1550, 860);
+
+        table.addActor(player2DeckCardScrollPane);
+
+        player1BurntCardTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        player1BurntCardTable.top().left();
+        player1BurntCardScrollPane.setScrollingDisabled(true, true);
+        player1BurntCardScrollPane.setScrollbarsVisible(false);
+        player1BurntCardScrollPane.setFadeScrollBars(false);
+        player1BurntCardScrollPane.setSmoothScrolling(true);
+        player1BurntCardScrollPane.setScrollBarPositions(false, true);
+        //player1BurntCardTable.setBackground(drawable);
+        player1BurntCardScrollPane.setSize(100, 200);
+        player1BurntCardScrollPane.setPosition(1720, 100);
+
+        table.addActor(player1BurntCardScrollPane);
+
+        player2BurntCardTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        player2BurntCardTable.top().left();
+        player2BurntCardScrollPane.setScrollingDisabled(true, true);
+        player2BurntCardScrollPane.setScrollbarsVisible(false);
+        player2BurntCardScrollPane.setFadeScrollBars(false);
+        player2BurntCardScrollPane.setSmoothScrolling(true);
+        player2BurntCardScrollPane.setScrollBarPositions(false, true);
+        //player2BurntCardTable.setBackground(drawable);
+        player2BurntCardScrollPane.setSize(100, 200);
+        player2BurntCardScrollPane.setPosition(1720, 860);
+
+        table.addActor(player2BurntCardScrollPane);
+
+
     }
 
     private void addPassButtonsView(){

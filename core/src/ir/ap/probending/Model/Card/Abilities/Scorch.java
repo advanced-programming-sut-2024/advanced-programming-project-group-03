@@ -30,6 +30,7 @@ public class Scorch extends Ability{
                     Game.getGame().getGameBoard().getPlayer1Board().removeCardFromCloseCombat(c);
                     Game.getGame().getGameBoard().getPlayer1Board().removeCardFromRanged(c);
                     Game.getGame().getGameBoard().getPlayer1Board().removeCardFromSiege(c);
+                    Game.getGame().getGameBoard().getPlayer1().addCardToBurntCards(c);
                 }
             }
 
@@ -38,6 +39,7 @@ public class Scorch extends Ability{
                     Game.getGame().getGameBoard().getPlayer2Board().removeCardFromCloseCombat(c);
                     Game.getGame().getGameBoard().getPlayer2Board().removeCardFromRanged(c);
                     Game.getGame().getGameBoard().getPlayer2Board().removeCardFromSiege(c);
+                    Game.getGame().getGameBoard().getPlayer2().addCardToBurntCards(c);
                 }
             }
         }

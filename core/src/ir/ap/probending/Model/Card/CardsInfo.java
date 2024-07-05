@@ -4,6 +4,10 @@ import ir.ap.probending.Model.Card.Abilities.*;
 import ir.ap.probending.Model.Card.Abilities.LeaderAbilities.*;
 
 public enum CardsInfo {
+    WaterTribeSymbol(null, "Water Tribe Symbol", 0, false, "FactionCards/water.png", 0, "Water Tribe Symbol"),
+    FireNationSymbol(null, "Fire Nation Symbol", 0, false, "FactionCards/fire.png", 0, "Fire Nation Symbol"),
+    EarthKingdomSymbol(null, "Earth Kingdom Symbol", 0, false, "FactionCards/earth.png", 0, "Earth Kingdom Symbol"),
+    AirTemplesSymbol(null, "Air Temples Symbol", 0, false, "FactionCards/air.png", 0, "Air Temples Symbol"),
     //WaterBenders
     Amon(new Scorch(), "Amon", 8, false, "Cards/Water Tribes/Amon.png", 2, "The era of bending is over! A new era of equality has begun!"),
     DesnaAndEska(new TightBonds(), "Desna And Eska", 3, false, "Cards/Water Tribes/Desna and Eska.png", 1, "But i will not miss him at all. In the end , he became a deplorable man."),

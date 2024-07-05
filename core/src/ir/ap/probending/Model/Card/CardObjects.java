@@ -6,6 +6,10 @@ import ir.ap.probending.Model.Card.Abilities.*;
 import java.util.ArrayList;
 
 public enum CardObjects {
+    WaterSymbol(CardsInfo.WaterTribeSymbol),
+    FireSymbol(CardsInfo.FireNationSymbol),
+    EarthSymbol(CardsInfo.EarthKingdomSymbol),
+    AirSymbol(CardsInfo.AirTemplesSymbol),
     // water benders
     Amon(CardsInfo.Amon),
     DesnaAndEska(CardsInfo.DesnaAndEska),
@@ -380,5 +384,29 @@ public enum CardObjects {
 
     public static Card getBear() {
         return Bear.getCard().clone2();
+    }
+
+    public static Card getWaterSymbol() {
+        Card card = WaterSymbol.getCard().clone2();
+        card.getSprite().setSize(100, 200);
+        return card;
+    }
+
+    public static Card getFireSymbol() {
+        Card card = FireSymbol.getCard().clone2();
+        card.getSprite().setSize(100, 200);
+        return card;
+    }
+
+    public static Card getEarthSymbol() {
+        Card card = EarthSymbol.getCard().clone2();
+        card.getSprite().setSize(100, 200);
+        return card;
+    }
+
+    public static Card getAirSymbol() {
+        Card card = AirSymbol.getCard().clone2();
+        card.getSprite().setSize(100, 200);
+        return card;
     }
 }
