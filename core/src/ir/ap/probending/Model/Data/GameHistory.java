@@ -21,6 +21,8 @@ public class GameHistory {
         MyFinalScore = myFinalScore;
     }
 
+    public GameHistory() {
+    }
     //getters and setters
 
 
