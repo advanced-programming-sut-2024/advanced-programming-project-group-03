@@ -3,6 +3,7 @@ package ir.ap.probending;
 import Server.Client;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import ir.ap.probending.Control.GameStartController;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.View.GameScreen;
 import ir.ap.probending.View.MainMenuScreen;
@@ -23,6 +24,7 @@ public class ProBending extends Game {
 		ScreenMasterSetting.getInstance().setPreGameScreen(new PreGameScreen(ScreenMasterSetting.getInstance().getGame()));
 		ScreenMasterSetting.getInstance().setGameScreen(new GameScreen(ScreenMasterSetting.getInstance().getGame()));
 		this.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
+		GameStartController.setGame(this);
 	}
 
 	@Override

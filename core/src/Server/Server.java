@@ -483,6 +483,7 @@ public class Server extends Thread {
 
     public static void main(String[] args) {
         loadUsersFromFile();
+        GameSession.getInstance().runGameSession();
 
         try {
             ServerSocket serverSocket = new ServerSocket(5000);

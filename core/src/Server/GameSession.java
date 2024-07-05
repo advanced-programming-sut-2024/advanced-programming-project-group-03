@@ -5,12 +5,9 @@ import ir.ap.probending.Model.User;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameSession {
     private ArrayList<Socket> sockets = new ArrayList<>();
@@ -37,6 +34,26 @@ public class GameSession {
         }
         return instance;
     }
+
+    public void runGameSession() {
+        new RunGameSession().start();
+        new RunSendMessage().start();
+    }
+
+    class RunGameSession extends Thread {
+        @Override
+        public void run() {
+            main(null);
+        }
+    }
+
+    class RunSendMessage extends Thread {
+        @Override
+        public void run() {
+            sendMessage();
+        }
+    }
+
 
     private static void sendMessage() {
         while (true) {
