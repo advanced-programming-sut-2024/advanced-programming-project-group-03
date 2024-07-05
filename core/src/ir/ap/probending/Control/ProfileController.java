@@ -75,6 +75,11 @@ public class ProfileController {
     private SelectBox<String> receivedFriendRequests = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
     private TextButton acceptFriendRequest = new TextButton("Accept", GameAssetManager.getGameAssetManager().getSkin());
     private TextButton rejectFriendRequest = new TextButton("Reject", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton acceptGameRequest = new TextButton("Accept", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton rejectGameRequest = new TextButton("Reject", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton sendGameRequest = new TextButton("Send Game Request", GameAssetManager.getGameAssetManager().getSkin());
+    private TextField gameRequestField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
+    private Label gameRequestLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
 
     private ProfileController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -106,15 +111,15 @@ public class ProfileController {
             table.addActor(acceptFriendRequest);
             table.addActor(rejectFriendRequest);
             receivedFriendRequests.setPosition(100, 900);
-            receivedFriendRequests.setSize(400, 100);
+            receivedFriendRequests.setSize(500, 100);
             acceptFriendRequest.setPosition(100, 750);
-            rejectFriendRequest.setPosition(300, 750);
-            acceptFriendRequest.setSize(200, 100);
-            rejectFriendRequest.setSize(200, 100);
+            rejectFriendRequest.setPosition(350, 750);
+            acceptFriendRequest.setSize(250, 100);
+            rejectFriendRequest.setSize(250, 100);
 
 
             table.addActor(searchUserField);
-            searchUserField.setPosition(1300, 900);
+            searchUserField.setPosition(1300, 800);
             searchUserField.setSize(500, 100);
             table.addActor(searchUserButton);
             searchUserButton.setSize(500, 100);
@@ -122,6 +127,22 @@ public class ProfileController {
             table.addActor(searchUserLabel);
             searchUserLabel.setPosition(1300, 800);
             searchUserLabel.setVisible(false);
+
+            table.addActor(gameRequestField);
+            gameRequestField.setPosition(1300, 500);
+            gameRequestField.setSize(500, 100);
+            table.addActor(sendGameRequest);
+            sendGameRequest.setSize(500, 100);
+            sendGameRequest.setPosition(1300, 300);
+            table.addActor(acceptGameRequest);
+            table.addActor(rejectGameRequest);
+            acceptGameRequest.setPosition(1300, 200);
+            acceptGameRequest.setSize(250, 100);
+            rejectGameRequest.setPosition(1550, 200);
+            rejectGameRequest.setSize(250, 100);
+            table.addActor(gameRequestLabel);
+            gameRequestLabel.setPosition(1350, 450);
+
             table.add(usernameLabel).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(nicknameLabel).fillX();
@@ -223,7 +244,33 @@ public class ProfileController {
         errorLabelNickname.setColor(1, 0, 0, 1);
         errorLabelPassword.setColor(1, 0, 0, 1);
     }
-
+    public void setSendGameRequest(ProBending game){
+        sendGameRequest.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String response = ProBending.client.communicate("sendGameRequest "+ gameRequestField.getText());
+                gameRequestLabel.setText(response);
+            }
+        });
+    }
+    public void setAcceptGameRequest(ProBending game){
+        acceptGameRequest.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String response = ProBending.client.communicate("acceptGameRequest "+ gameRequestField.getText());
+                gameRequestLabel.setText(response);
+            }
+        });
+    }
+    public void setRejectGameRequest(ProBending game){
+        rejectGameRequest.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String response = ProBending.client.communicate("rejectGameRequest "+ gameRequestField.getText());
+                gameRequestLabel.setText(response);
+            }
+        });
+    }
     public void setReceivedFriendRequests(ProBending game) {
         receivedFriendRequests.addListener(new ClickListener() {
             @Override
@@ -234,10 +281,48 @@ public class ProfileController {
                 ArrayList<FriendRequest> friendRequests = currentUser.getReceivedFriendRequests();
                 ArrayList<String> friendRequestTexts = new ArrayList<>();
                 for (FriendRequest friendRequest : friendRequests) {
-                    String friendRequestText = friendRequest.getSender() + " " + friendRequest.getState() + friendRequest.getId();
+                    String friendRequestText = friendRequest.getSender() + " " + friendRequest.getState() +" "+ friendRequest.getId();
                     friendRequestTexts.add(friendRequestText);
                 }
                 receivedFriendRequests.setItems(friendRequestTexts.toArray(new String[0]));
+                String selectedFriendRequest = receivedFriendRequests.getSelected();
+                String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
+                rejectFriendRequest.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        String response = ProBending.client.communicate("rejectFriend " + selectedFriendRequestParts[0] + " " + currentUser.getUsername() + " " + selectedFriendRequestParts[2]);
+                        String senderJson = ProBending.client.communicate("searchUser " + selectedFriendRequestParts[0]);
+                        User sender = gson.fromJson(senderJson, User.class);
+                        for (FriendRequest friendRequest : sender.getSentFriendRequests()) {
+                            if (friendRequest.getId() == Integer.parseInt(selectedFriendRequestParts[2])) {
+                                friendRequest.setState("rejected");
+                            }
+                        }
+                        ProBending.client.communicate("saveUser " + gson.toJson(sender));
+                        if (response.equals("Friend request rejected")) {
+                            receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
+                            receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                        }
+                    }
+                });
+                acceptFriendRequest.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        String response = ProBending.client.communicate("acceptFriend " + selectedFriendRequestParts[0] + " " + currentUser.getUsername() + " "+ selectedFriendRequestParts[2]);
+                        String senderJson = ProBending.client.communicate("searchUser " + selectedFriendRequestParts[0]);
+                        User sender = gson.fromJson(senderJson, User.class);
+                        for (FriendRequest friendRequest : sender.getSentFriendRequests()) {
+                            if (friendRequest.getId() == Integer.parseInt(selectedFriendRequestParts[2])) {
+                                friendRequest.setState("accepted");
+                            }
+                        }
+//                        ProBending.client.communicate("saveUser " + gson.toJson(sender));
+                        if (response.equals("Friend request accepted")) {
+                            receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
+                            receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+                        }
+                    }
+                });
             }
         });
     }
@@ -249,10 +334,23 @@ public class ProfileController {
         String selectedFriendRequest = receivedFriendRequests.getSelected();
         if(selectedFriendRequest != null && selectedFriendRequest != ""){
             String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
+            String response = ProBending.client.communicate("rejectFriend " + selectedFriendRequestParts[0] + " " + currentUser.getUsername() + " " + selectedFriendRequestParts[2]);
+            String senderJson = ProBending.client.communicate("searchUser " + selectedFriendRequestParts[0]);
+            User sender = gson.fromJson(senderJson, User.class);
+            for (FriendRequest friendRequest : sender.getSentFriendRequests()) {
+                if (friendRequest.getId() == Integer.parseInt(selectedFriendRequestParts[2])) {
+                    friendRequest.setState("rejected");
+                }
+            }
+            ProBending.client.communicate("saveUser " + gson.toJson(sender));
+            if (response.equals("Friend request rejected")) {
+                receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
+                receivedFriendRequests.setItems(receivedFriendRequests.getItems());
+            }
             rejectFriendRequest.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    String response = ProBending.client.communicate("rejectFriend " + selectedFriendRequestParts[0] + " " + currentUser.getUsername());
+                    String response = ProBending.client.communicate("rejectFriend " + selectedFriendRequestParts[0] + " " + currentUser.getUsername()+" " + selectedFriendRequestParts[2]);
                     String senderJson = ProBending.client.communicate("searchUser " + selectedFriendRequestParts[0]);
                     User sender = gson.fromJson(senderJson, User.class);
                     for (FriendRequest friendRequest : sender.getSentFriendRequests()) {
@@ -260,7 +358,7 @@ public class ProfileController {
                             friendRequest.setState("rejected");
                         }
                     }
-                    ProBending.client.communicate("saveUser " + gson.toJson(sender));
+//                    ProBending.client.communicate("saveUser " + gson.toJson(sender));
                     if (response.equals("Friend request rejected")) {
                         receivedFriendRequests.getItems().removeValue(selectedFriendRequest, true);
                         receivedFriendRequests.setItems(receivedFriendRequests.getItems());
@@ -276,6 +374,7 @@ public class ProfileController {
         Gson gson = new Gson();
         User currentUser = GameMaster.getGameMaster().getLoggedInUser1();
         String selectedFriendRequest = receivedFriendRequests.getSelected();
+        System.out.println(selectedFriendRequest);
         if(selectedFriendRequest != null && selectedFriendRequest != ""){
             String[] selectedFriendRequestParts = selectedFriendRequest.split(" ");
             acceptFriendRequest.addListener(new ClickListener() {
@@ -530,6 +629,9 @@ public class ProfileController {
     }
 
     public void handleProfileButtons(ProBending game) {
+        setSendGameRequest(game);
+        setAcceptGameRequest(game);
+        setRejectGameRequest(game);
         setAcceptFriendRequest(game);
         setRejectFriendRequest(game);
         setReceivedFriendRequests(game);

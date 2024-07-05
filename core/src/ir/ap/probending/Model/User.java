@@ -43,6 +43,7 @@ public class User {
         score = 0;
         rank = 0;
         sentFriendRequests = new ArrayList<>();
+        receivedFriendRequests = new ArrayList<>();
         friends = new HashMap<>();
     }
 
@@ -194,6 +195,9 @@ public class User {
     }
     public void addFriend(String friend) {
         friends.put(friend, false);
+    }
+    public HashMap<String, Boolean> getFriendsList() {
+        return friends;
     }
 
     public HashMap<String, Boolean> getFriends() {

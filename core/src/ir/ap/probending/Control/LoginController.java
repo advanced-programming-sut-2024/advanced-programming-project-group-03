@@ -94,7 +94,7 @@ public class LoginController {
             public void clicked(InputEvent event, float x, float y) {
                 String loggedInUserString = ProBending.client.communicate("getUser");
                 Gson gson = new Gson();
-                User loggedInUser = gson.fromJson(loggedInUserString, User.class);
+                User loggedInUser = GameMaster.getGameMaster().getLoggedInUser1();
                 if (!loggedInUser.getEmail().equals("probendingavatar@gmail.com")) {
                     loggedInUser.setHasLoggedIn(true);
                     loggedInUser.setOnline(true);

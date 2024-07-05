@@ -126,8 +126,11 @@ public class Server extends Thread {
                         receiver = getUserByUsername(receiverUsername);
                         friendRequest = receiver.getFriendRequestById(friendRequestId);
                         friendRequest.setState("accepted");
-                        receiver.addFriend(sender.getUsername());
-                        sender.addFriend(receiver.getUsername());
+                        //check if they are already friends
+                        if (!sender.getFriends().containsKey(receiverUsername)) {
+                            sender.addFriend(receiverUsername);
+                            receiver.addFriend(senderUsername);
+                        }
                         dataOutputStream.writeUTF("Friend request accepted");
                         dataOutputStream.flush();
                         break;
