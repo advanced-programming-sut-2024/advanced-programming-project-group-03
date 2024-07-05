@@ -50,4 +50,11 @@ public class Faction {
         cards.add(card);
     }
 
+    public String getFactionName() {
+        return factionName;
+    }
+
+    public void setFactionName(String factionName) {
+        this.factionName = factionName;
+    }
 }

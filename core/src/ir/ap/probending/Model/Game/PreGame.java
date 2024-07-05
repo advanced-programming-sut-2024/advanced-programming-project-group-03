@@ -28,6 +28,22 @@ public class PreGame {
         PreGameController.getPreGameController().refreshDeckTable();
     }
 
+    public void saveDeckToFile(String location){
+        //TODO save deck to file
+    }
+
+    public void saveDeckToDB(){
+        //TODO save deck to database
+    }
+
+    public void loadDeckFromFile(String location){
+        //TODO load deck from file
+    }
+
+    public void loadDeckFromDB(){
+        //TODO load deck from database
+    }
+
     //getters and setters
 
     public ArrayList<Card> getDeckCards() {
