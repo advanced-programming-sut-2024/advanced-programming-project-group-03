@@ -86,6 +86,14 @@ public class GameUIController {
     private final Table leaderPlayer2Table = new Table();
     private final ScrollPane leaderPlayer1ScrollPane = new ScrollPane(leaderPlayer1Table);
     private final ScrollPane leaderPlayer2ScrollPane = new ScrollPane(leaderPlayer2Table);
+    private final Table player1BurntCardTable = new Table();
+    private final ScrollPane player1BurntCardScrollPane = new ScrollPane(player1BurntCardTable);
+    private final Table player2BurntCardTable = new Table();
+    private final ScrollPane player2BurntCardScrollPane = new ScrollPane(player2BurntCardTable);
+    private final Table player1DeckCardTable = new Table();
+    private final ScrollPane player1DeckCardScrollPane = new ScrollPane(player1DeckCardTable);
+    private final Table player2DeckCardTable = new Table();
+    private final ScrollPane player2DeckCardScrollPane = new ScrollPane(player2DeckCardTable);
     private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability" , GameAssetManager.getGameAssetManager().getSkin());
     private ProBending game ;
 
@@ -142,6 +150,7 @@ public class GameUIController {
         addLeadersView();
         addLeaderAbilityButtons();
         addDeckAndBurntCount();
+        addDeckAndBurntToView();
     }
 
     //functionality methods
@@ -558,8 +567,8 @@ public class GameUIController {
         playerHandScrollPane.setScrollBarPositions(false, true);
         playerHandScrollPane.setStyle(scrollPaneStyle);
         playerHandTable.setBackground(drawable);
-        playerHandScrollPane.setSize(950, 130);
-        playerHandScrollPane.setPosition(580, 110);
+        playerHandScrollPane.setSize(960, 250);
+        playerHandScrollPane.setPosition(570, 1);
 
         table.addActor(playerHandScrollPane);
     }
@@ -769,6 +778,22 @@ public class GameUIController {
         commanderHorn12ScrollPane.setPosition(580, 950);
 
         table.addActor(commanderHorn12ScrollPane);
+    }
+
+    private void addDeckAndBurntToView(){
+        player1DeckCardTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
+        player1DeckCardTable.top().left();
+        player1DeckCardScrollPane.setScrollingDisabled(true, true);
+        player1DeckCardScrollPane.setScrollbarsVisible(false);
+        player1DeckCardScrollPane.setFadeScrollBars(false);
+        player1DeckCardScrollPane.setSmoothScrolling(true);
+        player1DeckCardScrollPane.setScrollBarPositions(false, true);
+        player1DeckCardScrollPane.setStyle(scrollPaneStyle);
+        player1DeckCardTable.setBackground(drawable);
+        player1DeckCardScrollPane.setSize(150, 130);
+        player1DeckCardScrollPane.setPosition(1500, 100);
+
+        player2DeckCardTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
     }
 
     private void addPassButtonsView(){

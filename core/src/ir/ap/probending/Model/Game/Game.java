@@ -67,6 +67,7 @@ public class Game {
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();
+        GameUIController.getGameUIController().updateRows();
 
         //setup new game history
         Date date = new Date();
@@ -85,8 +86,14 @@ public class Game {
                 isCardPlayedThisRound = false;
             }
 
-            currentPlayer = gameBoard.getPlayer2();
-            setUpHandView(gameBoard.getPlayer2());
+            if (!gameBoard.getPlayer2().isPassedThisRound()){
+                currentPlayer = gameBoard.getPlayer2();
+                setUpHandView(gameBoard.getPlayer2());
+            }
+            else {
+                currentPlayer = gameBoard.getPlayer1();
+                setUpHandView(gameBoard.getPlayer1());
+            }
         }
         else if (currentPlayer.equals(gameBoard.getPlayer2()) && !currentPlayer.isPassedThisRound()){
             if (!isCardPlayedThisRound) {
@@ -98,9 +105,16 @@ public class Game {
                 isCardPlayedThisRound = false;
             }
 
-            currentPlayer = gameBoard.getPlayer1();
-            setUpHandView(gameBoard.getPlayer1());
+            if (!gameBoard.getPlayer1().isPassedThisRound()){
+                currentPlayer = gameBoard.getPlayer1();
+                setUpHandView(gameBoard.getPlayer1());
+            }
+            else {
+                currentPlayer = gameBoard.getPlayer2();
+                setUpHandView(gameBoard.getPlayer2());
+            }
         }
+
 
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
         GameUIController.getGameUIController().updateRows();
@@ -497,7 +511,6 @@ public class Game {
         GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
         int cardInRowCount = 0;
         for (int i = 0; i < player.getHand().size(); i++) {
-            player.getHand().get(i).getSprite().setSize(150, 300);
             GameUIController.getGameUIController().getPlayerHandTable().add(player.getHand().get(i).clone2());
             cardInRowCount++;
             if (cardInRowCount == 5) {
