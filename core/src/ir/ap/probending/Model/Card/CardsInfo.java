@@ -44,7 +44,7 @@ public enum CardsInfo {
     CircusTrainer(new Spy(), "Circus Trainer", 1, false, "Cards/Fire Nation/Circus Trainer.png", 2, "But don't worry, you won't anymore ... Because I am going to break you."),
     CombustionMan(new Scorch(), "Combustion Man", 6, false, "Cards/Fire Nation/Combustion Man.png", 0, "Sparky Sparky Boom Man"),
     Councilwoman(new Medic(), "Councilwoman", 3, false, "Cards/Fire Nation/Councilwoman.png", 0, "Don't wait up for me; this council session will probably go late into the night."),
-    Druk(new Berseker(), "Druk", 2, false, "Cards/Fire Nation/Druk.png", 0, "Grrrrrr."),
+    Druk(new SummonAvenger(), "Druk", 2, false, "Cards/Fire Nation/Druk.png", 1, "Grrrrrr."),
     EvilDruk(null, "Evil Druk", 6, false, "Cards/Fire Nation/Evil Druk.png", 0, "very Grrrrrr."),
     FireSages(new Muster(), "Fire Sages", 2, false, "Cards/Fire Nation/Fire Sages.png", 1, "We are the Fire Sages, gaurdians of the temple of the Avatar."),
     Hide(new Agile(), "Hide", 2, false, "Cards/Fire Nation/Hide.png", 1, "on Ji. Is. My. Girlfriend. Don't forget it"),
@@ -125,6 +125,8 @@ public enum CardsInfo {
     AvatarKyoshi(null,"Avatar Kyoshi",15,true,"Cards/Neutral/Kyoshi.png",2,""),
 
     Decoy(new Decoy(),"Decoy",0,false,"Cards/Neutral/Decoy.png",2,""),
+    Commander(new CommandersHorn(),"Commander",0,false,"Cards/Neutral/horn.png",7,""),
+    Bear(new TightBonds(),"Bear",8,false,"Cards/Neutral/bear.png",1,""),
 
     //Weather
     Clear(new Clear(),"Clear",0,false,"Cards/Neutral/weather_clear.png",6,""),
@@ -132,6 +134,9 @@ public enum CardsInfo {
     Frost(new Frost(),"Frost",0,false,"Cards/Neutral/weather_frost.png",6,""),
     Rain(new Rain(),"Rain",0,false,"Cards/Neutral/weather_rain.png",6,""),
     Storm(new Storm(),"Storm",0,false,"Cards/Neutral/weather_storm.png",6,""),
+    Mardroeme(new Mardroeme(),"Mardroeme",0,false,"Cards/Neutral/mardroeme.png",7,""),
+    Scorch(new Scorch(),"Scorch",0,false,"Cards/Neutral/scorch.png",6,""),
+
 
     //leaders
     WaterTribeLeader1(new LeaderAbility1(),"Water1",0,false,"Cards/Leaders/WaterLeader.png",100,"Pick a fog card from your deck and plays it"),

@@ -129,6 +129,10 @@ public enum CardObjects {
     Fog(CardsInfo.Fog),
     Frost(CardsInfo.Frost),
     Storm(CardsInfo.Storm),
+    Bear(CardsInfo.Bear),
+    Scorch(CardsInfo.Scorch),
+    Mardroeme(CardsInfo.Mardroeme),
+    CommandersHorn(CardsInfo.Commander),
 
     //leader cards
     WaterTribeLeader1(CardsInfo.WaterTribeLeader1),
@@ -150,7 +154,9 @@ public enum CardObjects {
     AirNomadsLeader2(CardsInfo.AirTemplesLeader2),
     AirNomadsLeader3(CardsInfo.AirTemplesLeader3),
     AirNomadsLeader4(CardsInfo.AirTemplesLeader4),
-    AirNomadsLeader5(CardsInfo.AirTemplesLeader5);
+    AirNomadsLeader5(CardsInfo.AirTemplesLeader5),
+    AirNomadsLeader6(CardsInfo.AirTemplesLeader6),
+    AirNomadsLeader7(CardsInfo.AirTemplesLeader7);
 
     private Card card;
 
@@ -320,6 +326,9 @@ public enum CardObjects {
         cards.add(Fog.getCard().clone());
         cards.add(Frost.getCard().clone());
         cards.add(Storm.getCard().clone());
+        cards.add(Scorch.getCard().clone());
+        cards.add(Mardroeme.getCard().clone());
+        cards.add(CommandersHorn.getCard().clone());
         return cards;
     }
 
@@ -360,6 +369,16 @@ public enum CardObjects {
         cards.add(AirNomadsLeader3.getCard().clone6());
         cards.add(AirNomadsLeader4.getCard().clone6());
         cards.add(AirNomadsLeader5.getCard().clone6());
+        cards.add(AirNomadsLeader6.getCard().clone6());
+        cards.add(AirNomadsLeader7.getCard().clone6());
         return cards;
+    }
+
+    public static Card getEvilDruk() {
+        return EvilDruk.getCard().clone2();
+    }
+
+    public static Card getBear() {
+        return Bear.getCard().clone2();
     }
 }

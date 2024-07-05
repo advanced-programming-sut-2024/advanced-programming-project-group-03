@@ -19,6 +19,7 @@ import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
+import ir.ap.probending.View.PreGameScreen;
 
 public class MainMenuController {
     private final static MainMenuController mainMenuController = new MainMenuController();
@@ -46,7 +47,7 @@ public class MainMenuController {
         signInButton.setPosition(50, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
 
         table.addActor(profileButton);
-        profileButton.setPosition(100, 200);
+        profileButton.setPosition(400, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
 
         //musics
         MusicMaster.getInstance().playBgMusicMenu();
@@ -58,6 +59,9 @@ public class MainMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 game.getScreen().dispose();
                 game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
+                if (PreGameController.getPreGameController().isUsedBackButton())
+                    PreGameController.setPreGameController();
+                PreGameController.getPreGameController().handlePreGameController(game);
                 PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
             }
         });

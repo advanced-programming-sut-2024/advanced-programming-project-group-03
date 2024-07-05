@@ -46,6 +46,7 @@ public class PreGameController {
     private final Window chooseLeaderWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final Label leaderLabel = new Label("Choose your Leader Ability", GameAssetManager.getGameAssetManager().getSkin() , "title");
     private final SelectBox<String> leaderSelectBox = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton backToMainMenuButton = new TextButton("Back To Main Menu", GameAssetManager.getGameAssetManager().getSkin());
     private final ImageButton waterTribeButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton earthKingdomButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
     private final ImageButton fireNationButton = new ImageButton(GameAssetManager.getGameAssetManager().getSkin(), "toggle");
@@ -70,6 +71,7 @@ public class PreGameController {
     private final Label fireFactionAbilitiyLabel = new Label("Fire : Keeps a random unit card after each round", GameAssetManager.getGameAssetManager().getSkin());
     private final Label airFactionAbilitiyLabel = new Label("Air : Wins any round that ends in a draw", GameAssetManager.getGameAssetManager().getSkin());
     private final Label airFactionAbilitiyLabel2 = new Label("Air : 2 random cards from burnt cards are placed in the battle field at the start of 3rd set", GameAssetManager.getGameAssetManager().getSkin());
+    private boolean usedBackButton = false;
 
     private PreGameController(Stage stage) {
         this.stage = stage;
@@ -127,9 +129,8 @@ public class PreGameController {
         playGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.getScreen().dispose();
-                game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
                 Game.getGame().startGame();
+                game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
             }
         });
     }
@@ -137,6 +138,7 @@ public class PreGameController {
     public void handlePreGameController(ProBending game) {
         setPlayGameButton(game);
         setChangeFactionButton();
+        setBackToMainMenuButton(game);
     }
 
     public int getCardNumber(Card card) {
@@ -537,6 +539,22 @@ public class PreGameController {
         });
     }
 
+    private void setBackToMainMenuButton(ProBending game){
+        stage.addActor(backToMainMenuButton);
+        backToMainMenuButton.setPosition(1500, 0);
+        backToMainMenuButton.getLabel().setScale(0.5f);
+        backToMainMenuButton.getLabel().setFontScale(0.5f);
+        backToMainMenuButton.setSize(300, 50);
+
+        backToMainMenuButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                usedBackButton = true;
+                game.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
+            }
+        });
+    }
+
     //getters and setters
 
     public static PreGameController getPreGameController() {
@@ -559,4 +577,15 @@ public class PreGameController {
         return stage;
     }
 
+    public static void setPreGameController() {
+        preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+    }
+
+    public void setUsedBackButton(boolean usedBackButton) {
+        this.usedBackButton = usedBackButton;
+    }
+
+    public boolean isUsedBackButton() {
+        return usedBackButton;
+    }
 }

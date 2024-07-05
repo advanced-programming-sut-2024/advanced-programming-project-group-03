@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Abilities.CommandersHorn;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
+import ir.ap.probending.Model.Card.Abilities.Mardroeme;
 import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -82,6 +83,7 @@ public class GameUIController {
     private final ScrollPane leaderPlayer1ScrollPane = new ScrollPane(leaderPlayer1Table);
     private final ScrollPane leaderPlayer2ScrollPane = new ScrollPane(leaderPlayer2Table);
     private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability" , GameAssetManager.getGameAssetManager().getSkin());
+    private ProBending game ;
 
     private boolean canPlaceCardOnRow0 = false;
     private boolean canPlaceCardOnRow1 = false;
@@ -139,7 +141,7 @@ public class GameUIController {
 
     //functionality methods
     public void handlePreGameController(ProBending game) {
-
+        this.game = game;
     }
 
     public void showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card card) {
@@ -236,7 +238,7 @@ public class GameUIController {
         commanderHorn7ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme) && Game.getGame().getCurrentTurn() == 1){
                     Game.getGame().playCard(clickedCard , 7);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -248,7 +250,7 @@ public class GameUIController {
         commanderHorn8ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
                     Game.getGame().playCard(clickedCard , 8);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -260,7 +262,7 @@ public class GameUIController {
         commanderHorn9ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
                     Game.getGame().playCard(clickedCard , 9);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -272,7 +274,7 @@ public class GameUIController {
         commanderHorn10ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
                     Game.getGame().playCard(clickedCard , 10);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -284,7 +286,7 @@ public class GameUIController {
         commanderHorn11ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
                     Game.getGame().playCard(clickedCard , 11);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -296,7 +298,7 @@ public class GameUIController {
         commanderHorn12ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
                     Game.getGame().playCard(clickedCard , 12);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
@@ -309,6 +311,10 @@ public class GameUIController {
     public void showSetEndDialog(String text){
         setEndDialog.setVisible(true);
         setWinnerLabel.setText(text);
+        setEndDialog.clear();
+        setEndDialog.add(setWinnerLabel).pad(10);
+        setEndDialog.row();
+        setEndDialog.add(closeEndDialogButton).pad(10);
     }
 
     public void showPassForPlayer1(){
@@ -468,6 +474,67 @@ public class GameUIController {
     public void addLeadersToLeaderTable2(Card card){
         leaderPlayer2Table.add(card).pad(10);
         card.getSprite().setSize(100, 200);
+    }
+
+    public void showGameEndDialog(String s ) {
+        setEndDialog.setVisible(true);
+        setEndDialog.clear();
+        if (s.equals("Draw")){
+            setWinnerLabel.setText("Draw!");
+        }
+        else
+            setWinnerLabel.setText(s + " won the game!");
+        TextButton closeEndDialogButton = new TextButton("Go back to main menu" , GameAssetManager.getGameAssetManager().getSkin());
+        setEndDialog.add(setWinnerLabel).pad(10);
+        setEndDialog.row();
+        setEndDialog.add(closeEndDialogButton).pad(10);
+        closeEndDialogButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setEndDialog.setVisible(false);
+                PreGameController.getPreGameController().setUsedBackButton(true);
+                game.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
+            }
+        });
+    }
+
+    public void resetGameUI(){
+        playerHandTable.clear();
+        row0Table.clear();
+        row1Table.clear();
+        row2Table.clear();
+        row3Table.clear();
+        row4Table.clear();
+        row5Table.clear();
+        spellRowTable.clear();
+        commanderHorn7Table.clear();
+        commanderHorn8Table.clear();
+        commanderHorn9Table.clear();
+        commanderHorn10Table.clear();
+        commanderHorn11Table.clear();
+        commanderHorn12Table.clear();
+        leaderPlayer1Table.clear();
+        leaderPlayer2Table.clear();
+        player1Username.setText("");
+        player2Username.setText("");
+        player1SiegePowerSum.setText("0");
+        player1RangedPowerSum.setText("0");
+        player1CloseCombatPowerSum.setText("0");
+        player2SiegePowerSum.setText("0");
+        player2RangedPowerSum.setText("0");
+        player2CloseCombatPowerSum.setText("0");
+        player1TotalPowerSum.setText("0");
+        player2TotalPowerSum.setText("0");
+        player1SetWon.setText("Sets Won : 0");
+        player2SetWon.setText("Sets Won : 0");
+        passForPlayer1.setVisible(false);
+        passForPlayer2.setVisible(false);
+        setEndDialog.setVisible(false);
+        cardImage.setVisible(false);
+        setWinnerLabel.setText("");
+        playLeaderAbilityButton.setVisible(false);
+        cardListWindow.setVisible(false);
+        showLeaderAbilityButton();
     }
 
     //add view methods for cleaner code
@@ -1005,5 +1072,4 @@ public class GameUIController {
     public Window getCardListWindow() {
         return cardListWindow;
     }
-
 }

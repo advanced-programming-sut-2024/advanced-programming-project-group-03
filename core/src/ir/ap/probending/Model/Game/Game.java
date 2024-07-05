@@ -2,6 +2,7 @@ package ir.ap.probending.Model.Game;
 
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Factions.Faction;
 
@@ -18,11 +19,14 @@ public class Game {
     private int vetoCount = 0;
     private boolean isRestoreCardRandomlyActivated = false;
     private boolean isLoseHalfInBadWeatherActivated = false;
+    private Player summonAvengerPlayer = null;
     private Game() {
     }
     public void startGame() {
         //set a gameboard
         gameBoard = new GameBoard(new Player(GameMaster.getGameMaster().getLoggedInUser1()) , new Player(GameMaster.getGameMaster().getGuestUser2()) , new Board() , new Board());
+        resetGameSettings();
+        GameUIController.getGameUIController().resetGameUI();
 
         // give cards to players
         gameBoard.getPlayer1().addCardsToDeck(PreGame.getPreGame().getDeckCards());
@@ -42,14 +46,9 @@ public class Game {
         }
         GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
 
-        //add hand cards of player1 to view
-        setUpHandView(gameBoard.getPlayer1());
-
         //set leaders and factions
         gameBoard.getPlayer1Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());
         gameBoard.getPlayer1Board().setFaction(PreGame.getPreGame().getPlayerFaction());
-        gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());//TODO change this to a random leader
-        gameBoard.getPlayer2Board().setFaction(PreGame.getPreGame().getPlayerFaction());//TODO
 
         GameUIController.getGameUIController().addLeadersToLeaderTable1(gameBoard.getPlayer1Board().getLeader());
         GameUIController.getGameUIController().addLeadersToLeaderTable2(gameBoard.getPlayer2Board().getLeader());
@@ -57,6 +56,9 @@ public class Game {
         // Set players
         currentPlayer = decideFirstTurn();
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+
+        //add hand cards of player1 to view
+        setUpHandView(currentPlayer);
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();
@@ -117,6 +119,7 @@ public class Game {
     }
 
     public void startNewSet() {
+        declareWinner();
         currentSet++;
         depositCardToBurntCards();
         GameUIController.getGameUIController().setClickedCard(null);
@@ -151,6 +154,10 @@ public class Game {
             GameUIController.getGameUIController().showLeaderAbilityButton();
         }
         GameUIController.getGameUIController().updateRows();
+
+        if(summonAvengerPlayer != null) {
+            playCard(CardObjects.getEvilDruk(), summonAvengerPlayer);
+        }
     }
 
     public void playCard(Card card , int row) {
@@ -214,7 +221,12 @@ public class Game {
         }
 
         if (card.getAbility() != null){
-            card.getAbility().executeAbility(newCard);
+            try {
+                card.getAbility().executeAbility(newCard);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         updatePowerLabelsNumbers();
@@ -259,8 +271,9 @@ public class Game {
     }
 
     private void selectRandomCardsAndFactionForPlayer2() {
-        gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getDeckCards());//TODO change this to a different deck
-        //random cards from random faction and random leader for player2 TODO
+        gameBoard.getPlayer2Board().setFaction(PreGame.getPreGame().getRandomFaction());
+        gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getRandomLeader(gameBoard.getPlayer2Board().getFaction()).clone6());
+        gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getRandomDeckCards(gameBoard.getPlayer2Board().getFaction()));
     }
 
     public int getCurrentTurn(){
@@ -393,6 +406,41 @@ public class Game {
             return gameBoard.getPlayer1();
     }
 
+    private void declareWinner(){
+        if (gameBoard.getPlayer1().getSetsWon() > gameBoard.getPlayer2().getSetsWon() && gameBoard.getPlayer1().getSetsWon() == 2){
+            GameUIController.getGameUIController().showGameEndDialog(gameBoard.getPlayer1().getUser().getUsername() + " won the game");
+        }
+        else if (gameBoard.getPlayer1().getSetsWon() < gameBoard.getPlayer2().getSetsWon() && gameBoard.getPlayer2().getSetsWon() == 2){
+            GameUIController.getGameUIController().showGameEndDialog(gameBoard.getPlayer2().getUser().getUsername() + " won the game");
+        }
+        else if (gameBoard.getPlayer1().getSetsWon() == 2 && gameBoard.getPlayer2().getSetsWon() == 2){
+            GameUIController.getGameUIController().showGameEndDialog("Draw");
+        }
+    }
+
+    public void resetGameSettings(){
+        gameBoard.getPlayer1().getHand().clear();
+        gameBoard.getPlayer1().getDeck().clear();
+        gameBoard.getPlayer1().getBurntCards().clear();
+        gameBoard.getPlayer1().setSetsWon(0);
+        gameBoard.getPlayer1().setPassedThisRound(false);
+        gameBoard.getPlayer1().setPlayedLeaderAbility(false);
+        gameBoard.getPlayer2().getHand().clear();
+        gameBoard.getPlayer2().getDeck().clear();
+        gameBoard.getPlayer2().getBurntCards().clear();
+        gameBoard.getPlayer2().setSetsWon(0);
+        gameBoard.getPlayer2().setPassedThisRound(false);
+        gameBoard.getPlayer2().setPlayedLeaderAbility(false);
+        gameBoard.getPlayer1Board().clearBoard();
+        gameBoard.getPlayer2Board().clearBoard();
+        gameBoard.getSpellCards().clear();
+        currentSet = 1;
+        isCardPlayedThisRound = false;
+        vetoCount = 0;
+        isRestoreCardRandomlyActivated = false;
+        isLoseHalfInBadWeatherActivated = false;
+    }
+
     //views
     private void setupViewsThatAreDependentToGameBoard() {
         GameUIController.getGameUIController().addUsernameLabels();
@@ -481,5 +529,13 @@ public class Game {
 
     public void setLoseHalfInBadWeatherActivated(boolean loseHalfInBadWeatherActivated) {
         isLoseHalfInBadWeatherActivated = loseHalfInBadWeatherActivated;
+    }
+
+    public Player getSummonAvengerPlayer() {
+        return summonAvengerPlayer;
+    }
+
+    public void setSummonAvengerPlayer(Player summonAvengerPlayer) {
+        this.summonAvengerPlayer = summonAvengerPlayer;
     }
 }

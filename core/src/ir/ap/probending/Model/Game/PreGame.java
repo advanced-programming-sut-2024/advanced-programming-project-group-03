@@ -10,6 +10,7 @@ import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PreGame {
     private static PreGame preGame = new PreGame();
@@ -121,6 +122,38 @@ public class PreGame {
         return null;
     }
 
+    public Faction getRandomFaction() {
+        int random = new Random().nextInt(4);
+        switch (random){
+            case 0:
+                return FactionObjects.getFactionByName("Fire");
+            case 1:
+                return FactionObjects.getFactionByName("Water");
+            case 2:
+                return FactionObjects.getFactionByName("Earth");
+            case 3:
+                return FactionObjects.getFactionByName("Air");
+            default:
+                return FactionObjects.getFactionByName("Fire");
+        }
+    }
+
+    public Card getRandomLeader(Faction faction) {
+        return faction.getLeaderArray().get(new Random().nextInt(faction.getLeaderArray().size()));
+    }
+
+    public ArrayList<Card> getRandomDeckCards(Faction faction) {
+        ArrayList<Card> deckCards = new ArrayList<>();
+        ArrayList<Card> factionCards = new ArrayList<>(faction.getCardArray());
+        factionCards.sort((card1, card2) -> card2.getPower() - card1.getPower());
+        for (int i = 0; i < 20; i++){
+            int random = new Random().nextInt(factionCards.size());
+            deckCards.add(factionCards.get(random));
+            factionCards.remove(random);
+        }
+        return deckCards;
+    }
+
     //getters and setters
 
     public ArrayList<Card> getDeckCards() {
@@ -162,4 +195,5 @@ public class PreGame {
     public void setSelectedLeader(Card selectedLeader) {
         this.selectedLeader = selectedLeader;
     }
+
 }

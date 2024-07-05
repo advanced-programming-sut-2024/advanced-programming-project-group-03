@@ -1,9 +1,7 @@
 package ir.ap.probending.Model.Game;
 
 import ir.ap.probending.Control.GameUIController;
-import ir.ap.probending.Model.Card.Abilities.Frost;
-import ir.ap.probending.Model.Card.Abilities.Morale;
-import ir.ap.probending.Model.Card.Abilities.Spy;
+import ir.ap.probending.Model.Card.Abilities.*;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
 
@@ -240,21 +238,62 @@ public class Board {
     }
 
     public boolean doesSiegeHaveCommander(){
-        return commander7 != null || commander7Played;
+        return (commander7 != null && commander7.getAbility() instanceof CommandersHorn) || commander7Played;
     }
 
     public boolean doesRangedHaveCommander(){
-        return commander8 != null || commander8Played;
+        return (commander8 != null && commander8.getAbility() instanceof CommandersHorn) || commander8Played;
     }
 
     public boolean doesCloseCombatHaveCommander(){
-        return commander9 != null || commander9Played;
+        return (commander9 != null && commander9.getAbility() instanceof CommandersHorn) || commander9Played;
     }
+
+    public boolean doesSiegeHaveMardroeme(){
+        for (Card card : siege) {
+            if (card.getAbility() instanceof Mardroeme){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean doesRangedHaveMardroeme(){
+        for (Card card : ranged) {
+            if (card.getAbility() instanceof Mardroeme){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean doesCloseCombatHaveMardroeme(){
+        for (Card card : closeCombat) {
+            if (card.getAbility() instanceof Mardroeme){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void playLeaderAbility(){
         if (leader != null){
             leader.getAbility().executeAbility(leader);
         }
+    }
+
+    public int getCardsRow(Card card){
+        if (closeCombat.contains(card)){
+            return 2;
+        }
+        else if (ranged.contains(card)){
+            return 1;
+        }
+        else if (siege.contains(card)){
+            return 0;
+        }
+        return 6;
     }
 
     //getters and setters
