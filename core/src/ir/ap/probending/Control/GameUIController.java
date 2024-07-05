@@ -46,6 +46,10 @@ public class GameUIController {
     private final TextButton passButton = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
     private final Window setEndDialog = new Window("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label setWinnerLabel = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1DeckCardCount = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2DeckCardCount = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1BurntCardCount = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2BurntCardCount = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
     private final Window cardListWindow = new Window("Card List" , GameAssetManager.getGameAssetManager().getSkin());
     private final Table cardListTable = new Table();
@@ -137,6 +141,7 @@ public class GameUIController {
         addCardListWindow();
         addLeadersView();
         addLeaderAbilityButtons();
+        addDeckAndBurntCount();
     }
 
     //functionality methods
@@ -433,6 +438,10 @@ public class GameUIController {
 
         Game.getGame().updatePowerLabelsNumbers();
 
+        player1DeckCardCount.setText(Game.getGame().getGameBoard().getPlayer1().getDeck().size() + " deck cards");
+        player2DeckCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getDeck().size() + " deck cards");
+        player1BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer1().getBurntCards().size() + " burnt cards");
+        player2BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getBurntCards().size() + " burnt cards");
     }
 
     public void showLeaderAbilityButton(){
@@ -918,6 +927,24 @@ public class GameUIController {
         leaderPlayer2ScrollPane.setPosition(130, 870);
 
         table.addActor(leaderPlayer2ScrollPane);
+    }
+
+    private void addDeckAndBurntCount(){
+        player1BurntCardCount.setPosition(1600, 10);
+        player1BurntCardCount.setSize(200, 50);
+        table.addActor(player1BurntCardCount);
+
+        player1DeckCardCount.setPosition(1600, 60);
+        player1DeckCardCount.setSize(200, 50);
+        table.addActor(player1DeckCardCount);
+
+        player2BurntCardCount.setPosition(1600, 760);
+        player2BurntCardCount.setSize(200, 50);
+        table.addActor(player2BurntCardCount);
+
+        player2DeckCardCount.setPosition(1600, 810);
+        player2DeckCardCount.setSize(200, 50);
+        table.addActor(player2DeckCardCount);
     }
 
     //getters and setters

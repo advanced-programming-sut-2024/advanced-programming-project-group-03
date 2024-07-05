@@ -11,7 +11,7 @@ public class GameHistory {
     private String EnemyFinalScore;
     private String MyFinalScore;
 
-    public GameHistory(String enemyUsername, String date, String winner, String[] enemyScoresInRounds, String[] myScoresInRounds, String enemyFinalScore, String myFinalScore) {
+    public GameHistory(String enemyUsername, String date, String winner, String enemyFinalScore, String myFinalScore) {
         this.enemyUsername = enemyUsername;
         Date = date;
         this.winner = winner;

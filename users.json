@@ -6,8 +6,27 @@
 	"email": "kkk@gmail.com",
 	"questionIndex": 1,
 	"questionAnswer": "2",
-	"gameHistories": [],
+	"gameHistories": [
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Fri Jul 05 20:23:41 IRST 2024",
+			"winner": "kiarash",
+			"enemyScoresInRounds": [
+				"0",
+				"0"
+			],
+			"myScoresInRounds": [
+				"9",
+				"0"
+			],
+			"EnemyFinalScore": "1",
+			"MyFinalScore": "2"
+		}
+	],
+	"gamePlayedCount": 1,
+	"gameWonCount": 1,
 	"nickname": "sss",
+	"score": 66,
 	"deckSave": {
 		"deckCards": [
 			"Sokka",
