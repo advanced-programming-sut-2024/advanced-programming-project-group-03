@@ -10,7 +10,6 @@ public class MusicMaster {
     public void playBgMusicMenu() {
         bgMusic.setLooping(true);
         bgMusic.play();
-        bgMusic.setVolume(10f);
     }
     private MusicMaster() {
         bgMusic = Gdx.audio.newMusic(Gdx.files.internal(GameAssetManager.getGameAssetManager().getMenuMusic()));
