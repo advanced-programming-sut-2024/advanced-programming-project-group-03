@@ -7,6 +7,7 @@ import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 import ir.ap.probending.View.MainMenuScreen;
 import ir.ap.probending.View.PreGameScreen;
+import com.badlogic.gdx.Gdx;
 
 public class GameStartController extends Thread {
     private static ProBending game;
@@ -19,10 +20,19 @@ public class GameStartController extends Thread {
                 ProBending.client.sendGameMessage(GameMaster.getGameMaster().getLoggedInUser1().getUsername());
                 while (GameMaster.getGameMaster().getLoggedInUser1().isPlaying()) {
                     try {
-                        if (game.getScreen() instanceof MainMenuScreen || game.getScreen() instanceof PreGameScreen)
-                            game.getScreen().dispose();
-                            game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
-                            PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());                        sleep(1000);
+                        if (game.getScreen() instanceof MainMenuScreen) {
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (game.getScreen() instanceof MainMenuScreen) {
+                                        game.getScreen().dispose();
+                                        game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
+                                        PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
+                                    }
+                                }
+                            });
+                        }
+                        sleep(1000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

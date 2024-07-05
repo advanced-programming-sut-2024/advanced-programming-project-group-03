@@ -25,6 +25,7 @@ public class ProBending extends Game {
 		ScreenMasterSetting.getInstance().setGameScreen(new GameScreen(ScreenMasterSetting.getInstance().getGame()));
 		this.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
 		GameStartController.setGame(this);
+		(new GameStartController()).start();
 	}
 
 	@Override
