@@ -14,6 +14,7 @@ public class MusicMaster {
     }
     private MusicMaster() {
         bgMusic = Gdx.audio.newMusic(Gdx.files.internal(GameAssetManager.getGameAssetManager().getMenuMusic()));
+        bgMusic.setVolume(0.5f);
     }
 
     public static MusicMaster getInstance() {

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.video.VideoPlayer;
 import ir.ap.probending.Model.Data.MusicMaster;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.Game.PreGame;
@@ -28,6 +29,7 @@ public class MainMenuController {
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signInButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
+    //private final VideoPlayer videoPlayer = new VideoPlayer(Gdx.files.internal("Avatar_ The Last Airbender (Live Desktop Wallpaper) [Wallpaper Engine].mp4"));
 
     private MainMenuController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
