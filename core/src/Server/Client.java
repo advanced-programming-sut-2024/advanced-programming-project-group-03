@@ -43,6 +43,15 @@ public class Client {
         }
     }
 
+    public void sendGameMessage(String message) {
+        try {
+            gameDataOutputStream.writeUTF(message);
+            gameDataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String receiveMessage() {
         try {
             return dataInputStream.readUTF();
@@ -52,6 +61,14 @@ public class Client {
         }
     }
 
+    public String receiveGameMessage() {
+        try {
+            return gameDataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private void closeConnection() {
         try {

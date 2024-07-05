@@ -193,6 +193,15 @@ public class Server extends Thread {
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
+                    case "isUserInGame":
+                        if (currentUser == null || currentUser.isPlaying() == false) {
+                            response = "no";
+                        } else {
+                            response = "yes";
+                        }
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
                 }
             }
         } catch (IOException e) {
