@@ -167,12 +167,26 @@ public class Server extends Thread {
                         dataOutputStream.flush();
                         break;
                     case "sendGameRequest":
-                        response = sendGameRequest(messageParts[1]);
+                        if (messageParts.length == 1)
+                            response = "Username is empty";
+                        else
+                            response = sendGameRequest(messageParts[1]);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
                     case "acceptGameRequest":
-                        response = acceptGameRequest(messageParts[1]);
+                        if (messageParts.length == 1)
+                            response = "Username is empty";
+                        else
+                            response = acceptGameRequest(messageParts[1]);
+                        dataOutputStream.writeUTF(response);
+                        dataOutputStream.flush();
+                        break;
+                    case "rejectGameRequest":
+                        if (messageParts.length == 1)
+                            response = "Username is empty";
+                        else
+                            response = rejectGameRequest(messageParts[1]);
                         dataOutputStream.writeUTF(response);
                         dataOutputStream.flush();
                         break;
@@ -368,9 +382,24 @@ public class Server extends Thread {
             return "User is offline";
         } else {
             // Start the game session
-                sender.setPlaying(true);
-                currentUser.setPlaying(true);
-                return "Game request accepted";
+            GameSession.getInstance().serverStart(sender, currentUser);
+            sender.setPlaying(true);
+            currentUser.setPlaying(true);
+            return "Game request accepted";
+        }
+    }
+
+    private String rejectGameRequest(String senderUsername) {
+        User sender = getUserByUsername(senderUsername);
+        if (sender == null) {
+            return "User not found";
+        } else if (!sender.getFriends().containsKey(currentUser.getUsername())) {
+            return "User is not your friend";
+        } else if (!currentUser.getFriends().get(senderUsername)) {
+            return "User has not sent you a game request";
+        } else {
+            currentUser.getFriends().put(senderUsername, false);
+            return "Game request rejected";
         }
     }
 
