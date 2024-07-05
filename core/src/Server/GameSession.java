@@ -48,18 +48,18 @@ public class GameSession {
                     String message = dataInputStream.readUTF();
                     if (message != null && !message.equals("")) {
                         for (GameInfo gameInfo : GameInfo.getGameInfos()) {
-                            if (gameInfo.getFirstPlayerSocket().equals(socket)) {
+                            if (gameInfo.getFirstPlayerSocket().equals(socket) && !gameInfo.getFirstPlayer().getUsername().equals(message)) {
                                 DataOutputStream dataOutputStream = new DataOutputStream(gameInfo.getSecondPlayerSocket().getOutputStream());
                                 dataOutputStream.writeUTF(message);
                                 continue socketFor;
-                            } else if (gameInfo.getSecondPlayerSocket().equals(socket)) {
+                            } else if (gameInfo.getSecondPlayerSocket().equals(socket) && !gameInfo.getSecondPlayer().getUsername().equals(message)) {
                                 DataOutputStream dataOutputStream = new DataOutputStream(gameInfo.getFirstPlayerSocket().getOutputStream());
                                 dataOutputStream.writeUTF(message);
                                 continue socketFor;
-                            } else if (gameInfo.getFirstPlayer().getUsername().equals(message)) {
+                            } else if (gameInfo.getFirstPlayer().getUsername().equals(message) && gameInfo.getFirstPlayerSocket() == null) {
                                 gameInfo.setFirstPlayerSocket(socket);
                                 continue socketFor;
-                            } else if (gameInfo.getSecondPlayer().getUsername().equals(message)) {
+                            } else if (gameInfo.getSecondPlayer().getUsername().equals(message) && gameInfo.getFirstPlayerSocket() == null) {
                                 gameInfo.setSecondPlayerSocket(socket);
                                 continue socketFor;
                             }
@@ -79,6 +79,6 @@ public class GameSession {
     }
 
     public void serverStart(User firstUser, User secondUser) {
-        GameInfo gameInfo = new GameInfo(firstUser, secondUser, null, null);
+        new GameInfo(firstUser, secondUser, null, null);
     }
 }
