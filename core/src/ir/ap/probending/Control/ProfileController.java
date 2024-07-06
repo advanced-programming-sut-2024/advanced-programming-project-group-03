@@ -5,16 +5,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import ir.ap.probending.Model.Data.GameMaster;
-import ir.ap.probending.Model.Data.Regex;
-import ir.ap.probending.Model.Data.SaveUser;
-import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Data.*;
+import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileController {
@@ -58,6 +59,18 @@ public class ProfileController {
     private Label errorLabelNickname = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private Label errorLabelUsername = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private Label errorLabelEmail = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton rankingButton = new TextButton("Rankings", GameAssetManager.getGameAssetManager().getSkin());
+    private Window rankingWindow = new Window("Ranking", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton closeRankingButton = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton gameHistoryOpenButton = new TextButton("Game History", GameAssetManager.getGameAssetManager().getSkin());
+    private Window gameHistoryWindow = new Window("Game History", GameAssetManager.getGameAssetManager().getSkin());
+    private SelectBox<String> gameHistorySelectBox = new SelectBox<>(GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton getSubmitGameHistoryButton = new TextButton("Submit", GameAssetManager.getGameAssetManager().getSkin());
+    private TextButton closeGameHistoryButton = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
+    private Label enemyUsernameLabel = new Label("Enemy Username", GameAssetManager.getGameAssetManager().getSkin());
+    private Label resultLabel = new Label("Result", GameAssetManager.getGameAssetManager().getSkin());
+    private Label scoreInRoundsLabel = new Label("Score in Rounds", GameAssetManager.getGameAssetManager().getSkin());
+    private Label dateLabel = new Label("Date", GameAssetManager.getGameAssetManager().getSkin());
 
 
     private ProfileController() {
@@ -66,20 +79,20 @@ public class ProfileController {
         table.center();
 
         if (GameMaster.getGameMaster().getGuestUser1() != null){
-            table.add(usernameLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(nicknameLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(rankLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(playedGamesLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(wonGamesLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(lostGamesLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
-            table.add(drawGamesLabel).fillX();
-            table.row().pad(10, 0, 10, 0);
+            table.addActor(usernameLabel);
+            table.addActor(nicknameLabel);
+            table.addActor(playedGamesLabel);
+            table.addActor(wonGamesLabel);
+            table.addActor(lostGamesLabel);
+            table.addActor(drawGamesLabel);
+
+            usernameLabel.setPosition( 50 ,1000);
+            nicknameLabel.setPosition( 50 ,900);
+            playedGamesLabel.setPosition( 50 ,800);
+            wonGamesLabel.setPosition( 50 ,700);
+            lostGamesLabel.setPosition( 50 ,600);
+            drawGamesLabel.setPosition( 50 ,500);
+
             table.add(changePasswordButton).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(changeNicknameButton).fillX();
@@ -87,6 +100,10 @@ public class ProfileController {
             table.add(changeUsernameButton).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(changeEmailButton).fillX();
+            table.row().pad(10, 0, 10, 0);
+            table.add(rankingButton).fillX();
+            table.row().pad(10, 0, 10, 0);
+            table.add(gameHistoryOpenButton).fillX();
             table.row().pad(10, 0, 10, 0);
             table.add(backToMainMenuButton).fillX();
 
@@ -167,6 +184,15 @@ public class ProfileController {
         errorLabelUsername.setColor(1, 0, 0, 1);
         errorLabelNickname.setColor(1, 0, 0, 1);
         errorLabelPassword.setColor(1, 0, 0, 1);
+
+        rankingWindow.setSize(700, 900);
+        table.addActor(rankingWindow);
+        rankingWindow.setVisible(false);
+
+        gameHistoryWindow.setSize(1500, 900);
+        table.addActor(gameHistoryWindow);
+        gameHistoryWindow.setVisible(false);
+
     }
 
     private void setChangePasswordButton(ProBending game){
@@ -205,6 +231,105 @@ public class ProfileController {
             public void clicked(InputEvent event, float x, float y) {
                 changeEmailWindow.setPosition(Gdx.graphics.getWidth()/2 - changeEmailWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - changeEmailWindow.getHeight()/2);
                 changeEmailWindow.setVisible(true);
+            }
+        });
+    }
+
+    private void setRankingButton(ProBending game){
+        rankingButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                rankingWindow.setPosition(Gdx.graphics.getWidth()/2 - rankingWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - rankingWindow.getHeight()/2);
+                rankingWindow.setVisible(true);
+                rankingWindow.clear();
+                List<User> users = SaveUser.loadUsers();
+                users.sort((o1, o2) -> o2.getScore() - o1.getScore());
+                for (User user : users){
+                    rankingWindow.add(new Label(user.getUsername() + " : " + user.getScore(), GameAssetManager.getGameAssetManager().getSkin())).fillX();
+                    rankingWindow.row().pad(10, 0, 10, 0);
+                }
+                rankingWindow.add(closeRankingButton).fillX();
+            }
+        });
+    }
+
+    private void setGameHistoryOpenButton(ProBending game){
+        gameHistoryOpenButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameHistoryWindow.setPosition(Gdx.graphics.getWidth()/2 - gameHistoryWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - gameHistoryWindow.getHeight()/2);
+                gameHistoryWindow.setVisible(true);
+                gameHistoryWindow.clear();
+                gameHistoryWindow.add(gameHistorySelectBox).fillX();
+                List<User> users = SaveUser.loadUsers();
+                List<String> dates = new ArrayList<>();
+                for (User user : users){
+                    if (user.getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
+                        for (GameHistory gameHistory : user.getGameHistories()){
+                            dates.add(gameHistory.getDate());
+                        }
+                        break;
+                    }
+                }
+                Collections.sort(dates);
+                gameHistorySelectBox.setItems(dates.toArray(new String[0]));
+                gameHistorySelectBox.setSelectedIndex(0);
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(getSubmitGameHistoryButton).fillX();
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(enemyUsernameLabel).fillX();
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(resultLabel).fillX();
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(scoreInRoundsLabel).fillX();
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(dateLabel).fillX();
+                gameHistoryWindow.row().pad(10, 0, 10, 0);
+                gameHistoryWindow.add(closeGameHistoryButton).fillX();
+            }
+        });
+    }
+
+    private void setCloseGameHistoryButton(ProBending game){
+        closeGameHistoryButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameHistoryWindow.setVisible(false);
+            }
+        });
+    }
+
+    private void setGameHistorySelectBox(ProBending game){
+        getSubmitGameHistoryButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                List<User> users = SaveUser.loadUsers();
+                for (User user : users){
+                    if (user.getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
+                        for (GameHistory gameHistory : user.getGameHistories()){
+                            if (gameHistory.getDate().equals(gameHistorySelectBox.getSelected())){
+                                String myScoreInRounds = "";
+                                for (int i = 0; i < gameHistory.getMyScoresInRounds().size(); i++){
+                                    myScoreInRounds += gameHistory.getMyScoresInRounds().get(i);
+                                    if (i != gameHistory.getMyScoresInRounds().size() - 1){
+                                        myScoreInRounds += " - ";
+                                    }
+                                }
+                                String enemyScoreInRounds = "";
+                                for (int i = 0; i < gameHistory.getEnemyScoresInRounds().size(); i++){
+                                    enemyScoreInRounds += gameHistory.getEnemyScoresInRounds().get(i);
+                                    if (i != gameHistory.getEnemyScoresInRounds().size() - 1){
+                                        enemyScoreInRounds += " - ";
+                                    }
+                                }
+                                enemyUsernameLabel.setText("Enemy Username : " + gameHistory.getEnemyUsername());
+                                resultLabel.setText("Result : Me = " + gameHistory.getMyFinalScore() + " - Enemy = " + gameHistory.getEnemyFinalScore());
+                                scoreInRoundsLabel.setText("Score in Rounds : Me = " + myScoreInRounds + " - Enemy = " + enemyScoreInRounds);
+                                dateLabel.setText("Date : " + gameHistory.getDate());
+                            }
+                        }
+                    }
+                }
             }
         });
     }
@@ -283,6 +408,15 @@ public class ProfileController {
         });
     }
 
+    private void setCloseRankingButton(ProBending game){
+        closeRankingButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                rankingWindow.setVisible(false);
+            }
+        });
+    }
+
     private void setBackToProfileButtonChangeUsername(ProBending game){
         backToProfileButtonChangeUsername.addListener(new ClickListener(){
             @Override
@@ -356,6 +490,11 @@ public class ProfileController {
         setBackToProfileButtonChangeNickname(game);
         setBackToProfileButtonChangeEmail(game);
         setBackToProfileButtonChangePassword(game);
+        setRankingButton(game);
+        setCloseRankingButton(game);
+        setGameHistoryOpenButton(game);
+        setCloseGameHistoryButton(game);
+        setGameHistorySelectBox(game);
     }
 
     //getters and setters

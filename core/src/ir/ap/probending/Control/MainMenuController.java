@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -33,6 +34,8 @@ public class MainMenuController {
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton signInButton = new TextButton("Login", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton profileButton = new TextButton("Profile", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label gameTitle = new Label("Pro Bending", GameAssetManager.getGameAssetManager().getSkin() , "title");
+    private final Label creatorsInfo = new Label("Created by: Kiarash Shojaei & Amin Koohi & Nima Hekmati", GameAssetManager.getGameAssetManager().getSkin() );
 
     private MainMenuController(){
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -43,10 +46,16 @@ public class MainMenuController {
         table.row().pad(10, 0, 10, 0);
 
         table.addActor(signInButton);
-        signInButton.setPosition(50, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
+        signInButton.setPosition(1390, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
 
         table.addActor(profileButton);
-        profileButton.setPosition(400, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
+        profileButton.setPosition(1600, Gdx.graphics.getHeight() - 50 - signInButton.getHeight());
+
+        table.addActor(gameTitle);
+        gameTitle.setPosition(50, Gdx.graphics.getHeight() - 50 - gameTitle.getHeight());
+
+        table.addActor(creatorsInfo);
+        creatorsInfo.setPosition(50, 50);
 
         //musics
         MusicMaster.getInstance().playBgMusicMenu();

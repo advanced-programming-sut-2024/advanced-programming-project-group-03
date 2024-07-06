@@ -276,7 +276,7 @@ public class Card extends Actor {
                     }
                 }
                 Game.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
-                Game.getGame().setUpHandView(Game.getGame().getGameBoard().getPlayer1());
+                Game.getGame().setUpHandView(Game.getGame().getCurrentPlayer());
                 GameUIController.getGameUIController().clearCardListWindow();
                 ArrayList<Card> cards = new ArrayList<>();
                 for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {

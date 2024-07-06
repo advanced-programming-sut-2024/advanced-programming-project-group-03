@@ -26,6 +26,7 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     VideoPlayer videoPlayer;
     VideoPlayer videoPlayer2;
+    private boolean hasPlayedIntro = false;
 
     public MainMenuScreen(ProBending game) {
         this.game = game;
@@ -67,6 +68,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void onCompletionListener(FileHandle fileHandle) {
                 try {
+                    hasPlayedIntro = true;
                     videoPlayer2.dispose();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -86,7 +88,9 @@ public class MainMenuScreen implements Screen {
     public void render(float v) {
         ScreenUtils.clear(1, 1, 1, 1);
         videoPlayer.update();
-        videoPlayer2.update();
+        if (!hasPlayedIntro){
+            videoPlayer2.update();
+        }
         batch.begin();
         Texture videoTexture = videoPlayer.getTexture();
         if (videoTexture != null) {

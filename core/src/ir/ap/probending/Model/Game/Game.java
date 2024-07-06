@@ -62,12 +62,11 @@ public class Game {
         currentPlayer = decideFirstTurn();
         GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
 
-        //add hand cards of player1 to view
+        //add hand cards of current player to view
         setUpHandView(currentPlayer);
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();
-        GameUIController.getGameUIController().updateRows();
 
         //setup new game history
         Date date = new Date();
@@ -505,6 +504,7 @@ public class Game {
     //views
     private void setupViewsThatAreDependentToGameBoard() {
         GameUIController.getGameUIController().addUsernameLabels();
+        GameUIController.getGameUIController().updateRows();
     }
     public void setUpHandView(Player player){
         //add hand cards of player1 to view
