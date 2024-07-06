@@ -76,12 +76,27 @@
 			],
 			"EnemyFinalScore": "2",
 			"MyFinalScore": "1"
+		},
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Sat Jul 06 13:04:41 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"15",
+				"-1"
+			],
+			"myScoresInRounds": [
+				"35",
+				"14"
+			],
+			"EnemyFinalScore": "0",
+			"MyFinalScore": "2"
 		}
 	],
-	"gamePlayedCount": 2,
-	"gameWonCount": 1,
+	"gamePlayedCount": 3,
+	"gameWonCount": 2,
 	"gameLostCount": 1,
 	"nickname": "kooni",
-	"score": 110
+	"score": 191
 }
 ]
