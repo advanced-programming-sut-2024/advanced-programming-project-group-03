@@ -2,6 +2,8 @@ package ir.ap.probending.Model.Data;
 
 import ir.ap.probending.Model.User;
 
+import java.util.List;
+
 public class GameMaster {
     private static GameMaster gameMaster = new GameMaster();
     private User loggedInUser1;
@@ -12,6 +14,16 @@ public class GameMaster {
     private GameMaster() {
         loggedInUser1 = guestUser1;
         loggedInUser2 = guestUser2;
+
+        List<User> users = SaveUser.loadUsers();
+        if (users != null) {
+            for (User user : users) {
+                if (user.isRememberMe()) {
+                    loggedInUser1 = user;
+                    break;
+                }
+            }
+        }
     }
     //getters and setters
 

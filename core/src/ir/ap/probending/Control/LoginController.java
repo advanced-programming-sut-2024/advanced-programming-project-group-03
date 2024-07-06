@@ -3,10 +3,7 @@ package ir.ap.probending.Control;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.SaveUser;
@@ -32,6 +29,7 @@ public class LoginController {
     private final Label errorLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
     private final Label usernameLabel = new Label("Username", GameAssetManager.getGameAssetManager().getSkin());
     private final Label passwordLabel = new Label("Password", GameAssetManager.getGameAssetManager().getSkin());
+    private final CheckBox rememberMeCheckBox = new CheckBox("Remember Me", GameAssetManager.getGameAssetManager().getSkin());
 
     private LoginController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -46,6 +44,8 @@ public class LoginController {
         table.add(passwordLabel).fillX();
         table.row();
         table.add(passwordField).fillX();
+        table.row().pad(10, 0, 10, 0);
+        table.add(rememberMeCheckBox).fillX();
         table.row().pad(10, 0, 10, 0);
         table.add(loginButton).fillX();
         table.row().pad(10, 0, 10, 0);
@@ -66,6 +66,7 @@ public class LoginController {
                 List<User> users = SaveUser.loadUsers();
                 boolean isUserExist = false;
                 boolean isPasswordCorrect = false;
+                boolean isRememberMe = rememberMeCheckBox.isChecked();
                 User loggedInUser = null;
 
                 for (User user : users) {
@@ -74,6 +75,15 @@ public class LoginController {
                         if (user.getPassword().equals(passwordField.getText())) {
                             isPasswordCorrect = true;
                             loggedInUser = user;
+                        }
+                    }
+                }
+
+                if (isRememberMe){
+                    for (User user : users){
+                        if (user.isRememberMe()){
+                            user.setRememberMe(false);
+                            SaveUser.updateUser(user);
                         }
                     }
                 }
@@ -90,7 +100,8 @@ public class LoginController {
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
                     errorLabel.setText("");
-
+                    loggedInUser.setRememberMe(isRememberMe);
+                    SaveUser.updateUser(loggedInUser);
                     GameMaster.getGameMaster().setLoggedInUser1(loggedInUser);
                 }
             }

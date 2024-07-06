@@ -20,6 +20,7 @@ public class User {
     private int score;
     private int rank;
     private DeckSave deckSave;
+    private boolean rememberMe;
 
     public User(String username, String password, String email, String nickname) {
         this.username = username;
@@ -160,5 +161,13 @@ public class User {
 
     public void setDeckSave(DeckSave deckSave) {
         this.deckSave = deckSave;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }
