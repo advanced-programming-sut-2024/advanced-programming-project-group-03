@@ -20,5 +20,5 @@ dependencies {
 
     // Spring Context (usually included transitively)
     implementation 'org.springframework:spring-context:5.3.13'
-
+    testImplementation "junit:junit:4.13.2"
 }

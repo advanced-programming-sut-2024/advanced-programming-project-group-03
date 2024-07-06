@@ -257,35 +257,40 @@ public class ProfileController {
         gameHistoryOpenButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                gameHistoryWindow.setPosition(Gdx.graphics.getWidth()/2 - gameHistoryWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - gameHistoryWindow.getHeight()/2);
-                gameHistoryWindow.setVisible(true);
-                gameHistoryWindow.clear();
-                gameHistoryWindow.add(gameHistorySelectBox).fillX();
-                List<User> users = SaveUser.loadUsers();
-                List<String> dates = new ArrayList<>();
-                for (User user : users){
-                    if (user.getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
-                        for (GameHistory gameHistory : user.getGameHistories()){
-                            dates.add(gameHistory.getDate());
+                try {
+                    gameHistoryWindow.setPosition(Gdx.graphics.getWidth()/2 - gameHistoryWindow.getWidth()/2, Gdx.graphics.getHeight()/2 - gameHistoryWindow.getHeight()/2);
+                    gameHistoryWindow.setVisible(true);
+                    gameHistoryWindow.clear();
+                    gameHistoryWindow.add(gameHistorySelectBox).fillX();
+                    List<User> users = SaveUser.loadUsers();
+                    List<String> dates = new ArrayList<>();
+                    for (User user : users){
+                        if (user.getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
+                            for (GameHistory gameHistory : user.getGameHistories()){
+                                dates.add(gameHistory.getDate());
+                            }
+                            break;
                         }
-                        break;
                     }
+                    Collections.sort(dates);
+                    gameHistorySelectBox.setItems(dates.toArray(new String[0]));
+                    gameHistorySelectBox.setSelectedIndex(0);
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(getSubmitGameHistoryButton).fillX();
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(enemyUsernameLabel).fillX();
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(resultLabel).fillX();
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(scoreInRoundsLabel).fillX();
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(dateLabel).fillX();
+                    gameHistoryWindow.row().pad(10, 0, 10, 0);
+                    gameHistoryWindow.add(closeGameHistoryButton).fillX();
                 }
-                Collections.sort(dates);
-                gameHistorySelectBox.setItems(dates.toArray(new String[0]));
-                gameHistorySelectBox.setSelectedIndex(0);
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(getSubmitGameHistoryButton).fillX();
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(enemyUsernameLabel).fillX();
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(resultLabel).fillX();
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(scoreInRoundsLabel).fillX();
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(dateLabel).fillX();
-                gameHistoryWindow.row().pad(10, 0, 10, 0);
-                gameHistoryWindow.add(closeGameHistoryButton).fillX();
+                catch (Exception e){
+                    gameHistoryWindow.setVisible(false);
+                }
             }
         });
     }

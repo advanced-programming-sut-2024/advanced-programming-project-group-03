@@ -125,6 +125,36 @@ public class PreGameController {
 
     }
 
+    public void update(int specialCount){
+
+        if (PreGame.getPreGame().getDeckCards().size() < 12){
+            playGameButton.setDisabled(true);
+            playGameButton.setVisible(false);
+            cardCountLabel.setColor(Color.RED);
+        }
+        else {
+            playGameButton.setDisabled(false);
+            playGameButton.setVisible(true);
+            cardCountLabel.setColor(heroCardCount.getColor());
+            if (specialCount > 3){
+                specialCardCount.setColor(Color.RED);
+                playGameButton.setDisabled(true);
+                playGameButton.setVisible(false);
+            }
+            else {
+                specialCardCount.setColor(heroCardCount.getColor());
+                playGameButton.setDisabled(false);
+                playGameButton.setVisible(true);
+            }
+        }
+        if (specialCount > 3){
+            specialCardCount.setColor(Color.RED);
+        }
+        else {
+            specialCardCount.setColor(heroCardCount.getColor());
+        }
+    }
+
     public void setPlayGameButton(ProBending game){
         playGameButton.addListener(new ClickListener(){
             @Override
@@ -249,6 +279,7 @@ public class PreGameController {
         heroCardCount.setText("Hero Cards: " + heroCount);
 
         leaderAbility.setText("Leader Ability : " + PreGame.getPreGame().getSelectedLeader().getDescription());
+        update(specialCount);
     }
 
     private void setChangeFactionButton() {
