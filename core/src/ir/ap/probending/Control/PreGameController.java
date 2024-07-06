@@ -549,7 +549,7 @@ public class PreGameController {
         loadDeckFromFileButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().loadDeckFromFile(saveDeckTextField.getText());
+                PreGame.getPreGame().loadDeckFromFile(loadDeckTextField.getText());
                 loadDeckWindow.setVisible(false);
             }
         });
