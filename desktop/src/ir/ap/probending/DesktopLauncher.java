@@ -8,7 +8,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.useVsync(true);
-//		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		config.setWindowedMode(1920, 1080);
 		config.setTitle("Pro Bending");
 		new Lwjgl3Application(new ProBending(), config);

@@ -25,6 +25,7 @@ public class MainMenuScreen implements Screen {
     private SpriteBatch batch;
     private Stage stage;
     VideoPlayer videoPlayer;
+    VideoPlayer videoPlayer2;
 
     public MainMenuScreen(ProBending game) {
         this.game = game;
@@ -60,12 +61,32 @@ public class MainMenuScreen implements Screen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        videoPlayer2 = VideoPlayerCreator.createVideoPlayer();
+        videoPlayer2.setOnCompletionListener(new VideoPlayer.CompletionListener() {
+            @Override
+            public void onCompletionListener(FileHandle fileHandle) {
+                try {
+                    videoPlayer2.dispose();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        try {
+            videoPlayer2.play(Gdx.files.internal("video.webm"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void render(float v) {
         ScreenUtils.clear(1, 1, 1, 1);
         videoPlayer.update();
+        videoPlayer2.update();
         batch.begin();
         Texture videoTexture = videoPlayer.getTexture();
         if (videoTexture != null) {
@@ -76,6 +97,10 @@ public class MainMenuScreen implements Screen {
             MainMenuController.getMainMenuController().getBackgroundImage().setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             stage.addActor(MainMenuController.getMainMenuController().getBackgroundImage());
             MainMenuController.getMainMenuController().getBackgroundImage().toBack();
+        }
+        Texture videoTexture2 = videoPlayer2.getTexture();
+        if (videoTexture2 != null) {
+            batch.draw(videoTexture2, 0, 0, 1920, 1080);
         }
         stage.draw();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

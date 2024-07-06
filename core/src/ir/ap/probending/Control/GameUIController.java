@@ -29,7 +29,7 @@ public class GameUIController {
     private final Image boardImage = new Image(new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getGameBoardImage())));
     private final Image cardImage = new Image();
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
-    TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
+    private TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
     private final Label player1Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label player2Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
     private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
