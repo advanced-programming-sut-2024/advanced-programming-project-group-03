@@ -25,11 +25,12 @@ public class Game {
     private boolean isLoseHalfInBadWeatherActivated = false;
     private Player summonAvengerPlayer = null;
     private GameHistory gameHistory;
+    private GameHistory gameHistory2;
     private Game() {
     }
     public void startGame() {
         //set a gameboard
-        gameBoard = new GameBoard(new Player(GameMaster.getGameMaster().getLoggedInUser1()) , new Player(GameMaster.getGameMaster().getGuestUser2()) , new Board() , new Board());
+        gameBoard = new GameBoard(new Player(GameMaster.getGameMaster().getLoggedInUser1()) , new Player(GameMaster.getGameMaster().getLoggedInUser2()) , new Board() , new Board());
         resetGameSettings();
         GameUIController.getGameUIController().resetGameUI();
 
@@ -72,6 +73,8 @@ public class Game {
         Date date = new Date();
         String dateString = date.toString();
         gameHistory = new GameHistory(gameBoard.getPlayer2().getUser().getUsername() , dateString , "" , "0" , "0");
+
+        gameHistory2 = new GameHistory(gameBoard.getPlayer1().getUser().getUsername() , dateString , "" , "0" , "0");
     }
 
     public void endTurn() {
@@ -128,6 +131,9 @@ public class Game {
         if (gameBoard.getPlayer1().isPassedThisRound() && gameBoard.getPlayer2().isPassedThisRound()) {
             gameHistory.getMyScoresInRounds().add(String.valueOf(gameBoard.getPlayer1Board().getTotalPower()));
             gameHistory.getEnemyScoresInRounds().add(String.valueOf(gameBoard.getPlayer2Board().getTotalPower()));
+
+            gameHistory2.getMyScoresInRounds().add(String.valueOf(gameBoard.getPlayer2Board().getTotalPower()));
+            gameHistory2.getEnemyScoresInRounds().add(String.valueOf(gameBoard.getPlayer1Board().getTotalPower()));
 
             if (decideWinner() != null){
                 GameUIController.getGameUIController().showSetEndDialog(Objects.requireNonNull(decideWinner()).getUser().getUsername() + " won this set");
@@ -435,6 +441,7 @@ public class Game {
     private void declareWinner(){
 
         User user1 = GameMaster.getGameMaster().getLoggedInUser1();
+        User user2 = GameMaster.getGameMaster().getLoggedInUser2();
 
         if (gameBoard.getPlayer1().getSetsWon() > gameBoard.getPlayer2().getSetsWon() && gameBoard.getPlayer1().getSetsWon() == 2){
             GameUIController.getGameUIController().showGameEndDialog(gameBoard.getPlayer1().getUser().getUsername() + " won the game");
@@ -448,6 +455,17 @@ public class Game {
             user1.setGamePlayedCount(user1.getGamePlayedCount() + 1);
             user1.setScore(user1.getScore() + new Random().nextInt(100) + 1);
             SaveUser.updateUser(user1);
+
+            gameHistory2.setWinner(gameBoard.getPlayer1().getUser().getUsername());
+            user2.setGameLostCount(user2.getGameLostCount() + 1);
+
+            gameHistory2.setMyFinalScore(String.valueOf(gameBoard.getPlayer2().getSetsWon()));
+            gameHistory2.setEnemyFinalScore(String.valueOf(gameBoard.getPlayer1().getSetsWon()));
+
+            user2.getGameHistories().add(gameHistory2);
+            user2.setGamePlayedCount(user2.getGamePlayedCount() + 1);
+            user2.setScore(user2.getScore() + new Random().nextInt(100) + 1);
+            SaveUser.updateUser(user2);
         }
         else if (gameBoard.getPlayer1().getSetsWon() < gameBoard.getPlayer2().getSetsWon() && gameBoard.getPlayer2().getSetsWon() == 2){
             GameUIController.getGameUIController().showGameEndDialog(gameBoard.getPlayer2().getUser().getUsername() + " won the game");
@@ -462,6 +480,17 @@ public class Game {
             user1.setGamePlayedCount(user1.getGamePlayedCount() + 1);
             user1.setScore(user1.getScore() + new Random().nextInt(100) + 1);
             SaveUser.updateUser(user1);
+
+            gameHistory2.setWinner(gameBoard.getPlayer2().getUser().getUsername());
+            user2.setGameWonCount(user2.getGameWonCount() + 1);
+
+            gameHistory2.setMyFinalScore(String.valueOf(gameBoard.getPlayer2().getSetsWon()));
+            gameHistory2.setEnemyFinalScore(String.valueOf(gameBoard.getPlayer1().getSetsWon()));
+
+            user2.getGameHistories().add(gameHistory2);
+            user2.setGamePlayedCount(user2.getGamePlayedCount() + 1);
+            user2.setScore(user2.getScore() + new Random().nextInt(100) + 1);
+            SaveUser.updateUser(user2);
         }
         else if (gameBoard.getPlayer1().getSetsWon() == 2 && gameBoard.getPlayer2().getSetsWon() == 2){
             GameUIController.getGameUIController().showGameEndDialog("Draw");
@@ -475,6 +504,16 @@ public class Game {
             user1.setGamePlayedCount(user1.getGamePlayedCount() + 1);
             user1.setScore(user1.getScore() + new Random().nextInt(100) + 1);
             SaveUser.updateUser(user1);
+
+            gameHistory2.setWinner("Draw");
+
+            gameHistory2.setMyFinalScore(String.valueOf(gameBoard.getPlayer2().getSetsWon()));
+            gameHistory2.setEnemyFinalScore(String.valueOf(gameBoard.getPlayer1().getSetsWon()));
+
+            user2.getGameHistories().add(gameHistory2);
+            user2.setGamePlayedCount(user2.getGamePlayedCount() + 1);
+            user2.setScore(user2.getScore() + new Random().nextInt(100) + 1);
+            SaveUser.updateUser(user2);
         }
     }
 

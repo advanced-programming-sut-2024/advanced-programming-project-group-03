@@ -21,12 +21,43 @@
 			],
 			"EnemyFinalScore": "1",
 			"MyFinalScore": "2"
+		},
+		{
+			"enemyUsername": "amin",
+			"Date": "Sat Jul 06 14:20:17 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"17",
+				"62"
+			],
+			"myScoresInRounds": [
+				"0",
+				"50"
+			],
+			"EnemyFinalScore": "2",
+			"MyFinalScore": "0"
+		},
+		{
+			"enemyUsername": "amin",
+			"Date": "Sat Jul 06 14:25:54 IRST 2024",
+			"winner": "kiarash",
+			"enemyScoresInRounds": [
+				"0",
+				"0"
+			],
+			"myScoresInRounds": [
+				"0",
+				"0"
+			],
+			"EnemyFinalScore": "0",
+			"MyFinalScore": "2"
 		}
 	],
-	"gamePlayedCount": 1,
-	"gameWonCount": 1,
+	"gamePlayedCount": 3,
+	"gameWonCount": 2,
+	"gameLostCount": 1,
 	"nickname": "sss",
-	"score": 66,
+	"score": 209,
 	"deckSave": {
 		"deckCards": [
 			"Sokka",
@@ -91,13 +122,43 @@
 			],
 			"EnemyFinalScore": "0",
 			"MyFinalScore": "2"
+		},
+		{
+			"enemyUsername": "kiarash",
+			"Date": "Sat Jul 06 14:20:17 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"0",
+				"50"
+			],
+			"myScoresInRounds": [
+				"17",
+				"62"
+			],
+			"EnemyFinalScore": "0",
+			"MyFinalScore": "2"
+		},
+		{
+			"enemyUsername": "kiarash",
+			"Date": "Sat Jul 06 14:25:54 IRST 2024",
+			"winner": "kiarash",
+			"enemyScoresInRounds": [
+				"0",
+				"0"
+			],
+			"myScoresInRounds": [
+				"0",
+				"0"
+			],
+			"EnemyFinalScore": "2",
+			"MyFinalScore": "0"
 		}
 	],
-	"gamePlayedCount": 3,
-	"gameWonCount": 2,
-	"gameLostCount": 1,
+	"gamePlayedCount": 5,
+	"gameWonCount": 3,
+	"gameLostCount": 2,
 	"nickname": "kooni",
-	"score": 191,
+	"score": 291,
 	"deckSave": {
 		"deckCards": [
 			"Avatar Aang",

@@ -5,10 +5,12 @@ import ir.ap.probending.Model.Card.Abilities.*;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.DeckSave;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
+import ir.ap.probending.Model.User;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -111,6 +113,12 @@ public class PreGame {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setOpponentPlayer(User user){
+        if (user != null){
+            GameMaster.getGameMaster().setLoggedInUser2(user);
         }
     }
 

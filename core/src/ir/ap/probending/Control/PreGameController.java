@@ -12,12 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
+import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PreGameController {
@@ -71,6 +74,13 @@ public class PreGameController {
     private final Label fireFactionAbilitiyLabel = new Label("Fire : Keeps a random unit card after each round", GameAssetManager.getGameAssetManager().getSkin());
     private final Label airFactionAbilitiyLabel = new Label("Air : Wins any round that ends in a draw", GameAssetManager.getGameAssetManager().getSkin());
     private final Label airFactionAbilitiyLabel2 = new Label("Air : 2 random cards from burnt cards are placed in the battle field at the start of 3rd set", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton chooseOpponentButton = new TextButton("Choose Opponent", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window chooseOpponentWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton submitOpponentButton = new TextButton("Submit", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label opponentLabel = new Label("Enter Opponent Name", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextField opponentTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label errorChooseOppLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeChooseOpponent = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
     private boolean usedBackButton = false;
 
     private PreGameController(Stage stage) {
@@ -85,6 +95,7 @@ public class PreGameController {
         leaderViewSetup();
         saveDeckViewSetUp();
         loadDeckViewSetUp();
+        setChooseOpponentButton();
 
         storageTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         storageTable.top().left();
@@ -582,6 +593,75 @@ public class PreGameController {
             public void clicked(InputEvent event, float x, float y) {
                 usedBackButton = true;
                 game.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
+            }
+        });
+    }
+
+    private void setChooseOpponentButton(){
+        stage.addActor(chooseOpponentButton);
+        chooseOpponentButton.setPosition(1200, 0);
+        chooseOpponentButton.getLabel().setScale(0.5f);
+        chooseOpponentButton.getLabel().setFontScale(0.5f);
+        chooseOpponentButton.setSize(300, 50);
+        stage.addActor(chooseOpponentWindow);
+        chooseOpponentWindow.setSize(500, 500);
+        chooseOpponentWindow.setPosition(Gdx.graphics.getWidth() / 2 - chooseOpponentWindow.getWidth() / 2, 500);
+        chooseOpponentWindow.setVisible(false);
+        chooseOpponentWindow.setMovable(false);
+        chooseOpponentWindow.addActor(opponentLabel);
+        opponentLabel.setPosition(90, 380);
+        opponentLabel.setFontScale(0.7f);
+        chooseOpponentWindow.addActor(opponentTextField);
+        opponentTextField.setWidth(500);
+        opponentTextField.setPosition(20, 300);
+        chooseOpponentWindow.addActor(errorChooseOppLabel);
+        errorChooseOppLabel.setPosition(20, 250);
+        chooseOpponentWindow.addActor(submitOpponentButton);
+        submitOpponentButton.setPosition(20, 100);
+        chooseOpponentWindow.addActor(closeChooseOpponent);
+        closeChooseOpponent.setPosition(20, 0);
+
+        chooseOpponentButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chooseOpponentWindow.setVisible(true);
+                chooseOpponentWindow.toFront();
+            }
+        });
+
+        submitOpponentButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (opponentTextField.getText().equals("")){
+                    errorChooseOppLabel.setText("Please enter a name");
+                    errorChooseOppLabel.setColor(Color.RED);
+                }
+                else {
+                    boolean found = false;
+                    List<User> users = SaveUser.loadUsers();
+                    for (User user : users) {
+                        if (user.getUsername().equals(opponentTextField.getText())) {
+                            PreGame.getPreGame().setOpponentPlayer(user);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found){
+                        errorChooseOppLabel.setText("User not found");
+                        errorChooseOppLabel.setColor(Color.RED);
+                    }
+                    else {
+                        chooseOpponentWindow.setVisible(false);
+                        errorChooseOppLabel.setText("");
+                    }
+                }
+            }
+        });
+
+        closeChooseOpponent.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chooseOpponentWindow.setVisible(false);
             }
         });
     }
