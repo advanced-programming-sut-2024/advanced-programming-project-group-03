@@ -9,24 +9,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
-import static java.lang.Thread.sleep;
-
-public class GameSession extends Thread{
-    private static ArrayList<Socket> sockets = new ArrayList<>();
+public class GameSession extends Thread {
+    private static final List<Socket> sockets = new ArrayList<>();
     private static GameSession instance = new GameSession();
-    static DataOutputStream log;
+    private static DataOutputStream log;
 
-
-    synchronized public static void main(String[] args) {
+    public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(5050);
-            new GameSession().start();
-            System.out.println("hi");
+            instance.start();  // Start the GameSession thread
+            System.out.println("Server started");
             while (true) {
                 Socket socket = serverSocket.accept();
-                synchronized(sockets) {
-                    instance.sockets.add(socket);
+                synchronized (sockets) {
+                    sockets.add(socket);
                 }
             }
         } catch (IOException e) {
@@ -34,152 +32,131 @@ public class GameSession extends Thread{
         }
     }
 
-    synchronized public static GameSession getInstance() {
+    public static synchronized GameSession getInstance() {
         if (instance == null) {
             instance = new GameSession();
         }
         return instance;
     }
 
-//    public static void runGameSession() throws IOException {
-//        new RunGameSession().start();
-//    }
-//
-//    static class RunGameSession extends Thread {
-//        @Override
-//        public void run() {
-//            main(null);
-//        }
-//    }
-
-//    static class RunSendMessage extends Thread {
-//        @Override
-//        public void run() {
-//            try {
-//                sendMessage();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
-
-
-    synchronized public void run() {
+    @Override
+    public void run() {
         try {
-            Socket socket2 = new Socket("localhost", 5000);
-            log = new DataOutputStream(socket2.getOutputStream());
-            System.out.println("hi");
-        }
-        catch (IOException e) {
+            Socket logSocket = new Socket("localhost", 5000);
+            log = new DataOutputStream(logSocket.getOutputStream());
+            System.out.println("Logging started");
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        while (true) {
-            ArrayList<Socket> deletedSockets = new ArrayList<>();
-            synchronized(sockets) {
-                socketFor:
-                for (Socket socket : sockets) {
 
+        while (true) {
+            List<Socket> deletedSockets = new ArrayList<>();
+            synchronized (sockets) {
+                for (Socket socket : sockets) {
                     try {
                         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                         String message = dataInputStream.readUTF();
-                        if (message != null && !message.equals("")) {
+                        if (message != null && !message.isEmpty()) {
                             System.out.println(message);
                             log.writeUTF(message);
                             log.flush();
-                            GameInfo gameInfo2 = GameInfo.getGameInfo(socket);
-                            if (gameInfo2 != null) {
-                                if (message.startsWith("pregame ")) {
-                                    if (gameInfo2.getFirstPlayerSocket().equals(socket)) {
-                                        if (gameInfo2.getFirstPlayerPreGame() != null) {
-                                            continue;
-                                        }
-                                        try {
-                                            String serializedPreGame = message.substring(8);
-                                            PreGame preGame = deserializePreGame(serializedPreGame);
-                                            gameInfo2.setFirstPlayerPreGame(preGame);
-                                            if (gameInfo2.getSecondPlayerPreGame() != null) {
-                                                gameInfo2.setupGameBoard();
-                                            }
-                                        } catch (IOException | ClassNotFoundException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else if (gameInfo2.getSecondPlayerSocket().equals(socket)) {
-                                        if (gameInfo2.getSecondPlayerPreGame() != null) {
-                                            continue;
-                                        }
-                                        try {
-                                            String serializedPreGame = message.substring(8);
-                                            PreGame preGame = deserializePreGame(serializedPreGame);
-                                            gameInfo2.setSecondPlayerPreGame(preGame);
-                                            if (gameInfo2.getFirstPlayerPreGame() != null) {
-                                                gameInfo2.setupGameBoard();
-                                            }
-                                        } catch (IOException | ClassNotFoundException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-
-                                if (message.equals("AreUsersReady")) {
-                                    DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                                    if (gameInfo2.isGameStarted()) {
-                                        dataOutputStream.writeUTF("yes");
-                                        dataOutputStream.flush();
-                                    } else {
-                                        dataOutputStream.writeUTF("no");
-                                        dataOutputStream.flush();
-                                    }
-                                    continue;
-                                }
-
-                                if (message.equals("getGameBoard")) {
-                                    DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                                    dataOutputStream.writeUTF(new Gson().toJson(gameInfo2.getGameBoard()));
-                                    dataOutputStream.flush();
-                                    continue;
-                                }
-
-                                if (gameInfo2.getFirstPlayerSocket().equals(socket) && !gameInfo2.getFirstPlayer().getUsername().equals(message)) {
-                                    DataOutputStream dataOutputStream = new DataOutputStream(gameInfo2.getSecondPlayerSocket().getOutputStream());
-                                    dataOutputStream.writeUTF(message);
-                                    dataOutputStream.flush();
-                                    continue;
-                                } else if (gameInfo2.getSecondPlayerSocket().equals(socket) && !gameInfo2.getSecondPlayer().getUsername().equals(message)) {
-                                    DataOutputStream dataOutputStream = new DataOutputStream(gameInfo2.getFirstPlayerSocket().getOutputStream());
-                                    dataOutputStream.writeUTF(message);
-                                    dataOutputStream.flush();
-                                    continue;
-                                }
-                            } else {
-                                for (GameInfo gameInfo : GameInfo.getGameInfos()) {
-
-                                    if (gameInfo.getFirstPlayer().getUsername().equals(message) && gameInfo.getFirstPlayerSocket() == null) {
-                                        gameInfo.setFirstPlayerSocket(socket);
-                                        continue socketFor;
-                                    } else if (gameInfo.getSecondPlayer().getUsername().equals(message) && gameInfo.getFirstPlayerSocket() == null) {
-                                        gameInfo.setSecondPlayerSocket(socket);
-                                        continue socketFor;
-                                    }
-                                }
-                            }
+                            processMessage(socket, message);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                         deletedSockets.add(socket);
                     }
                 }
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                sockets.removeAll(deletedSockets);
                 for (Socket socket : deletedSockets) {
-                    instance.sockets.remove(socket);
-                    GameInfo.getGameInfos().removeIf(gameInfo -> gameInfo.getFirstPlayerSocket().equals(socket) || gameInfo.getSecondPlayerSocket().equals(socket));
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
     }
 
-    public void serverStart(User firstUser, User secondUser) {
-        new GameInfo(firstUser, secondUser, null, null);
+    private void processMessage(Socket socket, String message) throws IOException {
+        GameInfo gameInfo = GameInfo.getGameInfo(socket);
+        if (gameInfo != null) {
+            if (message.startsWith("pregame ")) {
+                handlePreGameMessage(socket, message, gameInfo);
+            } else if (message.equals("AreUsersReady")) {
+                handleAreUsersReadyMessage(socket, gameInfo);
+            } else if (message.equals("getGameBoard")) {
+                handleGetGameBoardMessage(socket, gameInfo);
+            } else {
+                forwardMessageToOpponent(socket, message, gameInfo);
+            }
+        } else {
+            assignSocketToGameInfo(socket, message);
+        }
+    }
+
+    private void handlePreGameMessage(Socket socket, String message, GameInfo gameInfo) throws IOException {
+        try {
+            String serializedPreGame = message.substring(8);
+            PreGame preGame = deserializePreGame(serializedPreGame);
+            if (gameInfo.getFirstPlayerSocket().equals(socket)) {
+                if (gameInfo.getFirstPlayerPreGame() == null) {
+                    gameInfo.setFirstPlayerPreGame(preGame);
+                }
+            } else if (gameInfo.getSecondPlayerSocket().equals(socket)) {
+                if (gameInfo.getSecondPlayerPreGame() == null) {
+                    gameInfo.setSecondPlayerPreGame(preGame);
+                }
+            }
+            if (gameInfo.getFirstPlayerPreGame() != null && gameInfo.getSecondPlayerPreGame() != null) {
+                gameInfo.setupGameBoard();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleAreUsersReadyMessage(Socket socket, GameInfo gameInfo) throws IOException {
+        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        if (gameInfo.isGameStarted()) {
+            dataOutputStream.writeUTF("yes");
+        } else {
+            dataOutputStream.writeUTF("no");
+        }
+        dataOutputStream.flush();
+    }
+
+    private void handleGetGameBoardMessage(Socket socket, GameInfo gameInfo) throws IOException {
+        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        dataOutputStream.writeUTF(new Gson().toJson(gameInfo.getGameBoard()));
+        dataOutputStream.flush();
+    }
+
+    private void forwardMessageToOpponent(Socket socket, String message, GameInfo gameInfo) throws IOException {
+        DataOutputStream dataOutputStream = new DataOutputStream(
+                gameInfo.getFirstPlayerSocket().equals(socket) ?
+                        gameInfo.getSecondPlayerSocket().getOutputStream() :
+                        gameInfo.getFirstPlayerSocket().getOutputStream());
+        dataOutputStream.writeUTF(message);
+        dataOutputStream.flush();
+    }
+
+    private void assignSocketToGameInfo(Socket socket, String message) {
+        for (GameInfo gameInfo : GameInfo.getGameInfos()) {
+            if (gameInfo.getFirstPlayer().getUsername().equals(message) && gameInfo.getFirstPlayerSocket() == null) {
+                gameInfo.setFirstPlayerSocket(socket);
+                return;
+            } else if (gameInfo.getSecondPlayer().getUsername().equals(message) && gameInfo.getSecondPlayerSocket() == null) {
+                gameInfo.setSecondPlayerSocket(socket);
+                return;
+            }
+        }
     }
 
     public static PreGame deserializePreGame(String serializedPreGame) throws IOException, ClassNotFoundException {
@@ -188,6 +165,4 @@ public class GameSession extends Thread{
             return (PreGame) objectInputStream.readObject();
         }
     }
-
-
 }

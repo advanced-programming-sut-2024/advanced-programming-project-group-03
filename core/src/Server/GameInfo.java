@@ -135,4 +135,9 @@ public class GameInfo {
     public boolean isGameStarted() {
         return isGameStarted;
     }
+
+    public static void serverStart(User firstUser, User secondUser, Socket firstPlayerSocket, Socket secondPlayerSocket) {
+        GameInfo gameInfo = new GameInfo(firstUser, secondUser, firstPlayerSocket, secondPlayerSocket);
+        gameInfos.add(gameInfo);
+    }
 }
