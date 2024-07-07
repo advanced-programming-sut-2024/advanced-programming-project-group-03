@@ -20,6 +20,15 @@ public class Client {
         return this.receiveMessage();
     }
 
+    public String gameCommunicate(String message) {
+        this.sendGameMessage(message);
+        if (message.equals("exit")) {
+            this.closeConnection();
+            return null;
+        }
+        return this.receiveGameMessage();
+    }
+
     public boolean establishConnection(String address, int port) {
         try {
             socket = new Socket(address, port);
@@ -34,7 +43,7 @@ public class Client {
         }
     }
 
-    private void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             dataOutputStream.writeUTF(message);
             dataOutputStream.flush();

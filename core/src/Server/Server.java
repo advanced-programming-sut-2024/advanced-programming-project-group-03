@@ -265,6 +265,9 @@ public class Server extends Thread {
     }
 
     private void saveUser(User user) {
+        if (user.getUsername().equals("Guest1")) {
+            return;
+        }
         if (user.getUsername().equals(currentUser.getUsername())) {
             currentUser = user;
         }
@@ -481,9 +484,9 @@ public class Server extends Thread {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         loadUsersFromFile();
-        GameSession.getInstance().runGameSession();
+//        GameSession.getInstance().runGameSession();
 
         try {
             ServerSocket serverSocket = new ServerSocket(5000);

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.google.gson.Gson;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Factions.FactionObjects;
@@ -17,7 +18,12 @@ import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 
 
 public class PreGameController {
@@ -123,11 +129,28 @@ public class PreGameController {
         playGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.getScreen().dispose();
-                game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
-                Game.getGame().startGame();
+                try {
+                    String serializedPreGame = serializePreGame(PreGame.getPreGame());
+                    ProBending.client.sendGameMessage("pregame " + serializedPreGame);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String response = ProBending.client.gameCommunicate("AreUsersReady");
+                if (response.equals("yes")) {
+                    game.getScreen().dispose();
+                    game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
+                    Game.getGame().startGame();
+                }
             }
         });
+    }
+
+    public static String serializePreGame(PreGame preGame) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+            objectOutputStream.writeObject(preGame);
+        }
+        return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
     }
 
     public void handlePreGameController(ProBending game) {

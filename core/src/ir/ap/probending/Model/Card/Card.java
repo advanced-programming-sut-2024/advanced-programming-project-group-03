@@ -16,18 +16,23 @@ import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Game.Game;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Card extends Actor {
-    private Ability ability;
+public class Card extends Actor implements Serializable {
+    private static final long serialVersionUID = 1L;
+    transient private Ability ability;
     String name;
     String description;
     int power;
     int originalPower;
     boolean isHero;
-    Texture cardTexture;
-    Sprite cardSprite;
+    transient Texture cardTexture;
+    transient Sprite cardSprite;
     Texture cardPowerTexture;
     Sprite cardPowerSprite;
     int playingRow;
@@ -454,5 +459,17 @@ public class Card extends Actor {
 
     public Card clone7() {
         return new Card(this, 1, 1, 1, 1, 1);
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+        // Handle texture and sprite serialization if needed
+        // For example, serialize texture path if applicable
+    }
+
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        // Handle texture and sprite deserialization if needed
+        // For example, reinitialize texture from path if applicable
     }
 }

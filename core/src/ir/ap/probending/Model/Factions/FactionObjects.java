@@ -20,4 +20,13 @@ public enum FactionObjects {
     public Faction getFaction() {
         return faction;
     }
+
+    public static Faction getFactionByName(String name) {
+        for (FactionObjects faction : FactionObjects.values()) {
+            if (faction.getFaction().getFactionName().equals(name)) {
+                return faction.getFaction().clone();
+            }
+        }
+        return null;
+    }
 }

@@ -109,6 +109,7 @@ public class LoginController {
                 else if(verificationCodeField.getText().equals(verificationCode)){
                     loggedInUser.setHasLoggedIn(true);
                     loggedInUser.setOnline(true);
+                    loggedInUser.setPlaying(false);
                     ProBending.client.communicate("saveUser " + gson.toJson(loggedInUser));
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));

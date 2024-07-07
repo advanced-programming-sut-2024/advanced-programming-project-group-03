@@ -162,6 +162,15 @@ public enum CardObjects {
         return card;
     }
 
+    public static Card getCardWithName(String name) {
+        for (CardObjects cardObject : CardObjects.values()) {
+            if (cardObject.getCard().getName().equals(name)) {
+                return cardObject.getCard().clone();
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(getNeutralCards());

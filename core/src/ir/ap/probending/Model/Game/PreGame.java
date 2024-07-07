@@ -5,14 +5,16 @@ import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Factions.Faction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PreGame {
+public class PreGame implements Serializable {
     private static PreGame preGame = new PreGame();
     private Faction playerFaction;
     private Card selectedLeader;
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
+    private static final long serialVersionUID = 1L;
 
     public void changeFaction(Faction faction) {
         playerFaction = faction;

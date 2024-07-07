@@ -13,6 +13,7 @@ import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
@@ -816,9 +817,9 @@ public class GameUIController {
         playLeaderAbilityButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (Game.getGame().getCurrentTurn() == 1)
+                if (Game.getGame().getCurrentTurn() == 1 && Game.getGame().getGameBoard().getPlayer1().getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername()))
                     Game.getGame().getGameBoard().getPlayer1Board().playLeaderAbility();
-                else
+                else if (Game.getGame().getCurrentTurn() == 2 && Game.getGame().getGameBoard().getPlayer2().getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser2().getUsername()))
                     Game.getGame().getGameBoard().getPlayer2Board().playLeaderAbility();
             }
         });
