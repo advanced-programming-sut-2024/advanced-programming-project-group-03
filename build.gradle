@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,7 +7,6 @@ buildscript {
         google()
     }
     dependencies {
-        
 
     }
 }
@@ -43,23 +40,20 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
-        testImplementation "junit:junit:4.13.2"
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
-        testImplementation 'junit:junit:4.13.2'
     }
 }
+
