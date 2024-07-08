@@ -2,13 +2,10 @@ package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ir.ap.probending.Control.*;
-import ir.ap.probending.Model.Card.CardsInfo;
 import ir.ap.probending.ProBending;
 
 public class PreGameScreen implements Screen {

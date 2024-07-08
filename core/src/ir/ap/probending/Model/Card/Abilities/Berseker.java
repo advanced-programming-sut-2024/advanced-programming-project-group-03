@@ -1,9 +1,9 @@
 package ir.ap.probending.Model.Card.Abilities;
 
-import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 public class Berseker extends Ability{
     public void executeAbility(Card card) {

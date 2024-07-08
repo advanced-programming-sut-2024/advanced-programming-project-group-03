@@ -1,4 +1,4 @@
-package ir.ap.probending.Control;
+package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,12 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Abilities.CommandersHorn;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
 import ir.ap.probending.Model.Card.Abilities.Mardroeme;
-import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Model.Factions.Faction;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 
 public class GameUIController {
     private final Table table = new Table();
-    private static GameUIController gameUIController = new GameUIController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+    private static GameUIController gameUIController ;
     private final Image boardImage = new Image(new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getGameBoardImage())));
     private final Image cardImage = new Image();
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
@@ -155,6 +153,10 @@ public class GameUIController {
         addDeckAndBurntToView();
     }
 
+    private GameUIController(){
+
+    }
+
     //functionality methods
     public void handlePreGameController(ProBending game) {
         this.game = game;
@@ -180,16 +182,16 @@ public class GameUIController {
             if (!(clickedCard.getAbility() instanceof Decoy)){
 
                 if (row == 5) {
-                    Game.getGame().playCard(clickedCard , 0 );
+                    Game.getGame().playCard(clickedCard , 0  , true);
                 }
                 else if (row == 4) {
-                    Game.getGame().playCard(clickedCard , 1 );
+                    Game.getGame().playCard(clickedCard , 1  , true);
                 }
                 else if (row == 3) {
-                    Game.getGame().playCard(clickedCard , 2 );
+                    Game.getGame().playCard(clickedCard , 2  , true);
                 }
                 else {
-                    Game.getGame().playCard(clickedCard , row );
+                    Game.getGame().playCard(clickedCard , row , true);
                 }
             }
         }
@@ -255,7 +257,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme) && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 7);
+                    Game.getGame().playCard(clickedCard , 7 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -267,7 +269,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 8);
+                    Game.getGame().playCard(clickedCard , 8 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -279,7 +281,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 9);
+                    Game.getGame().playCard(clickedCard , 9 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -291,7 +293,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 10);
+                    Game.getGame().playCard(clickedCard , 10 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -303,7 +305,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 11);
+                    Game.getGame().playCard(clickedCard , 11 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -315,7 +317,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 12);
+                    Game.getGame().playCard(clickedCard , 12 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -943,7 +945,7 @@ public class GameUIController {
         passButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getGame().endTurn();
+                Game.getGame().endTurn(true);
             }
         });
         table.addActor(passButton);
@@ -1116,6 +1118,8 @@ public class GameUIController {
     //getters and setters
 
     public static GameUIController getGameUIController() {
+        if (gameUIController == null)
+            gameUIController = new GameUIController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
         return gameUIController;
     }
     public Table getTable() {
@@ -1264,5 +1268,9 @@ public class GameUIController {
 
     public Window getCardListWindow() {
         return cardListWindow;
+    }
+
+    public static void setNewGameUIController(){
+        gameUIController = new GameUIController();
     }
 }

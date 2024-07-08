@@ -1,11 +1,11 @@
 package ir.ap.probending.Model.Card.Abilities.LeaderAbilities;
 
-import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 public class LeaderAbility15 extends Ability {
     @Override

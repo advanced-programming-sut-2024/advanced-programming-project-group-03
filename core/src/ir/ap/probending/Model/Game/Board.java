@@ -1,12 +1,11 @@
 package ir.ap.probending.Model.Game;
 
-import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.Control.Game;
 import ir.ap.probending.Model.Card.Abilities.*;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
     private ArrayList<Card> closeCombat = new ArrayList<>();

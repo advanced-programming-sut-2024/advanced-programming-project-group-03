@@ -18,6 +18,12 @@ public class Faction {
         this.cards = new ArrayList<>(cards);
     }
 
+    public Faction(String factionName , ArrayList<Card> leaders, ArrayList<Card> cards) {
+        this.factionName = factionName;
+        this.leaders = new ArrayList<>(leaders);
+        this.cards = new ArrayList<>(cards);
+    }
+
     public Faction clone() {
         return new Faction(factionName, texture, leaders, cards);
     }

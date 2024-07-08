@@ -15,16 +15,22 @@ public class GameMaster {
         loggedInUser1 = guestUser1;
         loggedInUser2 = guestUser2;
 
-        List<User> users = SaveUser.loadUsers();
-        if (users != null) {
-            for (User user : users) {
-                if (user.isRememberMe()) {
-                    loggedInUser1 = user;
-                    break;
+        try {
+            List<User> users = SaveUser.loadUsers();
+            if (users != null) {
+                for (User user : users) {
+                    if (user.isRememberMe()) {
+                        loggedInUser1 = user;
+                        break;
+                    }
                 }
             }
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     //getters and setters
 
     public User getLoggedInUser1() {
@@ -53,5 +59,9 @@ public class GameMaster {
 
     public User getGuestUser2() {
         return guestUser2;
+    }
+
+    public static void setNewGameMaster(){
+        gameMaster = new GameMaster();
     }
 }

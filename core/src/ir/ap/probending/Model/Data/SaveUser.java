@@ -37,21 +37,27 @@ public class SaveUser {
         }
     }
 
-    public static List<User> loadUsers(){
+    public static List<User> loadUsers() throws ExceptionInInitializerError{
         Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-
-        FileHandle file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
-
-        String loadedUser = file.readString();
+        FileHandle file = null;
         try {
+            json.setOutputType(JsonWriter.OutputType.json);
+
+            file = new FileHandle(GameAssetManager.getGameAssetManager().getSaveDataUserLocation());
+
+            String loadedUser = file.readString();
             List<User> users = json.fromJson(ArrayList.class, User.class, loadedUser);
             return users;
         }
         catch (Exception e){
-            List<User> users = new ArrayList<>();
-            String usersJson = json.prettyPrint(users);
-            file.writeString(usersJson, false);
+            /*try {
+                List<User> users = new ArrayList<>();
+                String usersJson = json.prettyPrint(users);
+                file.writeString(usersJson, false);
+            }
+            catch (Exception e1){
+                e1.printStackTrace();
+            }*/
         }
         return new ArrayList<>();
     }

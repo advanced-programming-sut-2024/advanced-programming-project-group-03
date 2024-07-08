@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameAssetManager {
-    private static GameAssetManager gameAssetManager = new GameAssetManager();
-    private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+    private static GameAssetManager gameAssetManager ;
+    private Skin skin ;
     private final String backgroundImage = "bg.jpg";
     private final String gameBoardImage = "board.jpg";
     private final String saveDataUserLocation = "users.json";
@@ -76,62 +76,22 @@ public class GameAssetManager {
     private final String bgAppa50 = "bglive/ezgif-frame-050.jpg";
     private final TextureRegion[] bgAppaFrames = new TextureRegion[50];
     private GameAssetManager() {
-        bgAppaFrames[0] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa1)));
-        bgAppaFrames[1] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa2)));
-        bgAppaFrames[2] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa3)));
-        bgAppaFrames[3] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa4)));
-        bgAppaFrames[4] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa5)));
-        bgAppaFrames[5] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa6)));
-        bgAppaFrames[6] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa7)));
-        bgAppaFrames[7] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa8)));
-        bgAppaFrames[8] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa9)));
-        bgAppaFrames[9] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa10)));
-        bgAppaFrames[10] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa11)));
-        bgAppaFrames[11] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa12)));
-        bgAppaFrames[12] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa13)));
-        bgAppaFrames[13] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa14)));
-        bgAppaFrames[14] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa15)));
-        bgAppaFrames[15] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa16)));
-        bgAppaFrames[16] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa17)));
-        bgAppaFrames[17] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa18)));
-        bgAppaFrames[18] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa19)));
-        bgAppaFrames[19] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa20)));
-        bgAppaFrames[20] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa21)));
 
-        bgAppaFrames[21] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa22)));
-        bgAppaFrames[22] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa23)));
-        bgAppaFrames[23] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa24)));
-        bgAppaFrames[24] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa25)));
-        bgAppaFrames[25] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa26)));
-        bgAppaFrames[26] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa27)));
-        bgAppaFrames[27] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa28)));
-        bgAppaFrames[28] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa29)));
-        bgAppaFrames[29] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa30)));
-        bgAppaFrames[30] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa31)));
-        bgAppaFrames[31] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa32)));
-        bgAppaFrames[32] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa33)));
-        bgAppaFrames[33] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa34)));
-        bgAppaFrames[34] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa35)));
-        bgAppaFrames[35] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa36)));
-        bgAppaFrames[36] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa37)));
-        bgAppaFrames[37] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa38)));
-        bgAppaFrames[38] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa39)));
-        bgAppaFrames[39] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa40)));
-        bgAppaFrames[40] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa41)));
-        bgAppaFrames[41] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa42)));
-        bgAppaFrames[42] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa43)));
-        bgAppaFrames[43] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa44)));
-        bgAppaFrames[44] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa45)));
-        bgAppaFrames[45] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa46)));
-        bgAppaFrames[46] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa47)));
-        bgAppaFrames[47] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa48)));
-        bgAppaFrames[48] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa49)));
-        bgAppaFrames[49] = new TextureRegion(new Texture(Gdx.files.internal(bgAppa50)));
 
     }
     public static GameAssetManager getGameAssetManager(){
+        if (gameAssetManager == null){
+            gameAssetManager = new GameAssetManager();
+            gameAssetManager.setSkin(new Skin(Gdx.files.internal("skin/pixthulhu-ui.json")));
+
+        }
         return gameAssetManager;
     }
+
+    private void setSkin(Skin skin) {
+        this.skin = skin;
+    }
+
     public Skin getSkin() {
         return skin;
     }
@@ -173,4 +133,5 @@ public class GameAssetManager {
     public String getGameBoardImage() {
         return gameBoardImage;
     }
+
 }

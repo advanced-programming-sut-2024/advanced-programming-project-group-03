@@ -1,6 +1,5 @@
 package ir.ap.probending.Model.Game;
 
-import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 
 import java.util.ArrayList;

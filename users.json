@@ -152,13 +152,28 @@
 			],
 			"EnemyFinalScore": "2",
 			"MyFinalScore": "0"
+		},
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Mon Jul 08 20:38:24 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"0",
+				"0"
+			],
+			"myScoresInRounds": [
+				"10",
+				"0"
+			],
+			"EnemyFinalScore": "1",
+			"MyFinalScore": "2"
 		}
 	],
-	"gamePlayedCount": 5,
-	"gameWonCount": 3,
+	"gamePlayedCount": 6,
+	"gameWonCount": 4,
 	"gameLostCount": 2,
 	"nickname": "kooni",
-	"score": 291,
+	"score": 359,
 	"deckSave": {
 		"deckCards": [
 			"Avatar Aang",

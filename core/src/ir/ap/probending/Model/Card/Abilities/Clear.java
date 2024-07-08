@@ -1,7 +1,7 @@
 package ir.ap.probending.Model.Card.Abilities;
 
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 public class Clear extends Ability {
     @Override

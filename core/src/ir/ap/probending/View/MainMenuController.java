@@ -1,10 +1,7 @@
-package ir.ap.probending.Control;
+package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,19 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.video.VideoPlayer;
-import com.badlogic.gdx.video.VideoPlayerCreator;
 import ir.ap.probending.Model.Data.MusicMaster;
 import ir.ap.probending.Model.Factions.FactionObjects;
-import ir.ap.probending.Model.Game.PreGame;
+import ir.ap.probending.Control.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
-import ir.ap.probending.View.PreGameScreen;
-
-import java.io.FileNotFoundException;
 
 public class MainMenuController {
     private final static MainMenuController mainMenuController = new MainMenuController();

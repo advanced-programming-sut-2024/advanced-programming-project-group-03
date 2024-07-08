@@ -2,11 +2,11 @@ package ir.ap.probending.Model.Card.Abilities.LeaderAbilities;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-import ir.ap.probending.Model.Game.PreGame;
+import ir.ap.probending.Control.PreGame;
 import org.junit.Assert;
 import org.junit.Test;
 

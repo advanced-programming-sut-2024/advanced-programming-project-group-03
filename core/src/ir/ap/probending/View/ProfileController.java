@@ -1,4 +1,4 @@
-package ir.ap.probending.Control;
+package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ir.ap.probending.Model.Data.*;
-import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.ScreenMasterSetting;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

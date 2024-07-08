@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import ir.ap.probending.Control.GameUIController;
-import ir.ap.probending.Control.PreGameController;
+import ir.ap.probending.View.GameUIController;
+import ir.ap.probending.View.PreGameController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 import java.util.ArrayList;
 
@@ -62,6 +62,18 @@ public class Card extends Actor {
                 return true;
             }
         });
+    }
+
+    public Card(Ability ability, String name, String description, int power, boolean isHero, int playingRow) {
+        this.ability = ability;
+        this.name = name;
+        this.description = description;
+        this.power = power;
+        this.originalPower = power;
+        this.isHero = isHero;
+        this.playingRow = playingRow;
+        this.setX(originalX);
+        this.setY(originalY);
     }
 
     private Card(Card card) {
@@ -211,7 +223,7 @@ public class Card extends Actor {
                         Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
                         Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
                         GameUIController.getGameUIController().updateRows();
-                        Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow);
+                        Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow , true);
                         GameUIController.getGameUIController().setClickedCard(null);
                     }
                 }

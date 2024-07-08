@@ -40,6 +40,8 @@ public class ScreenMasterSetting {
     }
 
     public PreGameScreen getPreGameScreen() {
+        if (preGameScreen == null)
+            preGameScreen = new PreGameScreen(this.game);
         return preGameScreen;
     }
 

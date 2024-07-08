@@ -1,8 +1,8 @@
 package ir.ap.probending.Model.Card.Abilities;
 
-import ir.ap.probending.Control.GameUIController;
+import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Game.Game;
+import ir.ap.probending.Control.Game;
 
 import java.util.ArrayList;
 

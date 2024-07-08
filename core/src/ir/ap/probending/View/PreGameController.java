@@ -1,4 +1,4 @@
-package ir.ap.probending.Control;
+package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,8 +14,8 @@ import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Factions.FactionObjects;
-import ir.ap.probending.Model.Game.Game;
-import ir.ap.probending.Model.Game.PreGame;
+import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.PreGame;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
