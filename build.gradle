@@ -11,6 +11,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'java'
+}
+
 allprojects {
     apply plugin: "eclipse"
 
@@ -35,6 +39,9 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
     }
+
+    dependencies {
+    }
 }
 
 project(":desktop") {
@@ -45,6 +52,12 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx-video:gdx-video-lwjgl3:$gdxVideo"
+        implementation 'junit:junit:4.10'
+        testImplementation 'junit:junit:4.10'
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 
@@ -54,6 +67,12 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx-video:gdx-video:$gdxVideo"
+        implementation 'junit:junit:4.10'
+        testImplementation 'junit:junit:4.10'
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 

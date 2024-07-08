@@ -1,14 +1,27 @@
 plugins {
     id 'java'
 }
+repositories {
+    mavenCentral()
+}
+group = 'org.example'
 
 apply plugin: "java-library"
 
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-sourceSets.main.java.srcDirs = [ "src/main/java" ]
-sourceSets.test.java.srcDirs = [ "src/test/java/" ]
-sourceSets.test.resources.srcDirs = [ "src/test/res/" ]
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
 
 
 
@@ -19,6 +32,8 @@ eclipse {
 }
 
 dependencies {
+    implementation 'junit:junit:4.10'
+    testImplementation 'junit:junit:4.10'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
@@ -26,8 +41,6 @@ dependencies {
     implementation 'org.springframework:spring-webmvc:5.3.13'
     implementation 'org.springframework:spring-core:5.3.13'
     implementation 'org.springframework:spring-context:5.3.13'
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
