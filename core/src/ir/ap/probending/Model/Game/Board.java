@@ -7,10 +7,12 @@ import ir.ap.probending.Model.Card.Abilities.Spy;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class Board implements Serializable {
+    private static final long serialVersionUID = 1L;
     private ArrayList<Card> closeCombat = new ArrayList<>();
     private ArrayList<Card> ranged = new ArrayList<>();
     private ArrayList<Card> siege = new ArrayList<>();

@@ -3,12 +3,14 @@ package ir.ap.probending.Model;
 import Server.FriendRequest;
 import ir.ap.probending.Model.Data.GameHistory;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String username;
     private String password;
     private String email;

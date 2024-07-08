@@ -70,11 +70,16 @@ public class GameInfo {
     public static GameInfo getGameInfo(Socket socket) {
         for (GameInfo gameInfo : gameInfos) {
             if (gameInfo.getFirstPlayerSocket() == socket || gameInfo.getSecondPlayerSocket() == socket) {
+                System.out.println("Found game info for socket: " + socket);
                 return gameInfo;
+            } else {
+                System.out.println("No game info found for " + gameInfo.getFirstPlayer().getUsername() + " and " + gameInfo.getSecondPlayer().getUsername());
             }
         }
+        System.out.println("No game info found for socket: " + socket);
         return null;
     }
+
 
     public PreGame getFirstPlayerPreGame() {
         return firstPlayerPreGame;
@@ -110,7 +115,7 @@ public class GameInfo {
 //        GameUIController.getGameUIController().activateCardListWindow();
         ArrayList<Card> vetoCards = new ArrayList<>();
         for (Card card : gameBoard.getPlayer1().getHand()) {
-            vetoCards.add(card.clone5());
+            vetoCards.add(card);
         }
 //        GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
 
@@ -118,9 +123,9 @@ public class GameInfo {
 //        setUpHandView(gameBoard.getPlayer1());
 
         //set leaders and factions
-        gameBoard.getPlayer1Board().setLeader(firstPlayerPreGame.getSelectedLeader().clone6());
+        gameBoard.getPlayer1Board().setLeader(firstPlayerPreGame.getSelectedLeader());
         gameBoard.getPlayer1Board().setFaction(firstPlayerPreGame.getPlayerFaction());
-        gameBoard.getPlayer2Board().setLeader(secondPlayerPreGame.getSelectedLeader().clone6());
+        gameBoard.getPlayer2Board().setLeader(secondPlayerPreGame.getSelectedLeader());
         gameBoard.getPlayer2Board().setFaction(secondPlayerPreGame.getPlayerFaction());
         isGameStarted = true;
 
@@ -134,10 +139,5 @@ public class GameInfo {
 
     public boolean isGameStarted() {
         return isGameStarted;
-    }
-
-    public static void serverStart(User firstUser, User secondUser, Socket firstPlayerSocket, Socket secondPlayerSocket) {
-        GameInfo gameInfo = new GameInfo(firstUser, secondUser, firstPlayerSocket, secondPlayerSocket);
-        gameInfos.add(gameInfo);
     }
 }

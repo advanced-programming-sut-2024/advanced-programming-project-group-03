@@ -259,6 +259,9 @@ public class ProfileController {
             public void clicked(InputEvent event, float x, float y) {
                 String response = ProBending.client.communicate("acceptGameRequest "+ gameRequestField.getText());
                 gameRequestLabel.setText(response);
+                if (response.equals("Game request accepted")) {
+                    ProBending.client.sendGameMessage("startGame " + GameMaster.getGameMaster().getLoggedInUser1().getUsername() + " " + gameRequestField.getText());
+                }
             }
         });
     }

@@ -3,9 +3,11 @@ package ir.ap.probending.Model.Game;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameBoard {
+public class GameBoard implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Board player1Board;
     private Player player1;
     private Board player2Board;

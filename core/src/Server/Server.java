@@ -397,7 +397,8 @@ public class Server extends Thread {
             return "User is offline";
         } else {
             // Start the game session
-            GameInfo.serverStart(sender, currentUser, null, null);
+//            GameSession.serverStart(sender, currentUser);
+            System.out.println(sender.getUsername() + " and " + currentUser.getUsername() + " are playing a game");
             sender.setPlaying(true);
             currentUser.setPlaying(true);
             return "Game request accepted";

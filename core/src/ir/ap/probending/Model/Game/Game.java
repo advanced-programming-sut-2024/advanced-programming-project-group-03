@@ -9,7 +9,11 @@ import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.ProBending;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;
 
@@ -39,21 +43,18 @@ public class Game {
 //            gameBoard.getPlayer1().drawCard();
 //            gameBoard.getPlayer2().drawCard();
 //        }
-        Gson gson = new Gson();
-        gameBoard = gson.fromJson(ProBending.client.gameCommunicate("getGameBoard"), GameBoard.class);
+        try {
+            gameBoard = deserializeGetGame(ProBending.client.gameCommunicate("getGameBoard"));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // get the texture of cards and factions in the board game
-        for (Card card : gameBoard.getPlayer1().getDeck()) {
-            card = CardObjects.getCardWithName(card.getName());
-        }
-        for (Card card : gameBoard.getPlayer1().getHand()) {
-            card = CardObjects.getCardWithName(card.getName());
-        }
-        for (Card card : gameBoard.getPlayer2().getHand()) {
-            card = CardObjects.getCardWithName(card.getName());
-        }
-        for (Card card : gameBoard.getPlayer2().getDeck()) {
-            card = CardObjects.getCardWithName(card.getName());
-        }
+
+        gameBoard.getPlayer1().setDeck(CardObjects.getCardsWithNames(gameBoard.getPlayer1().getDeck()));
+        gameBoard.getPlayer1().setHand(CardObjects.getCardsWithNames(gameBoard.getPlayer1().getHand()));
+        gameBoard.getPlayer2().setDeck(CardObjects.getCardsWithNames(gameBoard.getPlayer2().getDeck()));
+        gameBoard.getPlayer2().setHand(CardObjects.getCardsWithNames(gameBoard.getPlayer2().getHand()));
         gameBoard.getPlayer1Board().setFaction(FactionObjects.getFactionByName(gameBoard.getPlayer1Board().getFaction().getFactionName()));
         gameBoard.getPlayer2Board().setFaction(FactionObjects.getFactionByName(gameBoard.getPlayer2Board().getFaction().getFactionName()));
         gameBoard.getPlayer1Board().setLeader(CardObjects.getCardWithName(gameBoard.getPlayer1Board().getLeader().getName()));
@@ -502,5 +503,12 @@ public class Game {
 
     public void setLoseHalfInBadWeatherActivated(boolean loseHalfInBadWeatherActivated) {
         isLoseHalfInBadWeatherActivated = loseHalfInBadWeatherActivated;
+    }
+
+    public static GameBoard deserializeGetGame(String serializedGame) throws IOException, ClassNotFoundException{
+        byte[] data = Base64.getDecoder().decode(serializedGame);
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data))) {
+            return (GameBoard) objectInputStream.readObject();
+        }
     }
 }

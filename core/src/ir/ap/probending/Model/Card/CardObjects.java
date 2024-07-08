@@ -171,6 +171,14 @@ public enum CardObjects {
         return null;
     }
 
+    public static ArrayList<Card> getCardsWithNames(ArrayList<Card> cards) {
+        ArrayList<Card> result = new ArrayList<>();
+        for (Card card : cards) {
+            result.add(getCardWithName(card.name));
+        }
+        return result;
+    }
+
     public static ArrayList<Card> getWaterCards() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(getNeutralCards());

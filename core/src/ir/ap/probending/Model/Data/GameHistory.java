@@ -1,8 +1,10 @@
 package ir.ap.probending.Model.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameHistory {
+public class GameHistory implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String enemyUsername;
     private String Date;
     private String winner;

@@ -2,7 +2,10 @@ package Server;
 
 import ir.ap.probending.Model.User;
 
-public class FriendRequest {
+import java.io.Serializable;
+
+public class FriendRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
     static int counter = 0;
     private String state;
     private String receiver;
