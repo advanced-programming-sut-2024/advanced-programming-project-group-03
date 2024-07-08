@@ -19,7 +19,7 @@ public class PreGame {
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> storageCards = new ArrayList<>();
 
-    public void changeFaction(Faction faction) {
+    public void changeFaction(Faction faction , boolean viewUpdate){
         playerFaction = faction;
         deckCards.clear();
         storageCards.clear();
@@ -28,9 +28,11 @@ public class PreGame {
         factionCards.sort((card1, card2) -> card2.getPower() - card1.getPower());
         storageCards.addAll(factionCards);
         selectedLeader = faction.getLeaderArray().get(0);
-        PreGameController.getPreGameController().refreshLabels();
-        PreGameController.getPreGameController().refreshStorageTable();
-        PreGameController.getPreGameController().refreshDeckTable();
+        if (viewUpdate){
+            PreGameController.getPreGameController().refreshDeckTable();
+            PreGameController.getPreGameController().refreshLabels();
+            PreGameController.getPreGameController().refreshStorageTable();
+        }
     }
 
     public void saveDeckToFile(String location){
@@ -71,7 +73,7 @@ public class PreGame {
                 cards = new ArrayList<>(deckSave.getDeckCards());
             }
             if (deckSave.getPlayerFaction() != null){
-                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()));
+                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
             }
             for (String card : cards){
                 if (getCardByNameFromStorage(card) != null){
@@ -96,7 +98,7 @@ public class PreGame {
                 cards = new ArrayList<>(deckSave.getDeckCards());
             }
             if (deckSave.getPlayerFaction() != null){
-                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()));
+                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
             }
             for (String card : cards){
                 if (getCardByNameFromStorage(card) != null){
@@ -119,29 +121,13 @@ public class PreGame {
         }
     }
 
-    private Card getCardByNameFromStorage(String name){
+    public Card getCardByNameFromStorage(String name){
         for (Card card : storageCards){
             if (card.getName().equals(name)){
                 return card;
             }
         }
         return null;
-    }
-
-    public Faction getRandomFaction() {
-        int random = new Random().nextInt(4);
-        switch (random){
-            case 0:
-                return FactionObjects.getFactionByName("Fire");
-            case 1:
-                return FactionObjects.getFactionByName("Water");
-            case 2:
-                return FactionObjects.getFactionByName("Earth");
-            case 3:
-                return FactionObjects.getFactionByName("Air");
-            default:
-                return FactionObjects.getFactionByName("Fire");
-        }
     }
 
     public Card getRandomLeader(Faction faction) {
@@ -201,5 +187,6 @@ public class PreGame {
     public void setSelectedLeader(Card selectedLeader) {
         this.selectedLeader = selectedLeader;
     }
+
 
 }

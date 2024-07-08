@@ -12,7 +12,7 @@ public class GameAssetManager {
     private Skin skin ;
     private final String backgroundImage = "bg.jpg";
     private final String gameBoardImage = "board.jpg";
-    private final String saveDataUserLocation = "users.json";
+    private final String saveDataUserLocation = "S:\\Github Clones\\advanced-programming-project-group-03\\users.json";
     private final String liveAppaBackgroundLocation = "bgliveappa.gif";
     private final String waterTribeCard = "FactionCards/water.png";
     private final String earthKingdomCard = "FactionCards/earth.png";

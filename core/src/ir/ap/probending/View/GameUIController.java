@@ -984,7 +984,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setEndDialog.setVisible(false);
-                Game.getGame().startNewSet();
+                Game.getGame().startNewSet(true);
             }
         });
         setEndDialog.add(setWinnerLabel).pad(10);

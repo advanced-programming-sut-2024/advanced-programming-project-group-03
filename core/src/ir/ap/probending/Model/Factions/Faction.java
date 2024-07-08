@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import ir.ap.probending.Model.Card.Card;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Faction {
     private String factionName;
@@ -22,6 +23,22 @@ public class Faction {
         this.factionName = factionName;
         this.leaders = new ArrayList<>(leaders);
         this.cards = new ArrayList<>(cards);
+    }
+
+    public static Faction getRandomFaction() {
+        int random = new Random().nextInt(4);
+        switch (random){
+            case 0:
+                return FactionObjects.getFactionByName("Fire");
+            case 1:
+                return FactionObjects.getFactionByName("Water");
+            case 2:
+                return FactionObjects.getFactionByName("Earth");
+            case 3:
+                return FactionObjects.getFactionByName("Air");
+            default:
+                return FactionObjects.getFactionByName("Fire");
+        }
     }
 
     public Faction clone() {

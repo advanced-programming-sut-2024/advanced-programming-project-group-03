@@ -189,18 +189,22 @@ public class Game {
         }
     }
 
-    public void startNewSet() {
+    public void startNewSet(boolean viewUpdate) {
         declareWinner();
         currentSet++;
-        depositCardToBurntCards();
-        GameUIController.getGameUIController().setClickedCard(null);
         gameBoard.getPlayer1().setPassedThisRound(false);
         gameBoard.getPlayer2().setPassedThisRound(false);
         gameBoard.setSpyDoublePowerActivated(false);
         isCardPlayedThisRound = false;
-        GameUIController.getGameUIController().hidePassForPlayer1();
-        GameUIController.getGameUIController().hidePassForPlayer2();
-
+        if (viewUpdate){
+            depositCardToBurntCards(true);
+            GameUIController.getGameUIController().setClickedCard(null);
+            GameUIController.getGameUIController().hidePassForPlayer1();
+            GameUIController.getGameUIController().hidePassForPlayer2();
+        }
+        else {
+            depositCardToBurntCards(false);
+        }
         if (gameBoard.getPlayer1().getSetsWon() > gameBoard.getPlayer2().getSetsWon()){
             currentPlayer = gameBoard.getPlayer2();
         }
@@ -208,26 +212,30 @@ public class Game {
             currentPlayer = gameBoard.getPlayer1();
         }
 
-        setUpHandView(currentPlayer);
-        GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
-        updatePowerLabelsNumbers();
-        updateSetWonLabels();
-        Game.getGame().getGameBoard().getPlayer1Board().setCommander7Played(false);
-        Game.getGame().getGameBoard().getPlayer1Board().setCommander8Played(false);
-        Game.getGame().getGameBoard().getPlayer1Board().setCommander9Played(false);
+        if (viewUpdate){
+            setUpHandView(currentPlayer);
+            GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
+            updatePowerLabelsNumbers();
+            updateSetWonLabels();
+        }
+        gameBoard.getPlayer1Board().setCommander7Played(false);
+        gameBoard.getPlayer1Board().setCommander8Played(false);
+        gameBoard.getPlayer1Board().setCommander9Played(false);
         isRestoreCardRandomlyActivated = false;
         isLoseHalfInBadWeatherActivated = false;
 
-        if (currentPlayer.isPlayedLeaderAbility()){
-            GameUIController.getGameUIController().hideLeaderAbilityButton();
-        }
-        else {
-            GameUIController.getGameUIController().showLeaderAbilityButton();
-        }
-        GameUIController.getGameUIController().updateRows();
+        if (viewUpdate){
+            if (currentPlayer.isPlayedLeaderAbility()){
+                GameUIController.getGameUIController().hideLeaderAbilityButton();
+            }
+            else {
+                GameUIController.getGameUIController().showLeaderAbilityButton();
+            }
+            GameUIController.getGameUIController().updateRows();
 
-        if(summonAvengerPlayer != null) {
-            playCard(CardObjects.getEvilDruk(), summonAvengerPlayer);
+            if(summonAvengerPlayer != null) {
+                playCard(CardObjects.getEvilDruk(), summonAvengerPlayer);
+            }
         }
     }
 
@@ -339,7 +347,7 @@ public class Game {
                     gameBoard.getPlayer2Board().addCardToCloseCombat(card);
                 break;
             case 6:
-                Game.getGame().getGameBoard().addSpellCard(card);
+                gameBoard.addSpellCard(card);
                 break;
         }
 
@@ -352,7 +360,7 @@ public class Game {
     }
 
     private void selectRandomCardsAndFactionForPlayer2() {
-        gameBoard.getPlayer2Board().setFaction(PreGame.getPreGame().getRandomFaction());
+        gameBoard.getPlayer2Board().setFaction(Faction.getRandomFaction());
         gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getRandomLeader(gameBoard.getPlayer2Board().getFaction()).clone6());
         gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getRandomDeckCards(gameBoard.getPlayer2Board().getFaction()));
     }
@@ -379,7 +387,7 @@ public class Game {
             return null;
     }
 
-    private Player decideFirstTurn(){
+    public Player decideFirstTurn(){
         if (gameBoard.getPlayer1Board().getFaction().getFactionName().equals("Earth") && gameBoard.getPlayer2Board().getFaction().getFactionName().equals("Earth"))
             return gameBoard.getPlayer1();
         else if (gameBoard.getPlayer1Board().getFaction().getFactionName().equals("Earth"))
@@ -406,7 +414,7 @@ public class Game {
         GameUIController.getGameUIController().setPlayer2SetWon(gameBoard.getPlayer2().getSetsWon());
     }
 
-    public void depositCardToBurntCards(){
+    public void depositCardToBurntCards(boolean updateView){
         Card player1KeepCard1 = null;
         Card player1KeepCard2 = null;
         Card player2KeepCard1 = null;
@@ -465,19 +473,21 @@ public class Game {
         for (Card card : burntCards2) {
             gameBoard.getPlayer2().addCardToBurntCards(card);
         }
-        clearBoard();
-        if (player1KeepCard1 != null){
-            playCard(player1KeepCard1 , gameBoard.getPlayer1());
-        }
-        if (player1KeepCard2 != null){
-            playCard(player1KeepCard2 , gameBoard.getPlayer1());
-        }
-        if (player2KeepCard1 != null){
-            playCard(player2KeepCard1 , gameBoard.getPlayer2());
-        }
-        if (player2KeepCard2 != null){
-            playCard(player2KeepCard2 , gameBoard.getPlayer2());
-        }
+       if (updateView){
+           clearBoard();
+           if (player1KeepCard1 != null){
+               playCard(player1KeepCard1 , gameBoard.getPlayer1());
+           }
+           if (player1KeepCard2 != null){
+               playCard(player1KeepCard2 , gameBoard.getPlayer1());
+           }
+           if (player2KeepCard1 != null){
+               playCard(player2KeepCard1 , gameBoard.getPlayer2());
+           }
+           if (player2KeepCard2 != null){
+               playCard(player2KeepCard2 , gameBoard.getPlayer2());
+           }
+       }
     }
 
     public Player getOtherPlayer(){
@@ -643,9 +653,6 @@ public class Game {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
 
     public GameBoard getGameBoard() {
         return gameBoard;
@@ -687,7 +694,12 @@ public class Game {
         this.summonAvengerPlayer = summonAvengerPlayer;
     }
 
-    public static Game getNewGame() {
-        return new Game();
+
+    public int getCurrentSet() {
+        return currentSet;
+    }
+
+    public void setCurrentSet(int i) {
+        currentSet = i;
     }
 }

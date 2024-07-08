@@ -61,7 +61,7 @@ public class MainMenuController {
                 if (PreGameController.getPreGameController().isUsedBackButton())
                     PreGameController.setPreGameController();
                 PreGameController.getPreGameController().handlePreGameController(game);
-                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
             }
         });
     }

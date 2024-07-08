@@ -306,7 +306,7 @@ public class PreGameController {
         waterTribeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
                 PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
@@ -315,7 +315,7 @@ public class PreGameController {
         earthKingdomButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
                 PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
@@ -324,7 +324,7 @@ public class PreGameController {
         fireNationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
                 PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
@@ -333,7 +333,7 @@ public class PreGameController {
         airNomadsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone());
+                PreGame.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
                 PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }

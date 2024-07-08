@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Model.Data.GameMaster;
+import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
 public class PreGameScreen implements Screen {
@@ -16,7 +18,11 @@ public class PreGameScreen implements Screen {
 
     public PreGameScreen(ProBending game) {
         this.game = game;
-        this.batch = game.batch;
+        if (game != null)
+            this.batch = game.batch;
+        else {
+            this.batch = ScreenMasterSetting.getInstance().getGame().batch;
+        }
     }
     @Override
     public void show() {
