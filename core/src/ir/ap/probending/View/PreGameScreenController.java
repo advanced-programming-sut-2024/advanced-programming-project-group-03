@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Data.DeckSave;
 import ir.ap.probending.Model.Data.GameAssetManager;
+import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
@@ -138,6 +140,56 @@ public class PreGameScreenController {
 
     }
 
+    public void loadDeckFromFile(String location){
+        try {
+            DeckSave deckSave = SaveUser.loadDeckFromJson(location);
+            ArrayList<String> cards = new ArrayList<>();
+            if (deckSave.getDeckCards() != null){
+                cards = new ArrayList<>(deckSave.getDeckCards());
+            }
+            if (deckSave.getPlayerFaction() != null){
+                PreGameController.getPreGame().changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
+            }
+            for (String card : cards){
+                if (PreGameController.getPreGame().getCardByNameFromStorage(card) != null){
+                    PreGameController.getPreGame().getDeckCards().add(PreGameController.getPreGame().getCardByNameFromStorage(card));
+                    PreGameController.getPreGame().getStorageCards().remove(PreGameController.getPreGame().getCardByNameFromStorage(card));
+                }
+            }
+            PreGameScreenController.getPreGameController().refreshDeckTable();
+            PreGameScreenController.getPreGameController().refreshLabels();
+            PreGameScreenController.getPreGameController().refreshStorageTable();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadDeckFromDB(){
+        try {
+            DeckSave deckSave = GameMaster.getGameMaster().getLoggedInUser1().getDeckSave();
+            ArrayList<String> cards = new ArrayList<>();
+            if (deckSave.getDeckCards() != null){
+                cards = new ArrayList<>(deckSave.getDeckCards());
+            }
+            if (deckSave.getPlayerFaction() != null){
+                PreGameController.getPreGame().changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
+            }
+            for (String card : cards){
+                if (PreGameController.getPreGame().getCardByNameFromStorage(card) != null){
+                    PreGameController.getPreGame().getDeckCards().add(PreGameController.getPreGame().getCardByNameFromStorage(card));
+                    PreGameController.getPreGame().getStorageCards().remove(PreGameController.getPreGame().getCardByNameFromStorage(card));
+                }
+            }
+            PreGameScreenController.getPreGameController().refreshDeckTable();
+            PreGameScreenController.getPreGameController().refreshLabels();
+            PreGameScreenController.getPreGameController().refreshStorageTable();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void update(int specialCount){
 
         if (PreGameController.getPreGame().getDeckCards().size() < 12){
@@ -187,14 +239,16 @@ public class PreGameScreenController {
                 GameController.getGame().getGameBoard().getPlayer1Board().setLeader(PreGameController.getPreGame().getSelectedLeader().clone6());
                 GameController.getGame().getGameBoard().getPlayer1Board().setFaction(PreGameController.getPreGame().getPlayerFaction());
 
+                selectRandomCardsAndFactionForPlayer2();
                 GameUIController.getGameUIController().addLeadersToLeaderTable1( GameController.getGame().getGameBoard().getPlayer1Board().getLeader());
                 GameUIController.getGameUIController().addLeadersToLeaderTable2( GameController.getGame().getGameBoard().getPlayer2Board().getLeader());
                 GameUIController.getGameUIController().setCurrentTurnPlayerUsername(GameController.getGame().getCurrentPlayer().getUser().getUsername() + " 's turn");
-                selectRandomCardsAndFactionForPlayer2();
 
                 //add hand cards of current player to view
-                GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
-
+                GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
+                for (int i = 0; i < 10; i++) {
+                    GameController.getGame().getGameBoard().getPlayer2().drawCard();
+                }
                 //setup views that are dependent to gameboard
                 GameUIController.getGameUIController().addUsernameLabels();
                 GameUIController.getGameUIController().updateRows();
@@ -592,7 +646,7 @@ public class PreGameScreenController {
         loadDeckFromFileButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGameController.getPreGame().loadDeckFromFile(loadDeckTextField.getText());
+                PreGameScreenController.getPreGameController().loadDeckFromFile(loadDeckTextField.getText());
                 loadDeckWindow.setVisible(false);
             }
         });
@@ -600,7 +654,7 @@ public class PreGameScreenController {
         loadDeckFromDBButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGameController.getPreGame().loadDeckFromDB();
+                PreGameScreenController.getPreGameController().loadDeckFromDB();
                 loadDeckWindow.setVisible(false);
             }
         });

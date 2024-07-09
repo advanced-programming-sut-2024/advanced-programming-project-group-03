@@ -3,6 +3,7 @@ package ir.ap.probending.Model.Card.Abilities.LeaderAbilities;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Control.GameController;
+import ir.ap.probending.View.GameUIController;
 
 public class LeaderAbility7 extends Ability {
     @Override
@@ -13,7 +14,7 @@ public class LeaderAbility7 extends Ability {
             Card randomCard = GameController.getGame().getCurrentPlayer().getBurntCards().get(random);
             GameController.getGame().getCurrentPlayer().getBurntCards().remove(randomCard);
             GameController.getGame().getCurrentPlayer().getHand().add(randomCard);
-            GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+            GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
         }
     }
 }

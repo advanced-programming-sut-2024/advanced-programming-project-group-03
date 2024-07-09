@@ -15,6 +15,7 @@ import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Control.GameController;
+import ir.ap.probending.Model.Game.Player;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
@@ -479,6 +480,20 @@ public class GameUIController {
             count++;
             if (count % 5 == 0)
                 cardListTable.row();
+        }
+    }
+
+    public void setUpHandView(Player player){
+        //add hand cards of player1 to view
+        GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
+        int cardInRowCount = 0;
+        for (int i = 0; i < player.getHand().size(); i++) {
+            GameUIController.getGameUIController().getPlayerHandTable().add(player.getHand().get(i).clone2());
+            cardInRowCount++;
+            if (cardInRowCount == 5) {
+                GameUIController.getGameUIController().getPlayerHandTable().row();
+                cardInRowCount = 0;
+            }
         }
     }
 

@@ -24,7 +24,7 @@ public class LeaderAbility8 extends Ability {
                 cards.add(c.clone7());
             }
             GameUIController.getGameUIController().addCardsToCardListWindow(cards);
-            GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+            GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
         }
         else {
             Card discardedCard1 = GameController.getGame().getCurrentPlayer().getHand().remove(0);
@@ -34,7 +34,7 @@ public class LeaderAbility8 extends Ability {
             GameController.getGame().getCurrentPlayer().getBurntCards().add(discardedCard2);
 
             GameController.getGame().getCurrentPlayer().getHand().add(GameController.getGame().getCurrentPlayer().getDeck().remove(0));
-            GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+            GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
         }
     }
 }

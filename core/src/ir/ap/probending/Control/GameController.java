@@ -46,7 +46,6 @@ public class GameController {
         //give 10 random cards to each player
         for (int i = 0; i < 10; i++) {
             gameBoard.getPlayer1().drawCard();
-            gameBoard.getPlayer2().drawCard();
         }
 
 
@@ -103,12 +102,12 @@ public class GameController {
             if (!gameBoard.getPlayer2().isPassedThisRound()){
                 currentPlayer = gameBoard.getPlayer2();
                 if (viewUpdate)
-                    setUpHandView(gameBoard.getPlayer2());
+                    GameUIController.getGameUIController().setUpHandView(gameBoard.getPlayer2());
             }
             else {
                 currentPlayer = gameBoard.getPlayer1();
                 if (viewUpdate)
-                    setUpHandView(gameBoard.getPlayer1());
+                    GameUIController.getGameUIController().setUpHandView(gameBoard.getPlayer1());
             }
         }
         else if (currentPlayer.equals(gameBoard.getPlayer2()) && !currentPlayer.isPassedThisRound()){
@@ -125,12 +124,12 @@ public class GameController {
             if (!gameBoard.getPlayer1().isPassedThisRound()){
                 currentPlayer = gameBoard.getPlayer1();
                 if (viewUpdate)
-                    setUpHandView(gameBoard.getPlayer1());
+                    GameUIController.getGameUIController().setUpHandView(gameBoard.getPlayer1());
             }
             else {
                 currentPlayer = gameBoard.getPlayer2();
                 if (viewUpdate)
-                    setUpHandView(gameBoard.getPlayer2());
+                    GameUIController.getGameUIController().setUpHandView(gameBoard.getPlayer2());
             }
         }
 
@@ -195,7 +194,7 @@ public class GameController {
         }
 
         if (viewUpdate){
-            setUpHandView(currentPlayer);
+            GameUIController.getGameUIController().setUpHandView(currentPlayer);
             GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
             updatePowerLabelsNumbers();
             updateSetWonLabels();
@@ -582,20 +581,6 @@ public class GameController {
         vetoCount = 0;
         isRestoreCardRandomlyActivated = false;
         isLoseHalfInBadWeatherActivated = false;
-    }
-
-    public void setUpHandView(Player player){
-        //add hand cards of player1 to view
-        GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
-        int cardInRowCount = 0;
-        for (int i = 0; i < player.getHand().size(); i++) {
-            GameUIController.getGameUIController().getPlayerHandTable().add(player.getHand().get(i).clone2());
-            cardInRowCount++;
-            if (cardInRowCount == 5) {
-                GameUIController.getGameUIController().getPlayerHandTable().row();
-                cardInRowCount = 0;
-            }
-        }
     }
 
     public Faction getPlayersFaction(Player player){

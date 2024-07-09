@@ -10,7 +10,7 @@ public class LeaderAbility19 extends Ability {
     public void executeAbility(Card card) {
         Card opponentsCard = GameController.getGame().getOtherPlayer().getBurntCards().remove(0);
         GameController.getGame().getCurrentPlayer().addCardToHand(opponentsCard);
-        GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+        GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
 
         GameController.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
         GameUIController.getGameUIController().hideLeaderAbilityButton();

@@ -65,55 +65,6 @@ public class PreGameController {
         }
     }
 
-    public void loadDeckFromFile(String location){
-        try {
-            DeckSave deckSave = SaveUser.loadDeckFromJson(location);
-            ArrayList<String> cards = new ArrayList<>();
-            if (deckSave.getDeckCards() != null){
-                cards = new ArrayList<>(deckSave.getDeckCards());
-            }
-            if (deckSave.getPlayerFaction() != null){
-                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
-            }
-            for (String card : cards){
-                if (getCardByNameFromStorage(card) != null){
-                    deckCards.add(getCardByNameFromStorage(card));
-                    storageCards.remove(getCardByNameFromStorage(card));
-                }
-            }
-            PreGameScreenController.getPreGameController().refreshDeckTable();
-            PreGameScreenController.getPreGameController().refreshLabels();
-            PreGameScreenController.getPreGameController().refreshStorageTable();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadDeckFromDB(){
-        try {
-            DeckSave deckSave = GameMaster.getGameMaster().getLoggedInUser1().getDeckSave();
-            ArrayList<String> cards = new ArrayList<>();
-            if (deckSave.getDeckCards() != null){
-                cards = new ArrayList<>(deckSave.getDeckCards());
-            }
-            if (deckSave.getPlayerFaction() != null){
-                changeFaction(FactionObjects.getFactionByName(deckSave.getPlayerFaction()) , true);
-            }
-            for (String card : cards){
-                if (getCardByNameFromStorage(card) != null){
-                    deckCards.add(getCardByNameFromStorage(card));
-                    storageCards.remove(getCardByNameFromStorage(card));
-                }
-            }
-            PreGameScreenController.getPreGameController().refreshDeckTable();
-            PreGameScreenController.getPreGameController().refreshLabels();
-            PreGameScreenController.getPreGameController().refreshStorageTable();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setOpponentPlayer(User user){
         if (user != null){
@@ -188,5 +139,11 @@ public class PreGameController {
         this.selectedLeader = selectedLeader;
     }
 
+    public static PreGameController getPreGameController() {
+        return preGameController;
+    }
 
+    public static void setPreGameController(PreGameController preGameController) {
+        PreGameController.preGameController = preGameController;
+    }
 }

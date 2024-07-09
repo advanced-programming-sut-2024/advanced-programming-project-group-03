@@ -288,7 +288,7 @@ public class Card extends Actor {
                     }
                 }
                 GameController.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
-                GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+                GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
                 GameUIController.getGameUIController().clearCardListWindow();
                 ArrayList<Card> cards = new ArrayList<>();
                 for (Card card : GameController.getGame().getGameBoard().getPlayer1().getHand()) {
@@ -347,7 +347,7 @@ public class Card extends Actor {
                         GameController.getGame().getCurrentPlayer().removeCardFromDeckCards(card);
                         GameController.getGame().getCurrentPlayer().addCardToHand(card.clone2());
                         GameUIController.getGameUIController().deactivateCardListWindow();
-                        GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+                        GameUIController.getGameUIController().setUpHandView(GameController.getGame().getCurrentPlayer());
                         break;
                     }
                 }

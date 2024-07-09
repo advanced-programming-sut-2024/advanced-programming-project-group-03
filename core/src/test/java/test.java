@@ -16,7 +16,7 @@ import org.junit.Assert;
 
 import java.util.ArrayList;
 
-public class GameControllerTest {
+public class test {
     @Test
     public void isGameInitialized() {
         Assert.assertNotNull(GameController.getGame());
@@ -376,8 +376,6 @@ public class GameControllerTest {
         preGameController.setPreGame(new PreGameController());
         Assert.assertNotNull(PreGameController.getPreGame());
         Assert.assertNotNull(preGameController.getSelectedLeader());
-        PreGameController.setPreGameController(new PreGameController());
-        Assert.assertNotNull(PreGameController.getPreGameController());
     }
 
     @Test
