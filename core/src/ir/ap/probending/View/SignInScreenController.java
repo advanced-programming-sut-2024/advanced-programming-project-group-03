@@ -18,8 +18,8 @@ import com.badlogic.gdx.Gdx;
 
 import java.util.List;
 
-public class SignInController {
-    private static SignInController signInController = new SignInController();
+public class SignInScreenController {
+    private static SignInScreenController signInScreenController = new SignInScreenController();
     private Table table = new Table();
     private final TextField usernameField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextField nicknameField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
@@ -40,7 +40,7 @@ public class SignInController {
 
     private boolean showPassword = false;
 
-    private SignInController() {
+    private SignInScreenController() {
         table.setFillParent(true);
         table.center();
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
@@ -278,7 +278,7 @@ public class SignInController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginController.getLoginController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginScreenController.getLoginController().getTable());
             }
         });
     }
@@ -304,8 +304,8 @@ public class SignInController {
 
     //getters and setters
 
-    public static SignInController getSignInController(){
-        return signInController;
+    public static SignInScreenController getSignInController(){
+        return signInScreenController;
     }
 
     public Actor getTable() {

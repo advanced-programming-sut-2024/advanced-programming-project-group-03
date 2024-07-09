@@ -1,12 +1,19 @@
 
 
 import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.Menu;
 import ir.ap.probending.Control.PreGame;
 import ir.ap.probending.Model.Card.Abilities.Morale;
 import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.ScreenMasterSetting;
@@ -376,5 +383,22 @@ public class GameTest {
         preGame.setPreGame(new PreGame());
         Assert.assertNotNull(PreGame.getPreGame());
         Assert.assertNotNull(preGame.getSelectedLeader());
+    }
+
+    @Test
+    public void testMenu(){
+        Assert.assertNotNull(Menu.getMenu());
+        Menu.setMenu(null);
+        Assert.assertNotNull(Menu.getMenu());
+    }
+
+    @Test
+    public void testForgetPasswordMethods(){
+        Assert.assertNull(Menu.getMenu().submitUsernameForForgetPassword(new ArrayList<>()  , "test"));
+        ArrayList<User> users = new ArrayList<>();
+        User user = new User();
+        user.setUsername("test");
+        users.add(user);
+        Assert.assertEquals(Menu.getMenu().submitUsernameForForgetPassword(users , "test") , user);
     }
 }

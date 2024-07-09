@@ -18,8 +18,8 @@ import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
 
-public class MainMenuController {
-    private final static MainMenuController mainMenuController = new MainMenuController();
+public class MainMenuScreenController {
+    private final static MainMenuScreenController MAIN_MENU_SCREEN_CONTROLLER = new MainMenuScreenController();
     private final Table table = new Table();
     private Image backgroundImage = new Image(new Texture(Gdx.files.internal(GameAssetManager.getGameAssetManager().getBackground())));
     private final TextButton playButton = new TextButton("Play", GameAssetManager.getGameAssetManager().getSkin());
@@ -28,7 +28,7 @@ public class MainMenuController {
     private final Label gameTitle = new Label("Pro Bending", GameAssetManager.getGameAssetManager().getSkin() , "title");
     private final Label creatorsInfo = new Label("Created by: Kiarash Shojaei & Amin Koohi & Nima Hekmati", GameAssetManager.getGameAssetManager().getSkin() );
 
-    private MainMenuController(){
+    private MainMenuScreenController(){
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
@@ -58,9 +58,9 @@ public class MainMenuController {
             public void clicked(InputEvent event, float x, float y) {
                 game.getScreen().dispose();
                 game.setScreen(ScreenMasterSetting.getInstance().getPreGameScreen());
-                if (PreGameController.getPreGameController().isUsedBackButton())
-                    PreGameController.setPreGameController();
-                PreGameController.getPreGameController().handlePreGameController(game);
+                if (PreGameScreenController.getPreGameController().isUsedBackButton())
+                    PreGameScreenController.setPreGameController();
+                PreGameScreenController.getPreGameController().handlePreGameController(game);
                 PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
             }
         });
@@ -73,7 +73,7 @@ public class MainMenuController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginController.getLoginController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginScreenController.getLoginController().getTable());
             }
         });
     }
@@ -85,9 +85,9 @@ public class MainMenuController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(ProfileController.getProfileController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(ProfileScreenController.getProfileController().getTable());
 
-                ProfileController.getProfileController().updateLabels();
+                ProfileScreenController.getProfileController().updateLabels();
             }
         });
     }
@@ -100,8 +100,8 @@ public class MainMenuController {
 
     //getters and setters
 
-    public static MainMenuController getMainMenuController(){
-        return mainMenuController;
+    public static MainMenuScreenController getMainMenuController(){
+        return MAIN_MENU_SCREEN_CONTROLLER;
     }
 
     public Actor getTable() {

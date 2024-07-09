@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import ir.ap.probending.Control.Menu;
 import ir.ap.probending.Model.Data.SecurityQuestions;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -14,6 +15,7 @@ import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.Model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForgetPasswordController {
@@ -74,16 +76,11 @@ public class ForgetPasswordController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 List<User> users = SaveUser.loadUsers();
-                for (User user : users) {
-                    if (user.getUsername().equals(usernameField.getText())) {
-                        questionSelector.setText(SecurityQuestions.getQuestions().get(user.getQuestionIndex()));
-                        answerField.setDisabled(false);
-                        newPasswordField.setDisabled(false);
-                        changePassword.setDisabled(false);
-                        selectedUser = user;
-                        break;
-                    }
-                }
+                selectedUser = Menu.getMenu().submitUsernameForForgetPassword((ArrayList<User>) users, usernameField.getText());
+                questionSelector.setText(SecurityQuestions.getQuestions().get(selectedUser.getQuestionIndex()));
+                answerField.setDisabled(false);
+                newPasswordField.setDisabled(false);
+                changePassword.setDisabled(false);
             }
         });
     }
@@ -112,7 +109,7 @@ public class ForgetPasswordController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginController.getLoginController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(LoginScreenController.getLoginController().getTable());
             }
         });
     }

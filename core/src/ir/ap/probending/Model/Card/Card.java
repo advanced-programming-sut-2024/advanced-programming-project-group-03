@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import ir.ap.probending.View.GameUIController;
-import ir.ap.probending.View.PreGameController;
+import ir.ap.probending.View.PreGameScreenController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
@@ -51,13 +51,13 @@ public class Card extends Actor {
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().addCardToStorage(Card.this);
-                    PreGameController.getPreGameController().removeCardFromDeck(Card.this);
+                if (PreGameScreenController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
+                    PreGameScreenController.getPreGameController().addCardToStorage(Card.this);
+                    PreGameScreenController.getPreGameController().removeCardFromDeck(Card.this);
                 }
-                else if (PreGameController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().addCardToDeck(Card.this);
-                    PreGameController.getPreGameController().removeCardFromStorage(Card.this);
+                else if (PreGameScreenController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
+                    PreGameScreenController.getPreGameController().addCardToDeck(Card.this);
+                    PreGameScreenController.getPreGameController().removeCardFromStorage(Card.this);
                 }
                 return true;
             }
@@ -92,13 +92,13 @@ public class Card extends Actor {
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (PreGameController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().addCardToStorage(Card.this);
-                    PreGameController.getPreGameController().removeCardFromDeck(Card.this);
+                if (PreGameScreenController.getPreGameController().getDeckTable().getChildren().contains(Card.this, true)) {
+                    PreGameScreenController.getPreGameController().addCardToStorage(Card.this);
+                    PreGameScreenController.getPreGameController().removeCardFromDeck(Card.this);
                 }
-                else if (PreGameController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
-                    PreGameController.getPreGameController().addCardToDeck(Card.this);
-                    PreGameController.getPreGameController().removeCardFromStorage(Card.this);
+                else if (PreGameScreenController.getPreGameController().getStorageTable().getChildren().contains(Card.this, true)) {
+                    PreGameScreenController.getPreGameController().addCardToDeck(Card.this);
+                    PreGameScreenController.getPreGameController().removeCardFromStorage(Card.this);
                 }
                 return true;
             }
@@ -361,7 +361,7 @@ public class Card extends Actor {
         cardSprite.setPosition(getX(), getY());
         cardSprite.draw(batch);
 
-        int count = PreGameController.getPreGameController().getCardNumber(this);
+        int count = PreGameScreenController.getPreGameController().getCardNumber(this);
         if (count > 1) {
             BitmapFont font = new BitmapFont();
             font.setColor(Color.BLACK);

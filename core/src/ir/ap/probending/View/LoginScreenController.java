@@ -16,8 +16,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.List;
 
-public class LoginController {
-    private static LoginController loginController = new LoginController();
+public class LoginScreenController {
+    private static LoginScreenController loginScreenController = new LoginScreenController();
     private Table table = new Table();
 
     private final TextField usernameField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
@@ -31,7 +31,7 @@ public class LoginController {
     private final Label passwordLabel = new Label("Password", GameAssetManager.getGameAssetManager().getSkin());
     private final CheckBox rememberMeCheckBox = new CheckBox("Remember Me", GameAssetManager.getGameAssetManager().getSkin());
 
-    private LoginController() {
+    private LoginScreenController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
@@ -98,7 +98,7 @@ public class LoginController {
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuScreenController.getMainMenuController().getTable());
                     errorLabel.setText("");
                     loggedInUser.setRememberMe(isRememberMe);
                     SaveUser.updateUser(loggedInUser);
@@ -127,7 +127,7 @@ public class LoginController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuScreenController.getMainMenuController().getTable());
             }
         });
     }
@@ -139,7 +139,7 @@ public class LoginController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(SignInController.getSignInController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(SignInScreenController.getSignInController().getTable());
             }
         });
     }
@@ -153,8 +153,8 @@ public class LoginController {
 
     //getters and setters
 
-    public static LoginController getLoginController(){
-        return loginController;
+    public static LoginScreenController getLoginController(){
+        return loginScreenController;
     }
 
     public Actor getTable() {

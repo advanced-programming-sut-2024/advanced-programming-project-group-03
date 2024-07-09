@@ -1,6 +1,6 @@
 package ir.ap.probending.Control;
 
-import ir.ap.probending.View.PreGameController;
+import ir.ap.probending.View.PreGameScreenController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.DeckSave;
 import ir.ap.probending.Model.Data.GameMaster;
@@ -29,9 +29,9 @@ public class PreGame {
         storageCards.addAll(factionCards);
         selectedLeader = faction.getLeaderArray().get(0);
         if (viewUpdate){
-            PreGameController.getPreGameController().refreshDeckTable();
-            PreGameController.getPreGameController().refreshLabels();
-            PreGameController.getPreGameController().refreshStorageTable();
+            PreGameScreenController.getPreGameController().refreshDeckTable();
+            PreGameScreenController.getPreGameController().refreshLabels();
+            PreGameScreenController.getPreGameController().refreshStorageTable();
         }
     }
 
@@ -81,9 +81,9 @@ public class PreGame {
                     storageCards.remove(getCardByNameFromStorage(card));
                 }
             }
-            PreGameController.getPreGameController().refreshDeckTable();
-            PreGameController.getPreGameController().refreshLabels();
-            PreGameController.getPreGameController().refreshStorageTable();
+            PreGameScreenController.getPreGameController().refreshDeckTable();
+            PreGameScreenController.getPreGameController().refreshLabels();
+            PreGameScreenController.getPreGameController().refreshStorageTable();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -106,9 +106,9 @@ public class PreGame {
                     storageCards.remove(getCardByNameFromStorage(card));
                 }
             }
-            PreGameController.getPreGameController().refreshDeckTable();
-            PreGameController.getPreGameController().refreshLabels();
-            PreGameController.getPreGameController().refreshStorageTable();
+            PreGameScreenController.getPreGameController().refreshDeckTable();
+            PreGameScreenController.getPreGameController().refreshLabels();
+            PreGameScreenController.getPreGameController().refreshStorageTable();
         }
         catch (Exception e) {
             e.printStackTrace();

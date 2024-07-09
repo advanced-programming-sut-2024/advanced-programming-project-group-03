@@ -64,7 +64,7 @@ public class PickQuestionMenuController {
                     ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                     ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                     Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                    ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuScreenController.getMainMenuController().getTable());
 
                     selectedEmail = "";
                     selectedNickname = "";

@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PreGameController {
-    private static PreGameController preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+public class PreGameScreenController {
+    private static PreGameScreenController preGameScreenController = new PreGameScreenController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
     private final Table table = new Table();
     private final Table storageTable = new Table();
     private final Table deckTable = new Table();
@@ -83,7 +83,7 @@ public class PreGameController {
     private final TextButton closeChooseOpponent = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
     private boolean usedBackButton = false;
 
-    private PreGameController(Stage stage) {
+    private PreGameScreenController(Stage stage) {
         this.stage = stage;
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
@@ -668,8 +668,8 @@ public class PreGameController {
 
     //getters and setters
 
-    public static PreGameController getPreGameController() {
-        return preGameController;
+    public static PreGameScreenController getPreGameController() {
+        return preGameScreenController;
     }
 
     public Table getTable() {
@@ -689,7 +689,7 @@ public class PreGameController {
     }
 
     public static void setPreGameController() {
-        preGameController = new PreGameController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+        preGameScreenController = new PreGameScreenController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
     }
 
     public void setUsedBackButton(boolean usedBackButton) {

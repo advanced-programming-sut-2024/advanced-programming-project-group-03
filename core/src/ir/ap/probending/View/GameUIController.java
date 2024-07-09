@@ -515,7 +515,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setEndDialog.setVisible(false);
-                PreGameController.getPreGameController().setUsedBackButton(true);
+                PreGameScreenController.getPreGameController().setUsedBackButton(true);
                 game.setScreen(ScreenMasterSetting.getInstance().getMainMenuScreen());
             }
         });

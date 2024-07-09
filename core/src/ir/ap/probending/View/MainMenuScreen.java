@@ -29,13 +29,13 @@ public class MainMenuScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(MainMenuController.getMainMenuController().getTable());
-        LoginController.getLoginController().handleLoginButtons(game);
+        stage.addActor(MainMenuScreenController.getMainMenuController().getTable());
+        LoginScreenController.getLoginController().handleLoginButtons(game);
         ForgetPasswordController.getForgetPasswordController().handleMainMenuButtons(game);
-        SignInController.getSignInController().handleSignInMenuButtons(game);
+        SignInScreenController.getSignInController().handleSignInMenuButtons(game);
         PickQuestionMenuController.getPickQuestionMenuController().handlePickQuestionMenuButtons(game);
-        ProfileController.getProfileController().handleProfileButtons(game);
-        MainMenuController.getMainMenuController().handleMainMenuButtons(game);
+        ProfileScreenController.getProfileController().handleProfileButtons(game);
+        MainMenuScreenController.getMainMenuController().handleMainMenuButtons(game);
 
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
         videoPlayer.setOnCompletionListener(new VideoPlayer.CompletionListener() {
@@ -89,11 +89,11 @@ public class MainMenuScreen implements Screen {
         if (videoTexture != null) {
             //MainMenuController.getMainMenuController().getBackgroundImage().setDrawable(GameAssetManager.getGameAssetManager().getSkin().newDrawable("white", new Sprite(videoTexture).getColor()));
             //batch.draw(videoTexture, 320, 0, 1280, 720);
-            MainMenuController.getMainMenuController().setBackgroundImage(new Image(videoTexture));
-            MainMenuController.getMainMenuController().getBackgroundImage().setPosition(0, 0);
-            MainMenuController.getMainMenuController().getBackgroundImage().setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            stage.addActor(MainMenuController.getMainMenuController().getBackgroundImage());
-            MainMenuController.getMainMenuController().getBackgroundImage().toBack();
+            MainMenuScreenController.getMainMenuController().setBackgroundImage(new Image(videoTexture));
+            MainMenuScreenController.getMainMenuController().getBackgroundImage().setPosition(0, 0);
+            MainMenuScreenController.getMainMenuController().getBackgroundImage().setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            stage.addActor(MainMenuScreenController.getMainMenuController().getBackgroundImage());
+            MainMenuScreenController.getMainMenuController().getBackgroundImage().toBack();
         }
         Texture videoTexture2 = videoPlayer2.getTexture();
         if (videoTexture2 != null) {

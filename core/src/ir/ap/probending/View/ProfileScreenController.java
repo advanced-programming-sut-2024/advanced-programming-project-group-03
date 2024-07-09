@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProfileController {
-    private static ProfileController profileController = new ProfileController();
+public class ProfileScreenController {
+    private static ProfileScreenController profileScreenController = new ProfileScreenController();
     private Table table = new Table();
     private Label usernameLabel = new Label("Username : ", GameAssetManager.getGameAssetManager().getSkin());
     private Label nicknameLabel = new Label("Nickname : ", GameAssetManager.getGameAssetManager().getSkin());
@@ -71,7 +71,7 @@ public class ProfileController {
     private Label dateLabel = new Label("Date", GameAssetManager.getGameAssetManager().getSkin());
 
 
-    private ProfileController() {
+    private ProfileScreenController() {
         table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         table.setFillParent(true);
         table.center();
@@ -463,7 +463,7 @@ public class ProfileController {
                 ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().clear();
                 ScreenMasterSetting.getInstance().getMainMenuScreen().setStage(new Stage(new ScreenViewport()));
                 Gdx.input.setInputProcessor(ScreenMasterSetting.getInstance().getMainMenuScreen().getStage());
-                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuController.getMainMenuController().getTable());
+                ScreenMasterSetting.getInstance().getMainMenuScreen().getStage().addActor(MainMenuScreenController.getMainMenuController().getTable());
             }
         });
     }
@@ -502,8 +502,8 @@ public class ProfileController {
 
     //getters and setters
 
-    public static ProfileController getProfileController(){
-        return profileController;
+    public static ProfileScreenController getProfileController(){
+        return profileScreenController;
     }
 
     public Actor getTable() {
