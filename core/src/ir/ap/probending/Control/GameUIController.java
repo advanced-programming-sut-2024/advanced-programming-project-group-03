@@ -8,16 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import ir.ap.probending.Model.Card.Abilities.CommandersHorn;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
-import ir.ap.probending.Model.Card.Abilities.Muster;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.ScreenMasterSetting;
+import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
+import ir.ap.probending.Model.Message;
 
+import java.lang.reflect.Type;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -83,6 +88,14 @@ public class GameUIController {
     private final ScrollPane leaderPlayer1ScrollPane = new ScrollPane(leaderPlayer1Table);
     private final ScrollPane leaderPlayer2ScrollPane = new ScrollPane(leaderPlayer2Table);
     private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Window chatWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Table chatTable = new Table();
+    private final ScrollPane chatScrollPane = new ScrollPane(chatTable);
+    private ScrollPane.ScrollPaneStyle chatScrollPaneStyle;
+    private final TextField chatTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton sendChatButton = new TextButton("Send", GameAssetManager.getGameAssetManager().getSkin());
+
+
 
     private boolean canPlaceCardOnRow0 = false;
     private boolean canPlaceCardOnRow1 = false;
@@ -136,6 +149,60 @@ public class GameUIController {
         addCardListWindow();
         addLeadersView();
         addLeaderAbilityButtons();
+        sendMessageHandler();
+        chatWindow.add(chatScrollPane).fillX().expandX().fillY().expandY();
+        chatWindow.row();
+        chatWindow.add(chatTextField).fillX().expandX();
+        chatWindow.row();
+        chatWindow.add(sendChatButton).fillX().expandX();
+        table.addActor(chatWindow);
+        chatWindow.setVisible(false);
+
+        chatWindow.setSize(700, 700);
+        chatWindow.setPosition(Gdx.graphics.getWidth() / 2 - chatWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - chatWindow.getHeight() / 2);
+        chatWindow.toFront();
+
+        chatScrollPane.setScrollingDisabled(true, false);
+        chatScrollPane.setScrollbarsVisible(true);
+        chatScrollPane.setFadeScrollBars(false);
+        chatScrollPane.setSmoothScrolling(true);
+        chatScrollPane.setScrollBarPositions(false, true);
+        chatScrollPaneStyle = new ScrollPane.ScrollPaneStyle(scrollPaneStyle);
+        chatScrollPane.setStyle(chatScrollPaneStyle);
+    }
+
+    public void sendMessageHandler() {
+        sendChatButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!chatTextField.getText().equals("")) {
+                    String username = GameMaster.getGameMaster().getLoggedInUser1().getUsername();
+                    String time = LocalTime.now().toString();
+                    Message message = new Message(username, chatTextField.getText(), time);
+                    Gson gson = new Gson();
+                    String messageJson = gson.toJson(message);
+                    ProBending.client.sendGameMessage("sendMessage " + messageJson);
+                    chatTextField.setText("");
+                }
+            }
+        });
+    }
+
+    public void chatWindowToggle() {
+        chatWindow.setVisible(!chatWindow.isVisible());
+        if (chatWindow.isVisible()) {
+            Gson gson = new Gson();
+            String messages = ProBending.client.gameCommunicate("getMessages");
+            Type messageListType = new TypeToken<ArrayList<Message>>() {
+            }.getType();
+            System.out.println(messages);
+            ArrayList<Message> messageArrayList = gson.fromJson(messages, messageListType);
+            chatTable.clear();
+            for (Message message : messageArrayList) {
+                Label label = new Label(message.getUsername() + " at " + message.getTime() + " : " + message.getMessage(), GameAssetManager.getGameAssetManager().getSkin());
+                chatTable.add(label).fillX().expandX().row();
+            }
+        }
     }
 
     //functionality methods
