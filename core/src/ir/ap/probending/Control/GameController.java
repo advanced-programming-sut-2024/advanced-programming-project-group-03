@@ -215,7 +215,7 @@ public class GameController {
             GameUIController.getGameUIController().updateRows();
 
             if(summonAvengerPlayer != null) {
-                playCard(CardObjects.getEvilDruk(), summonAvengerPlayer);
+                playCard(CardObjects.getEvilDruk(), summonAvengerPlayer , true);
             }
         }
     }
@@ -305,7 +305,7 @@ public class GameController {
 
     }
 
-    public void playCard(Card card , Player player) {
+    public void playCard(Card card , Player player , boolean viewUpdate) {
         isCardPlayedThisRound = true;
 
         switch (card.getPlayingRow()){
@@ -336,8 +336,10 @@ public class GameController {
             card.getAbility().executeAbility(card);
         }
 
-        updatePowerLabelsNumbers();
-        GameUIController.getGameUIController().updateRows();
+        if (viewUpdate){
+            updatePowerLabelsNumbers();
+            GameUIController.getGameUIController().updateRows();
+        }
     }
 
     public int getCurrentTurn(){
@@ -460,16 +462,16 @@ public class GameController {
            GameUIController.getGameUIController().getRow5Table().clearChildren();
            GameUIController.getGameUIController().getSpellRowTable().clearChildren();
            if (player1KeepCard1 != null){
-               playCard(player1KeepCard1 , gameBoard.getPlayer1());
+               playCard(player1KeepCard1 , gameBoard.getPlayer1() , true);
            }
            if (player1KeepCard2 != null){
-               playCard(player1KeepCard2 , gameBoard.getPlayer1());
+               playCard(player1KeepCard2 , gameBoard.getPlayer1() , true);
            }
            if (player2KeepCard1 != null){
-               playCard(player2KeepCard1 , gameBoard.getPlayer2());
+               playCard(player2KeepCard1 , gameBoard.getPlayer2() , true);
            }
            if (player2KeepCard2 != null){
-               playCard(player2KeepCard2 , gameBoard.getPlayer2());
+               playCard(player2KeepCard2 , gameBoard.getPlayer2() , true);
            }
        }
     }

@@ -1,6 +1,7 @@
 package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -158,6 +159,9 @@ public class GameUIController {
     //functionality methods
     public void handlePreGameController(ProBending game) {
         this.game = game;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+            //GameController.getGame().getCurrentPlayer().addCardToDeck(GameController.getGame().getGameBoard());
+        }
     }
 
     public void showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card card) {

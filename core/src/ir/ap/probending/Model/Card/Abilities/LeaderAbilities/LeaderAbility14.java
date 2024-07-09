@@ -17,7 +17,7 @@ public class LeaderAbility14 extends Ability {
         }
 
         if (frostCardFromDeck != null) {
-            GameController.getGame().playCard(frostCardFromDeck , GameController.getGame().getCurrentPlayer());
+            GameController.getGame().playCard(frostCardFromDeck , GameController.getGame().getCurrentPlayer() , true);
             GameController.getGame().getCurrentPlayer().removeCardFromDeckCards(frostCardFromDeck);
         }
         GameController.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);

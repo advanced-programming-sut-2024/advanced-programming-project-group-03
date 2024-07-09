@@ -171,13 +171,24 @@ public class GameControllerTest {
         GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), 4 , false);
         GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), 2 , false);
         GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), 3 , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), GameController.getGame().getCurrentPlayer() , false);
+        GameController.getGame().endTurn(false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), GameController.getGame().getCurrentPlayer() , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 1), GameController.getGame().getCurrentPlayer() , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 2), GameController.getGame().getCurrentPlayer() , false);
+        GameController.getGame().endTurn(false);
+        GameController.getGame().endTurn(false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 0), GameController.getGame().getGameBoard().getPlayer1() , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 1), GameController.getGame().getGameBoard().getPlayer1()  , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 2), GameController.getGame().getGameBoard().getPlayer1()  , false);
+        GameController.getGame().playCard(new Card(new Morale() , "test", "test" , 10 , false, 6), GameController.getGame().getGameBoard().getPlayer2()  , false);
         GameController.getGame().endTurn(false);
         GameController.getGame().endTurn(false);
         GameController.getGame().depositCardToBurntCards(false);
         GameController.getGame().depositCardToBurntCards(false);
         Assert.assertEquals(GameController.getGame().getCurrentSet() , 1);
-        Assert.assertEquals(GameController.getGame().getGameBoard().getPlayer1().getBurntCards().size(), 6);
-        Assert.assertEquals(GameController.getGame().getGameBoard().getPlayer2().getBurntCards().size(), 6);
+        Assert.assertEquals(GameController.getGame().getGameBoard().getPlayer1().getBurntCards().size(), 12);
+        Assert.assertEquals(GameController.getGame().getGameBoard().getPlayer2().getBurntCards().size(), 14);
 
         GameController.getGame().startNewSet(false);
         GameController.getGame().startNewSet(false);

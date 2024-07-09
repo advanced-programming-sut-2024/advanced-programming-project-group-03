@@ -253,7 +253,7 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                GameController.getGame().playCard(Card.this , GameController.getGame().getOtherPlayer());
+                GameController.getGame().playCard(Card.this , GameController.getGame().getOtherPlayer() , true);
 
                 GameUIController.getGameUIController().deactivateCardListWindow();
                 GameUIController.getGameUIController().clearCardListWindow();

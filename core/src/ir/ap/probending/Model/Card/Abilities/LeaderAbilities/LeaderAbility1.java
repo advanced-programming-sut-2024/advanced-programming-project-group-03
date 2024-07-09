@@ -11,7 +11,7 @@ public class LeaderAbility1 extends Ability {
         if (GameController.getGame().getCurrentTurn() == 1){
             for (Card card1 : GameController.getGame().getGameBoard().getPlayer1().getDeck()){
                 if (card1.getName().equals("Fog")){
-                    GameController.getGame().playCard(card1 , GameController.getGame().getGameBoard().getPlayer1());
+                    GameController.getGame().playCard(card1 , GameController.getGame().getGameBoard().getPlayer1() , true);
                     GameController.getGame().getGameBoard().getPlayer1().getDeck().remove(card1);
                     break;
                 }
@@ -20,7 +20,7 @@ public class LeaderAbility1 extends Ability {
         else {
             for (Card card1 : GameController.getGame().getGameBoard().getPlayer2().getDeck()){
                 if (card1.getName().equals("Fog")){
-                    GameController.getGame().playCard(card1 , GameController.getGame().getGameBoard().getPlayer2());
+                    GameController.getGame().playCard(card1 , GameController.getGame().getGameBoard().getPlayer2() , true);
                     GameController.getGame().getGameBoard().getPlayer2().getDeck().remove(card1);
                     break;
                 }

@@ -36,7 +36,7 @@ public class LeaderAbility9 extends Ability {
                 }
             }
 
-            GameController.getGame().playCard(weatherCards.get((int) (Math.random() * weatherCards.size())) , GameController.getGame().getCurrentPlayer());
+            GameController.getGame().playCard(weatherCards.get((int) (Math.random() * weatherCards.size())) , GameController.getGame().getCurrentPlayer() , true);
         }
     }
 }
