@@ -1,6 +1,8 @@
 package Server;
 
 import com.google.gson.Gson;
+import ir.ap.probending.Model.Card.Card;
+import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Game.GameBoard;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.User;
@@ -17,6 +19,8 @@ public class GameSession extends Thread {
     private static GameSession instance = new GameSession();
     private static DataOutputStream log;
     private static DataInputStream logIn;
+    private static String playedCard = null;
+    private static int playedCardRow = -1;
 
     public static void main(String[] args) {
         try {
@@ -122,10 +126,38 @@ public class GameSession extends Thread {
                 System.out.println("getGameBoard message");
             } else if (message.startsWith("startGame")) {
                 serverStart(message.split(" ")[1], message.split(" ")[2]);
+            } else if (message.startsWith("playCard")) {
+                handlePlayCardMessage(message, gameInfo);
+            } else if (message.startsWith("isOpponentPlayedCard")) {
+                handleIsOpponentPlayedCard(message);
             } else {
                 assignSocketToGameInfo(socket, message);
                 System.out.println("socket assigned to gameInfo");
             }
+        }
+
+        synchronized private void handleIsOpponentPlayedCard(String message) throws IOException {
+            System.out.println("kir ---------------------------kir kir ----");
+            if (playedCard != null) {
+                forwardMessageToOpponent(socket, "playCard " + playedCard + " " + playedCardRow, GameInfo.getGameInfo(socket));
+                System.out.println("playCard " + playedCard + " " + playedCardRow);
+                playedCard = null;
+            } else {
+                dataOutputStream.writeUTF("no");
+            }
+            dataOutputStream.flush();
+        }
+
+        synchronized private void handlePlayCardMessage(String message, GameInfo gameInfo) throws IOException {
+            System.out.println(message);
+            System.out.println("----------------------------------");
+            String cardname = message.split(" ")[1];
+            for (int i = 2; i < message.split(" ").length - 1; i++) {
+                cardname += " " + message.split(" ")[i];
+            }
+            System.out.println(cardname);
+            playedCard = cardname;
+            playedCardRow = Integer.parseInt(message.split(" ")[message.split(" ").length - 1]);
         }
 
         synchronized private void handlePreGameMessage(Socket socket, String message, GameInfo gameInfo) throws IOException {

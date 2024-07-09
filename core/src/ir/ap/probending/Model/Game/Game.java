@@ -87,6 +87,12 @@ public class Game {
 
         //setup views that are dependent to gameboard
         setupViewsThatAreDependentToGameBoard();
+        System.out.println("first check--------------");
+        if (!currentPlayer.getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())) {
+            System.out.println("inside if----------------");
+            waitForOpponentAction();
+        }
+        System.out.println("second check-------------");
     }
 
     public void endTurn() {
@@ -98,7 +104,6 @@ public class Game {
                 currentPlayer.setPassedThisRound(false);
                 isCardPlayedThisRound = false;
             }
-
             currentPlayer = gameBoard.getPlayer2();
             setUpHandView(gameBoard.getPlayer2());
         } else if (currentPlayer.equals(gameBoard.getPlayer2()) && !currentPlayer.isPassedThisRound()) {
@@ -109,7 +114,6 @@ public class Game {
                 currentPlayer.setPassedThisRound(false);
                 isCardPlayedThisRound = false;
             }
-
             currentPlayer = gameBoard.getPlayer1();
             setUpHandView(gameBoard.getPlayer1());
         }
@@ -135,6 +139,10 @@ public class Game {
                 gameBoard.getPlayer1().setSetsWon(gameBoard.getPlayer1().getSetsWon() + 1);
                 gameBoard.getPlayer2().setSetsWon(gameBoard.getPlayer2().getSetsWon() + 1);
             }
+        }
+
+        if (!currentPlayer.getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())) {
+            waitForOpponentAction();
         }
     }
 
@@ -172,7 +180,36 @@ public class Game {
         }
         GameUIController.getGameUIController().updateRows();
     }
-
+    public void waitForOpponentAction() {
+        new Thread(() -> {
+            while(true){
+                String response = ProBending.client.gameCommunicate("isOpponentPlayedCard");
+                String [] responseArray = response.split(" ");
+                if(responseArray[0].equals("playCard")){
+                    String cardname= responseArray[1];
+                    for(int i = 2;i < responseArray.length-1;i++){
+                        cardname += " " + responseArray[i];
+                    }
+                    System.out.println("here is the cardname");
+                    System.out.println(cardname);
+                    Card card = CardObjects.getCardWithName(cardname);
+                    int row = Integer.parseInt(responseArray[2]);
+                    currentPlayer.getHand().add(card);
+                    playCard(card, row);
+                    break;
+                }
+                if(responseArray[0].equals("pass")){
+                    endTurn();
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
     public void playCard(Card card, int row) {
         isCardPlayedThisRound = true;
 
@@ -239,8 +276,8 @@ public class Game {
 
         updatePowerLabelsNumbers();
         GameUIController.getGameUIController().updateRows();
+        ProBending.client.sendGameMessage("playCard " + newCard.getName() + " " + row);
         endTurn();
-
     }
 
     public void playCard(Card card, Player player) {
@@ -273,8 +310,8 @@ public class Game {
         if (card.getAbility() != null) {
             card.getAbility().executeAbility(card);
         }
-
         updatePowerLabelsNumbers();
+        ProBending.client.gameCommunicate("playCard " + new Gson().toJson(card) + " " + card.getPlayingRow());
         GameUIController.getGameUIController().updateRows();
     }
 

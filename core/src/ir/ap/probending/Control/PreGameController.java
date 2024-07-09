@@ -134,7 +134,7 @@ public class PreGameController {
                     ProBending.client.sendGameMessage("pregame " + serializedPreGame);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }   
                 String response = ProBending.client.gameCommunicate("AreUsersReady");
                 if (response.equals("yes")) {
                     game.getScreen().dispose();
@@ -145,7 +145,7 @@ public class PreGameController {
         });
     }
 
-    public static String serializePreGame(PreGame preGame) throws IOException {
+    public static String    serializePreGame(PreGame preGame) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
             objectOutputStream.writeObject(preGame);
