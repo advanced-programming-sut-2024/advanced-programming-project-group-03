@@ -3,16 +3,16 @@ package ir.ap.probending.Model.Card.Abilities.LeaderAbilities;
 import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 import java.util.ArrayList;
 
 public class LeaderAbility9 extends Ability {
     @Override
     public void executeAbility(Card card) {
-        if (!Game.getGame().isRestoreCardRandomlyActivated()){
+        if (!GameController.getGame().isRestoreCardRandomlyActivated()){
             ArrayList<Card> weatherCards = new ArrayList<>();
-            for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
+            for (Card c : GameController.getGame().getCurrentPlayer().getDeck()) {
                 if (c.getName().equals("Rain") || c.getName().equals("Fog") || c.getName().equals("Frost") || c.getName().equals("Clear") || c.getName().equals("Storm")) {
                     weatherCards.add(c);
                 }
@@ -30,13 +30,13 @@ public class LeaderAbility9 extends Ability {
         }
         else {
             ArrayList<Card> weatherCards = new ArrayList<>();
-            for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
+            for (Card c : GameController.getGame().getCurrentPlayer().getDeck()) {
                 if (c.getName().equals("Rain") || c.getName().equals("Fog") || c.getName().equals("Frost") || c.getName().equals("Clear") || c.getName().equals("Storm")) {
                     weatherCards.add(c);
                 }
             }
 
-            Game.getGame().playCard(weatherCards.get((int) (Math.random() * weatherCards.size())) , Game.getGame().getCurrentPlayer());
+            GameController.getGame().playCard(weatherCards.get((int) (Math.random() * weatherCards.size())) , GameController.getGame().getCurrentPlayer());
         }
     }
 }

@@ -2,7 +2,7 @@ package ir.ap.probending.Model.Card.Abilities;
 
 import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class Medic extends Ability{
     public void executeAbility(Card card) {
 
         ArrayList<Card> burntCards = new ArrayList<>();
-        for (Card burntCard : Game.getGame().getCurrentPlayer().getBurntCards()) {
+        for (Card burntCard : GameController.getGame().getCurrentPlayer().getBurntCards()) {
             if (!burntCard.isHero() && !(burntCard.getAbility() instanceof Berseker) &&
                     !(burntCard.getAbility() instanceof Mardroeme) && !(burntCard.getAbility() instanceof CommandersHorn) &&
                     !(burntCard.getAbility() instanceof Decoy) && !(burntCard.getAbility() instanceof Scorch) &&

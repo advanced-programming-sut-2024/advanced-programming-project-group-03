@@ -1,12 +1,12 @@
 package ir.ap.probending.Model.Card.Abilities;
 
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 import ir.ap.probending.Model.Game.GameBoard;
 
 public class Spy extends Ability {
     public void executeAbility(Card card) {
-        GameBoard gameBoard = Game.getGame().getGameBoard();
+        GameBoard gameBoard = GameController.getGame().getGameBoard();
         if (gameBoard.getPlayer1Board().getCloseCombat().contains(card)) {
             gameBoard.getPlayer2Board().addCardToCloseCombat(card);
             gameBoard.getPlayer1Board().removeCardFromCloseCombat(card);
@@ -32,7 +32,7 @@ public class Spy extends Ability {
             gameBoard.getPlayer2Board().removeCardFromSiege(card);
         }
 
-        Game.getGame().getCurrentPlayer().drawCard();
-        Game.getGame().getCurrentPlayer().drawCard();
+        GameController.getGame().getCurrentPlayer().drawCard();
+        GameController.getGame().getCurrentPlayer().drawCard();
     }
 }

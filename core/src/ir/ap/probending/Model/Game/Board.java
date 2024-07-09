@@ -1,6 +1,6 @@
 package ir.ap.probending.Model.Game;
 
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 import ir.ap.probending.Model.Card.Abilities.*;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Factions.Faction;
@@ -49,10 +49,10 @@ public class Board {
 
     public int getCloseCombatPowerSum() {
         int sum = 0;
-        if (Game.getGame().getGameBoard().isFrostPlayed()){
+        if (GameController.getGame().getGameBoard().isFrostPlayed()){
             for (Card card : closeCombat) {
                 if (!card.isHero()){
-                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                    if (GameController.getGame().isLoseHalfInBadWeatherActivated()){
                         sum += card.getPower() / 2;
                     }
                     else {
@@ -84,7 +84,7 @@ public class Board {
             sum += sumOfHeroPower;
         }
 
-        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+        if (GameController.getGame().getGameBoard().isSpyDoublePowerActivated()){
             for (Card card : closeCombat) {
                 if (card.getAbility() instanceof Spy){
                     sum += card.getPower();
@@ -96,10 +96,10 @@ public class Board {
 
     public int getRangedPowerSum() {
         int sum = 0;
-        if (Game.getGame().getGameBoard().isFogPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
+        if (GameController.getGame().getGameBoard().isFogPlayed() || GameController.getGame().getGameBoard().isStormPlayed()){
             for (Card card : ranged) {
                 if (!card.isHero()){
-                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                    if (GameController.getGame().isLoseHalfInBadWeatherActivated()){
                         sum += card.getPower() / 2;
                     }
                     else {
@@ -131,7 +131,7 @@ public class Board {
             sum += sumOfHeroPower;
         }
 
-        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+        if (GameController.getGame().getGameBoard().isSpyDoublePowerActivated()){
             for (Card card : ranged) {
                 if (card.getAbility() instanceof Spy){
                     sum += card.getPower();
@@ -143,10 +143,10 @@ public class Board {
 
     public int getSiegePowerSum() {
         int sum = 0;
-        if (Game.getGame().getGameBoard().isRainPlayed() || Game.getGame().getGameBoard().isStormPlayed()){
+        if (GameController.getGame().getGameBoard().isRainPlayed() || GameController.getGame().getGameBoard().isStormPlayed()){
             for (Card card : siege) {
                 if (!card.isHero()){
-                    if (Game.getGame().isLoseHalfInBadWeatherActivated()){
+                    if (GameController.getGame().isLoseHalfInBadWeatherActivated()){
                         sum += card.getPower() / 2;
                     }
                     else {
@@ -178,7 +178,7 @@ public class Board {
             sum += sumOfHeroPower;
         }
 
-        if (Game.getGame().getGameBoard().isSpyDoublePowerActivated()){
+        if (GameController.getGame().getGameBoard().isSpyDoublePowerActivated()){
             for (Card card : siege) {
                 if (card.getAbility() instanceof Spy){
                     sum += card.getPower();

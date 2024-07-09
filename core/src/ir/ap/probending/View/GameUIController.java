@@ -14,7 +14,7 @@ import ir.ap.probending.Model.Card.Abilities.Mardroeme;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.ProBending;
 
@@ -106,7 +106,7 @@ public class GameUIController {
     private boolean canPlaceCardOnSpellRow = false;
     private Card clickedCard;
 
-    private GameUIController(Stage stage) {
+    private GameUIController() {
 
         scrollPaneStyle = GameAssetManager.getGameAssetManager().getSkin().get("default", ScrollPane.ScrollPaneStyle.class);
 
@@ -153,9 +153,6 @@ public class GameUIController {
         addDeckAndBurntToView();
     }
 
-    private GameUIController(){
-
-    }
 
     //functionality methods
     public void handlePreGameController(ProBending game) {
@@ -182,16 +179,16 @@ public class GameUIController {
             if (!(clickedCard.getAbility() instanceof Decoy)){
 
                 if (row == 5) {
-                    Game.getGame().playCard(clickedCard , 0  , true);
+                    GameController.getGame().playCard(clickedCard , 0  , true);
                 }
                 else if (row == 4) {
-                    Game.getGame().playCard(clickedCard , 1  , true);
+                    GameController.getGame().playCard(clickedCard , 1  , true);
                 }
                 else if (row == 3) {
-                    Game.getGame().playCard(clickedCard , 2  , true);
+                    GameController.getGame().playCard(clickedCard , 2  , true);
                 }
                 else {
-                    Game.getGame().playCard(clickedCard , row , true);
+                    GameController.getGame().playCard(clickedCard , row , true);
                 }
             }
         }
@@ -256,8 +253,8 @@ public class GameUIController {
         commanderHorn7ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme) && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 7 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme) && GameController.getGame().getCurrentTurn() == 1){
+                    GameController.getGame().playCard(clickedCard , 7 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -268,8 +265,8 @@ public class GameUIController {
         commanderHorn8ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 8 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && GameController.getGame().getCurrentTurn() == 1){
+                    GameController.getGame().playCard(clickedCard , 8 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -280,8 +277,8 @@ public class GameUIController {
         commanderHorn9ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 9 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && GameController.getGame().getCurrentTurn() == 1){
+                    GameController.getGame().playCard(clickedCard , 9 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -292,8 +289,8 @@ public class GameUIController {
         commanderHorn10ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 10 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && GameController.getGame().getCurrentTurn() == 2){
+                    GameController.getGame().playCard(clickedCard , 10 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -304,8 +301,8 @@ public class GameUIController {
         commanderHorn11ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 11 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && GameController.getGame().getCurrentTurn() == 2){
+                    GameController.getGame().playCard(clickedCard , 11 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -316,8 +313,8 @@ public class GameUIController {
         commanderHorn12ScrollPane.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 12 , true);
+                if (clickedCard != null && (clickedCard.getAbility() instanceof CommandersHorn || clickedCard.getAbility() instanceof Mardroeme)  && GameController.getGame().getCurrentTurn() == 2){
+                    GameController.getGame().playCard(clickedCard , 12 , true);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -365,52 +362,52 @@ public class GameUIController {
         commanderHorn10Table.clear();
         commanderHorn11Table.clear();
         commanderHorn12Table.clear();
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
+        for (Card card : GameController.getGame().getGameBoard().getPlayer1Board().getSiege()){
 
-            if (!Game.getGame().getGameBoard().getPlayer1Board().getSiege().isEmpty())
+            if (!GameController.getGame().getGameBoard().getPlayer1Board().getSiege().isEmpty())
                 row0Table.add(card).padTop(-160).padRight(-100);
             else
                 row0Table.add(card).padTop(-160);
 
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getRanged()){
-            if (!Game.getGame().getGameBoard().getPlayer1Board().getRanged().isEmpty())
+        for (Card card : GameController.getGame().getGameBoard().getPlayer1Board().getRanged()){
+            if (!GameController.getGame().getGameBoard().getPlayer1Board().getRanged().isEmpty())
                 row1Table.add(card).padTop(-160).padRight(-100);
             else
                 row1Table.add(card).padTop(-160);
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
-            if (!Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().isEmpty())
+        for (Card card : GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
+            if (!GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().isEmpty())
                 row2Table.add(card).padTop(-160).padRight(-100);
             else
                 row2Table.add(card).padTop(-160);
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getSiege()){
-            if (!Game.getGame().getGameBoard().getPlayer2Board().getSiege().isEmpty())
+        for (Card card : GameController.getGame().getGameBoard().getPlayer2Board().getSiege()){
+            if (!GameController.getGame().getGameBoard().getPlayer2Board().getSiege().isEmpty())
                 row5Table.add(card).padTop(-160).padRight(-100);
             else
                 row5Table.add(card).padTop(-160);
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getRanged()){
-            if (!Game.getGame().getGameBoard().getPlayer2Board().getRanged().isEmpty())
+        for (Card card : GameController.getGame().getGameBoard().getPlayer2Board().getRanged()){
+            if (!GameController.getGame().getGameBoard().getPlayer2Board().getRanged().isEmpty())
                 row4Table.add(card).padTop(-160).padRight(-100);
             else
                 row4Table.add(card).padTop(-160);
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
-            if (!Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().isEmpty())
+        for (Card card : GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
+            if (!GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().isEmpty())
                 row3Table.add(card).padTop(-160).padRight(-100);
             else
                 row3Table.add(card).padTop(-160);
             card.getSprite().setSize(100 , 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getSpellCards()){
-            if (!Game.getGame().getGameBoard().getSpellCards().isEmpty()) {
+        for (Card card : GameController.getGame().getGameBoard().getSpellCards()){
+            if (!GameController.getGame().getGameBoard().getSpellCards().isEmpty()) {
                 spellRowTable.add(card).padTop(-160).padRight(-100);
             }
             else {
@@ -419,42 +416,42 @@ public class GameUIController {
             card.getSprite().setSize(100 , 200);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander7() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander7().getSprite().setSize(100 , 200);
-            commanderHorn7Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander7()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander7() != null){
+            GameController.getGame().getGameBoard().getPlayer1Board().getCommander7().getSprite().setSize(100 , 200);
+            commanderHorn7Table.add(GameController.getGame().getGameBoard().getPlayer1Board().getCommander7()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander8() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander8().getSprite().setSize(100 , 200);
-            commanderHorn8Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander8()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander8() != null){
+            GameController.getGame().getGameBoard().getPlayer1Board().getCommander8().getSprite().setSize(100 , 200);
+            commanderHorn8Table.add(GameController.getGame().getGameBoard().getPlayer1Board().getCommander8()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander9() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander9().getSprite().setSize(100 , 200);
-            commanderHorn9Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander9()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander9() != null){
+            GameController.getGame().getGameBoard().getPlayer1Board().getCommander9().getSprite().setSize(100 , 200);
+            commanderHorn9Table.add(GameController.getGame().getGameBoard().getPlayer1Board().getCommander9()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander9() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander9().getSprite().setSize(100 , 200);
-            commanderHorn10Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander9()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander9() != null){
+            GameController.getGame().getGameBoard().getPlayer2Board().getCommander9().getSprite().setSize(100 , 200);
+            commanderHorn10Table.add(GameController.getGame().getGameBoard().getPlayer2Board().getCommander9()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander8() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander8().getSprite().setSize(100 , 200);
-            commanderHorn11Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander8()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander8() != null){
+            GameController.getGame().getGameBoard().getPlayer2Board().getCommander8().getSprite().setSize(100 , 200);
+            commanderHorn11Table.add(GameController.getGame().getGameBoard().getPlayer2Board().getCommander8()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander7() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander7().getSprite().setSize(100 , 200);
-            commanderHorn12Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
+        if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander7() != null){
+            GameController.getGame().getGameBoard().getPlayer2Board().getCommander7().getSprite().setSize(100 , 200);
+            commanderHorn12Table.add(GameController.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
         }
 
-        Game.getGame().updatePowerLabelsNumbers();
+        GameController.getGame().updatePowerLabelsNumbers();
 
-        player1DeckCardCount.setText(Game.getGame().getGameBoard().getPlayer1().getDeck().size() + " deck cards");
-        player2DeckCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getDeck().size() + " deck cards");
-        player1BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer1().getBurntCards().size() + " burnt cards");
-        player2BurntCardCount.setText(Game.getGame().getGameBoard().getPlayer2().getBurntCards().size() + " burnt cards");
+        player1DeckCardCount.setText(GameController.getGame().getGameBoard().getPlayer1().getDeck().size() + " deck cards");
+        player2DeckCardCount.setText(GameController.getGame().getGameBoard().getPlayer2().getDeck().size() + " deck cards");
+        player1BurntCardCount.setText(GameController.getGame().getGameBoard().getPlayer1().getBurntCards().size() + " burnt cards");
+        player2BurntCardCount.setText(GameController.getGame().getGameBoard().getPlayer2().getBurntCards().size() + " burnt cards");
         updateDeckAndBurntCardView();
     }
 
@@ -561,12 +558,12 @@ public class GameUIController {
     }
 
     private void updateDeckAndBurntCardView(){
-        int burnt1 = Game.getGame().getGameBoard().getPlayer1().getBurntCards().size();
-        int burnt2 = Game.getGame().getGameBoard().getPlayer2().getBurntCards().size();
-        int deck1 = Game.getGame().getGameBoard().getPlayer1().getDeck().size();
-        int deck2 = Game.getGame().getGameBoard().getPlayer2().getDeck().size();
-        String faction1 = Game.getGame().getGameBoard().getPlayer1Board().getFaction().getFactionName();
-        String faction2 = Game.getGame().getGameBoard().getPlayer2Board().getFaction().getFactionName();
+        int burnt1 = GameController.getGame().getGameBoard().getPlayer1().getBurntCards().size();
+        int burnt2 = GameController.getGame().getGameBoard().getPlayer2().getBurntCards().size();
+        int deck1 = GameController.getGame().getGameBoard().getPlayer1().getDeck().size();
+        int deck2 = GameController.getGame().getGameBoard().getPlayer2().getDeck().size();
+        String faction1 = GameController.getGame().getGameBoard().getPlayer1Board().getFaction().getFactionName();
+        String faction2 = GameController.getGame().getGameBoard().getPlayer2Board().getFaction().getFactionName();
 
         if (burnt1 > 0){
             player1BurntCardTable.clear();
@@ -945,19 +942,19 @@ public class GameUIController {
         passButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getGame().endTurn(true);
+                GameController.getGame().endTurn(true);
             }
         });
         table.addActor(passButton);
     }
 
     public void addUsernameLabels(){
-        player1Username.setText(Game.getGame().getGameBoard().getPlayer1().getUser().getUsername());
+        player1Username.setText(GameController.getGame().getGameBoard().getPlayer1().getUser().getUsername());
         player1Username.setPosition(100, 50);
         player1Username.setSize(200, 50);
         table.addActor(player1Username);
 
-        player2Username.setText(Game.getGame().getGameBoard().getPlayer2().getUser().getUsername());
+        player2Username.setText(GameController.getGame().getGameBoard().getPlayer2().getUser().getUsername());
         player2Username.setPosition(100, 800);
         player2Username.setSize(200, 50);
         table.addActor(player2Username);
@@ -984,7 +981,7 @@ public class GameUIController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setEndDialog.setVisible(false);
-                Game.getGame().startNewSet(true);
+                GameController.getGame().startNewSet(true);
             }
         });
         setEndDialog.add(setWinnerLabel).pad(10);
@@ -1060,10 +1057,10 @@ public class GameUIController {
         playLeaderAbilityButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (Game.getGame().getCurrentTurn() == 1)
-                    Game.getGame().getGameBoard().getPlayer1Board().playLeaderAbility();
+                if (GameController.getGame().getCurrentTurn() == 1)
+                    GameController.getGame().getGameBoard().getPlayer1Board().playLeaderAbility();
                 else
-                    Game.getGame().getGameBoard().getPlayer2Board().playLeaderAbility();
+                    GameController.getGame().getGameBoard().getPlayer2Board().playLeaderAbility();
             }
         });
         table.addActor(playLeaderAbilityButton);
@@ -1119,7 +1116,7 @@ public class GameUIController {
 
     public static GameUIController getGameUIController() {
         if (gameUIController == null)
-            gameUIController = new GameUIController(ScreenMasterSetting.getInstance().getPreGameScreen().getStage());
+            gameUIController = new GameUIController();
         return gameUIController;
     }
     public Table getTable() {

@@ -6,7 +6,7 @@ import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 import java.util.ArrayList;
 
@@ -14,9 +14,9 @@ public class LeaderAbility17 extends Ability {
     @Override
     public void executeAbility(Card card) {
         ArrayList<Card> cards = new ArrayList<>();
-        cards.add(Game.getGame().getOtherPlayer().getHand().get(0));
-        cards.add(Game.getGame().getOtherPlayer().getHand().get(1));
-        cards.add(Game.getGame().getOtherPlayer().getHand().get(2));
+        cards.add(GameController.getGame().getOtherPlayer().getHand().get(0));
+        cards.add(GameController.getGame().getOtherPlayer().getHand().get(1));
+        cards.add(GameController.getGame().getOtherPlayer().getHand().get(2));
 
         GameUIController.getGameUIController().activateCardListWindow();
         GameUIController.getGameUIController().clearCardListWindow();
@@ -32,7 +32,7 @@ public class LeaderAbility17 extends Ability {
         });
         GameUIController.getGameUIController().getCardListWindow().row();
         GameUIController.getGameUIController().getCardListWindow().add(closeButton);
-        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameController.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
         GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }

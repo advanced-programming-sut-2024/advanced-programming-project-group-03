@@ -1,5 +1,6 @@
 package ir.ap.probending.View;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,9 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.SaveUser;
+import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
-import ir.ap.probending.Control.Game;
-import ir.ap.probending.Control.PreGame;
+import ir.ap.probending.Control.GameController;
+import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
@@ -138,7 +140,7 @@ public class PreGameScreenController {
 
     public void update(int specialCount){
 
-        if (PreGame.getPreGame().getDeckCards().size() < 12){
+        if (PreGameController.getPreGame().getDeckCards().size() < 12){
             playGameButton.setDisabled(true);
             playGameButton.setVisible(false);
             cardCountLabel.setColor(Color.RED);
@@ -170,10 +172,40 @@ public class PreGameScreenController {
         playGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getGame().startGame();
+                GameController.getGame().startGame();
                 game.setScreen(ScreenMasterSetting.getInstance().getGameScreen());
+                GameUIController.getGameUIController().resetGameUI();
+                //veto cards
+                GameUIController.getGameUIController().activateCardListWindow();
+                ArrayList<Card> vetoCards = new ArrayList<>();
+                for (Card card : GameController.getGame().getGameBoard().getPlayer1().getHand()) {
+                    vetoCards.add(card.clone5());
+                }
+                GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
+
+                //set leaders and factions
+                GameController.getGame().getGameBoard().getPlayer1Board().setLeader(PreGameController.getPreGame().getSelectedLeader().clone6());
+                GameController.getGame().getGameBoard().getPlayer1Board().setFaction(PreGameController.getPreGame().getPlayerFaction());
+
+                GameUIController.getGameUIController().addLeadersToLeaderTable1( GameController.getGame().getGameBoard().getPlayer1Board().getLeader());
+                GameUIController.getGameUIController().addLeadersToLeaderTable2( GameController.getGame().getGameBoard().getPlayer2Board().getLeader());
+                GameUIController.getGameUIController().setCurrentTurnPlayerUsername(GameController.getGame().getCurrentPlayer().getUser().getUsername() + " 's turn");
+                selectRandomCardsAndFactionForPlayer2();
+
+                //add hand cards of current player to view
+                GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
+
+                //setup views that are dependent to gameboard
+                GameUIController.getGameUIController().addUsernameLabels();
+                GameUIController.getGameUIController().updateRows();
             }
         });
+    }
+
+    private void selectRandomCardsAndFactionForPlayer2() {
+        GameController.getGame().getGameBoard().getPlayer2Board().setFaction(Faction.getRandomFaction());
+        GameController.getGame().getGameBoard().getPlayer2Board().setLeader(PreGameController.getPreGame().getRandomLeader(GameController.getGame().getGameBoard().getPlayer2Board().getFaction()).clone6());
+        GameController.getGame().getGameBoard().getPlayer2().addCardsToDeck(PreGameController.getPreGame().getRandomDeckCards(GameController.getGame().getGameBoard().getPlayer2Board().getFaction()));
     }
 
     public void handlePreGameController(ProBending game) {
@@ -184,10 +216,10 @@ public class PreGameScreenController {
 
     public int getCardNumber(Card card) {
         ArrayList<Card> allCards;
-        if (PreGame.getPreGame().getDeckCards().contains(card)) {
-            allCards = PreGame.getPreGame().getDeckCards();
-        } else if (PreGame.getPreGame().getStorageCards().contains(card)) {
-            allCards = PreGame.getPreGame().getStorageCards();
+        if (PreGameController.getPreGame().getDeckCards().contains(card)) {
+            allCards = PreGameController.getPreGame().getDeckCards();
+        } else if (PreGameController.getPreGame().getStorageCards().contains(card)) {
+            allCards = PreGameController.getPreGame().getStorageCards();
         } else {
             return 0;
         }
@@ -202,35 +234,35 @@ public class PreGameScreenController {
     }
 
     public void addCardToDeck(Card card) {
-        PreGame.getPreGame().getDeckCards().add(card);
+        PreGameController.getPreGame().getDeckCards().add(card);
         sortCards();
         refreshDeckTable();
     }
 
     public void addCardToStorage(Card card) {
-        PreGame.getPreGame().getStorageCards().add(card);
+        PreGameController.getPreGame().getStorageCards().add(card);
         sortCards();
         refreshStorageTable();
     }
 
     public void removeCardFromDeck(Card card) {
-        PreGame.getPreGame().getDeckCards().remove(card);
+        PreGameController.getPreGame().getDeckCards().remove(card);
         sortCards();
         refreshDeckTable();
     }
 
     public void removeCardFromStorage(Card card) {
-        PreGame.getPreGame().getStorageCards().remove(card);
+        PreGameController.getPreGame().getStorageCards().remove(card);
         sortCards();
         refreshStorageTable();
     }
 
     public void refreshDeckTable() {
-        refreshTables(deckTable, PreGame.getPreGame().getDeckCards());
+        refreshTables(deckTable, PreGameController.getPreGame().getDeckCards());
     }
 
     public void refreshStorageTable() {
-        refreshTables(storageTable, PreGame.getPreGame().getStorageCards());
+        refreshTables(storageTable, PreGameController.getPreGame().getStorageCards());
     }
 
     private void refreshTables(Table storageTable, ArrayList<Card> storageCards) {
@@ -257,22 +289,22 @@ public class PreGameScreenController {
     }
 
     private void sortCards(){
-        PreGame.getPreGame().getStorageCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
-        PreGame.getPreGame().getDeckCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+        PreGameController.getPreGame().getStorageCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
+        PreGameController.getPreGame().getDeckCards().sort((card1, card2) -> card2.getPower() - card1.getPower());
     }
     public void refreshLabels() {
         int powerSum = 0;
-        for (Card card : PreGame.getPreGame().getDeckCards()) {
+        for (Card card : PreGameController.getPreGame().getDeckCards()) {
             powerSum += card.getPower();
         }
         powerSumLabel.setText("Power Sum: " + powerSum);
-        cardCountLabel.setText("Card Count: " + PreGame.getPreGame().getDeckCards().size());
+        cardCountLabel.setText("Card Count: " + PreGameController.getPreGame().getDeckCards().size());
 
         int specialCount = 0;
         int normalCount = 0;
         int heroCount = 0;
 
-        for (Card card : PreGame.getPreGame().getDeckCards()) {
+        for (Card card : PreGameController.getPreGame().getDeckCards()) {
             if (card.isHero()){
                 heroCount++;
                 normalCount++;
@@ -289,7 +321,7 @@ public class PreGameScreenController {
         normalCardCount.setText("Unit Cards: " + normalCount);
         heroCardCount.setText("Hero Cards: " + heroCount);
 
-        leaderAbility.setText("Leader Ability : " + PreGame.getPreGame().getSelectedLeader().getDescription());
+        leaderAbility.setText("Leader Ability : " + PreGameController.getPreGame().getSelectedLeader().getDescription());
         update(specialCount);
     }
 
@@ -306,36 +338,36 @@ public class PreGameScreenController {
         waterTribeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
+                PreGameController.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
-                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
+                PreGameController.getPreGame().setSelectedLeader(PreGameController.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
         earthKingdomButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone() , true);
+                PreGameController.getPreGame().changeFaction(FactionObjects.EARTH.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
-                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
+                PreGameController.getPreGame().setSelectedLeader(PreGameController.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
         fireNationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone() , true);
+                PreGameController.getPreGame().changeFaction(FactionObjects.FIRE.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
-                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
+                PreGameController.getPreGame().setSelectedLeader(PreGameController.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
 
         airNomadsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone() , true);
+                PreGameController.getPreGame().changeFaction(FactionObjects.AIR.getFaction().clone() , true);
                 changeFactionWindow.setVisible(false);
-                PreGame.getPreGame().setSelectedLeader(PreGame.getPreGame().getPlayerFaction().getLeaderArray().get(0));
+                PreGameController.getPreGame().setSelectedLeader(PreGameController.getPreGame().getPlayerFaction().getLeaderArray().get(0));
             }
         });
     }
@@ -431,7 +463,7 @@ public class PreGameScreenController {
                 chooseLeaderWindow.toFront();
                 chooseLeaderWindow.setPosition((float) Gdx.graphics.getWidth() / 2 - chooseLeaderWindow.getWidth() / 2, 500);
                 ArrayList<String> leaderAbilities = new ArrayList<>();
-                for (Card leader : PreGame.getPreGame().getPlayerFaction().getLeaderArray()) {
+                for (Card leader : PreGameController.getPreGame().getPlayerFaction().getLeaderArray()) {
                     leaderAbilities.add(leader.getDescription());
                 }
 
@@ -442,15 +474,15 @@ public class PreGameScreenController {
         applyLeaderButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                for (Card leader : PreGame.getPreGame().getPlayerFaction().getLeaderArray()) {
+                for (Card leader : PreGameController.getPreGame().getPlayerFaction().getLeaderArray()) {
                     if (leader.getDescription().equals(leaderSelectBox.getSelected())) {
-                        PreGame.getPreGame().setSelectedLeader(leader);
+                        PreGameController.getPreGame().setSelectedLeader(leader);
                         break;
                     }
                 }
 
                 chooseLeaderWindow.setVisible(false);
-                leaderAbility.setText(PreGame.getPreGame().getSelectedLeader().getDescription());
+                leaderAbility.setText(PreGameController.getPreGame().getSelectedLeader().getDescription());
             }
         });
     }
@@ -507,7 +539,7 @@ public class PreGameScreenController {
         saveDeckToFileButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().saveDeckToFile(saveDeckTextField.getText());
+                PreGameController.getPreGame().saveDeckToFile(saveDeckTextField.getText());
                 saveDeckWindow.setVisible(false);
             }
         });
@@ -515,7 +547,7 @@ public class PreGameScreenController {
         saveDeckToDBButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().saveDeckToDB();
+                PreGameController.getPreGame().saveDeckToDB();
                 saveDeckWindow.setVisible(false);
             }
         });
@@ -560,7 +592,7 @@ public class PreGameScreenController {
         loadDeckFromFileButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().loadDeckFromFile(loadDeckTextField.getText());
+                PreGameController.getPreGame().loadDeckFromFile(loadDeckTextField.getText());
                 loadDeckWindow.setVisible(false);
             }
         });
@@ -568,7 +600,7 @@ public class PreGameScreenController {
         loadDeckFromDBButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PreGame.getPreGame().loadDeckFromDB();
+                PreGameController.getPreGame().loadDeckFromDB();
                 loadDeckWindow.setVisible(false);
             }
         });
@@ -641,7 +673,7 @@ public class PreGameScreenController {
                     List<User> users = SaveUser.loadUsers();
                     for (User user : users) {
                         if (user.getUsername().equals(opponentTextField.getText())) {
-                            PreGame.getPreGame().setOpponentPlayer(user);
+                            PreGameController.getPreGame().setOpponentPlayer(user);
                             found = true;
                             break;
                         }

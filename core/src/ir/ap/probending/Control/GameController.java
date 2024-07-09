@@ -17,8 +17,8 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
-public class Game {
-    private static Game game = new Game();
+public class GameController {
+    private static GameController gameController = new GameController();
     private Player currentPlayer;
     private GameBoard gameBoard;
     private int currentSet = 1;
@@ -29,17 +29,19 @@ public class Game {
     private Player summonAvengerPlayer = null;
     private GameHistory gameHistory;
     private GameHistory gameHistory2;
-    private Game() {
+    private GameController() {
     }
     public void startGame() {
         //set a gameboard
         gameBoard = new GameBoard(new Player(GameMaster.getGameMaster().getLoggedInUser1()) , new Player(GameMaster.getGameMaster().getLoggedInUser2()) , new Board() , new Board());
         resetGameSettings();
-        GameUIController.getGameUIController().resetGameUI();
+        GameController.getGame().getGameBoard().getPlayer1Board().setFaction(new Faction("Earth" , new ArrayList<>() , new ArrayList<>()));
+        GameController.getGame().getGameBoard().getPlayer2Board().setFaction(new Faction("Earth" , new ArrayList<>() , new ArrayList<>()));
+
 
         // give cards to players
-        gameBoard.getPlayer1().addCardsToDeck(PreGame.getPreGame().getDeckCards());
-        selectRandomCardsAndFactionForPlayer2();
+        gameBoard.getPlayer1().addCardsToDeck(PreGameController.getPreGame().getDeckCards());
+
 
         //give 10 random cards to each player
         for (int i = 0; i < 10; i++) {
@@ -47,30 +49,10 @@ public class Game {
             gameBoard.getPlayer2().drawCard();
         }
 
-        //veto cards
-        GameUIController.getGameUIController().activateCardListWindow();
-        ArrayList<Card> vetoCards = new ArrayList<>();
-        for (Card card : gameBoard.getPlayer1().getHand()) {
-            vetoCards.add(card.clone5());
-        }
-        GameUIController.getGameUIController().addCardsToCardListWindow(vetoCards);
-
-        //set leaders and factions
-        gameBoard.getPlayer1Board().setLeader(PreGame.getPreGame().getSelectedLeader().clone6());
-        gameBoard.getPlayer1Board().setFaction(PreGame.getPreGame().getPlayerFaction());
-
-        GameUIController.getGameUIController().addLeadersToLeaderTable1(gameBoard.getPlayer1Board().getLeader());
-        GameUIController.getGameUIController().addLeadersToLeaderTable2(gameBoard.getPlayer2Board().getLeader());
 
         // Set players
         currentPlayer = decideFirstTurn();
-        GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
 
-        //add hand cards of current player to view
-        setUpHandView(currentPlayer);
-
-        //setup views that are dependent to gameboard
-        setupViewsThatAreDependentToGameBoard();
 
         //setup new game history
         Date date = new Date();
@@ -86,7 +68,7 @@ public class Game {
         resetGameSettings();
 
         // give cards to players
-        gameBoard.getPlayer1().addCardsToDeck(PreGame.getPreGame().getDeckCards());
+        gameBoard.getPlayer1().addCardsToDeck(PreGameController.getPreGame().getDeckCards());
         gameBoard.getPlayer1Board().setFaction(new Faction("Water" , new ArrayList<>() , new ArrayList<>()));
         gameBoard.getPlayer2Board().setFaction( new Faction("Fire", new ArrayList<>(), new ArrayList<>()));
 
@@ -276,7 +258,7 @@ public class Game {
                     gameBoard.getPlayer2Board().addCardToCloseCombat(newCard);
                 break;
             case 6:
-                Game.getGame().getGameBoard().addSpellCard(newCard);
+                GameController.getGame().getGameBoard().addSpellCard(newCard);
                 break;
             case 7:
                 if (currentPlayer.equals(gameBoard.getPlayer1()))
@@ -357,12 +339,6 @@ public class Game {
 
         updatePowerLabelsNumbers();
         GameUIController.getGameUIController().updateRows();
-    }
-
-    private void selectRandomCardsAndFactionForPlayer2() {
-        gameBoard.getPlayer2Board().setFaction(Faction.getRandomFaction());
-        gameBoard.getPlayer2Board().setLeader(PreGame.getPreGame().getRandomLeader(gameBoard.getPlayer2Board().getFaction()).clone6());
-        gameBoard.getPlayer2().addCardsToDeck(PreGame.getPreGame().getRandomDeckCards(gameBoard.getPlayer2Board().getFaction()));
     }
 
     public int getCurrentTurn(){
@@ -474,7 +450,16 @@ public class Game {
             gameBoard.getPlayer2().addCardToBurntCards(card);
         }
        if (updateView){
-           clearBoard();
+           gameBoard.getPlayer1Board().clearBoard();
+           gameBoard.getPlayer2Board().clearBoard();
+           gameBoard.getSpellCards().clear();
+           GameUIController.getGameUIController().getRow0Table().clearChildren();
+           GameUIController.getGameUIController().getRow1Table().clearChildren();
+           GameUIController.getGameUIController().getRow2Table().clearChildren();
+           GameUIController.getGameUIController().getRow3Table().clearChildren();
+           GameUIController.getGameUIController().getRow4Table().clearChildren();
+           GameUIController.getGameUIController().getRow5Table().clearChildren();
+           GameUIController.getGameUIController().getSpellRowTable().clearChildren();
            if (player1KeepCard1 != null){
                playCard(player1KeepCard1 , gameBoard.getPlayer1());
            }
@@ -599,11 +584,6 @@ public class Game {
         isLoseHalfInBadWeatherActivated = false;
     }
 
-    //views
-    private void setupViewsThatAreDependentToGameBoard() {
-        GameUIController.getGameUIController().addUsernameLabels();
-        GameUIController.getGameUIController().updateRows();
-    }
     public void setUpHandView(Player player){
         //add hand cards of player1 to view
         GameUIController.getGameUIController().getPlayerHandTable().clearChildren();
@@ -618,19 +598,6 @@ public class Game {
         }
     }
 
-    public void clearBoard() {
-        gameBoard.getPlayer1Board().clearBoard();
-        gameBoard.getPlayer2Board().clearBoard();
-        gameBoard.getSpellCards().clear();
-        GameUIController.getGameUIController().getRow0Table().clearChildren();
-        GameUIController.getGameUIController().getRow1Table().clearChildren();
-        GameUIController.getGameUIController().getRow2Table().clearChildren();
-        GameUIController.getGameUIController().getRow3Table().clearChildren();
-        GameUIController.getGameUIController().getRow4Table().clearChildren();
-        GameUIController.getGameUIController().getRow5Table().clearChildren();
-        GameUIController.getGameUIController().getSpellRowTable().clearChildren();
-    }
-
     public Faction getPlayersFaction(Player player){
         if (player.equals(gameBoard.getPlayer1())){
             return gameBoard.getPlayer1Board().getFaction();
@@ -641,12 +608,12 @@ public class Game {
     }
     //getters and setters
 
-    public static Game getGame() {
-        return game;
+    public static GameController getGame() {
+        return gameController;
     }
 
-    public static void setGame(Game game) {
-        Game.game = game;
+    public static void setGame(GameController gameController) {
+        GameController.gameController = gameController;
     }
 
     public Player getCurrentPlayer() {

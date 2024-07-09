@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import ir.ap.probending.Control.Menu;
+import ir.ap.probending.Control.MenuController;
 import ir.ap.probending.Model.Data.SecurityQuestions;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
@@ -76,7 +76,7 @@ public class ForgetPasswordController {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 List<User> users = SaveUser.loadUsers();
-                selectedUser = Menu.getMenu().submitUsernameForForgetPassword((ArrayList<User>) users, usernameField.getText());
+                selectedUser = MenuController.getMenu().submitUsernameForForgetPassword((ArrayList<User>) users, usernameField.getText());
                 questionSelector.setText(SecurityQuestions.getQuestions().get(selectedUser.getQuestionIndex()));
                 answerField.setDisabled(false);
                 newPasswordField.setDisabled(false);

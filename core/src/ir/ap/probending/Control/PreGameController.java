@@ -12,8 +12,8 @@ import ir.ap.probending.Model.User;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PreGame {
-    private static PreGame preGame = new PreGame();
+public class PreGameController {
+    private static PreGameController preGameController = new PreGameController();
     private Faction playerFaction;
     private Card selectedLeader;
     private ArrayList<Card> deckCards = new ArrayList<>();
@@ -172,12 +172,12 @@ public class PreGame {
         this.playerFaction = playerFaction;
     }
 
-    public static PreGame getPreGame() {
-        return preGame;
+    public static PreGameController getPreGame() {
+        return preGameController;
     }
 
-    public static void setPreGame(PreGame preGame) {
-        PreGame.preGame = preGame;
+    public static void setPreGame(PreGameController preGameController) {
+        PreGameController.preGameController = preGameController;
     }
 
     public Card getSelectedLeader() {

@@ -3,13 +3,13 @@ package ir.ap.probending.Model.Card.Abilities.LeaderAbilities;
 import ir.ap.probending.View.GameUIController;
 import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 public class LeaderAbility16 extends Ability {
     @Override
     public void executeAbility(Card card) {
         Card frostCardFromDeck = null;
-        for (Card c : Game.getGame().getCurrentPlayer().getDeck()) {
+        for (Card c : GameController.getGame().getCurrentPlayer().getDeck()) {
             if (c.getName().equals("Rain")) {
                 frostCardFromDeck = c;
                 break;
@@ -17,10 +17,10 @@ public class LeaderAbility16 extends Ability {
         }
 
         if (frostCardFromDeck != null) {
-            Game.getGame().playCard(frostCardFromDeck , Game.getGame().getCurrentPlayer());
-            Game.getGame().getCurrentPlayer().removeCardFromDeckCards(frostCardFromDeck);
+            GameController.getGame().playCard(frostCardFromDeck , GameController.getGame().getCurrentPlayer());
+            GameController.getGame().getCurrentPlayer().removeCardFromDeckCards(frostCardFromDeck);
         }
-        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameController.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
         GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }

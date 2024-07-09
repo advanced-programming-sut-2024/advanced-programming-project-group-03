@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ir.ap.probending.Model.Data.MusicMaster;
 import ir.ap.probending.Model.Factions.FactionObjects;
-import ir.ap.probending.Control.PreGame;
+import ir.ap.probending.Control.PreGameController;
 import ir.ap.probending.Model.ScreenMasterSetting;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.ProBending;
@@ -61,7 +61,7 @@ public class MainMenuScreenController {
                 if (PreGameScreenController.getPreGameController().isUsedBackButton())
                     PreGameScreenController.setPreGameController();
                 PreGameScreenController.getPreGameController().handlePreGameController(game);
-                PreGame.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
+                PreGameController.getPreGame().changeFaction(FactionObjects.WATER.getFaction().clone() , true);
             }
         });
     }

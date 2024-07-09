@@ -14,7 +14,7 @@ import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Card.Abilities.Decoy;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 import java.util.ArrayList;
 
@@ -129,21 +129,21 @@ public class Card extends Actor {
 
                 if (GameUIController.getGameUIController().getPlayerHandTable().getChildren().contains(Card.this, true) && isClicked) {
                     if (Card.this.getAbility() instanceof Agile){
-                        if (Game.getGame().getCurrentTurn() == 1){
+                        if (GameController.getGame().getCurrentTurn() == 1){
                             GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
                             GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
                         }
-                        else if (Game.getGame().getCurrentTurn() == 2){
+                        else if (GameController.getGame().getCurrentTurn() == 2){
                             GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
                             GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
                         }
                     }
                     else if (Card.this.getAbility() instanceof Agile2) {
-                        if (Game.getGame().getCurrentTurn() == 1){
+                        if (GameController.getGame().getCurrentTurn() == 1){
                             GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
                             GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
                         }
-                        else if (Game.getGame().getCurrentTurn() == 2){
+                        else if (GameController.getGame().getCurrentTurn() == 2){
                             GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
                             GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
                         }
@@ -151,21 +151,21 @@ public class Card extends Actor {
                     else {
                         switch (Card.this.getPlayingRow()) {
                             case 0:
-                                if (Game.getGame().getCurrentTurn() == 1)
+                                if (GameController.getGame().getCurrentTurn() == 1)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow0(true);
-                                else if (Game.getGame().getCurrentTurn() == 2)
+                                else if (GameController.getGame().getCurrentTurn() == 2)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow5(true);
                                 break;
                             case 1:
-                                if (Game.getGame().getCurrentTurn() == 1)
+                                if (GameController.getGame().getCurrentTurn() == 1)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow1(true);
-                                else if (Game.getGame().getCurrentTurn() == 2)
+                                else if (GameController.getGame().getCurrentTurn() == 2)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow4(true);
                                 break;
                             case 2:
-                                if (Game.getGame().getCurrentTurn() == 1)
+                                if (GameController.getGame().getCurrentTurn() == 1)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow2(true);
-                                else if (Game.getGame().getCurrentTurn() == 2)
+                                else if (GameController.getGame().getCurrentTurn() == 2)
                                     GameUIController.getGameUIController().setCanPlaceCardOnRow3(true);
                                 break;
                             case 6:
@@ -197,33 +197,33 @@ public class Card extends Actor {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (GameUIController.getGameUIController().getClickedCard() != null && GameUIController.getGameUIController().getClickedCard().getAbility() instanceof Decoy){
                     boolean isCardForCurrentPlayer = false;
-                    if(Game.getGame().getCurrentTurn() == 1){
-                        if (Game.getGame().getGameBoard().getPlayer1Board().getSiege().contains(Card.this)){
+                    if(GameController.getGame().getCurrentTurn() == 1){
+                        if (GameController.getGame().getGameBoard().getPlayer1Board().getSiege().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
-                        else if (Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().contains(Card.this)){
+                        else if (GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
-                        else if (Game.getGame().getGameBoard().getPlayer1Board().getRanged().contains(Card.this)){
+                        else if (GameController.getGame().getGameBoard().getPlayer1Board().getRanged().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
                     }
-                    else if (Game.getGame().getCurrentTurn() == 2){
-                        if (Game.getGame().getGameBoard().getPlayer2Board().getSiege().contains(Card.this)){
+                    else if (GameController.getGame().getCurrentTurn() == 2){
+                        if (GameController.getGame().getGameBoard().getPlayer2Board().getSiege().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
-                        else if (Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().contains(Card.this)){
+                        else if (GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
-                        else if (Game.getGame().getGameBoard().getPlayer2Board().getRanged().contains(Card.this)){
+                        else if (GameController.getGame().getGameBoard().getPlayer2Board().getRanged().contains(Card.this)){
                             isCardForCurrentPlayer = true;
                         }
                     }
                     if (isCardForCurrentPlayer && !Card.this.isHero){
-                        Game.getGame().getCurrentPlayer().addCardToHand(Card.this);
-                        Game.getGame().getGameBoard().removeCardFromBoard(Card.this);
+                        GameController.getGame().getCurrentPlayer().addCardToHand(Card.this);
+                        GameController.getGame().getGameBoard().removeCardFromBoard(Card.this);
                         GameUIController.getGameUIController().updateRows();
-                        Game.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow , true);
+                        GameController.getGame().playCard(GameUIController.getGameUIController().getClickedCard() , Card.this.playingRow , true);
                         GameUIController.getGameUIController().setClickedCard(null);
                     }
                 }
@@ -253,11 +253,11 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                Game.getGame().playCard(Card.this , Game.getGame().getOtherPlayer());
+                GameController.getGame().playCard(Card.this , GameController.getGame().getOtherPlayer());
 
                 GameUIController.getGameUIController().deactivateCardListWindow();
                 GameUIController.getGameUIController().clearCardListWindow();
-                Game.getGame().getCurrentPlayer().removeCardFromDeckCards(Card.this);
+                GameController.getGame().getCurrentPlayer().removeCardFromDeckCards(Card.this);
                 return true;
             }
         });
@@ -280,23 +280,23 @@ public class Card extends Actor {
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                Game.getGame().getGameBoard().getPlayer1().drawCard();
-                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                GameController.getGame().getGameBoard().getPlayer1().drawCard();
+                for (Card card : GameController.getGame().getGameBoard().getPlayer1().getHand()) {
                     if (card.getName().equals(Card.this.getName())){
-                        Game.getGame().getGameBoard().getPlayer1().removeCardFromHand(card);
+                        GameController.getGame().getGameBoard().getPlayer1().removeCardFromHand(card);
                         break;
                     }
                 }
-                Game.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
-                Game.getGame().setUpHandView(Game.getGame().getCurrentPlayer());
+                GameController.getGame().getGameBoard().getPlayer1().addCardToDeck(Card.this);
+                GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
                 GameUIController.getGameUIController().clearCardListWindow();
                 ArrayList<Card> cards = new ArrayList<>();
-                for (Card card : Game.getGame().getGameBoard().getPlayer1().getHand()) {
+                for (Card card : GameController.getGame().getGameBoard().getPlayer1().getHand()) {
                     cards.add(card.clone5());
                 }
                 GameUIController.getGameUIController().addCardsToCardListWindow(cards);
-                Game.getGame().setVetoCount(Game.getGame().getVetoCount() + 1);
-                if (Game.getGame().getVetoCount() == 2){
+                GameController.getGame().setVetoCount(GameController.getGame().getVetoCount() + 1);
+                if (GameController.getGame().getVetoCount() == 2){
                     GameUIController.getGameUIController().deactivateCardListWindow();
                 }
                 return true;
@@ -342,12 +342,12 @@ public class Card extends Actor {
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for (Card card : Game.getGame().getCurrentPlayer().getDeck()) {
+                for (Card card : GameController.getGame().getCurrentPlayer().getDeck()) {
                     if (card.getName().equals(Card.this.getName())){
-                        Game.getGame().getCurrentPlayer().removeCardFromDeckCards(card);
-                        Game.getGame().getCurrentPlayer().addCardToHand(card.clone2());
+                        GameController.getGame().getCurrentPlayer().removeCardFromDeckCards(card);
+                        GameController.getGame().getCurrentPlayer().addCardToHand(card.clone2());
                         GameUIController.getGameUIController().deactivateCardListWindow();
-                        Game.getGame().setUpHandView(Game.getGame().getCurrentPlayer());
+                        GameController.getGame().setUpHandView(GameController.getGame().getCurrentPlayer());
                         break;
                     }
                 }

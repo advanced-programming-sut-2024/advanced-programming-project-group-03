@@ -5,7 +5,7 @@ import ir.ap.probending.Model.Card.Abilities.Ability;
 import ir.ap.probending.Model.Card.Abilities.Agile;
 import ir.ap.probending.Model.Card.Abilities.Agile2;
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 public class LeaderAbility15 extends Ability {
     @Override
@@ -14,110 +14,110 @@ public class LeaderAbility15 extends Ability {
         boolean isRow1Good = false;
         boolean isRow2Good = false;
 
-        if (Game.getGame().getCurrentTurn() == 1){
-            if (Game.getGame().getGameBoard().getPlayer1Board().getCommander7() != null || Game.getGame().getGameBoard().getPlayer1Board().isCommander7Played()){
+        if (GameController.getGame().getCurrentTurn() == 1){
+            if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander7() != null || GameController.getGame().getGameBoard().getPlayer1Board().isCommander7Played()){
                 isRow0Good = true;
             }
-            if (Game.getGame().getGameBoard().getPlayer1Board().getCommander8() != null || Game.getGame().getGameBoard().getPlayer1Board().isCommander8Played()){
+            if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander8() != null || GameController.getGame().getGameBoard().getPlayer1Board().isCommander8Played()){
                 isRow1Good = true;
             }
-            if (Game.getGame().getGameBoard().getPlayer1Board().getCommander9() != null || Game.getGame().getGameBoard().getPlayer1Board().isCommander9Played()){
+            if (GameController.getGame().getGameBoard().getPlayer1Board().getCommander9() != null || GameController.getGame().getGameBoard().getPlayer1Board().isCommander9Played()){
                 isRow2Good = true;
             }
 
             if (isRow0Good){
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getRanged()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getRanged()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getRanged().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getSiege().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getRanged().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getSiege().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getSiege().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getSiege().add(card);
                     }
                 }
             }
             else if (isRow2Good){
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getRanged()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getRanged()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getRanged().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getRanged().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getSiege()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getSiege().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getSiege().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().add(card);
                     }
                 }
             }
             else if (isRow1Good){
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getRanged().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombat().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getRanged().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer1Board().getSiege()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer1Board().getSiege().remove(c);
-                        Game.getGame().getGameBoard().getPlayer1Board().getRanged().add(card);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getSiege().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer1Board().getRanged().add(card);
                     }
                 }
             }
         }
         else {
-            if (Game.getGame().getGameBoard().getPlayer2Board().getCommander7() != null || Game.getGame().getGameBoard().getPlayer2Board().isCommander7Played()){
+            if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander7() != null || GameController.getGame().getGameBoard().getPlayer2Board().isCommander7Played()){
                 isRow0Good = true;
             }
-            if (Game.getGame().getGameBoard().getPlayer2Board().getCommander8() != null || Game.getGame().getGameBoard().getPlayer2Board().isCommander8Played()){
+            if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander8() != null || GameController.getGame().getGameBoard().getPlayer2Board().isCommander8Played()){
                 isRow1Good = true;
             }
-            if (Game.getGame().getGameBoard().getPlayer2Board().getCommander9() != null || Game.getGame().getGameBoard().getPlayer2Board().isCommander9Played()){
+            if (GameController.getGame().getGameBoard().getPlayer2Board().getCommander9() != null || GameController.getGame().getGameBoard().getPlayer2Board().isCommander9Played()){
                 isRow2Good = true;
             }
 
             if (isRow0Good){
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getRanged()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getRanged()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer2Board().getRanged().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getSiege().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getRanged().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getSiege().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getSiege().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getSiege().add(card);
                     }
                 }
             }
             else if (isRow2Good){
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getRanged()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getRanged()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer2Board().getRanged().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getRanged().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getSiege()){
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getSiege()){
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2){
-                        Game.getGame().getGameBoard().getPlayer2Board().getSiege().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getSiege().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().add(card);
                     }
                 }
             }
             else if (isRow1Good) {
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()) {
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat()) {
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2) {
-                        Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getRanged().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombat().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getRanged().add(card);
                     }
                 }
-                for (Card c : Game.getGame().getGameBoard().getPlayer2Board().getSiege()) {
+                for (Card c : GameController.getGame().getGameBoard().getPlayer2Board().getSiege()) {
                     if (c.getAbility() instanceof Agile || c.getAbility() instanceof Agile2) {
-                        Game.getGame().getGameBoard().getPlayer2Board().getSiege().remove(c);
-                        Game.getGame().getGameBoard().getPlayer2Board().getRanged().add(card);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getSiege().remove(c);
+                        GameController.getGame().getGameBoard().getPlayer2Board().getRanged().add(card);
 
                     }
                 }
@@ -125,7 +125,7 @@ public class LeaderAbility15 extends Ability {
         }
 
         GameUIController.getGameUIController().updateRows();
-        Game.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
+        GameController.getGame().getCurrentPlayer().setPlayedLeaderAbility(true);
         GameUIController.getGameUIController().hideLeaderAbilityButton();
     }
 }

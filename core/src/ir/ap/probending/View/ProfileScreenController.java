@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import ir.ap.probending.Control.MenuController;
 import ir.ap.probending.Model.Data.*;
 import ir.ap.probending.Model.User;
 import ir.ap.probending.ProBending;
@@ -13,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ProfileScreenController {
@@ -241,7 +241,7 @@ public class ProfileScreenController {
                 rankingWindow.setVisible(true);
                 rankingWindow.clear();
                 List<User> users = SaveUser.loadUsers();
-                users.sort((o1, o2) -> o2.getScore() - o1.getScore());
+                users = MenuController.getMenu().sortUsersByScore((ArrayList<User>) users);
                 for (User user : users){
                     rankingWindow.add(new Label(user.getUsername() + " : " + user.getScore(), GameAssetManager.getGameAssetManager().getSkin())).fillX();
                     rankingWindow.row().pad(10, 0, 10, 0);
@@ -261,16 +261,7 @@ public class ProfileScreenController {
                     gameHistoryWindow.clear();
                     gameHistoryWindow.add(gameHistorySelectBox).fillX();
                     List<User> users = SaveUser.loadUsers();
-                    List<String> dates = new ArrayList<>();
-                    for (User user : users){
-                        if (user.getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())){
-                            for (GameHistory gameHistory : user.getGameHistories()){
-                                dates.add(gameHistory.getDate());
-                            }
-                            break;
-                        }
-                    }
-                    Collections.sort(dates);
+                    ArrayList<String> dates = MenuController.getMenu().getDates((ArrayList<User>) users);
                     gameHistorySelectBox.setItems(dates.toArray(new String[0]));
                     gameHistorySelectBox.setSelectedIndex(0);
                     gameHistoryWindow.row().pad(10, 0, 10, 0);

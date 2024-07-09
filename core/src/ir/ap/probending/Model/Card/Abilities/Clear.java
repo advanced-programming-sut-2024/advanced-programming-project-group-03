@@ -1,11 +1,11 @@
 package ir.ap.probending.Model.Card.Abilities;
 
 import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Control.Game;
+import ir.ap.probending.Control.GameController;
 
 public class Clear extends Ability {
     @Override
     public void executeAbility(Card card) {
-        Game.getGame().getGameBoard().getSpellCards().clear();
+        GameController.getGame().getGameBoard().getSpellCards().clear();
     }
 }
