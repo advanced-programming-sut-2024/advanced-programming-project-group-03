@@ -292,6 +292,7 @@ public class Server extends Thread {
                 e.printStackTrace();
                 return "Failed to send email";
             }
+            System.out.println(confirmationCodeStr);
             return confirmationCodeStr;
         }
         return "";

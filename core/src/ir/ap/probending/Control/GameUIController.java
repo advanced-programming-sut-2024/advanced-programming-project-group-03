@@ -16,10 +16,9 @@ import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameAssetManager;
 import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.Model.Game.Game;
-import ir.ap.probending.Model.ScreenMasterSetting;
-import ir.ap.probending.Model.User;
-import ir.ap.probending.ProBending;
 import ir.ap.probending.Model.Message;
+import ir.ap.probending.Model.ScreenMasterSetting;
+import ir.ap.probending.ProBending;
 
 import java.lang.reflect.Type;
 import java.time.LocalTime;
@@ -33,26 +32,26 @@ public class GameUIController {
     private final Image cardImage = new Image();
     private ScrollPane.ScrollPaneStyle scrollPaneStyle;
     TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(GameAssetManager.getGameAssetManager().getNations())));
-    private final Label player1Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2Username = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label passForPlayer1 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label passForPlayer2 = new Label("Passed" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label currentTurnPlayerUsername = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player1SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player1RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player1CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2SiegePowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2RangedPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2CloseCombatPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player1TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2TotalPowerSum = new Label("0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player1SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label player2SetWon = new Label("Sets Won : 0" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1Username = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2Username = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer1 = new Label("Passed", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label passForPlayer2 = new Label("Passed", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label currentTurnPlayerUsername = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SiegePowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1RangedPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1CloseCombatPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SiegePowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2RangedPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2CloseCombatPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1TotalPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2TotalPowerSum = new Label("0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player1SetWon = new Label("Sets Won : 0", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label player2SetWon = new Label("Sets Won : 0", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton passButton = new TextButton("Pass", GameAssetManager.getGameAssetManager().getSkin());
-    private final Window setEndDialog = new Window("" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Label setWinnerLabel = new Label("" , GameAssetManager.getGameAssetManager().getSkin());
-    private final TextButton closeEndDialogButton = new TextButton("Close" , GameAssetManager.getGameAssetManager().getSkin());
-    private final Window cardListWindow = new Window("Card List" , GameAssetManager.getGameAssetManager().getSkin());
+    private final Window setEndDialog = new Window("", GameAssetManager.getGameAssetManager().getSkin());
+    private final Label setWinnerLabel = new Label("", GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton closeEndDialogButton = new TextButton("Close", GameAssetManager.getGameAssetManager().getSkin());
+    private final Window cardListWindow = new Window("Card List", GameAssetManager.getGameAssetManager().getSkin());
     private final Table cardListTable = new Table();
     private final ScrollPane cardListScrollPane = new ScrollPane(cardListTable);
     private final Table playerHandTable = new Table();
@@ -87,14 +86,13 @@ public class GameUIController {
     private final Table leaderPlayer2Table = new Table();
     private final ScrollPane leaderPlayer1ScrollPane = new ScrollPane(leaderPlayer1Table);
     private final ScrollPane leaderPlayer2ScrollPane = new ScrollPane(leaderPlayer2Table);
-    private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability" , GameAssetManager.getGameAssetManager().getSkin());
+    private final TextButton playLeaderAbilityButton = new TextButton("Leader Ability", GameAssetManager.getGameAssetManager().getSkin());
     private final Window chatWindow = new Window("", GameAssetManager.getGameAssetManager().getSkin());
     private final Table chatTable = new Table();
     private final ScrollPane chatScrollPane = new ScrollPane(chatTable);
     private ScrollPane.ScrollPaneStyle chatScrollPaneStyle;
     private final TextField chatTextField = new TextField("", GameAssetManager.getGameAssetManager().getSkin());
     private final TextButton sendChatButton = new TextButton("Send", GameAssetManager.getGameAssetManager().getSkin());
-
 
 
     private boolean canPlaceCardOnRow0 = false;
@@ -158,11 +156,11 @@ public class GameUIController {
         table.addActor(chatWindow);
         chatWindow.setVisible(false);
 
-        chatWindow.setSize(700, 700);
+        chatWindow.setSize(1400, 900);
         chatWindow.setPosition(Gdx.graphics.getWidth() / 2 - chatWindow.getWidth() / 2, Gdx.graphics.getHeight() / 2 - chatWindow.getHeight() / 2);
         chatWindow.toFront();
 
-        chatScrollPane.setScrollingDisabled(true, false);
+        chatScrollPane.setScrollingDisabled(false, false);
         chatScrollPane.setScrollbarsVisible(true);
         chatScrollPane.setFadeScrollBars(false);
         chatScrollPane.setSmoothScrolling(true);
@@ -177,12 +175,13 @@ public class GameUIController {
             public void clicked(InputEvent event, float x, float y) {
                 if (!chatTextField.getText().equals("")) {
                     String username = GameMaster.getGameMaster().getLoggedInUser1().getUsername();
-                    String time = LocalTime.now().toString();
+                    String time = LocalTime.now().toString().substring(0, 8);
                     Message message = new Message(username, chatTextField.getText(), time);
                     Gson gson = new Gson();
                     String messageJson = gson.toJson(message);
                     ProBending.client.sendGameMessage("sendMessage " + messageJson);
                     chatTextField.setText("");
+                    updateChat();
                 }
             }
         });
@@ -191,17 +190,40 @@ public class GameUIController {
     public void chatWindowToggle() {
         chatWindow.setVisible(!chatWindow.isVisible());
         if (chatWindow.isVisible()) {
-            Gson gson = new Gson();
-            String messages = ProBending.client.gameCommunicate("getMessages");
-            Type messageListType = new TypeToken<ArrayList<Message>>() {
-            }.getType();
-            System.out.println(messages);
-            ArrayList<Message> messageArrayList = gson.fromJson(messages, messageListType);
-            chatTable.clear();
-            for (Message message : messageArrayList) {
-                Label label = new Label(message.getUsername() + " at " + message.getTime() + " : " + message.getMessage(), GameAssetManager.getGameAssetManager().getSkin());
-                chatTable.add(label).fillX().expandX().row();
-            }
+            updateChat();
+        }
+    }
+
+    public void updateChat() {
+        Gson gson = new Gson();
+        String messages = ProBending.client.gameCommunicate("getMessages");
+        Type messageListType = new TypeToken<ArrayList<Message>>() {
+        }.getType();
+        System.out.println(messages);
+        ArrayList<Message> messageArrayList = gson.fromJson(messages, messageListType);
+        chatTable.clear();
+        for (Message message : messageArrayList) {
+            TextButton textButton;
+            if (!message.isReplied())
+                textButton = new TextButton(message.getUsername() + " at " + message.getTime() + " : " + message.getMessage(), GameAssetManager.getGameAssetManager().getSkin());
+            else
+                textButton = new TextButton(message.getUsername() + " at " + message.getTime() + " : " + message.getMessage() + " (Replied to " + message.getReplyUsername() + " : " + message.getReplyMessage() + ")", GameAssetManager.getGameAssetManager().getSkin());
+            chatTable.add(textButton).fillX().expandX().row();
+            textButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (!chatTextField.getText().equals("")) {
+                        String username = GameMaster.getGameMaster().getLoggedInUser1().getUsername();
+                        String time = LocalTime.now().toString().substring(0, 8);
+                        Message message2 = new Message(username, chatTextField.getText(), time, message);
+                        Gson gson = new Gson();
+                        String messageJson = gson.toJson(message2);
+                        ProBending.client.sendGameMessage("sendMessage " + messageJson);
+                        chatTextField.setText("");
+                        updateChat();
+                    }
+                }
+            });
         }
     }
 
@@ -215,7 +237,7 @@ public class GameUIController {
         cardImage.setVisible(true);
     }
 
-    private void setAllCanPlaceCardToFalse(){
+    private void setAllCanPlaceCardToFalse() {
         canPlaceCardOnRow0 = false;
         canPlaceCardOnRow1 = false;
         canPlaceCardOnRow2 = false;
@@ -225,21 +247,18 @@ public class GameUIController {
         canPlaceCardOnSpellRow = false;
     }
 
-    private void rowClickAction(boolean canPlaceCard , Table table , int row){
-        if (canPlaceCard && clickedCard != null){
-            if (!(clickedCard.getAbility() instanceof Decoy)){
+    private void rowClickAction(boolean canPlaceCard, Table table, int row) {
+        if (canPlaceCard && clickedCard != null) {
+            if (!(clickedCard.getAbility() instanceof Decoy)) {
 
                 if (row == 5) {
-                    Game.getGame().playCard(clickedCard , 0 );
-                }
-                else if (row == 4) {
-                    Game.getGame().playCard(clickedCard , 1 );
-                }
-                else if (row == 3) {
-                    Game.getGame().playCard(clickedCard , 2 );
-                }
-                else {
-                    Game.getGame().playCard(clickedCard , row );
+                    Game.getGame().playCard(clickedCard, 0);
+                } else if (row == 4) {
+                    Game.getGame().playCard(clickedCard, 1);
+                } else if (row == 3) {
+                    Game.getGame().playCard(clickedCard, 2);
+                } else {
+                    Game.getGame().playCard(clickedCard, row);
                 }
             }
         }
@@ -248,64 +267,64 @@ public class GameUIController {
         updateRows();
     }
 
-    private void eventListenersForTables(){
-        row0ScrollPane.addListener(new ClickListener(){
+    private void eventListenersForTables() {
+        row0ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow0, row0Table , 0);
+                rowClickAction(canPlaceCardOnRow0, row0Table, 0);
             }
         });
 
-        row1ScrollPane.addListener(new ClickListener(){
+        row1ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow1, row1Table , 1);
+                rowClickAction(canPlaceCardOnRow1, row1Table, 1);
             }
         });
 
-        row2ScrollPane.addListener(new ClickListener(){
+        row2ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow2, row2Table , 2);
+                rowClickAction(canPlaceCardOnRow2, row2Table, 2);
             }
         });
 
-        row3ScrollPane.addListener(new ClickListener(){
+        row3ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow3, row3Table , 3);
+                rowClickAction(canPlaceCardOnRow3, row3Table, 3);
             }
         });
 
-        row4ScrollPane.addListener(new ClickListener(){
+        row4ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 rowClickAction(canPlaceCardOnRow4, row4Table, 4);
             }
         });
 
-        row5ScrollPane.addListener(new ClickListener(){
+        row5ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnRow5, row5Table , 5);
+                rowClickAction(canPlaceCardOnRow5, row5Table, 5);
             }
         });
 
-        spellRowScrollPane.addListener(new ClickListener(){
+        spellRowScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                rowClickAction(canPlaceCardOnSpellRow, spellRowTable , 6);
+                rowClickAction(canPlaceCardOnSpellRow, spellRowTable, 6);
             }
         });
 
     }
 
-    private void eventListenersForCommanderSlots(){
-        commanderHorn7ScrollPane.addListener(new ClickListener(){
+    private void eventListenersForCommanderSlots() {
+        commanderHorn7ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 7);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1) {
+                    Game.getGame().playCard(clickedCard, 7);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -313,11 +332,11 @@ public class GameUIController {
             }
         });
 
-        commanderHorn8ScrollPane.addListener(new ClickListener(){
+        commanderHorn8ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 8);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1) {
+                    Game.getGame().playCard(clickedCard, 8);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -325,11 +344,11 @@ public class GameUIController {
             }
         });
 
-        commanderHorn9ScrollPane.addListener(new ClickListener(){
+        commanderHorn9ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1){
-                    Game.getGame().playCard(clickedCard , 9);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 1) {
+                    Game.getGame().playCard(clickedCard, 9);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -337,11 +356,11 @@ public class GameUIController {
             }
         });
 
-        commanderHorn10ScrollPane.addListener(new ClickListener(){
+        commanderHorn10ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 10);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2) {
+                    Game.getGame().playCard(clickedCard, 10);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -349,11 +368,11 @@ public class GameUIController {
             }
         });
 
-        commanderHorn11ScrollPane.addListener(new ClickListener(){
+        commanderHorn11ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 11);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2) {
+                    Game.getGame().playCard(clickedCard, 11);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -361,11 +380,11 @@ public class GameUIController {
             }
         });
 
-        commanderHorn12ScrollPane.addListener(new ClickListener(){
+        commanderHorn12ScrollPane.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2){
-                    Game.getGame().playCard(clickedCard , 12);
+                if (clickedCard != null && clickedCard.getAbility() instanceof CommandersHorn && Game.getGame().getCurrentTurn() == 2) {
+                    Game.getGame().playCard(clickedCard, 12);
                     setAllCanPlaceCardToFalse();
                     cardImage.setVisible(false);
                     updateRows();
@@ -374,28 +393,28 @@ public class GameUIController {
         });
     }
 
-    public void showSetEndDialog(String text){
+    public void showSetEndDialog(String text) {
         setEndDialog.setVisible(true);
         setWinnerLabel.setText(text);
     }
 
-    public void showPassForPlayer1(){
+    public void showPassForPlayer1() {
         passForPlayer1.setVisible(true);
     }
 
-    public void showPassForPlayer2(){
+    public void showPassForPlayer2() {
         passForPlayer2.setVisible(true);
     }
 
-    public void hidePassForPlayer1(){
+    public void hidePassForPlayer1() {
         passForPlayer1.setVisible(false);
     }
 
-    public void hidePassForPlayer2(){
+    public void hidePassForPlayer2() {
         passForPlayer2.setVisible(false);
     }
 
-    public void updateRows(){
+    public void updateRows() {
         row0Table.clear();
         row1Table.clear();
         row2Table.clear();
@@ -409,87 +428,86 @@ public class GameUIController {
         commanderHorn10Table.clear();
         commanderHorn11Table.clear();
         commanderHorn12Table.clear();
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getSiege()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getSiege()) {
 
             if (!Game.getGame().getGameBoard().getPlayer1Board().getSiege().isEmpty())
                 row0Table.add(card).padTop(-160).padRight(-100);
             else
                 row0Table.add(card).padTop(-160);
 
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getRanged()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getRanged()) {
             if (!Game.getGame().getGameBoard().getPlayer1Board().getRanged().isEmpty())
                 row1Table.add(card).padTop(-160).padRight(-100);
             else
                 row1Table.add(card).padTop(-160);
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat()) {
             if (!Game.getGame().getGameBoard().getPlayer1Board().getCloseCombat().isEmpty())
                 row2Table.add(card).padTop(-160).padRight(-100);
             else
                 row2Table.add(card).padTop(-160);
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getSiege()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getSiege()) {
             if (!Game.getGame().getGameBoard().getPlayer2Board().getSiege().isEmpty())
                 row5Table.add(card).padTop(-160).padRight(-100);
             else
                 row5Table.add(card).padTop(-160);
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getRanged()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getRanged()) {
             if (!Game.getGame().getGameBoard().getPlayer2Board().getRanged().isEmpty())
                 row4Table.add(card).padTop(-160).padRight(-100);
             else
                 row4Table.add(card).padTop(-160);
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()){
+        for (Card card : Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat()) {
             if (!Game.getGame().getGameBoard().getPlayer2Board().getCloseCombat().isEmpty())
                 row3Table.add(card).padTop(-160).padRight(-100);
             else
                 row3Table.add(card).padTop(-160);
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
-        for (Card card : Game.getGame().getGameBoard().getSpellCards()){
+        for (Card card : Game.getGame().getGameBoard().getSpellCards()) {
             if (!Game.getGame().getGameBoard().getSpellCards().isEmpty()) {
                 spellRowTable.add(card).padTop(-160).padRight(-100);
-            }
-            else {
+            } else {
                 spellRowTable.add(card).padTop(-160);
             }
-            card.getSprite().setSize(100 , 200);
+            card.getSprite().setSize(100, 200);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander7() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander7().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander7() != null) {
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander7().getSprite().setSize(100, 200);
             commanderHorn7Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander7()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander8() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander8().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander8() != null) {
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander8().getSprite().setSize(100, 200);
             commanderHorn8Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander8()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander9() != null){
-            Game.getGame().getGameBoard().getPlayer1Board().getCommander9().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer1Board().getCommander9() != null) {
+            Game.getGame().getGameBoard().getPlayer1Board().getCommander9().getSprite().setSize(100, 200);
             commanderHorn9Table.add(Game.getGame().getGameBoard().getPlayer1Board().getCommander9()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander9() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander9().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander9() != null) {
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander9().getSprite().setSize(100, 200);
             commanderHorn10Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander9()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander8() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander8().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander8() != null) {
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander8().getSprite().setSize(100, 200);
             commanderHorn11Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander8()).padTop(-160);
         }
 
-        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander7() != null){
-            Game.getGame().getGameBoard().getPlayer2Board().getCommander7().getSprite().setSize(100 , 200);
+        if (Game.getGame().getGameBoard().getPlayer2Board().getCommander7() != null) {
+            Game.getGame().getGameBoard().getPlayer2Board().getCommander7().getSprite().setSize(100, 200);
             commanderHorn12Table.add(Game.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
         }
 
@@ -497,26 +515,26 @@ public class GameUIController {
 
     }
 
-    public void showLeaderAbilityButton(){
+    public void showLeaderAbilityButton() {
         playLeaderAbilityButton.setVisible(true);
     }
 
-    public void hideLeaderAbilityButton(){
+    public void hideLeaderAbilityButton() {
         playLeaderAbilityButton.setVisible(false);
     }
 
-    public void activateCardListWindow(){
+    public void activateCardListWindow() {
         cardListWindow.setVisible(true);
     }
 
-    public void deactivateCardListWindow(){
+    public void deactivateCardListWindow() {
         cardListWindow.setVisible(false);
     }
 
-    public void addCardsToCardListWindow(ArrayList<Card> cards){
+    public void addCardsToCardListWindow(ArrayList<Card> cards) {
         cardListTable.clear();
         int count = 0;
-        for (Card card : cards){
+        for (Card card : cards) {
             cardListTable.add(card).pad(10);
             count++;
             if (count % 5 == 0)
@@ -524,23 +542,23 @@ public class GameUIController {
         }
     }
 
-    public void clearCardListWindow(){
+    public void clearCardListWindow() {
         cardListTable.clear();
     }
 
-    public void addLeadersToLeaderTable1(Card card){
+    public void addLeadersToLeaderTable1(Card card) {
         leaderPlayer1Table.add(card).pad(10);
         card.getSprite().setSize(100, 200);
     }
 
-    public void addLeadersToLeaderTable2(Card card){
+    public void addLeadersToLeaderTable2(Card card) {
         leaderPlayer2Table.add(card).pad(10);
         card.getSprite().setSize(100, 200);
     }
 
     //add view methods for cleaner code
 
-    private void addHandTableView(){
+    private void addHandTableView() {
         playerHandTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         playerHandTable.top().left();
         playerHandScrollPane.setScrollingDisabled(true, false);
@@ -555,7 +573,8 @@ public class GameUIController {
 
         table.addActor(playerHandScrollPane);
     }
-    private void addRow0TableView(){
+
+    private void addRow0TableView() {
         row0Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row0Table.top().left();
         row0ScrollPane.setScrollingDisabled(true, true);
@@ -571,7 +590,7 @@ public class GameUIController {
         table.addActor(row0ScrollPane);
     }
 
-    private void addRow1TableView(){
+    private void addRow1TableView() {
         row1Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row1Table.top().left();
         row1ScrollPane.setScrollingDisabled(true, true);
@@ -587,7 +606,7 @@ public class GameUIController {
         table.addActor(row1ScrollPane);
     }
 
-    private void addRow2TableView(){
+    private void addRow2TableView() {
         row2Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row2Table.top().left();
         row2ScrollPane.setScrollingDisabled(true, true);
@@ -603,7 +622,7 @@ public class GameUIController {
         table.addActor(row2ScrollPane);
     }
 
-    private void addRow3TableView(){
+    private void addRow3TableView() {
         row3Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row3Table.top().left();
         row3ScrollPane.setScrollingDisabled(true, true);
@@ -619,7 +638,7 @@ public class GameUIController {
         table.addActor(row3ScrollPane);
     }
 
-    private void addRow4TableView(){
+    private void addRow4TableView() {
         row4Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row4Table.top().left();
         row4ScrollPane.setScrollingDisabled(true, true);
@@ -635,7 +654,7 @@ public class GameUIController {
         table.addActor(row4ScrollPane);
     }
 
-    private void addRow5TableView(){
+    private void addRow5TableView() {
         row5Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         row5Table.top().left();
         row5ScrollPane.setScrollingDisabled(true, true);
@@ -651,7 +670,7 @@ public class GameUIController {
         table.addActor(row5ScrollPane);
     }
 
-    private void addSpellRowTableView(){
+    private void addSpellRowTableView() {
         spellRowTable.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         spellRowTable.top().left();
         spellRowScrollPane.setScrollingDisabled(true, false);
@@ -667,7 +686,7 @@ public class GameUIController {
         table.addActor(spellRowScrollPane);
     }
 
-    private void addCommanderHorn7ToView(){
+    private void addCommanderHorn7ToView() {
         commanderHorn7Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn7Table.top().left();
         commanderHorn7ScrollPane.setScrollingDisabled(true, true);
@@ -683,7 +702,7 @@ public class GameUIController {
         table.addActor(commanderHorn7ScrollPane);
     }
 
-    private void addCommanderHorn8ToView(){
+    private void addCommanderHorn8ToView() {
         commanderHorn8Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn8Table.top().left();
         commanderHorn8ScrollPane.setScrollingDisabled(true, true);
@@ -699,7 +718,7 @@ public class GameUIController {
         table.addActor(commanderHorn8ScrollPane);
     }
 
-    private void addCommanderHorn9ToView(){
+    private void addCommanderHorn9ToView() {
         commanderHorn9Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn9Table.top().left();
         commanderHorn9ScrollPane.setScrollingDisabled(true, true);
@@ -715,7 +734,7 @@ public class GameUIController {
         table.addActor(commanderHorn9ScrollPane);
     }
 
-    private void addCommanderHorn10ToView(){
+    private void addCommanderHorn10ToView() {
         commanderHorn10Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn10Table.top().left();
         commanderHorn10ScrollPane.setScrollingDisabled(true, true);
@@ -731,7 +750,7 @@ public class GameUIController {
         table.addActor(commanderHorn10ScrollPane);
     }
 
-    private void addCommanderHorn11ToView(){
+    private void addCommanderHorn11ToView() {
         commanderHorn11Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn11Table.top().left();
         commanderHorn11ScrollPane.setScrollingDisabled(true, true);
@@ -747,7 +766,7 @@ public class GameUIController {
         table.addActor(commanderHorn11ScrollPane);
     }
 
-    private void addCommanderHorn12ToView(){
+    private void addCommanderHorn12ToView() {
         commanderHorn12Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         commanderHorn12Table.top().left();
         commanderHorn12ScrollPane.setScrollingDisabled(true, true);
@@ -763,10 +782,10 @@ public class GameUIController {
         table.addActor(commanderHorn12ScrollPane);
     }
 
-    private void addPassButtonsView(){
+    private void addPassButtonsView() {
         passButton.setSize(100, 50);
         passButton.setPosition(300, 100);
-        passButton.addListener(new ClickListener(){
+        passButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Game.getGame().endTurn();
@@ -775,7 +794,7 @@ public class GameUIController {
         table.addActor(passButton);
     }
 
-    public void addUsernameLabels(){
+    public void addUsernameLabels() {
         player1Username.setText(Game.getGame().getGameBoard().getPlayer1().getUser().getUsername());
         player1Username.setPosition(100, 50);
         player1Username.setSize(200, 50);
@@ -787,7 +806,7 @@ public class GameUIController {
         table.addActor(player2Username);
     }
 
-    public void addPassLabels(){
+    public void addPassLabels() {
         passForPlayer1.setPosition(300, 150);
         passForPlayer1.setSize(200, 50);
         passForPlayer1.setVisible(false);
@@ -799,12 +818,12 @@ public class GameUIController {
         table.addActor(passForPlayer2);
     }
 
-    private void addEndGameDialog(){
+    private void addEndGameDialog() {
         setEndDialog.setSize(800, 400);
         setEndDialog.setPosition(600, 400);
         setEndDialog.setVisible(false);
         closeEndDialogButton.setSize(100, 50);
-        closeEndDialogButton.addListener(new ClickListener(){
+        closeEndDialogButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setEndDialog.setVisible(false);
@@ -817,13 +836,13 @@ public class GameUIController {
         table.addActor(setEndDialog);
     }
 
-    public void addCurrentTurnUserNameToView(){
+    public void addCurrentTurnUserNameToView() {
         currentTurnPlayerUsername.setPosition(100, 400);
         currentTurnPlayerUsername.setSize(200, 50);
         table.addActor(currentTurnPlayerUsername);
     }
 
-    private void addPowerSumLabels(){
+    private void addPowerSumLabels() {
         player1SiegePowerSum.setPosition(530, 290);
         player1SiegePowerSum.setSize(400, 50);
         table.addActor(player1SiegePowerSum);
@@ -857,7 +876,7 @@ public class GameUIController {
         table.addActor(player2TotalPowerSum);
     }
 
-    private void addSetWonLabels(){
+    private void addSetWonLabels() {
         player1SetWon.setPosition(100, 10);
         player1SetWon.setSize(200, 50);
         table.addActor(player1SetWon);
@@ -867,9 +886,9 @@ public class GameUIController {
         table.addActor(player2SetWon);
     }
 
-    private void addCardListWindow(){
+    private void addCardListWindow() {
         cardListWindow.setSize(1000, 1000);
-        cardListWindow.setPosition(500 , 40);
+        cardListWindow.setPosition(500, 40);
         cardListWindow.setVisible(false);
         cardListScrollPane.setSize(400, 800);
         cardListTable.setSize(400, 800);
@@ -877,11 +896,11 @@ public class GameUIController {
         table.addActor(cardListWindow);
     }
 
-    private void addLeaderAbilityButtons(){
+    private void addLeaderAbilityButtons() {
         playLeaderAbilityButton.setSize(200, 50);
         playLeaderAbilityButton.setPosition(100, 300);
         playLeaderAbilityButton.getLabel().setFontScale(0.5f);
-        playLeaderAbilityButton.addListener(new ClickListener(){
+        playLeaderAbilityButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (Game.getGame().getCurrentTurn() == 1 && Game.getGame().getGameBoard().getPlayer1().getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername()))
@@ -893,7 +912,7 @@ public class GameUIController {
         table.addActor(playLeaderAbilityButton);
     }
 
-    private void addLeadersView(){
+    private void addLeadersView() {
         leaderPlayer1Table.setSkin(GameAssetManager.getGameAssetManager().getSkin());
         leaderPlayer1Table.top().left();
         leaderPlayer1ScrollPane.setScrollingDisabled(true, true);
@@ -926,6 +945,7 @@ public class GameUIController {
     public static GameUIController getGameUIController() {
         return gameUIController;
     }
+
     public Table getTable() {
         return table;
     }
@@ -1026,47 +1046,47 @@ public class GameUIController {
         this.clickedCard = clickedCard;
     }
 
-    public void setCurrentTurnPlayerUsername(String username){
+    public void setCurrentTurnPlayerUsername(String username) {
         currentTurnPlayerUsername.setText(username);
     }
 
-    public void setPlayer1SiegePowerSum(int power){
+    public void setPlayer1SiegePowerSum(int power) {
         player1SiegePowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer1RangedPowerSum(int power){
+    public void setPlayer1RangedPowerSum(int power) {
         player1RangedPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer1CloseCombatPowerSum(int power){
+    public void setPlayer1CloseCombatPowerSum(int power) {
         player1CloseCombatPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer2SiegePowerSum(int power){
+    public void setPlayer2SiegePowerSum(int power) {
         player2SiegePowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer2RangedPowerSum(int power){
+    public void setPlayer2RangedPowerSum(int power) {
         player2RangedPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer2CloseCombatPowerSum(int power){
+    public void setPlayer2CloseCombatPowerSum(int power) {
         player2CloseCombatPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer1TotalPowerSum(int power){
+    public void setPlayer1TotalPowerSum(int power) {
         player1TotalPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer2TotalPowerSum(int power){
+    public void setPlayer2TotalPowerSum(int power) {
         player2TotalPowerSum.setText(String.valueOf(power));
     }
 
-    public void setPlayer1SetWon(int setWon){
+    public void setPlayer1SetWon(int setWon) {
         player1SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
 
-    public void setPlayer2SetWon(int setWon){
+    public void setPlayer2SetWon(int setWon) {
         player2SetWon.setText("Sets Won : " + String.valueOf(setWon));
     }
 

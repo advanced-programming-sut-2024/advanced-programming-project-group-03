@@ -76,7 +76,7 @@ public class LoginController {
             public void clicked(InputEvent event, float x, float y) {
                 String response = ProBending.client.communicate("login " + usernameField.getText() + " " + passwordField.getText());
 
-                if (response.equals("Sending email confirmation link")) {
+                if (response.equals("Sending email confirmation code")) {
                     verificationCode = ProBending.client.communicate("sendLoginEmail");
                     errorLabel.setText("Enter the verification code sent to your email");
                     usernameField.setText("");
