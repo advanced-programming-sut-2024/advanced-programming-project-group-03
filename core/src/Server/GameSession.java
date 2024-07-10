@@ -21,11 +21,12 @@ public class GameSession extends Thread {
     private static DataInputStream logIn;
     private static String playedCard = null;
     private static int playedCardRow = -1;
+    private static boolean hasPassed = false;
 
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(5050);
-            instance.start();  // Start the GameSession thread
+            instance.start();
             System.out.println("Server started");
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -33,7 +34,7 @@ public class GameSession extends Thread {
                 synchronized (clients) {
                     clients.add(clientHandler);
                 }
-                clientHandler.start();  // Start a new thread for each client
+                clientHandler.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,7 +131,10 @@ public class GameSession extends Thread {
                 handlePlayCardMessage(message, gameInfo);
             } else if (message.startsWith("isOpponentPlayedCard")) {
                 handleIsOpponentPlayedCard(message);
-            } else {
+            } else if(message.startsWith("pass")) {
+                hasPassed = true;
+            }
+            else {
                 assignSocketToGameInfo(socket, message);
                 System.out.println("socket assigned to gameInfo");
             }
@@ -142,8 +146,13 @@ public class GameSession extends Thread {
                 forwardMessageToOpponent(socket, "playCard " + playedCard + " " + playedCardRow, GameInfo.getGameInfo(socket));
                 System.out.println("playCard " + playedCard + " " + playedCardRow);
                 playedCard = null;
-            } else {
-                dataOutputStream.writeUTF("no");
+            }
+            else if(hasPassed) {
+                forwardMessageToOpponent(socket, "pass", GameInfo.getGameInfo(socket));
+                hasPassed = false;
+            }
+            else {
+                forwardMessageToOpponent(socket, "no", GameInfo.getGameInfo(socket));
             }
             dataOutputStream.flush();
         }
@@ -229,7 +238,6 @@ public class GameSession extends Thread {
             }
             System.out.println("No matching game info found for username: " + username);
         }
-
     }
 
     public static void serverStart(String firstUsername, String secondUsername) throws IOException {

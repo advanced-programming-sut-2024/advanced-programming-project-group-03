@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TransferQueue;
 
 public class Game {
     private static Game game = new Game();
@@ -142,6 +146,7 @@ public class Game {
         }
 
         if (!currentPlayer.getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())) {
+            System.out.println("inside if----------------");
             waitForOpponentAction();
         }
     }
@@ -180,36 +185,40 @@ public class Game {
         }
         GameUIController.getGameUIController().updateRows();
     }
+
     public void waitForOpponentAction() {
         new Thread(() -> {
-            while(true){
+            while (true) {
+                System.out.println("waiting for opponent action--------------------------");
                 String response = ProBending.client.gameCommunicate("isOpponentPlayedCard");
-                String [] responseArray = response.split(" ");
-                if(responseArray[0].equals("playCard")){
-                    String cardname= responseArray[1];
-                    for(int i = 2;i < responseArray.length-1;i++){
+                String[] responseArray = response.split(" ");
+                System.out.println(response);
+                if (responseArray[0].equals("playCard")) {
+                    String cardname = responseArray[1];
+                    for (int i = 2; i < responseArray.length - 1; i++) {
                         cardname += " " + responseArray[i];
                     }
                     System.out.println("here is the cardname");
                     System.out.println(cardname);
                     Card card = CardObjects.getCardWithName(cardname);
-                    int row = Integer.parseInt(responseArray[2]);
+                    int row = Integer.parseInt(responseArray[responseArray.length - 1]);
                     currentPlayer.getHand().add(card);
                     playCard(card, row);
                     break;
                 }
-                if(responseArray[0].equals("pass")){
+                if (responseArray[0].equals("pass")) {
                     endTurn();
                     break;
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
+
     public void playCard(Card card, int row) {
         isCardPlayedThisRound = true;
 
@@ -276,7 +285,9 @@ public class Game {
 
         updatePowerLabelsNumbers();
         GameUIController.getGameUIController().updateRows();
-        ProBending.client.sendGameMessage("playCard " + newCard.getName() + " " + row);
+        if (currentPlayer.getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername())) {
+            ProBending.client.sendGameMessage("playCard " + newCard.getName() + " " + row);
+        }
         endTurn();
     }
 
@@ -542,7 +553,7 @@ public class Game {
         isLoseHalfInBadWeatherActivated = loseHalfInBadWeatherActivated;
     }
 
-    public static GameBoard deserializeGetGame(String serializedGame) throws IOException, ClassNotFoundException{
+    public static GameBoard deserializeGetGame(String serializedGame) throws IOException, ClassNotFoundException {
         byte[] data = Base64.getDecoder().decode(serializedGame);
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data))) {
             return (GameBoard) objectInputStream.readObject();

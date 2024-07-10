@@ -702,6 +702,7 @@ public class GameUIController {
         passButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                ProBending.client.sendGameMessage("pass");
                 Game.getGame().endTurn();
             }
         });
