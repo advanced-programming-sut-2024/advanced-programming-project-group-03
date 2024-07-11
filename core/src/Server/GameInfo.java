@@ -7,6 +7,7 @@ import ir.ap.probending.Model.Game.Board;
 import ir.ap.probending.Model.Game.GameBoard;
 import ir.ap.probending.Model.Game.Player;
 import ir.ap.probending.Model.Game.PreGame;
+import ir.ap.probending.Model.Message;
 import ir.ap.probending.Model.User;
 
 import java.net.Socket;
@@ -22,6 +23,7 @@ public class GameInfo {
     private PreGame secondPlayerPreGame = null;
     private GameBoard gameBoard = null;
     private boolean isGameStarted = false;
+    private ArrayList<Message> messages = new ArrayList<>();
 
     public GameInfo(User firstUser, User secondUser, Socket firstPlayerSocket, Socket secondPlayerSocket) {
         this.firstUser = firstUser;
@@ -139,5 +141,13 @@ public class GameInfo {
 
     public boolean isGameStarted() {
         return isGameStarted;
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);
+    }
+
+    public ArrayList<Message> getMessages() {
+        return messages;
     }
 }
