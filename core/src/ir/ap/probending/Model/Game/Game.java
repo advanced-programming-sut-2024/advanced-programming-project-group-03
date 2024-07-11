@@ -208,20 +208,6 @@ public class Game {
                     playCard(card, row);
                     break;
                 }
-                else if(responseArray[0].equals("playCardMedic")){
-                    Pattern pattern = Pattern.compile("playCardMedic (?<cardname>.*) (?<cardrow>\\d+) (?<medicCard>.*) (?<medicRow>\\d+)");
-                    Matcher matcher = pattern.matcher(response);
-                    matcher.matches();
-                    String cardname = matcher.group("cardname");
-                    Card card = CardObjects.getCardWithName(cardname);
-                    int row = Integer.parseInt(matcher.group("cardrow"));
-                    currentPlayer.getHand().add(card);
-                    String medicCardName = matcher.group("medicCard");
-                    Card medicCard = CardObjects.getCardWithName(medicCardName);
-                    int medicRow = Integer.parseInt(matcher.group("medicRow"));
-                    currentPlayer.getHand().add(medicCard);
-                    playCardMedic(card,row,medicCard,medicRow);
-                }
                 else if (responseArray[0].equals("pass")) {
                     endTurn();
                     break;
