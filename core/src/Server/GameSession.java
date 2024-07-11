@@ -23,9 +23,6 @@ public class GameSession extends Thread {
     private static DataInputStream logIn;
     private static String playedCard = null;
     private static int playedCardRow = -1;
-    private static boolean medic = false;
-    private static String medicCard = null;
-    private static int medicRow = -1;
     private static boolean hasPassed = false;
 
     public static void main(String[] args) {
@@ -134,8 +131,6 @@ public class GameSession extends Thread {
                 serverStart(message.split(" ")[1], message.split(" ")[2]);
             } else if (message.startsWith("playCard")) {
                 handlePlayCardMessage(message, gameInfo);
-            } else if (message.startsWith("playCardMedic")) {
-                handlePlayCardMedicMessage(message, gameInfo);
             } else if (message.startsWith("isOpponentPlayedCard")) {
                 handleIsOpponentPlayedCard(message);
             } else if (message.startsWith("pass")) {
@@ -146,32 +141,9 @@ public class GameSession extends Thread {
             }
         }
 
-        synchronized private void handlePlayCardMedicMessage(String message, GameInfo gameInfo) throws IOException {
-            System.out.println(message);
-            System.out.println("----------------------------------");
-            String cardname = message.split(" ")[1];
-            medic = true;
-            Pattern pattern = Pattern.compile("playCardMedic (?<cardname>.*) (?<cardrow>\\d+) (?<medicCard>.*) (?<medicRow>\\d+)");
-            Matcher matcher = pattern.matcher(message);
-            matcher.matches();
-            cardname = matcher.group("cardname");
-            medicCard = matcher.group("medicCard");
-            playedCard = cardname;
-            playedCardRow = Integer.parseInt(matcher.group("cardrow"));
-            medicCard = matcher.group("medicCard");
-            medicRow = Integer.parseInt(matcher.group("medicRow"));
-            medic=true;
-        }
-
         synchronized private void handleIsOpponentPlayedCard(String message) throws IOException {
             System.out.println("kir ---------------------------kir kir ----");
-            if(medic==true){
-                forwardMessageToOpponent(socket, "playCardMedic " + playedCard + " " + playedCardRow + " " + medicCard + " " + medicRow, GameInfo.getGameInfo(socket));
-                System.out.println("playCardMedic " + playedCard + " " + playedCardRow + " " + medicCard + " " + medicRow);
-                playedCard = null;
-                medic = false;
-            }
-            else if (playedCard != null) {
+            if (playedCard != null) {
                 forwardMessageToOpponent(socket, "playCard " + playedCard + " " + playedCardRow, GameInfo.getGameInfo(socket));
                 System.out.println("playCard " + playedCard + " " + playedCardRow);
                 playedCard = null;
