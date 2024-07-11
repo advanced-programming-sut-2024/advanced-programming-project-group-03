@@ -1,6 +1,7 @@
 package ir.ap.probending.View;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +12,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
+import ir.ap.probending.Model.Data.GameMaster;
 import ir.ap.probending.ProBending;
+
+import java.lang.reflect.GenericDeclaration;
+import java.security.Key;
 
 public class MainMenuScreen implements Screen {
     private ProBending game;
@@ -102,6 +107,22 @@ public class MainMenuScreen implements Screen {
         stage.draw();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         batch.end();
+        cheat();
+    }
+
+    private void cheat(){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+            GameMaster.getGameMaster().getLoggedInUser1().setGameWonCount(GameMaster.getGameMaster().getLoggedInUser1().getGameWonCount() + 1);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.X)){
+            GameMaster.getGameMaster().getLoggedInUser1().setGameLostCount(GameMaster.getGameMaster().getLoggedInUser1().getGameLostCount() + 1);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C)){
+            GameMaster.getGameMaster().getLoggedInUser1().setGamePlayedCount(GameMaster.getGameMaster().getLoggedInUser1().getGamePlayedCount() + 1);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.V)){
+            GameMaster.getGameMaster().getLoggedInUser1().setScore(GameMaster.getGameMaster().getLoggedInUser1().getScore() + 100);
+        }
     }
 
     @Override

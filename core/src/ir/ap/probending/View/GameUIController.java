@@ -159,9 +159,6 @@ public class GameUIController {
     //functionality methods
     public void handlePreGameController(ProBending game) {
         this.game = game;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
-            //GameController.getGame().getCurrentPlayer().addCardToDeck(GameController.getGame().getGameBoard());
-        }
     }
 
     public void showBigCardFromHandAtTheSideOfTheScreenForBetterViewOnTheCardAfterPlayerClickedOnTheCardFromHand(Card card) {
@@ -458,6 +455,9 @@ public class GameUIController {
         player1BurntCardCount.setText(GameController.getGame().getGameBoard().getPlayer1().getBurntCards().size() + " burnt cards");
         player2BurntCardCount.setText(GameController.getGame().getGameBoard().getPlayer2().getBurntCards().size() + " burnt cards");
         updateDeckAndBurntCardView();
+
+        player1SetWon.setText(GameController.getGame().getGameBoard().getPlayer1().getSetsWon());
+        player2SetWon.setText(GameController.getGame().getGameBoard().getPlayer2().getSetsWon());
     }
 
     public void showLeaderAbilityButton(){
