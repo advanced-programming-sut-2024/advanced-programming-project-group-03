@@ -199,6 +199,9 @@ public class Board {
         commander7 = null;
         commander8 = null;
         commander9 = null;
+        moraleBoostCloseCombat = 0;
+        moraleBoostRanged = 0;
+        moraleBoostSiege = 0;
     }
 
     private int getCloseCombatHeroCount(){

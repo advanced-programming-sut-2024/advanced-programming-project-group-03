@@ -212,13 +212,60 @@
 			],
 			"EnemyFinalScore": "2",
 			"MyFinalScore": "1"
+		},
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Thu Jul 11 13:21:34 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"5",
+				"7"
+			],
+			"myScoresInRounds": [
+				"9",
+				"10"
+			],
+			"EnemyFinalScore": "0",
+			"MyFinalScore": "2"
+		},
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Thu Jul 11 13:22:09 IRST 2024",
+			"winner": "amin",
+			"enemyScoresInRounds": [
+				"2",
+				"34",
+				"8"
+			],
+			"myScoresInRounds": [
+				"17",
+				"30",
+				"17"
+			],
+			"EnemyFinalScore": "1",
+			"MyFinalScore": "2"
+		},
+		{
+			"enemyUsername": "Guest2",
+			"Date": "Thu Jul 11 13:23:51 IRST 2024",
+			"winner": "Draw",
+			"enemyScoresInRounds": [
+				"8",
+				"0"
+			],
+			"myScoresInRounds": [
+				"8",
+				"0"
+			],
+			"EnemyFinalScore": "2",
+			"MyFinalScore": "2"
 		}
 	],
-	"gamePlayedCount": 9,
-	"gameWonCount": 5,
+	"gamePlayedCount": 12,
+	"gameWonCount": 7,
 	"gameLostCount": 3,
 	"nickname": "LilAmin",
-	"score": 528,
+	"score": 696,
 	"deckSave": {
 		"deckCards": [
 			"Avatar Roku",
