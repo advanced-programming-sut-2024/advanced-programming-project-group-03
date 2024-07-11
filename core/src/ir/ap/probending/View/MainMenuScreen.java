@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 import ir.ap.probending.Model.Data.GameMaster;
+import ir.ap.probending.Model.Data.SaveUser;
 import ir.ap.probending.ProBending;
 
 import java.lang.reflect.GenericDeclaration;
@@ -122,6 +123,7 @@ public class MainMenuScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.V)){
             GameMaster.getGameMaster().getLoggedInUser1().setScore(GameMaster.getGameMaster().getLoggedInUser1().getScore() + 100);
+            SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
         }
     }
 

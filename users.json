@@ -2,7 +2,7 @@
 {
 	"class": "ir.ap.probending.Model.User",
 	"username": "kiarash",
-	"password": "cxzlebgjGNNBWYYQ!69",
+	"password": "kiarash123#fewfwoefS",
 	"email": "kkk@gmail.com",
 	"questionIndex": 1,
 	"questionAnswer": "2",
@@ -57,7 +57,7 @@
 	"gameWonCount": 2,
 	"gameLostCount": 1,
 	"nickname": "sss",
-	"score": 209,
+	"score": 1109,
 	"deckSave": {
 		"deckCards": [
 			"Sokka",
@@ -68,7 +68,8 @@
 			"Ming Hua"
 		],
 		"playerFaction": "Water"
-	}
+	},
+	"rememberMe": true
 },
 {
 	"class": "ir.ap.probending.Model.User",
@@ -289,8 +290,7 @@
 			"Baatar"
 		],
 		"playerFaction": "Earth"
-	},
-	"rememberMe": true
+	}
 },
 {
 	"class": "ir.ap.probending.Model.User",
