@@ -20,6 +20,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TransferQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
     private static Game game = new Game();
@@ -206,7 +208,21 @@ public class Game {
                     playCard(card, row);
                     break;
                 }
-                if (responseArray[0].equals("pass")) {
+                else if(responseArray[0].equals("playCardMedic")){
+                    Pattern pattern = Pattern.compile("playCardMedic (?<cardname>.*) (?<cardrow>\\d+) (?<medicCard>.*) (?<medicRow>\\d+)");
+                    Matcher matcher = pattern.matcher(response);
+                    matcher.matches();
+                    String cardname = matcher.group("cardname");
+                    Card card = CardObjects.getCardWithName(cardname);
+                    int row = Integer.parseInt(matcher.group("cardrow"));
+                    currentPlayer.getHand().add(card);
+                    String medicCardName = matcher.group("medicCard");
+                    Card medicCard = CardObjects.getCardWithName(medicCardName);
+                    int medicRow = Integer.parseInt(matcher.group("medicRow"));
+                    currentPlayer.getHand().add(medicCard);
+                    playCardMedic(card,row,medicCard,medicRow);
+                }
+                else if (responseArray[0].equals("pass")) {
                     endTurn();
                     break;
                 }
@@ -218,7 +234,121 @@ public class Game {
             }
         }).start();
     }
+    public void playCardMedic(Card card, int row,Card medicCard,int medicRow){
+        isCardPlayedThisRound = true;
 
+        for (int i = 0; i < currentPlayer.getHand().size(); i++) {
+            if (currentPlayer.getHand().get(i).getName().equals(card.getName())) {
+                currentPlayer.getHand().remove(i);
+                break;
+            }
+        }
+
+        Card newCard = card.clone4();
+
+        switch (row) {
+            case 0:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToSiege(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToSiege(newCard);
+                break;
+            case 1:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToRanged(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToRanged(newCard);
+                break;
+            case 2:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(newCard);
+                break;
+            case 6:
+                Game.getGame().getGameBoard().addSpellCard(newCard);
+                break;
+            case 7:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander7(newCard);
+                break;
+            case 8:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander8(newCard);
+                break;
+            case 9:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander9(newCard);
+                break;
+            case 10:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander9(newCard);
+                break;
+            case 11:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander8(newCard);
+                break;
+            case 12:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander7(newCard);
+                break;
+        }
+
+        if (card.getAbility() != null) {
+            card.getAbility().executeAbility(newCard);
+        }
+        newCard= medicCard.clone4();
+        switch (medicRow) {
+            case 0:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToSiege(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToSiege(newCard);
+                break;
+            case 1:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToRanged(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToRanged(newCard);
+                break;
+            case 2:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().addCardToCloseCombat(newCard);
+                else
+                    gameBoard.getPlayer2Board().addCardToCloseCombat(newCard);
+                break;
+            case 6:
+                Game.getGame().getGameBoard().addSpellCard(newCard);
+                break;
+            case 7:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander7(newCard);
+                break;
+            case 8:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander8(newCard);
+                break;
+            case 9:
+                if (currentPlayer.equals(gameBoard.getPlayer1()))
+                    gameBoard.getPlayer1Board().setCommander9(newCard);
+                break;
+            case 10:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander9(newCard);
+                break;
+            case 11:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander8(newCard);
+                break;
+            case 12:
+                if (currentPlayer.equals(gameBoard.getPlayer2()))
+                    gameBoard.getPlayer2Board().setCommander7(newCard);
+                break;
+        }
+        updatePowerLabelsNumbers();
+        GameUIController.getGameUIController().updateRows();
+        endTurn();
+    }
     public void playCard(Card card, int row) {
         isCardPlayedThisRound = true;
 
