@@ -788,7 +788,8 @@ public class GameUIController {
         passButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getGame().endTurn();
+                if (Game.getGame().getCurrentPlayer().getUser().getUsername().equals(GameMaster.getGameMaster().getLoggedInUser1().getUsername()))
+                    Game.getGame().endTurn();
             }
         });
         table.addActor(passButton);

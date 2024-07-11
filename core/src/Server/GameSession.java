@@ -1,8 +1,6 @@
 package Server;
 
 import com.google.gson.Gson;
-import ir.ap.probending.Model.Card.Card;
-import ir.ap.probending.Model.Card.CardObjects;
 import ir.ap.probending.Model.Game.GameBoard;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.Message;
@@ -137,9 +135,27 @@ public class GameSession extends Thread {
             } else if (message.equals("getMessages")) {
                 dataOutputStream.writeUTF(new Gson().toJson(gameInfo.getMessages()));
                 dataOutputStream.flush();
+            } else if (message.equals("getGames")) {
+
             } else {
                 assignSocketToGameInfo(socket, message);
                 System.out.println("socket assigned to gameInfo");
+            }
+        }
+
+        synchronized private void handleGetGamesMessage() throws IOException {
+            ArrayList<GameInfo> gameInfos = GameInfo.getGameInfos();
+            if (gameInfos.isEmpty()) {
+                dataOutputStream.writeUTF("no games");
+                dataOutputStream.flush();
+            } else {
+                ArrayList<GameBoard> games = new ArrayList<>();
+                for (GameInfo gameInfo : gameInfos) {
+                    games.add(gameInfo.getGameBoard());
+                }
+                dataOutputStream.writeUTF(new Gson().toJson(games));
+                dataOutputStream.flush();
+
             }
         }
 
@@ -167,7 +183,8 @@ public class GameSession extends Thread {
             playedCardRow = Integer.parseInt(message.split(" ")[message.split(" ").length - 1]);
         }
 
-        synchronized private void handlePreGameMessage(Socket socket, String message, GameInfo gameInfo) throws IOException {
+        synchronized private void handlePreGameMessage(Socket socket, String message, GameInfo gameInfo) throws
+                IOException {
             try {
                 String serializedPreGame = message.substring(8);
                 PreGame preGame = deserializePreGame(serializedPreGame);
@@ -210,7 +227,8 @@ public class GameSession extends Thread {
             dataOutputStream.flush();
         }
 
-        synchronized private void forwardMessageToOpponent(Socket socket, String message, GameInfo gameInfo) throws IOException {
+        synchronized private void forwardMessageToOpponent(Socket socket, String message, GameInfo gameInfo) throws
+                IOException {
             DataOutputStream opponentOutputStream = new DataOutputStream(
                     gameInfo.getFirstPlayerSocket().equals(socket) ?
                             gameInfo.getSecondPlayerSocket().getOutputStream() :
