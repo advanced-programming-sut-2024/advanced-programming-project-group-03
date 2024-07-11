@@ -3,26 +3,26 @@ package Server;
 import ir.ap.probending.Control.GameUIController;
 import ir.ap.probending.Model.Card.Card;
 import ir.ap.probending.Model.Data.GameMaster;
-import ir.ap.probending.Model.Game.Board;
-import ir.ap.probending.Model.Game.GameBoard;
-import ir.ap.probending.Model.Game.Player;
-import ir.ap.probending.Model.Game.PreGame;
+import ir.ap.probending.Model.Game.*;
 import ir.ap.probending.Model.Message;
 import ir.ap.probending.Model.User;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class GameInfo {
+public class GameInfo implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static ArrayList<GameInfo> gameInfos = new ArrayList<>();
     private User firstUser = null;
     private User secondUser = null;
-    private Socket firstPlayerSocket = null;
-    private Socket secondPlayerSocket = null;
-    private PreGame firstPlayerPreGame = null;
-    private PreGame secondPlayerPreGame = null;
-    private GameBoard gameBoard = null;
-    private boolean isGameStarted = false;
+    private transient Socket firstPlayerSocket = null;
+    private transient Socket secondPlayerSocket = null;
+    private transient PreGame firstPlayerPreGame = null;
+    private transient PreGame secondPlayerPreGame = null;
+    private transient GameBoard gameBoard = null;
+    private Game game = null;
+    private transient boolean isGameStarted = false;
     private ArrayList<Message> messages = new ArrayList<>();
 
     public GameInfo(User firstUser, User secondUser, Socket firstPlayerSocket, Socket secondPlayerSocket) {
@@ -139,6 +139,10 @@ public class GameInfo {
         return gameBoard;
     }
 
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     public boolean isGameStarted() {
         return isGameStarted;
     }
@@ -149,5 +153,13 @@ public class GameInfo {
 
     public ArrayList<Message> getMessages() {
         return messages;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
