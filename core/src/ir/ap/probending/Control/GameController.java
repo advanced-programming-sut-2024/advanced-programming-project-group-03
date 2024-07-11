@@ -196,8 +196,8 @@ public class GameController {
         if (viewUpdate){
             GameUIController.getGameUIController().setUpHandView(currentPlayer);
             GameUIController.getGameUIController().setCurrentTurnPlayerUsername(currentPlayer.getUser().getUsername() + " 's turn");
-            updatePowerLabelsNumbers();
-            updateSetWonLabels();
+            GameUIController.getGameUIController().updatePowerLabelsNumbers();
+            GameUIController.getGameUIController().updateSetWonLabels();
         }
         gameBoard.getPlayer1Board().setCommander7Played(false);
         gameBoard.getPlayer1Board().setCommander8Played(false);
@@ -295,7 +295,7 @@ public class GameController {
         }
 
         if (viewUpdate){
-            updatePowerLabelsNumbers();
+            GameUIController.getGameUIController().updatePowerLabelsNumbers();
             GameUIController.getGameUIController().updateRows();
             endTurn(true);
         }
@@ -337,7 +337,7 @@ public class GameController {
         }
 
         if (viewUpdate){
-            updatePowerLabelsNumbers();
+            GameUIController.getGameUIController().updatePowerLabelsNumbers();
             GameUIController.getGameUIController().updateRows();
         }
     }
@@ -373,22 +373,6 @@ public class GameController {
             return gameBoard.getPlayer2();
         else
             return gameBoard.getPlayer1();
-    }
-
-    public void updatePowerLabelsNumbers(){
-        GameUIController.getGameUIController().setPlayer1CloseCombatPowerSum(gameBoard.getPlayer1Board().getCloseCombatPowerSum());
-        GameUIController.getGameUIController().setPlayer1RangedPowerSum(gameBoard.getPlayer1Board().getRangedPowerSum());
-        GameUIController.getGameUIController().setPlayer1SiegePowerSum(gameBoard.getPlayer1Board().getSiegePowerSum());
-        GameUIController.getGameUIController().setPlayer2CloseCombatPowerSum(gameBoard.getPlayer2Board().getCloseCombatPowerSum());
-        GameUIController.getGameUIController().setPlayer2RangedPowerSum(gameBoard.getPlayer2Board().getRangedPowerSum());
-        GameUIController.getGameUIController().setPlayer2SiegePowerSum(gameBoard.getPlayer2Board().getSiegePowerSum());
-        GameUIController.getGameUIController().setPlayer1TotalPowerSum(gameBoard.getPlayer1Board().getTotalPower());
-        GameUIController.getGameUIController().setPlayer2TotalPowerSum(gameBoard.getPlayer2Board().getTotalPower());
-    }
-
-    private void updateSetWonLabels(){
-        GameUIController.getGameUIController().setPlayer1SetWon(gameBoard.getPlayer1().getSetsWon());
-        GameUIController.getGameUIController().setPlayer2SetWon(gameBoard.getPlayer2().getSetsWon());
     }
 
     public void depositCardToBurntCards(boolean updateView){
@@ -451,28 +435,7 @@ public class GameController {
             gameBoard.getPlayer2().addCardToBurntCards(card);
         }
        if (updateView){
-           gameBoard.getPlayer1Board().clearBoard();
-           gameBoard.getPlayer2Board().clearBoard();
-           gameBoard.getSpellCards().clear();
-           GameUIController.getGameUIController().getRow0Table().clearChildren();
-           GameUIController.getGameUIController().getRow1Table().clearChildren();
-           GameUIController.getGameUIController().getRow2Table().clearChildren();
-           GameUIController.getGameUIController().getRow3Table().clearChildren();
-           GameUIController.getGameUIController().getRow4Table().clearChildren();
-           GameUIController.getGameUIController().getRow5Table().clearChildren();
-           GameUIController.getGameUIController().getSpellRowTable().clearChildren();
-           if (player1KeepCard1 != null){
-               playCard(player1KeepCard1 , gameBoard.getPlayer1() , true);
-           }
-           if (player1KeepCard2 != null){
-               playCard(player1KeepCard2 , gameBoard.getPlayer1() , true);
-           }
-           if (player2KeepCard1 != null){
-               playCard(player2KeepCard1 , gameBoard.getPlayer2() , true);
-           }
-           if (player2KeepCard2 != null){
-               playCard(player2KeepCard2 , gameBoard.getPlayer2() , true);
-           }
+           GameUIController.getGameUIController().endDeposit(player1KeepCard1 , player1KeepCard2 , player2KeepCard1 , player2KeepCard2);
        }
     }
 
@@ -483,7 +446,7 @@ public class GameController {
             return gameBoard.getPlayer1();
     }
 
-    private void declareWinner(){
+    public void declareWinner(){
 
         User user1 = GameMaster.getGameMaster().getLoggedInUser1();
         User user2 = GameMaster.getGameMaster().getLoggedInUser2();
@@ -655,5 +618,41 @@ public class GameController {
 
     public void setCurrentSet(int i) {
         currentSet = i;
+    }
+
+    public static GameController getGameController() {
+        return gameController;
+    }
+
+    public static void setGameController(GameController gameController) {
+        GameController.gameController = gameController;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public boolean isCardPlayedThisRound() {
+        return isCardPlayedThisRound;
+    }
+
+    public void setCardPlayedThisRound(boolean cardPlayedThisRound) {
+        isCardPlayedThisRound = cardPlayedThisRound;
+    }
+
+    public GameHistory getGameHistory() {
+        return gameHistory;
+    }
+
+    public void setGameHistory(GameHistory gameHistory) {
+        this.gameHistory = gameHistory;
+    }
+
+    public GameHistory getGameHistory2() {
+        return gameHistory2;
+    }
+
+    public void setGameHistory2(GameHistory gameHistory2) {
+        this.gameHistory2 = gameHistory2;
     }
 }

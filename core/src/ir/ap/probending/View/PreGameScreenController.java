@@ -268,6 +268,12 @@ public class PreGameScreenController {
         setBackToMainMenuButton(game);
     }
 
+    public void refreshPregame(){
+        refreshDeckTable();
+        refreshLabels();
+        refreshStorageTable();
+    }
+
     public int getCardNumber(Card card) {
         ArrayList<Card> allCards;
         if (PreGameController.getPreGame().getDeckCards().contains(card)) {

@@ -29,40 +29,27 @@ public class PreGameController {
         storageCards.addAll(factionCards);
         selectedLeader = faction.getLeaderArray().get(0);
         if (viewUpdate){
-            PreGameScreenController.getPreGameController().refreshDeckTable();
-            PreGameScreenController.getPreGameController().refreshLabels();
-            PreGameScreenController.getPreGameController().refreshStorageTable();
+            PreGameScreenController.getPreGameController().refreshPregame();
         }
     }
 
     public void saveDeckToFile(String location){
-        try {
-            ArrayList<String> deckCards = new ArrayList<>();
-            for (Card card : this.deckCards){
-                deckCards.add(card.getName());
-            }
-            SaveUser.saveDeckToJson(location, deckCards , playerFaction.getFactionName());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+         ArrayList<String> deckCards = new ArrayList<>();
+         for (Card card : this.deckCards){
+             deckCards.add(card.getName());
+         }
+         SaveUser.saveDeckToJson(location, deckCards , playerFaction.getFactionName());
     }
 
     public void saveDeckToDB(){
-        try {
-            ArrayList<String> deckCards = new ArrayList<>();
-            for (Card card : this.deckCards){
-                deckCards.add(card.getName());
-            }
-            DeckSave deckSave = new DeckSave(deckCards, playerFaction.getFactionName());
-
-            GameMaster.getGameMaster().getLoggedInUser1().setDeckSave(deckSave);
-            SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
-
+        ArrayList<String> deckCards = new ArrayList<>();
+        for (Card card : this.deckCards){
+            deckCards.add(card.getName());
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        DeckSave deckSave = new DeckSave(deckCards, playerFaction.getFactionName());
+
+        GameMaster.getGameMaster().getLoggedInUser1().setDeckSave(deckSave);
+        SaveUser.updateUser(GameMaster.getGameMaster().getLoggedInUser1());
     }
 
 

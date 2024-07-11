@@ -251,6 +251,7 @@ public class GameControllerTest {
         Assert.assertEquals(GameController.getGame().getCurrentSet() , 10);
         GameController.getGame().setSummonAvengerPlayer(null);
         Assert.assertNull(GameController.getGame().getSummonAvengerPlayer());
+        Assert.assertNull(GameController.getGame().getSummonAvengerPlayer());
 
     }
 
@@ -276,28 +277,6 @@ public class GameControllerTest {
 
     }
 
-    @Test
-    public void saveTest() {
-        ProBending proBending = new ProBending();
-        ScreenMasterSetting.getInstance().setGame(proBending);
-        PreGameController preGameController = new PreGameController();
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
-        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
-        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
-
-        preGameController.changeFaction(new Faction("Earth", cards, cards) , false);
-
-        preGameController.setDeckCards(cards);
-
-        preGameController.saveDeckToFile("kir.json");
-        Assert.assertEquals(3, preGameController.getDeckCards().size());
-
-        preGameController.saveDeckToDB();
-        GameMaster.getGameMaster().setLoggedInUser1(new User());
-        preGameController.saveDeckToDB();
-
-    }
 
     @Test
     public void setOpponentPlayerTest() {
@@ -436,6 +415,37 @@ public class GameControllerTest {
         user2.getGameHistories().add(gameHistory);
 
         Assert.assertEquals(MenuController.getMenu().getDates(users).get(0), "2020-10-10");
+    }
 
+    @Test
+    public void saveTest() {
+        ProBending proBending = new ProBending();
+        ScreenMasterSetting.getInstance().setGame(proBending);
+        PreGameController preGameController = new PreGameController();
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
+        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
+        cards.add(new Card(new Morale() , "test", "test" , 10 , false, 0));
+
+        preGameController.changeFaction(new Faction("Earth", cards, cards) , false);
+
+        preGameController.setDeckCards(cards);
+
+        preGameController.saveDeckToFile("kir.json");
+        Assert.assertEquals(3, preGameController.getDeckCards().size());
+
+        preGameController.saveDeckToDB();
+        GameMaster.getGameMaster().setLoggedInUser1(new User());
+        preGameController.saveDeckToDB();
+/*        GameMaster.getGameMaster().setLoggedInUser1(null);
+        preGameController.saveDeckToDB();*/
+/*        preGameController.setDeckCards(null);
+        preGameController.saveDeckToFile("kir.json");*/
+
+    }
+
+    @After
+    public void after(){
+        GameController.setGame(GameController.getGame());
     }
 }

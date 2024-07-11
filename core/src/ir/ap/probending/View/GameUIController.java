@@ -350,6 +350,31 @@ public class GameUIController {
         passForPlayer2.setVisible(false);
     }
 
+    public void endDeposit(Card player1KeepCard1 , Card player1KeepCard2 , Card player2KeepCard1 , Card player2KeepCard2){
+        GameController.getGame().getGameBoard().getPlayer1Board().clearBoard();
+        GameController.getGame().getGameBoard().getPlayer2Board().clearBoard();
+        GameController.getGame().getGameBoard().getSpellCards().clear();
+        GameUIController.getGameUIController().getRow0Table().clearChildren();
+        GameUIController.getGameUIController().getRow1Table().clearChildren();
+        GameUIController.getGameUIController().getRow2Table().clearChildren();
+        GameUIController.getGameUIController().getRow3Table().clearChildren();
+        GameUIController.getGameUIController().getRow4Table().clearChildren();
+        GameUIController.getGameUIController().getRow5Table().clearChildren();
+        GameUIController.getGameUIController().getSpellRowTable().clearChildren();
+        if (player1KeepCard1 != null){
+            GameController.getGame().playCard(player1KeepCard1 , GameController.getGame().getGameBoard().getPlayer1() , true);
+        }
+        if (player1KeepCard2 != null){
+            GameController.getGame().playCard(player1KeepCard2 , GameController.getGame().getGameBoard().getPlayer1() , true);
+        }
+        if (player2KeepCard1 != null){
+            GameController.getGame().playCard(player2KeepCard1 , GameController.getGame().getGameBoard().getPlayer2() , true);
+        }
+        if (player2KeepCard2 != null){
+            GameController.getGame().playCard(player2KeepCard2 , GameController.getGame().getGameBoard().getPlayer2() , true);
+        }
+    }
+
     public void updateRows(){
         row0Table.clear();
         row1Table.clear();
@@ -448,7 +473,7 @@ public class GameUIController {
             commanderHorn12Table.add(GameController.getGame().getGameBoard().getPlayer2Board().getCommander7()).padTop(-160);
         }
 
-        GameController.getGame().updatePowerLabelsNumbers();
+        updatePowerLabelsNumbers();
 
         player1DeckCardCount.setText(GameController.getGame().getGameBoard().getPlayer1().getDeck().size() + " deck cards");
         player2DeckCardCount.setText(GameController.getGame().getGameBoard().getPlayer2().getDeck().size() + " deck cards");
@@ -458,6 +483,23 @@ public class GameUIController {
 
         player1SetWon.setText(GameController.getGame().getGameBoard().getPlayer1().getSetsWon());
         player2SetWon.setText(GameController.getGame().getGameBoard().getPlayer2().getSetsWon());
+    }
+
+
+    public void updateSetWonLabels(){
+        GameUIController.getGameUIController().setPlayer1SetWon(GameController.getGame().getGameBoard().getPlayer1().getSetsWon());
+        GameUIController.getGameUIController().setPlayer2SetWon(GameController.getGame().getGameBoard().getPlayer2().getSetsWon());
+    }
+
+    public void updatePowerLabelsNumbers(){
+        GameUIController.getGameUIController().setPlayer1CloseCombatPowerSum(GameController.getGame().getGameBoard().getPlayer1Board().getCloseCombatPowerSum());
+        GameUIController.getGameUIController().setPlayer1RangedPowerSum(GameController.getGame().getGameBoard().getPlayer1Board().getRangedPowerSum());
+        GameUIController.getGameUIController().setPlayer1SiegePowerSum(GameController.getGame().getGameBoard().getPlayer1Board().getSiegePowerSum());
+        GameUIController.getGameUIController().setPlayer2CloseCombatPowerSum(GameController.getGame().getGameBoard().getPlayer2Board().getCloseCombatPowerSum());
+        GameUIController.getGameUIController().setPlayer2RangedPowerSum(GameController.getGame().getGameBoard().getPlayer2Board().getRangedPowerSum());
+        GameUIController.getGameUIController().setPlayer2SiegePowerSum(GameController.getGame().getGameBoard().getPlayer2Board().getSiegePowerSum());
+        GameUIController.getGameUIController().setPlayer1TotalPowerSum(GameController.getGame().getGameBoard().getPlayer1Board().getTotalPower());
+        GameUIController.getGameUIController().setPlayer2TotalPowerSum(GameController.getGame().getGameBoard().getPlayer2Board().getTotalPower());
     }
 
     public void showLeaderAbilityButton(){
