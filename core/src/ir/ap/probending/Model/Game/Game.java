@@ -9,9 +9,7 @@ import ir.ap.probending.Model.Factions.Faction;
 import ir.ap.probending.Model.Factions.FactionObjects;
 import ir.ap.probending.ProBending;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Objects;
@@ -23,7 +21,8 @@ import java.util.concurrent.TransferQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Game {
+public class Game implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static Game game = new Game();
     private Player currentPlayer;
     private GameBoard gameBoard;
@@ -349,8 +348,24 @@ public class Game {
         GameUIController.getGameUIController().updateRows();
         endTurn();
     }
+    public static String serializeGameBoard(GameBoard gameBoard) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+            objectOutputStream.writeObject(gameBoard);
+        }
+        return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
+    }
+
     public void playCard(Card card, int row) {
         isCardPlayedThisRound = true;
+    // send gameBoard to server
+        String gameBoardString = "dont fail me";
+        try {
+            gameBoardString = serializeGameBoard(gameBoard);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ProBending.client.sendGameMessage("setGame " + gameBoardString);
 
         for (int i = 0; i < currentPlayer.getHand().size(); i++) {
             if (currentPlayer.getHand().get(i).getName().equals(card.getName())) {

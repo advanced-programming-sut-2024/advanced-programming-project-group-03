@@ -1,6 +1,7 @@
 package Server;
 
 import com.google.gson.Gson;
+import ir.ap.probending.Model.Game.Game;
 import ir.ap.probending.Model.Game.GameBoard;
 import ir.ap.probending.Model.Game.PreGame;
 import ir.ap.probending.Model.Message;
@@ -129,6 +130,9 @@ public class GameSession extends Thread {
             } else if (message.equals("getGameBoard")) {
                 handleGetGameBoardMessage(gameInfo);
                 System.out.println("getGameBoard message");
+            } else if (message.startsWith("setGame ")) {
+                handleSetGameMessage(message, gameInfo);
+                System.out.println("setGameBoard message");
             } else if (message.startsWith("startGame")) {
                 serverStart(message.split(" ")[1], message.split(" ")[2]);
             } else if (message.startsWith("playCard")) {
@@ -144,7 +148,8 @@ public class GameSession extends Thread {
                 dataOutputStream.writeUTF(new Gson().toJson(gameInfo.getMessages()));
                 dataOutputStream.flush();
             } else if (message.equals("getGames")) {
-
+                handleGetGamesMessage();
+                System.out.println("getGames message");
             } else if (message.startsWith("pass")) {
                 hasPassed = true;
             } else {
@@ -176,14 +181,29 @@ public class GameSession extends Thread {
                 dataOutputStream.writeUTF("no games");
                 dataOutputStream.flush();
             } else {
-                ArrayList<GameBoard> games = new ArrayList<>();
-                for (GameInfo gameInfo : gameInfos) {
-                    games.add(gameInfo.getGameBoard());
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+                    objectOutputStream.writeObject(gameInfos);
                 }
-                dataOutputStream.writeUTF(new Gson().toJson(games));
+                dataOutputStream.writeUTF(Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
                 dataOutputStream.flush();
-
             }
+        }
+
+        synchronized private void handleSetGameMessage(String message, GameInfo gameInfo) throws IOException {
+            String serializedGameBoard = message.substring(8);
+            Game game = deserializeGame(serializedGameBoard);
+            gameInfo.setGame(game);
+        }
+
+        private Game deserializeGame(String serializedGameBoard) {
+            byte[] data = Base64.getDecoder().decode(serializedGameBoard);
+            try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(data))) {
+                return (Game) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         synchronized private void handleIsOpponentPlayedCard(String message) throws IOException {
